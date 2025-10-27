@@ -1,0 +1,42 @@
+<style>
+	td, th {
+		font-family: Arial, Helvetica, sans-serif;
+		padding-inline: 1em;
+		padding-block: 0.5em;
+		border: 1px solid #ddd;
+	}
+</style>
+<script src="maps.js"></script>
+<script type="module">
+	import { HyperElement, h } from './includes/hypeREactive.js'
+
+	let store = h.store()
+
+	store.mapList = []
+
+	let header = h('tr',
+		h('th', 'Name'),
+		h('th', 'Filename'),
+		h('th', 'Modes'),
+		h('th', 'Availability'),
+	)
+
+	store.mapList.push(header)
+
+	for (let m of maps) {
+		let modes = Object.keys(m.modes).filter(k => {
+			return m.modes[k]
+		}).join(', ')
+		let row = h('tr',
+			h('td', m.name),
+			h('td', m.filename + '.json'),
+			h('td', modes),
+			h('td', m.availability)
+		)
+		store.mapList.push(row)
+	}
+
+	h.mount(document.body, store,
+		h('table', '{{...mapList}}')
+	)
+</script>

@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Applixir Ad</title>
+</head>
+
+<body onload="playAd()">
+
+	<div style="position: relative; top: 3em;">
+		<!-- Insert the V3-Snippet.txt file here -->
+		<div id="applixir_vanishing_div" hidden>
+			<iframe id="applixir_parent" allow="autoplay"></iframe>
+		</div>
+	</div>
+
+	<script type="application/javascript">
+	
+		var urlParams = new URLSearchParams(window.location.search);
+		var options = {
+			zoneId: 2264, // The zone ID from the Applixir "Games" page (required)
+			devId: 3109,  // From the Applixir "Account" page (optional, for S2S callback) 
+			gameId: 4329, // This game ID from “Games" page (optional, for S2S callback)  
+			custom1: urlParams.get('firebaseId'), // Custom value can be used for UserID, transactionID, etc. 
+			custom2: urlParams.get('reward'), // Custom value can be used for UserID, transactionID, etc. 
+			fallback: 1, // display a banner ad if no videos are available (optional)  
+			dMode: 1, // dMode: 1 will provide an MD5 Hash code of callback parameters
+			vSize: "640x480", // vSize: resolution of ad player 
+			adStatusCb: parent.extern.applixirAdStatusHandler, // The function name from above (optional) 
+		};
+		
+		function playAd() {
+			// Call the following function when you want to present a video ad to your user
+			invokeApplixirVideoUnit(options);
+		}
+	
+	</script>
+	
+	<!-- The applixir SDK file has all required CSS and JavaScript resources (use current version)-->
+	<script type='text/javascript' src="https://cdn.applixir.com/applixir.sdk3.0m.js"></script>
+	
+</body>
+
+</html>

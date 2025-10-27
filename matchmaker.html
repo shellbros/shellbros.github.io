@@ -1,0 +1,81 @@
+<head>
+    <style>
+        * {
+            margin: 0.1em;
+        }
+        body {
+            background: #20252A;
+            font-size: 1.2em;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="./includes/json-formatter.css">
+    <script type="module">
+        import JSONformatter from './includes/json-formatter.esm.js'
+
+		const gameTypeKey = ['ffa', 'teams', 'spatula', 'king']
+
+        let ws = new WebSocket('wss://' + location.host + '/matchmaker-status/')
+		ws.onopen = () => {
+			ws.send('eio2sdS5ERg36NE3RSs7gbr8i5dvI3N2EAZi9efh')
+		}
+
+        ws.onmessage = msg => {
+            let regions = JSON.parse(msg.data)
+
+            let opts = {
+                hoverPreviewEnabled: true,
+                hoverPreviewArrayCount: 100,
+                hoverPreviewFieldCount: 5,
+                theme: 'dark',
+                animateOpen: true,
+                animateClose: true,
+                useToJSON: true
+            }
+
+            let numGames = 0, numPlayers = 0
+
+            Object.values(regions).forEach(r => {
+                numGames += Object.keys(r.games).length
+                numPlayers += r.numPrivatePlayers
+                numPlayers += r.numPublicPlayers.reduce((a, b) => a + b)
+				numPlayers += r.numPublicPlayersNoobLobby.reduce((a, b) => a + b)
+
+				r.numPublicGames = { ffa: 0, teams: 0, spatula: 0, king: 0 }
+				r.numPublicGamesNoobLobby = { ffa: 0, teams: 0, spatula: 0, king: 0 }
+
+				// Count noob and non-noob public games by type
+				Object.values(r.games).forEach(g => {
+					if (!g.private) {
+						let key = gameTypeKey[g.type]
+						if (g.noobLobby) {
+							r.numPublicGamesNoobLobby[key]++
+						} else {
+							r.numPublicGames[key]++
+						}
+					}
+				})
+
+				// Convert numPublicPlayers and numPublicPlayersNoobLobby to keyed object
+				r.numPublicPlayers = r.numPublicPlayers.reduce((acc, val, idx) => {
+					acc[gameTypeKey[idx]] = val
+					return acc
+				}, {})
+				r.numPublicPlayersNoobLobby = r.numPublicPlayersNoobLobby.reduce((acc, val, idx) => {
+					acc[gameTypeKey[idx]] = val
+					return acc
+				}, {})
+
+            })
+
+            regions.TOTAL_GAMES = numGames
+            regions.TOTAL_PLAYERS = numPlayers
+
+            let formatter = new JSONformatter(regions, 2, opts)
+            document.body.append(formatter.render())
+
+			ws.close()
+        }
+    </script>
+</head>
+<body>
+</body>
