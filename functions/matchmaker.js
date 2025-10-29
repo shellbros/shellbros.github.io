@@ -146,10 +146,14 @@ const backends = [
 		const controller = new AbortController();
 		const timeoutId = setTimeout(() => controller.abort(), 3000);
   
+		// Create new headers with correct Host header for backend
+		const backendHeaders = new Headers(request.headers);
+		backendHeaders.set('Host', backend);  // ✅ FIX: Set Host to backend domain
+		
 		// Forward the WebSocket upgrade request
 		const response = await fetch(backendUrl.toString(), {
 		  method: request.method,
-		  headers: request.headers,
+		  headers: backendHeaders,  // ✅ Use corrected headers
 		  signal: controller.signal,
 		});
   

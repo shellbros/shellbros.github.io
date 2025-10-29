@@ -122,7 +122,7 @@ const backends = [
 	const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
 	const country = request.headers.get('CF-IPCountry') || 'unknown';
 	
-	console.log(`[Proxy] New connection from ${ip} (${country})`);
+	console.log(`[Services] New connection from ${ip} (${country})`);
   
 	// ============================================
 	// 4. TRY BACKENDS UNTIL ONE WORKS
@@ -140,16 +140,20 @@ const backends = [
 		backendUrl.hostname = backend;
 		// Path stays the same (should be /services)
 		
-		console.log(`[Proxy] Attempt ${i + 1}/${maxAttempts}: ${backend}${backendUrl.pathname}`);
+		console.log(`[Services] Attempt ${i + 1}/${maxAttempts}: ${backend}${backendUrl.pathname}`);
   
 		// Set timeout for this attempt (3 seconds)
 		const controller = new AbortController();
 		const timeoutId = setTimeout(() => controller.abort(), 3000);
   
+		// Create new headers with correct Host header for backend
+		const backendHeaders = new Headers(request.headers);
+		backendHeaders.set('Host', backend);  // ✅ FIX: Set Host to backend domain
+		
 		// Forward the WebSocket upgrade request
 		const response = await fetch(backendUrl.toString(), {
 		  method: request.method,
-		  headers: request.headers,
+		  headers: backendHeaders,  // ✅ Use corrected headers
 		  signal: controller.signal,
 		});
   
@@ -157,7 +161,7 @@ const backends = [
   
 		// Check if upgrade succeeded (HTTP 101)
 		if (response.status === 101) {
-		  console.log(`[Proxy] ✓ Connected to ${backend}`);
+		  console.log(`[Services] ✓ Connected to ${backend}`);
 		  
 		  // Optional: Log which backend worked
 		  logSuccess(backend, ip, country);
@@ -168,12 +172,12 @@ const backends = [
   
 		// Non-101 status
 		const errorMsg = `HTTP ${response.status}`;
-		console.log(`[Proxy] ✗ ${backend}: ${errorMsg}`);
+		console.log(`[Services] ✗ ${backend}: ${errorMsg}`);
 		errors.push({ backend, error: errorMsg });
 		
 	  } catch (error) {
 		const errorMsg = error.name === 'AbortError' ? 'Timeout' : (error.message || 'Failed');
-		console.error(`[Proxy] ✗ ${backend}: ${errorMsg}`);
+		console.error(`[Services] ✗ ${backend}: ${errorMsg}`);
 		errors.push({ backend, error: errorMsg });
 		
 		// Continue to next backend
@@ -184,7 +188,7 @@ const backends = [
 	// ============================================
 	// 5. ALL BACKENDS FAILED
 	// ============================================
-	console.error(`[Proxy] Failed after ${maxAttempts} attempts:`, errors);
+	console.error(`[Services] Failed after ${maxAttempts} attempts:`, errors);
 	
 	return new Response(JSON.stringify({
 	  error: 'SERVICE_UNAVAILABLE',
