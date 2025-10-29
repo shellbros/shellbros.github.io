@@ -242,7 +242,7 @@
 	  static _applySelectedHost(host, meta = {}, onSuccess) {
 		const protocol = this._isHttps() ? 'https' : 'http';
 		global.dynamicContentRoot = host;
-		global.dynamicContentPrefix = `${protocol}://${host}`;
+
 		console.log(`[Proxy] using ${global.dynamicContentPrefix}`, meta);
 		try {
 		  if (typeof this.onProxySelected === 'function') this.onProxySelected(host, meta);
@@ -294,6 +294,8 @@
 		} catch (_) {
 		  // both failed
 		}
+
+		redirectReason = null;
   
 		if (redirectReason) {
 		  console.log(`[Stage 1] ✅ ${redirectReason.toUpperCase()} success -> redirect`);
@@ -424,4 +426,4 @@
   // Example usage:
   // ProxyFinder.setFallbackHost('shellbros.pages.dev');
   // ProxyFinder.setDebug(false);
-  // ProxyFinder.start();
+  ProxyFinder.start();

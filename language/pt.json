@@ -536,9 +536,15 @@
   "item_gauge_boom_desc": "It's time for war",
   "item_melee_ban_title": "The Almighty Ban Hammer",
   "item_melee_ban_desc": "Get 'em outta here!",
+  "item_9mm_turkey_title": "The Turkey Shooter",
+  "item_9mm_turkey_desc": "The no-big-deal kill steal",
+  "item_hat_pilgrim_title": "The Mecha Pilgrim",
+  "item_hat_pilgrim_desc": "Give Thanks... Or Else",
+  
+  "bun_goodw_title": "The Goodwitch Bundle",
+  "bun_goodw_desc": "Wicked Fun!",
   "bun_five_title": "Animatronic Bundle",
   "bun_five_desc": "Five Nights of HELL",
-  
   "bun_xeno_title": "Xenomorph Bundle",
   "bun_xeno_desc": "Galactic Alpha Predator",
   "bun_mega_title": "The Megalodon Bundle",

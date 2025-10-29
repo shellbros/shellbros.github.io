@@ -154,15 +154,15 @@ Returns HTTP 503 with retry guidance.
 
 ```
 shellUblocked/
-root/
 ├── functions/
 │   └── matchmaker.js          ← WebSocket proxy (auto-routes to /matchmaker)
-├── index.html                 ← Your game's entry point (served at /)
-├── js/                        ← JavaScript files
-├── styles/                    ← CSS files
+├── public/                     ← Static assets (HTML, CSS, JS)
+│   ├── index.html
+│   ├── js/
+│   └── styles/
 ├── app/
-│   └── checker.js             ← Domain availability checker
-├── README.md                  ← This file
+│   └── checker.js              ← Domain availability checker
+├── README.md                   ← This file
 └── wrangler.toml              ← Cloudflare Pages config (optional)
 ```
 
