@@ -120,6 +120,7 @@ export async function onRequest(context) {
 	// ============================================
 	const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
 	const country = request.headers.get('CF-IPCountry') || 'unknown';
+	const userAgent = request.headers.get('User-Agent') || 'Mozilla/5.0'; 
 	
 	console.log(`[Proxy] New connection from ${ip} (${country})`);
   
@@ -137,7 +138,11 @@ export async function onRequest(context) {
 		console.log(`[Proxy] Attempt ${i + 1}/${maxAttempts}: ${backendUrl}`);
   
 		// Try to connect to backend WebSocket
-		const backendWs = new WebSocket(backendUrl);
+		const backendWs = new WebSocket(backendUrl, {
+			headers: {
+			  'User-Agent': userAgent,
+			}
+		  });
 		
 		// Wait for connection with timeout
 		const connected = await Promise.race([
