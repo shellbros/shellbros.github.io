@@ -133,11 +133,16 @@ export async function onRequest(context) {
 	  const backend = shuffledBackends[i];
 	  
 	  try {
-		const backendUrl = `wss://${backend}/services`;
+		const backendUrl = `wss://${backend}/services/`;
 		console.log(`[Services] Attempt ${i + 1}/${maxAttempts}: ${backendUrl}`);
   
 		// Try to connect to backend WebSocket
-		const backendWs = new WebSocket(backendUrl);
+		const backendWs = new WebSocket(backendUrl, {
+			headers: {
+			  'X-Forwarded-For': ip,
+			  'X-Real-IP': ip,
+			}
+		  });
 		
 		// Wait for connection with timeout
 		const connected = await Promise.race([
