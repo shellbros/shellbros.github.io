@@ -140,8 +140,6 @@ export async function onRequest(context) {
 		// Try to connect to backend WebSocket
 		const backendWs = new WebSocket(backendUrl, {
 			headers: {
-				'X-Forwarded-For': ip,
-				'X-Real-IP': ip,
 				'User-Agent': userAgent,
 			}
 		});
