@@ -138,11 +138,7 @@ export async function onRequest(context) {
 		console.log(`[Proxy] Attempt ${i + 1}/${maxAttempts}: ${backendUrl}`);
   
 		// Try to connect to backend WebSocket
-		const backendWs = new WebSocket(backendUrl, {
-			headers: {
-				'User-Agent': userAgent,
-			}
-		});
+		const backendWs = new WebSocket(backendUrl);
 		
 		// Wait for connection with timeout
 		const connected = await Promise.race([
