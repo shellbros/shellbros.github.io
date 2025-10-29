@@ -120,7 +120,8 @@ export async function onRequest(context) {
 	// ============================================
 	const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
 	const country = request.headers.get('CF-IPCountry') || 'unknown';
-	
+	const userAgent = request.headers.get('User-Agent') || 'Mozilla/5.0'; 
+
 	console.log(`[Services] New connection from ${ip} (${country})`);
   
 	// ============================================
@@ -139,8 +140,9 @@ export async function onRequest(context) {
 		// Try to connect to backend WebSocket
 		const backendWs = new WebSocket(backendUrl, {
 			headers: {
-			  'X-Forwarded-For': ip,
-			  'X-Real-IP': ip,
+				'X-Forwarded-For': ip,
+				'X-Real-IP': ip,
+				'User-Agent': userAgent,
 			}
 		  });
 		

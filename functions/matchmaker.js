@@ -140,9 +140,11 @@ export async function onRequest(context) {
 		// Try to connect to backend WebSocket
 		const backendWs = new WebSocket(backendUrl, {
 			headers: {
-			  'User-Agent': userAgent,
+				'X-Forwarded-For': ip,
+				'X-Real-IP': ip,
+				'User-Agent': userAgent,
 			}
-		  });
+		});
 		
 		// Wait for connection with timeout
 		const connected = await Promise.race([
