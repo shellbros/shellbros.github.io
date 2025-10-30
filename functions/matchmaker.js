@@ -1,7 +1,9 @@
 export async function onRequest(context) {
     const { request, env } = context;
     
-    // Validate environment
+    // Log the incoming request
+    console.log('[Proxy] Request to:', request.url);
+    
     if (!env.HMAC_SECRET) {
         console.error('[Proxy] HMAC_SECRET not configured');
         return new Response('Server misconfigured', { status: 500 });
@@ -9,14 +11,14 @@ export async function onRequest(context) {
     
     const upgradeHeader = request.headers.get('Upgrade');
     if (!upgradeHeader || upgradeHeader !== 'websocket') {
+        console.log('[Proxy] Not a WebSocket upgrade request');
         return new Response('Expected WebSocket', { status: 426 });
     }
 
-const backends = [
-  "dev.shellshock.io"
-];
+    const backends = [
+        "dev.shellshock.io"
+    ];
 
-    // Get real client IP from Cloudflare
     const clientIP = request.headers.get('CF-Connecting-IP');
     const country = request.headers.get('CF-IPCountry') || 'unknown';
     
@@ -27,83 +29,96 @@ const backends = [
     
     console.log(`[Proxy] Client ${clientIP} (${country})`);
     
-    // Create signed token with real IP
-    const token = await createAuthToken(clientIP, env.HMAC_SECRET);
-    
-    const shuffled = shuffleArray([...backends]);
-    const maxAttempts = 10;
-    
-    for (let i = 0; i < Math.min(maxAttempts, shuffled.length); i++) {
-        const backend = shuffled[i];
+    try {
+        const token = await createAuthToken(clientIP, env.HMAC_SECRET);
+        console.log(`[Proxy] Token generated: ${token.substring(0, 20)}...`);
         
-        try {
-            const backendUrl = `wss://${backend}/matchmaker`;
-            console.log(`[Proxy] Attempt ${i + 1}: ${backendUrl}`);
+        const shuffled = shuffleArray([...backends]);
+        const maxAttempts = 10;
+        
+        for (let i = 0; i < Math.min(maxAttempts, shuffled.length); i++) {
+            const backend = shuffled[i];
             
-            // Pass token via Sec-WebSocket-Protocol
-            const backendWs = new WebSocket(backendUrl, [token]);
-            
-            const connected = await Promise.race([
-                new Promise((resolve) => {
-                    backendWs.addEventListener('open', () => resolve(true), { once: true });
-                    backendWs.addEventListener('error', () => resolve(false), { once: true });
-                }),
-                new Promise((resolve) => setTimeout(() => resolve(false), 3000))
-            ]);
-            
-            if (!connected) {
-                backendWs.close();
-                throw new Error('timeout');
-            }
-            
-            const pair = new WebSocketPair();
-            const [client, server] = Object.values(pair);
-            
-            // Forward messages backend → client
-            backendWs.addEventListener('message', (event) => {
-                try {
-                    server.send(event.data);
-                } catch (e) {}
-            });
-            
-            // Forward messages client → backend
-            server.addEventListener('message', (event) => {
-                try {
-                    if (backendWs.readyState === WebSocket.OPEN) {
-                        backendWs.send(event.data);
+            try {
+                const backendUrl = `wss://${backend}/matchmaker`;
+                console.log(`[Proxy] Attempt ${i + 1}: ${backendUrl}`);
+                
+                const backendWs = new WebSocket(backendUrl, [token]);
+                
+                const connected = await Promise.race([
+                    new Promise((resolve) => {
+                        backendWs.addEventListener('open', () => resolve(true), { once: true });
+                        backendWs.addEventListener('error', (e) => {
+                            console.log('[Proxy] WS error event:', e);
+                            resolve(false);
+                        }, { once: true });
+                    }),
+                    new Promise((resolve) => setTimeout(() => resolve(false), 3000))
+                ]);
+                
+                if (!connected) {
+                    backendWs.close();
+                    console.log('[Proxy] Connection failed or timeout');
+                    continue;
+                }
+                
+                const pair = new WebSocketPair();
+                const [client, server] = Object.values(pair);
+                
+                backendWs.addEventListener('message', (event) => {
+                    try {
+                        server.send(event.data);
+                    } catch (e) {
+                        console.error('[Proxy] Error forwarding to client:', e.message);
                     }
-                } catch (e) {}
-            });
-            
-            // Handle closes
-            backendWs.addEventListener('close', (event) => {
-                try {
-                    server.close(event.code, event.reason);
-                } catch (e) {}
-            });
-            
-            server.addEventListener('close', (event) => {
-                try {
-                    backendWs.close(event.code, event.reason);
-                } catch (e) {}
-            });
-            
-            server.accept();
-            
-            console.log(`[Proxy] ✓ Connected to ${backend} for ${clientIP}`);
-            
-            return new Response(null, {
-                status: 101,
-                webSocket: client,
-            });
-            
-        } catch (error) {
-            console.error(`[Proxy] ✗ ${backend}:`, error.message);
-            continue;
+                });
+                
+                server.addEventListener('message', (event) => {
+                    try {
+                        if (backendWs.readyState === WebSocket.OPEN) {
+                            backendWs.send(event.data);
+                        }
+                    } catch (e) {
+                        console.error('[Proxy] Error forwarding to backend:', e.message);
+                    }
+                });
+                
+                backendWs.addEventListener('close', (event) => {
+                    console.log(`[Proxy] Backend closed: ${event.code} ${event.reason}`);
+                    try {
+                        server.close(event.code, event.reason);
+                    } catch (e) {}
+                });
+                
+                server.addEventListener('close', (event) => {
+                    console.log(`[Proxy] Client closed: ${event.code} ${event.reason}`);
+                    try {
+                        backendWs.close(event.code, event.reason);
+                    } catch (e) {}
+                });
+                
+                server.accept();
+                
+                console.log(`[Proxy] ✓ Connected to ${backend} for ${clientIP}`);
+                
+                return new Response(null, {
+                    status: 101,
+                    webSocket: client,
+                });
+                
+            } catch (error) {
+                console.error(`[Proxy] ✗ ${backend}:`, error.message, error.stack);
+                continue;
+            }
         }
+        
+        console.error('[Proxy] All backends failed');
+        return new Response('All backends failed', { status: 503 });
+        
+    } catch (error) {
+        console.error('[Proxy] Fatal error:', error.message, error.stack);
+        return new Response('Internal server error', { status: 500 });
     }
-    
-    return new Response('All backends failed', { status: 503 });
 }
 
 async function createAuthToken(ip, secret) {
