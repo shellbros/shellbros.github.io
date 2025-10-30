@@ -10,6 +10,12 @@ export async function onRequest(context) {
     }
     
     const upgradeHeader = request.headers.get('Upgrade');
+    
+    // Capture client-requested subprotocol (if any)
+    const clientProtoHeader = request.headers.get('sec-websocket-protocol') || '';
+    const clientProtocols = clientProtoHeader.split(',').map(s => s.trim()).filter(Boolean);
+    const selectedClientProto = clientProtocols[0] || null; // choose the first one if provided
+    
     if (!upgradeHeader || upgradeHeader !== 'websocket') {
         console.log('[Proxy] Not a WebSocket upgrade request');
         return new Response('Expected WebSocket', { status: 426 });
@@ -43,17 +49,19 @@ export async function onRequest(context) {
                 const backendUrl = `wss://${backend}/matchmaker`;
                 console.log(`[Proxy] Attempt ${i + 1}: ${backendUrl}`);
                 
-                const backendWs = new WebSocket(backendUrl);
+                const upstreamProtocols = selectedClientProto ? [selectedClientProto, token] : [token];
+                const backendWs = new WebSocket(backendUrl, upstreamProtocols);
                 
                 const connected = await Promise.race([
                     new Promise((resolve) => {
                         backendWs.addEventListener('open', () => resolve(true), { once: true });
                         backendWs.addEventListener('error', (e) => {
-                            console.log('[Proxy] WS error event:', e);
+                            const msg = e?.message || (e?.error && e.error.message) || String(e);
+                            console.log('[Proxy] WS error:', msg);
                             resolve(false);
                         }, { once: true });
                     }),
-                    new Promise((resolve) => setTimeout(() => resolve(false), 3000))
+                    new Promise((resolve) => setTimeout(() => resolve(false), 8000))
                 ]);
                 
                 if (!connected) {
@@ -101,9 +109,16 @@ export async function onRequest(context) {
                 
                 console.log(`[Proxy] ✓ Connected to ${backend} for ${clientIP}`);
                 
+                const responseHeaders = new Headers();
+                if (selectedClientProto) {
+                    // Echo one selected subprotocol back to the client per RFC 6455
+                    responseHeaders.set('Sec-WebSocket-Protocol', selectedClientProto);
+                }
+
                 return new Response(null, {
                     status: 101,
                     webSocket: client,
+                    headers: responseHeaders,
                 });
                 
             } catch (error) {
@@ -144,7 +159,17 @@ async function createAuthToken(ip, secret) {
         .map(b => b.toString(16).padStart(2, '0'))
         .join('');
     
-    return btoa(`${data}|${sigHex}`);
+    const token = `${data}|${sigHex}`;
+    
+    return base64urlEncode(token);  // ✅ Use base64url
+}
+
+function base64urlEncode(str) {
+    const base64 = btoa(str);
+    return base64
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
 }
 
 function shuffleArray(array) {
