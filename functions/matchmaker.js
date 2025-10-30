@@ -144,7 +144,21 @@ async function createAuthToken(ip, secret) {
         .map(b => b.toString(16).padStart(2, '0'))
         .join('');
     
-    return btoa(`${data}|${sigHex}`);
+    const token = `${data}|${sigHex}`;
+    
+    // Use base64url encoding (safe for WebSocket protocols)
+    return base64urlEncode(token);
+}
+
+function base64urlEncode(str) {
+    // Standard base64 encode
+    const base64 = btoa(str);
+    
+    // Convert to base64url by replacing problematic characters
+    return base64
+        .replace(/\+/g, '-')   // Replace + with -
+        .replace(/\//g, '_')   // Replace / with _
+        .replace(/=/g, '');    // Remove padding =
 }
 
 function shuffleArray(array) {
