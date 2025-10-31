@@ -6,45 +6,38 @@
 		<script>
     var dynamicContentRoot = '';
     var dynamicContentPrefix = '';
-    var gtmOptions = {
-        cookie_flags: 'secure;samesite=none'
-    };
-    let pokiActive = false;
-    let crazyGamesActive = false;
-    let thirdPartyAdblocker = false;
-    let testCrazy = false;
-    let crazyGamesHouseAdCheck = null;
+	var gtmOptions = { cookie_flags: 'secure;samesite=none' };
 </script>
 <script src="app/checker.js"></script>
 <script>
-    let HouseAds;
-    var shellLogo = 'img/logo.svg';
 
-    async function getAds() {
-        const response = await fetch(dynamicContentPrefix + 'data/housePromo.json?' + Date.now());
-        HouseAds = await response.json();
-        if (HouseAds.shellLogo !== undefined && HouseAds.shellLogo.length > 0) {
-            const useLogo = HouseAds.shellLogo.filter(logo => logo.active);
-            if (useLogo.length > 0) {
-                shellLogo = dynamicContentPrefix + 'data/img/art/' + useLogo[0].id + useLogo[0].imageExt;
-            }
-        }
-    }
+let HouseAds;
+var shellLogo = 'img/logo.svg';
 
-    getAds();
+async function getAds() {
+  const response = await fetch(dynamicContentPrefix + 'data/housePromo.json?' + Date.now());
+  HouseAds = await response.json();
+  if (HouseAds.shellLogo !== undefined && HouseAds.shellLogo.length > 0) {
+		const useLogo = HouseAds.shellLogo.filter(logo => logo.active);
+		if (useLogo.length > 0) {
+			shellLogo = dynamicContentPrefix + 'data/img/art/' + useLogo[0].id + useLogo[0].imageExt;
+		}
+	}
+}
 
-    class Loader {
+getAds();
 
-        constructor() {
-            this.logo = '';
-            this.blueWizSrcAlt = '';
-            this.isShowing = false;
-        }
+class Loader {
 
-        static show() {
-            let container = document.createElement('div');
-            container.id = 'progress-container';
-            container.style = `
+	constructor () {
+		this.logo = '';
+		this.blueWizSrcAlt = '';
+	}
+
+	static show () {
+		let container = document.createElement('div');
+		container.id = 'progress-container';
+		container.style = `
 			position: fixed;
 			top: 0;
 			left: 0;
@@ -54,10 +47,10 @@
 			background-image: var(--ss-lightoverlay);
 		`;
 
-            const progressWrapper = document.createElement('div');
-            progressWrapper.id = 'progress-wrapper';
-            progressWrapper.className = 'load_screen align-items-center';
-            progressWrapper.style = `
+		const progressWrapper = document.createElement('div');
+		progressWrapper.id = 'progress-wrapper';
+		progressWrapper.className = 'load_screen align-items-center';
+		progressWrapper.style = `
 			position: absolute;
 			left: 50%;
 			top: -6em;
@@ -65,15 +58,15 @@
 			background-image: none;
 		`;
 
-            const blueWizLogo = document.createElement('img');
+		const blueWizLogo = document.createElement('img');
 
-            if (this.blueWizSrcAlt) {
-                blueWizLogo.src = this.blueWizSrcAlt;
-            } else {
-                blueWizLogo.src = 'img/blueWizard_logo.webp';
-            }
+		if (this.blueWizSrcAlt) {
+			blueWizLogo.src = this.blueWizSrcAlt;
+		} else {
+			blueWizLogo.src = 'img/blueWizard_logo.webp';
+		}
 
-            blueWizLogo.style = `
+		blueWizLogo.style=`
 			width: 16em;
 			display: block;
 			margin: 5em auto 0;
@@ -84,15 +77,15 @@
 			transform: translateX(-50%);
 		`;
 
-            this.logo = document.createElement('img');
-            this.logo.src = shellLogo;
-            this.logo.style = 'height: 16em';
-            this.logo.id = 'logo-svg';
-            // container.appendChild(logo);
+		this.logo = document.createElement('img');
+		this.logo.src = shellLogo;
+		this.logo.style = 'height: 16em';
+		this.logo.id = 'logo-svg';
+		// container.appendChild(logo);
 
-            const progressOuter = document.createElement('div');
-            progressOuter.id = 'progress-outer';
-            progressOuter.style = `
+		const progressOuter = document.createElement('div');
+		progressOuter.id = 'progress-outer';
+		progressOuter.style = `
 			position: relative;
 			background: #643219;
 			border-radius: 2em;
@@ -102,8 +95,8 @@
 		`;
 
 
-            let progress = document.createElement('div');
-            progress.style = `
+		let progress = document.createElement('div');
+		progress.style = `
 			margin-top: 1em;
 			width: 23em;
 			height: 2.2em;
@@ -112,11 +105,11 @@
 			border-radius: 2em;
 			margin: .3em .5em 0;
 		`;
-            container.appendChild(progress);
+		container.appendChild(progress);
 
-            let progressBar = document.createElement('span');
-            progressBar.id = 'progressBar';
-            progressBar.style = `
+		let progressBar = document.createElement('span');
+		progressBar.id = 'progressBar';
+		progressBar.style = `
 			display: block;
 			width: 20%;
 			height: 100%;
@@ -129,198 +122,177 @@
 			transition-timing-function: ease-in-out;
 		`;
 
-            const progressBarOutside = document.createElement('div');
+		const progressBarOutside = document.createElement('div');
 
 
-            progress.appendChild(progressBar);
-            progressWrapper.appendChild(this.logo);
-            progressOuter.appendChild(progress);
-            progressWrapper.appendChild(progressOuter);
+		progress.appendChild(progressBar);
+		progressWrapper.appendChild(this.logo);
+		progressOuter.appendChild(progress);
+		progressWrapper.appendChild(progressOuter);
+		
+		container.appendChild(progressWrapper);
+		container.appendChild(blueWizLogo);
 
-            container.appendChild(progressWrapper);
-            container.appendChild(blueWizLogo);
-
-            // Minor for the progress bar intial load
-            setTimeout(() => progressBar.style.opacity = 1, 600);
+		// Minor for the progress bar intial load
+		setTimeout(() => progressBar.style.opacity = 1, 600);
 
 
-            Loader.barInterval = setInterval(() => {
-                if (Loader.progressBar.style.marginLeft == '0%') {
-                    Loader.progressBar.style.marginLeft = '80%';
-                } else {
-                    Loader.progressBar.style.marginLeft = '0%';
-                }
-            }, 500);
+		Loader.barInterval = setInterval(() => {
+			if (Loader.progressBar.style.marginLeft == '0%') {
+				Loader.progressBar.style.marginLeft = '80%';
+			}
+			else {
+				Loader.progressBar.style.marginLeft = '0%';
+			}
+		}, 500);
 
-            Loader.progressBar = progressBar;
-            Loader.container = container;
+		Loader.progressBar = progressBar;
+		Loader.container = container;
 
-            let app = document.body;
-            app.appendChild(container);
-            this.isShowing = true;
-        }
+		let app = document.body;
+		app.appendChild(container);
+	}
 
-        static hide() {
-            Loader.container.style = "opacity : 0; transition: opacity 1s;";
-            setTimeout(() => {
-                Loader.container.remove();
-                this.isShowing = false;
-            }, 1000);
-        }
+	static hide () {
+		Loader.container.style = "opacity : 0; transition: opacity 1s;";
+		setTimeout(() => { Loader.container.remove(); }, 1000);
+	}
 
-        static addTask() {
-            let id = Loader.loaded.length;
-            //console.log('Loading tasks: ', ++Loader.actualTasks);
-            Loader.loaded.push(0);
-            return id;
-        }
+	static addTask () {
+		let id = Loader.loaded.length;
+		//console.log('Loading tasks: ', ++Loader.actualTasks);
+		Loader.loaded.push(0);
+		return id;
+	}
 
-        static finish(id) {
-            clearInterval(Loader.barInterval);
+	static finish (id) {
+		clearInterval(Loader.barInterval);
 
-            if (Loader.progressBar) {
-                Loader.progressBar.style.marginLeft = '0%';
-                Loader.progressBar.style.transition = '';
+		if (Loader.progressBar) {
+			Loader.progressBar.style.marginLeft = '0%';
+			Loader.progressBar.style.transition = '';
 
-                Loader.loaded[id] = 1;
-                Loader.updateBar();
-            }
-        }
+			Loader.loaded[id] = 1;
+			Loader.updateBar();
+		}
+	}
 
-        static progress(id, value, total) {
-            clearInterval(Loader.barInterval);
+	static progress (id, value, total) {
+		clearInterval(Loader.barInterval);
 
-            if (Loader.progressBar) {
-                Loader.progressBar.style.marginLeft = '0%';
-                Loader.progressBar.style.transition = '';
+		if (Loader.progressBar) {
+			Loader.progressBar.style.marginLeft = '0%';
+			Loader.progressBar.style.transition = '';
 
-                Loader.loaded[id] = value / total;
+			Loader.loaded[id] = value / total;
 
-                Loader.updateBar();
-            }
+			Loader.updateBar();
+		}
 
-            return id;
-        }
+		return id;
+	}
 
-        static updateBar() {
-            let loadedTotal = 0;
+	static updateBar () {
+		let loadedTotal = 0;
 
-            for (let l of Loader.loaded) {
-                loadedTotal += l;
-            }
-            let percent = loadedTotal / Loader.tasks * 95 + 5;
-            // no more than 100%
-            if (percent > 100) {
-                percent = 100;
-            }
+		for (let l of Loader.loaded) {
+			loadedTotal += l;
+		}
+		let percent = loadedTotal / Loader.tasks * 95 + 5;
+		// no more than 100%
+		if (percent > 100) {
+			percent = 100;
+		}
 
-            Loader.progressBar.style.width = percent + '%';
-        }
+		Loader.progressBar.style.width = percent + '%';
+	}
 
-        static loadJS(path, callback) {
-            let p = path;
+	static loadJS (path, callback) {
+		let p = path;
 
-            (function(p, cb) {
-                let xhr = new XMLHttpRequest();
-                xhr.open('GET', p, true);
+		(function (p, cb) {
+			let xhr = new XMLHttpRequest();
+  			xhr.open('GET', p, true);
 
-                let id = Loader.addTask();
+			let id = Loader.addTask();
 
-                xhr.onprogress = event => {
-                    if (Loader.progressBar) {
-                        id = Loader.progress(id, event.loaded, event.total);
-                    }
-                };
+			xhr.onprogress = event => {
+				if (Loader.progressBar) {
+					id = Loader.progress(id, event.loaded, event.total);
+				}
+			};
+  
+			xhr.onload = () => {
+				if (xhr.status != 200) {
+	  				console.log(`Error ${xhr.status}: ${xhr.statusText}`);
+				}
+				else {
+					if (!cb) {
+						Loader.finish(id);
+						let script = document.createElement('script');
+						script.innerHTML = xhr.response;
+						document.body.appendChild(script);
+						return;
+					}
 
-                xhr.onload = () => {
-                    if (xhr.status != 200) {
-                        console.log(`Error ${xhr.status}: ${xhr.statusText}`);
-                    } else {
-                        if (!cb) {
-                            Loader.finish(id);
-                            let script = document.createElement('script');
-                            script.innerHTML = xhr.response;
-                            document.body.appendChild(script);
-                            return;
-                        }
+					import('./js/wasm_loader.js?6').then(({ init, process, verify, validate, get_yaw_pitch, reset_yaw_pitch, set_mouse_params, poll_gamepad }) => {
+						window.verify = verify;
+						window.validate = validate;
+						window.get_yaw_pitch = get_yaw_pitch;
+						window.reset_yaw_pitch = reset_yaw_pitch;
+						window.set_mouse_params = set_mouse_params;
+						window.poll_gamepad = poll_gamepad;
 
-                        import('./js/wasm_loader.js?6').then(({
-                            init,
-                            process,
-                            verify,
-                            validate,
-                            get_yaw_pitch,
-                            reset_yaw_pitch,
-                            set_mouse_params,
-                            poll_gamepad
-                        }) => {
-                            window.verify = verify;
-                            window.validate = validate;
-                            window.get_yaw_pitch = get_yaw_pitch;
-                            window.reset_yaw_pitch = reset_yaw_pitch;
-                            window.set_mouse_params = set_mouse_params;
-                            window.poll_gamepad = poll_gamepad;
+						let encoder = new TextEncoder('utf-8');
+						let decoder = new TextDecoder('utf-8');
+						let data = encoder.encode(xhr.response);
+						init().then(() => {
+							process(data);
+							cb();
+						});
+					});
+				}
+			};
 
-                            let encoder = new TextEncoder('utf-8');
-                            let decoder = new TextDecoder('utf-8');
-                            let data = encoder.encode(xhr.response);
-                            init().then(() => {
-                                process(data);
-                                cb();
-                            });
-                        });
-                    }
-                };
+			xhr.send();
+		})(path, callback);
+	}
+}
 
-                xhr.send();
-            })(path, callback);
-        }
-    }
+Loader.actualTasks = 0;
+Loader.tasks = 17;
+Loader.loaded = [];
 
-    Loader.actualTasks = 0;
-    Loader.tasks = 17;
-    Loader.loaded = [];
+window.Loader = Loader;
 
-    window.Loader = Loader;
+function openFirebaseDb () {
+	return new Promise((resolve, reject) => {
+		let req = window.indexedDB.open('firebaseLocalStorageDb');
+		req.onsuccess = () => {
+			let db = req.result;
+			let transaction = db.transaction(['firebaseLocalStorage'], 'readwrite');
+			let store = transaction.objectStore('firebaseLocalStorage');
+			resolve({ db, store });
+		}
+		req.onerror = err => reject(err);
+		req.onupgradeneeded = () => {
+			let db = req.result;
+			let store = db.createObjectStore('firebaseLocalStorage', { keyPath: 'fbase_key' });
+			resolve({ db, store });
+		}
+	});
+}
 
-    function openFirebaseDb() {
-        return new Promise((resolve, reject) => {
-            let req = window.indexedDB.open('firebaseLocalStorageDb');
-            req.onsuccess = () => {
-                let db = req.result;
-                let transaction = db.transaction(['firebaseLocalStorage'], 'readwrite');
-                let store = transaction.objectStore('firebaseLocalStorage');
-                resolve({
-                    db,
-                    store
-                });
-            }
-            req.onerror = err => reject(err);
-            req.onupgradeneeded = () => {
-                let db = req.result;
-                let store = db.createObjectStore('firebaseLocalStorage', {
-                    keyPath: 'fbase_key'
-                });
-                resolve({
-                    db,
-                    store
-                });
-            }
-        });
-    }
+var redirectIframe
 
-    var redirectIframe
+function postStorageAndRedirect (iframe, storage, firebaseDb) {
+	iframe.contentWindow.postMessage({ storage, firebaseDb }, '*');
+	window.location = 'https://shellshock.io' + window.location.search + window.location.hash;
+}
 
-    function postStorageAndRedirect(iframe, storage, firebaseDb) {
-        iframe.contentWindow.postMessage({
-            storage,
-            firebaseDb
-        }, '*');
-        window.location = 'https://shellshock.io' + window.location.search + window.location.hash;
-    }
+// Loader.blueWizSrcAlt = 'img/blueWizard_logo_borg.webp';
+Loader.show();
 
-    // Loader.blueWizSrcAlt = 'img/blueWizard_logo_borg.webp';
-    Loader.show();
 </script><!-- title, seo meta and favicons -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -373,214 +345,12 @@
             "url": "https://bluewizard.com/"
         }
     }
-</script><!-- Crazy Games -->
-<script>
-    // we need a getter and setter for the vue instance
-    const getCrazyGamesActive = {
-        _value: '',
-        set value(newValue) {
-            this._value = newValue;
-            crazyGamesActive = newValue;
-            triggerCheck(newValue);
-        },
-        get value() {
-            return this._value;
-        }
-    };
-
-    function triggerCheck(value) {
-        if (crazyGamesHouseAdCheck) {
-            crazyGamesHouseAdCheck.isCrazyGames = value;
-        }
-    }
-
-    class CrazyGames {
-        constructor() {
-            this.initialized = false;
-            this.crazysdk = null;
-            this.thirdPartyAdblocker = false;
-            this.user = null;
-            this.game = null;
-            this.currentUser = null;
-            this.cgUserAccountAvailable = false;
-        }
-
-        async init() {
-            if (!window.CrazyGames || !window.CrazyGames.SDK) {
-                console.log("CrazyGames SDK not available");
-                return;
-            }
-
-            try {
-                await window.CrazyGames.SDK.init();
-                this.crazysdk = window.CrazyGames.SDK;
-                this.thirdPartyAdblocker = await this.crazysdk.ad.hasAdblock();
-                this.initialized = true;
-                this.game = this.crazysdk.game;
-                this.user = this.crazysdk.user;
-                crazyGamesActive = true;
-                getCrazyGamesActive.value = true;
-                // Add user authentication check on init
-                await this.checkUserAuth();
-                console.log("CrazyGames SDK initialized successfully.");
-            } catch (error) {
-                console.error("Failed to initialize CrazyGames SDK:", error);
-            }
-        }
-        async performAction(action, ...args) {
-            if (!this.initialized) {
-                return;
-            }
-
-            try {
-                const result = action.call(this, ...args);
-                if (result instanceof Promise) {
-                    await result;
-                }
-            } catch (error) {
-                console.error("Error performing action:", error);
-            }
-        }
-
-        inviteLink(invite) {
-            if (!this.initialized) {
-                return;
-            }
-
-            return this.crazysdk.game.inviteLink(invite);
-
-        }
-
-        async requestBanner(banner) {
-            try {
-                await this.performAction(() => this.crazysdk.banner.requestBanner(banner));
-            } catch (error) {
-                console.error("Error requesting banner:", error);
-            }
-        }
-
-        async requestResponsiveBanner(banner) {
-            try {
-                await this.performAction(() => this.crazysdk.banner.requestResponsiveBanner(banner));
-            } catch (error) {
-                console.error("Error requesting responsive banner:", error);
-            }
-        }
-
-        clearAllBanners() {
-            this.performAction(() => this.crazysdk.banner.clearAllBanners());
-        }
-
-        showInviteButton(invite) {
-            this.performAction(() => this.crazysdk.game.showInviteButton(invite));
-        }
-
-        hideInviteButton() {
-            this.performAction(() => this.crazysdk.game.hideInviteButton());
-        }
-
-        requestAd(type, callbacks) {
-            this.performAction(() => this.crazysdk.ad.requestAd(type, callbacks));
-        }
-
-        gameplayStop() {
-            this.performAction(() => this.crazysdk.game.gameplayStop());
-        }
-
-        gameplayStart() {
-            this.performAction(() => this.crazysdk.game.gameplayStart());
-        }
-
-        adBlocker() {
-            return this.initialized ? this.thirdPartyAdblocker : undefined;
-        }
-        async checkUserAuth() {
-            // need different return states for different cases
-            if (!this.initialized) return {
-                status: 'not_initialized'
-            };
-
-            try {
-                this.currentUser = await this.crazysdk.user.getUser();
-                this.cgUserAccountAvailable = this.isUserAccountAvailable();
-                return {
-                    status: 'success',
-                    user: this.currentUser
-                };
-            } catch (error) {
-                console.error("Error checking user auth:", error);
-                return {
-                    status: 'error',
-                    error: error
-                };
-            }
-        }
-
-        isUserAccountAvailable() {
-            return this.initialized ? this.crazysdk.user.isUserAccountAvailable : false;
-        }
-
-        async showAuthPrompt() {
-            if (!this.initialized) return null;
-
-            try {
-                const user = await this.crazysdk.user.showAuthPrompt();
-                this.currentUser = user;
-                return user;
-            } catch (error) {
-                console.error("Auth prompt error:", error);
-                throw error;
-            }
-        }
-
-        async getUserToken() {
-            if (!this.initialized) return null;
-
-            try {
-                return await this.crazysdk.user.getUserToken();
-            } catch (error) {
-                console.error("Error getting user token:", error);
-
-                throw error;
-            }
-        }
-
-        async showAccountLinkPrompt() {
-            if (!this.initialized) return null;
-
-            try {
-                return await this.crazysdk.user.showAccountLinkPrompt();
-            } catch (error) {
-                console.error("Account link prompt error:", error);
-                throw error;
-            }
-        }
-
-        addAuthListener(callback) {
-            if (this.initialized) {
-                this.crazysdk.user.addAuthListener(callback);
-            }
-        }
-
-        removeAuthListener(callback) {
-            if (this.initialized) {
-                this.crazysdk.user.removeAuthListener(callback);
-            }
-        }
-
-        getCurrentUser() {
-            return this.currentUser;
-        }
-    }
 </script>
-<style>
-    .hide-on-crazy-games {
-        display: none;
-    }
-</style><!-- Styles & Fonts -->
+
+<!-- Styles & Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Sigmar+One|Nunito:100,200,600,700,900" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="styles/style.min.css?1761847388"><script>
+<link rel="stylesheet" href="styles/style.min.css?1761917085"><script>
 function storageFactory(getStorage) {
 
 	const inMemoryStorage = {};
@@ -726,7 +496,141 @@ function storageFactory(getStorage) {
     })();
 </script>
 <!-- third party globals -->
-<!-- Crazy Games -->
+<script>
+
+	var pokiActive = false,
+		crazyGamesActive = false,
+		thirdPartyAdblocker = false,
+		testCrazy = false;
+
+	let crazyGamesHouseAdCheck = null;
+
+		// we need a getter and setter for the vue instance
+		const getCrazyGamesActive = {
+			_value: '',
+			set value(newValue) {
+				this._value = newValue;
+				crazyGamesActive = newValue;
+				triggerCheck(newValue);
+			},
+			get value() {
+				return this._value;
+			}
+		};
+
+		function triggerCheck(value) {
+			if (crazyGamesHouseAdCheck) {
+				crazyGamesHouseAdCheck.isCrazyGames = value;
+			}
+		}
+
+	class CrazyGames {
+		constructor() {
+			this.initialized = false;
+			this.crazysdk = null;
+			this.thirdPartyAdblocker = false;
+		}
+
+		async init() {
+			if (!window.CrazyGames || !window.CrazyGames.SDK) {
+				console.log("CrazyGames SDK not available");
+				return;
+			}
+
+			try {
+				await window.CrazyGames.SDK.init();
+				this.crazysdk = window.CrazyGames.SDK;
+				this.thirdPartyAdblocker = await this.crazysdk.ad.hasAdblock();
+				this.initialized = true;
+				crazyGamesActive = true;
+				getCrazyGamesActive.value = true;
+				console.log("CrazyGames SDK initialized successfully.");
+			} catch (error) {
+				console.error("Failed to initialize CrazyGames SDK:", error);
+			}
+		}
+		async performAction(action, ...args) {
+        if (!this.initialized) {
+            return;
+        }
+
+        try {
+            const result = action.call(this, ...args);
+            if (result instanceof Promise) {
+                await result;
+            }
+        } catch (error) {
+            console.error("Error performing action:", error);
+        }
+    }
+
+		inviteLink(invite) {
+			if (!this.initialized) {
+				return;
+			}
+
+			return this.crazysdk.game.inviteLink(invite);
+
+		}
+
+		async requestBanner(banner) {
+			try {
+				await this.performAction(() => this.crazysdk.banner.requestBanner(banner));
+			} catch (error) {
+				console.error("Error requesting banner:", error);
+			}
+    	}
+
+		async requestResponsiveBanner(banner) {
+			try {
+				await this.performAction(() => this.crazysdk.banner.requestResponsiveBanner(banner));
+			} catch (error) {
+				console.error("Error requesting responsive banner:", error);
+			}
+		}
+
+		clearAllBanners() {
+			this.performAction(() => this.crazysdk.banner.clearAllBanners());
+		}
+
+		showInviteButton(invite) {
+			this.performAction(() => this.crazysdk.game.showInviteButton(invite));
+		}
+
+		hideInviteButton() {
+			this.performAction(() => this.crazysdk.game.hideInviteButton());
+		}
+
+		requestAd(type, callbacks) {
+			this.performAction(() => this.crazysdk.ad.requestAd(type, callbacks));
+		}
+
+		gameplayStop() {
+			this.performAction(() => this.crazysdk.game.gameplayStop());
+		}
+
+		gameplayStart() {
+			this.performAction(() => this.crazysdk.game.gameplayStart());
+		}
+
+		adBlocker() {
+			return this.initialized ? this.thirdPartyAdblocker : undefined;
+		}
+	}
+
+    // Third party globals
+	function initializeCrazyGamesSDK() {
+		if (!window.crazySdk) {
+			window.crazySdk = new CrazyGames();
+			window.crazySdk.init();
+		} else {
+			console.log("CrazyGames SDK is already initialized.");
+		}
+	}
+
+	window.addEventListener('load', initializeCrazyGamesSDK);
+
+</script><!-- Crazy Games -->
 <!-- European Union detection -->
 <script>isFromEU = 0 ? true : false</script>
 <!-- AdInPlay -->
@@ -1297,10 +1201,11 @@ const ShellStreak = {
 		if (window.Loader) {
 			clearInterval(loaderInterval);
 			Loader.loadJS('js/screenShot.js?1692215954');
-			Loader.loadJS('js/shellshock.js?1761847449', ssJSComplete);
+			Loader.loadJS('js/shellshock.js?1761917146', ssJSComplete);
 		}
 	}, 100);
-</script>		<!-- google tag manager noscript -->
+</script>
+		<!-- google tag manager noscript -->
 		<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K5MSJHJ"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -1352,7 +1257,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- GDPR -->
     <gdpr id="gdpr" ref="gdpr" :loc="loc"></gdpr>
     <div ref="headerAdContainer"></div>
-    <account-panel v-show="ui.showHomeEquipUi" id="account_panel" ref="accountPanelHome" :loc="loc" :firebase-id="firebaseId" :selected-language-code="currentLanguageCode" :eggs="eggs" :languages="languages" :current-lang-options="locLanguage" :show-corner-buttons="ui.showCornerButtons" :is-private-game="extern.isPrivateGame" :show-bottom="true" :photo-url="photoUrl" :is-anonymous="isAnonymous" :is-of-age="isOfAge" :show-targeted-ads="showTargetedAds" :current-screen="showScreen" :screens="screens" :is-egg-store-sale="isEggStoreSaleItem" :is-subscriber="isSubscriber" @sign-in-clicked="onSignInClicked" @sign-out-clicked="onSignOutClicked" :is-twitch="twitchLinked" :play-clicked="playClicked" :crazy-games-active="ui.crazyGames" :crazy-games-user="crazyGamesUser"></account-panel>
+    <account-panel v-show="ui.showHomeEquipUi" id="account_panel" ref="accountPanelHome" :loc="loc" :selected-language-code="currentLanguageCode" :eggs="eggs" :languages="languages" :current-lang-options="locLanguage" :show-corner-buttons="ui.showCornerButtons" :is-private-game="extern.isPrivateGame" :show-bottom="true" :photo-url="photoUrl" :is-anonymous="isAnonymous" :is-of-age="isOfAge" :show-targeted-ads="showTargetedAds" :current-screen="showScreen" :screens="screens" :is-egg-store-sale="isEggStoreSaleItem" :is-subscriber="isSubscriber" @sign-in-clicked="onSignInClicked" @sign-out-clicked="onSignOutClicked" :is-twitch="twitchLinked" :play-clicked="playClicked"></account-panel>
     <div id="main-content" class="main-content display-grid height-100vh">
         <photo-booth-ui id="photoBooth" ref="photoBooth" v-show="!ui.showHomeEquipUi" :loc="loc" :player-name="playerName" :item-type-change="ui.photoBooth.type" @bg-change-color="onPhotoboothBgColorChange" @bg-change-image="onPhotoBoothBgImageChange" @hide-ui="onPhotoBoothHideUi"></photo-booth-ui>
         <aside ref="mainAside" v-show="showScreen !== screens.photoBooth" class="main-aside">
@@ -1861,96 +1766,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </template>
     </large-popup>
 
-    <small-popup v-if="crazyGamesUser && crazyGamesUser.hasLinked" id="crazyGamesUserManagementPopup" ref="crazyGamesUserManagementPopup" :overlay-close="true" hide-confirm="true" hide-cancel="true">
-        <template slot="content">
-            <h1 class="text_white">{{ loc.crazygames_user_management_popup_title }}</h1>
-            <p class="ss_marginbottom_xl" v-html="loc.crazygames_user_management_popup_desc"></p>
-            <p v-if="cgCreatedAccount || isAnonymous" class="ss_marginbottom_xl" v-html="loc.crazygames_user_management_popup_anonymous_text"></p>
-            <p v-else class="ss_marginbottom_xl" v-html="cgUserManagementPopupContent"></p>
-            <div class="display-grid grid-auto-flow-column gap-1">
-                <button v-if="!crazyGamesUser.isAnonymous" class="ss_button btn_md btn_red bevel_red" @click="showCrazyGamesDelink"><i class="fas fa-unlink"></i> {{ loc.crazygames_user_management_popup_delink_btn_text }}</button>
-                <button v-if="crazyGamesUser.isAnonymous" class="ss_button btn_md btn_green bevel_green" @click="onCGSignInClicked">{{ loc.contact_support }}</button>
-            </div>
-        </template>
-        <!-- <template slot="confirm" v-if="crazyGamesUser.isAnonymous">{{ loc.ok }}</template> -->
-    </small-popup>
-
-    <small-popup id="crazyGamesDelink" ref="crazyGamesDelink" @popup-confirm="onCrazyGamesDelink">
-        <template slot="header">{{ loc.crazygames_delink_title }}</template>
-        <template slot="content">
-            <p>{{ loc.crazygames_delink_content }}</p>
-        </template>
-        <template slot="cancel">{{ loc.no }}</template>
-        <template slot="confirm">{{ loc.yes }}</template>
-    </small-popup>
-
-    <small-popup id="crazyGamesAutoLinkPopup" ref="crazyGamesAutoLinkPopup" @popup-confirm="onCrazyGamesAutoLink">
-        <template slot="header">{{ loc.crazygames_auto_link_title }}</template>
-        <template slot="content">
-            <p>{{ loc.crazygames_auto_link_content }}</p>
-            <p>Player ID: {{ id }}</p>
-            <p>Firebase ID: {{ firebaseId }}</p>
-        </template>
-        <template slot="cancel">{{ loc.no }}</template>
-        <template slot="confirm">{{ loc.yes }}</template>
-    </small-popup>
-
-    <small-popup id="linkCgAccountPopup" ref="linkCgAccountPopup" @popup-confirm="onLinkCgAccount">
-        <template slot="header">{{ loc.link_cg_account_title }}</template>
-        <template slot="content">
-            <p>{{ loc.link_cg_account_content }}</p>
-            <p>Player ID: {{ id }}</p>
-            <p>Firebase ID: {{ firebaseId }}</p>
-        </template>
-        <template slot="cancel">{{ loc.cancel }}</template>
-        <template slot="confirm">{{ loc.yes }}</template>
-    </small-popup>
-
-    <small-popup id="firebasePasswordReauthPopup" ref="firebasePasswordReauthPopup" @popup-confirm="onFirebasePasswordReauth">
-        <template slot="header">{{ loc.firebase_password_reauth_title }}</template>
-        <template slot="content">
-            <p>{{ loc.firebase_password_reauth_content }}</p>
-            <form id="firebasePasswordReauthForm" @submit.prevent="onFirebasePasswordReauth">
-                <input class="ss_field" type="email" placeholder="Email">
-                <input class="ss_field" type="password" placeholder="Password">
-            </form>
-        </template>
-        <template slot="cancel">{{ loc.cancel }}</template>
-        <template slot="confirm">{{ loc.yes }}</template>
-    </small-popup>
-
-    <div ref="reAuthPasswordShowPasswordModal" class="hideme popup_window popup_sm roundme_md centered">
-        <div class="modal-card">
-            <h1>Re-authenticate</h1>
-            <p>Confirm password for {{ reAuthPassword.firebasePasswordReauthEmail }}</p>
-
-            <form id="firebasePasswordReauthForm" @submit.prevent="confirmPassword">
-                <input
-                    type="password"
-                    v-model="reAuthPassword.firebasePasswordReauthPassword"
-                    @keyup.enter.prevent="confirmPassword"
-                    class="ss_field fullwidth"
-                    autofocus />
-
-                <div class="actions f_center f_space_between fullwidth">
-                    <!-- Cancel must NOT submit the form -->
-                    <button type="button"
-                        class="ss_button btn_md btn_red bevel_red"
-                        @click="cancelPassword">
-                        Cancel
-                    </button>
-
-                    <!-- Confirm can be the submit -->
-                    <button type="submit"
-                        class="ss_button btn_md btn_green bevel_green"
-                        :disabled="!reAuthPassword.firebasePasswordReauthPassword">
-                        Confirm
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- <large-popup ref="factionPopup" id="factionPopup" @popup-closed="onFactionPopupClosed" :class="factionsPopupStyle">
 		<template slot="header">Factions Popup</template>
 		<template slot="content">
@@ -1982,9 +1797,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	checkProducts: 0,
 
     firebaseId: null,
-    id: null,
-	cgCreatedAccount: false,
-	cgUser: false,
     photoUrl: null,
     maskedEmail: null,
     isEmailVerified: false,
@@ -2759,8 +2571,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	},
 
     genericMessagePopup: {
-        titleLocKey: 'uh_oh',
-        contentLocKey: 'purchase_disabled',
+        titleLocKey: 'keybindings_right',
+        contentLocKey: 'p_popup_chicken_nuggetbutton',
         confirmLocKey: 'ok'
     },
 
@@ -3061,21 +2873,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			// {id: 'screens-menu-btn-return', locKey: 'ab_test_back_to_game', scroll: false, setting: 'grenade'},
 		],
 		currentIdx: 0,
-	},
-	crazyGamesUser: {
-		hasAccount: false,
-		hasLinked: false,
-		username: '',
-		profilePictureUrl: '',
-		userLoggedIn: false,
-		isAnonymous: true,
-	},
-	reAuthPassword: {
-		showPasswordModal: false,
-		firebasePasswordReauthEmail: '',
-		firebasePasswordReauthPassword: '',
-		_pwResolve: null,
-		_pwReject: null,
 	},
 }    // var vueData = new VueData();
 </script>
@@ -4969,7 +4766,7 @@ var comp_settings = {
 				</div>
 				
 				<div>
-	                <textarea v-if="!isAccountDeleteReq" id="feedbackText" ref="feedbackText" class="ss_field" v-model="feedback" :placeholder="loc.fb_feedback_ph" v-on:keyup="validateMessage"></textarea>
+	                <textarea v-if="!isAccountDeleteReq" id="feedbackText" class="ss_field" v-model="feedback" :placeholder="loc.fb_feedback_ph" v-on:keyup="validateMessage"></textarea>
 				</div>
 				
 				<div class="f_center f_col">
@@ -6565,7 +6362,7 @@ var comp_social_panel = {
     };
 </script>
 <script id="home-screen-template" type="text/x-template">
-    <div>
+	<div>
 		<!-- <div class="twitch-btn-wrap box_absolute">
 			<button v-if="ui.events.twitch && !extern.inGame" class="ss_button twitch-btn btn_sm box_relative text-right" @click="onTwitchDropsClick">Twitch Drops Live!<span class="twitch-btn-status" v-html="isTwitchLinked"></span> <img class="box_absolute" src="/twitch/img/twitch-drops-parachute.svg" alt=""></button>
 		</div> -->
@@ -6580,7 +6377,7 @@ var comp_social_panel = {
 		<!-- <gauge-meter v-show="showScreen !== screens.profile" ref="gaugeMeter" @gauge-meter-click="onGaugeMeterClick"></gauge-meter> -->
 		<div class="homescreen-main-wrapper display-grid">
 			<div class="box_relative fullwidth">
-				<profile-screen id="profileScreen" ref="profileScreen" :loc="loc" :ui="ui" :claimed="challengesClaimed" :player-id="id" :crazy-games-user="crazyGamesUser" :player-name="playerName" :account-created="accountCreated" v-show="(showScreen === screens.profile)" @leave-game-confimed="leaveGameConfirmed"></profile-screen>
+				<profile-screen id="profileScreen" ref="profileScreen" :loc="loc" :claimed="challengesClaimed" v-show="(showScreen === screens.profile)" @leave-game-confimed="leaveGameConfirmed"></profile-screen>
 				<play-panel id="play_game" ref="playPanel" v-show="showScreen === screens.home" :show-screen="showScreen" :screens="screens" :loc="loc" :player-name="playerName" :game-types="gameTypes" :current-game-type="currentGameType" :is-game-ready='accountSettled' :region-list="regionList" :current-region-id="currentRegionId" :home="home" :play-clicked="playClicked" :current-class="classIdx" :language-code="currentLanguageCode" @playerNameChanged="onPlayerNameChanged" @game-type-changed="onGameTypeChanged" :maps="maps"></play-panel>
 			</div>
 			<aside class="secondary-aside box_relative display-grid justify-content-end">
@@ -6753,1291 +6550,542 @@ var comp_social_panel = {
 </script>
 
 <script>
-    var comp_create_private_game_popup = {
-        template: '#create-private-game-template',
-        props: ['loc', 'regionLocKey', 'mapImgBasePath', 'isGameReady', 'gameTypeTxt', 'mapList', 'regions', 'currentRegionId', 'gameTypes', 'pickedGameType'],
+var comp_create_private_game_popup = {
+    template: '#create-private-game-template',
+    props: ['loc', 'regionLocKey', 'mapImgBasePath', 'isGameReady', 'gameTypeTxt', 'mapList', 'regions', 'currentRegionId',  'gameTypes', 'pickedGameType'],
 
-        mounted() {
-            this.randomMap();
+	mounted() {
+		this.randomMap();
+	},
+    
+    data: function () {
+        return {
+            showingRegionList: false,
+            mapIdx: 0,
+            playClickedBeforeReady: false,
+			map: '',
+            mapLocKey: '',
+            mapImgPath: '',
+			mapNotFound: false,
+			mapSearchResults: [],
+			mapSearchResultsIdx: 0,
+			mapSearchResultsMax: 5,
+			mapSearchResultsMin: 0,
+			mapSearchResultsShow: false,
+			mapSearchIsFocused: false,
+			mapKeyListners: '',
+            vueData,
+        }
+    },
+
+    methods: {
+		randomMap() {
+			this.mapIdx = Math.randomInt(0, this.mapList.length);
+			this.map = this.mapList[this.mapIdx];
+			this.mapLocKey = this.map.locKey;
+			this.mapImgPath = this.mapImgBasePath + this.map.filename + '.png?' + this.map.hash;
+		},
+		onRandomMapClick() {
+			BAWK.play('ui_onchange');
+			this.selectMapForPickedGameType('', true);
+		},
+        playSound (sound) {
+			BAWK.play(sound);
+        },
+        
+		onCloseClick: function () {
+            this.$parent.close();
+            BAWK.play('ui_popupclose');
+        },
+        
+        onRegionChanged: function () {
+            this.showingRegionList = true;
+            this.$parent.toggle();
+            vueApp.$refs.homeScreen.$refs.playPanel.$refs.pickRegionPopup.toggle();
+            BAWK.play('ui_click');
         },
 
-        data: function() {
-            return {
-                showingRegionList: false,
-                mapIdx: 0,
-                playClickedBeforeReady: false,
-                map: '',
-                mapLocKey: '',
-                mapImgPath: '',
-                mapNotFound: false,
-                mapSearchResults: [],
-                mapSearchResultsIdx: 0,
-                mapSearchResultsMax: 5,
-                mapSearchResultsMin: 0,
-                mapSearchResultsShow: false,
-                mapSearchIsFocused: false,
-                mapKeyListners: '',
-                vueData,
-            }
+        onMapChange: function (dir) {
+            this.selectMapForPickedGameType(dir);
+            BAWK.play('ui_onchange');
         },
 
-        methods: {
-            randomMap() {
-                this.mapIdx = Math.randomInt(0, this.mapList.length);
-                this.map = this.mapList[this.mapIdx];
-                this.mapLocKey = this.map.locKey;
-                this.mapImgPath = this.mapImgBasePath + this.map.filename + '.png?' + this.map.hash;
-            },
-            onRandomMapClick() {
-                BAWK.play('ui_onchange');
-                this.selectMapForPickedGameType('', true);
-            },
-            playSound(sound) {
-                BAWK.play(sound);
-            },
+        selectMapForPickedGameType (dir, rnd) {
+			let idx = this.mapIdx;
 
-            onCloseClick: function() {
-                this.$parent.close();
-                BAWK.play('ui_popupclose');
-            },
+			let gameTypeShortName;
 
-            onRegionChanged: function() {
-                this.showingRegionList = true;
-                this.$parent.toggle();
-                vueApp.$refs.homeScreen.$refs.playPanel.$refs.pickRegionPopup.toggle();
-                BAWK.play('ui_click');
-            },
+			for (var i = 0; i < vueData.maps.length; i++) { // Prevent race condition
+				if (dir) idx = (idx + dir + vueData.maps.length) % vueData.maps.length;
+				if (rnd) idx = Math.randomInt(0, vueData.maps.length);
+				let map = vueData.maps[idx];
+				gameTypeShortName = vueData.gameTypeKeys[this.pickedGameType];            
 
-            onMapChange: function(dir) {
-                this.selectMapForPickedGameType(dir);
-                BAWK.play('ui_onchange');
-            },
+				if (map.modes[gameTypeShortName]) {
+					break;
+				}
+				if (dir == 0) dir = 1
+				//idx = (idx + dir + vueData.maps.length) % vueData.maps.length;
+			}
 
-            selectMapForPickedGameType(dir, rnd) {
-                let idx = this.mapIdx;
+			console.log('Random map deets: ', gameTypeShortName, vueData.maps[idx].modes[gameTypeShortName]);
 
-                let gameTypeShortName;
-
-                for (var i = 0; i < vueData.maps.length; i++) { // Prevent race condition
-                    if (dir) idx = (idx + dir + vueData.maps.length) % vueData.maps.length;
-                    if (rnd) idx = Math.randomInt(0, vueData.maps.length);
-                    let map = vueData.maps[idx];
-                    gameTypeShortName = vueData.gameTypeKeys[this.pickedGameType];
-
-                    if (map.modes[gameTypeShortName]) {
-                        break;
-                    }
-                    if (dir == 0) dir = 1
-                    //idx = (idx + dir + vueData.maps.length) % vueData.maps.length;
-                }
-
-                console.log('Random map deets: ', gameTypeShortName, vueData.maps[idx].modes[gameTypeShortName]);
-
-                this.mapImgPath = this.mapImgBasePath + vueData.maps[idx].filename + '.png?' + vueData.maps[idx].hash;
-                this.mapLocKey = vueData.maps[idx].locKey;
-                this.mapIdx = idx;
-            },
-
-            onKeyDownMapSelect() {
-                document.addEventListener('keydown', this.handleKeydown, true);
-            },
-
-            handleKeydown(e) {
-                const keyName = e.key;
-                switch (keyName) {
-                    case 'ArrowRight':
-                        this.onMapChange(1);
-                        break;
-                    case 'ArrowLeft':
-                        this.onMapChange(-1);
-                        break;
-                    case 'ArrowDown':
-                    case 'ArrowUp':
-                        if (this.mapSearchIsFocused) return;
-                        this.mapSearchIsFocused = true;
-                        this.$refs.mapSearch.focus();
-                    default:
-                        break;
-                }
-
-            },
-
-            removeKeydown() {
-                this.mapSearchIsFocused = false;
-                document.removeEventListener('keydown', this.handleKeydown, true);
-            },
-
-            onGameTypeChanged() {
-                BAWK.play('ui_onchange');
-                this.selectMapForPickedGameType(0);
-            },
-
-            onPlayTypeWhenSignInComplete() {
-                return this.playClickFunction();
-            },
-            onPlaySentBeforeSignIn() {
-                this.gameClickedBeforeReady = true;
-                vueApp.showSpinner('signin_auth_title', 'signin_auth_msg');
-            },
-            onPlayClick: function() {
-                this.removeKeydown();
-                this.$parent.close();
-
-                vueApp.externPlayObject(vueData.playTypes.createPrivate, this.pickedGameType, this.vueData.playerName, this.mapIdx, '');
-                BAWK.play('ui_playconfirm');
-                vueApp.hideSpinner();
-                Loader.hide();
-            },
-            onGameTypeChange(val) {
-                // Not using a select here because it's not possible to style it so we have to update the game mode
-                // manually. This is a bit of a hack but it works.
-                this.pickedGameType = val;
-                // Minor change here. Sending the game type to update global game type change this if we want.
-                this.$emit('onGameTypeChange', this.pickedGameType);
-                this.selectMapForPickedGameType(0);
-            },
-            onMapChangeClick(idx) {
-                if (idx >= 0) {
-                    for (var i = 0; i < this.mapList.length; i++) { // Prevent race condition
-                        let map = this.mapList[idx];
-                        let gameTypeShortName = vueData.gameTypeKeys[this.pickedGameType];
-
-                        if (map.modes[gameTypeShortName]) {
-                            break;
-                        }
-                    }
-                    this.mapImgPath = this.mapImgBasePath + this.mapList[idx].filename + '.png?' + this.mapList[idx].hash;
-                    this.mapLocKey = this.mapList[idx].locKey;
-                    this.mapIdx = idx;
-                    BAWK.play('ui_onchange');
-                }
-            },
-            onServerChange(val) {
-                this.$emit('onRegionPicked', val);
-            },
-            onMapSerachKeyup(e) {
-                if (this.$refs.mapSearch.value.length >= 1) {
-                    this.mapSearchResultsShow = true;
-                    this.mapSearchResults = this.mapList.filter((map, idx) => {
-                        if (map.name.toLowerCase().replace(/[^a-zA-Z ]/g, "").startsWith(this.$refs.mapSearch.value.toLowerCase())) {
-                            if (map.modes[vueData.gameTypeKeys[this.pickedGameType]]) {
-                                if (!this.mapSearchResults.some(map => idx === map.id)) {
-                                    return true;
-                                }
-                                return false;
-                            }
-                        } else {
-                            return false;
-                        }
-                    });
-                    if (!this.mapSearchResults.length) {
-                        this.mapNotFound = true;
-                    }
-                } else {
-                    this.mapSearchResults.length = 0;
-                    this.mapSearchResultsShow = false;
-                    this.mapNotFound = false;
-                }
-
-                if (this.mapSearchResults.length === 1) {
-                    this.onMapChangeClick(this.mapList.findIndex(m => m.filename === this.mapSearchResults[0].filename));
-                    this.mapSearchResultsShow = false;
-                    this.mapNotFound = false;
-                }
-            },
-            onMapSearchReset() {
-                this.$refs.mapSearch.value = '';
-                this.mapSearchResultsShow = false;
-                this.mapSearchResults.length = 0;
-                this.mapNotFound = false;
-                this.mapSearchIsFocused = false;
-            },
-            onMapSearchResultClick(map) {
-                this.onMapSearchReset();
-                this.onMapChangeClick(this.mapList.findIndex(m => m.filename === map.filename));
-            },
-            onBlurSearhFocus() {
-                this.mapSearchIsFocused = false;
-            }
+			this.mapImgPath = this.mapImgBasePath + vueData.maps[idx].filename + '.png?' + vueData.maps[idx].hash;
+			this.mapLocKey = vueData.maps[idx].locKey;
+			this.mapIdx = idx;
         },
-        computed: {
-            serverTxt() {
-                let name = '';
-                if (hasValue(this.regions) && hasValue(this.currentRegionId)) {
-                    name = this.regions.filter(s => s.id === this.currentRegionId)[0].locKey;
-                }
-                return {
-                    title: this.loc.p_servers_title,
-                    subTitle: this.loc[name]
-                }
-            },
-            mapSizeIcon() {
-                if (this.mapList[this.mapIdx].numPlayers <= 13) {
-                    return 'ico-map-size-small';
-                } else if (this.mapList[this.mapIdx].numPlayers >= 14 && this.mapList[this.mapIdx].numPlayers <= 17) {
-                    return 'ico-map-size-med';
-                } else if (this.mapList[this.mapIdx].numPlayers > 17) {
-                    return 'ico-map-size-large';
-                }
-            }
+
+		onKeyDownMapSelect() {
+			document.addEventListener('keydown', this.handleKeydown, true);
+		},
+
+		handleKeydown(e) {
+			const keyName = e.key;
+			switch (keyName) {
+				case 'ArrowRight':
+					this.onMapChange(1);
+					break;
+				case 'ArrowLeft':
+					this.onMapChange(-1);
+					break;
+				case 'ArrowDown':
+				case 'ArrowUp':
+					if (this.mapSearchIsFocused) return;
+					this.mapSearchIsFocused = true;
+					this.$refs.mapSearch.focus();			
+				default:
+					break;
+			}
+
+		},
+
+		removeKeydown() {
+			this.mapSearchIsFocused = false;
+			document.removeEventListener('keydown', this.handleKeydown, true);
+		},
+
+        onGameTypeChanged () {
+            BAWK.play('ui_onchange');
+            this.selectMapForPickedGameType(0);
         },
-        watch: {
-            isGameReady(val) {
-                if (this.gameClickedBeforeReady && val) {
-                    setTimeout(() => this.onPlayClick(), 700);
-                }
+
+		onPlayTypeWhenSignInComplete() {
+			return this.playClickFunction();
+		},
+		onPlaySentBeforeSignIn() {
+			this.gameClickedBeforeReady = true;
+			vueApp.showSpinner('signin_auth_title', 'signin_auth_msg');
+		},
+        onPlayClick: function () {
+			this.removeKeydown();
+            this.$parent.close();
+
+            vueApp.externPlayObject(vueData.playTypes.createPrivate, this.pickedGameType, this.vueData.playerName, this.mapIdx, '');
+            BAWK.play('ui_playconfirm');
+        },
+		onGameTypeChange(val) {
+			// Not using a select here because it's not possible to style it so we have to update the game mode
+			// manually. This is a bit of a hack but it works.
+			this.pickedGameType = val;
+			// Minor change here. Sending the game type to update global game type change this if we want.
+			this.$emit('onGameTypeChange', this.pickedGameType);
+			this.selectMapForPickedGameType(0);
+		},
+		onMapChangeClick(idx) {
+			if (idx >= 0) {
+				for (var i = 0; i < this.mapList.length; i++) { // Prevent race condition
+					let map = this.mapList[idx];
+					let gameTypeShortName = vueData.gameTypeKeys[this.pickedGameType];            
+
+					if (map.modes[gameTypeShortName]) {
+						break;
+					}
+				}
+				this.mapImgPath = this.mapImgBasePath + this.mapList[idx].filename + '.png?' + this.mapList[idx].hash;
+				this.mapLocKey = this.mapList[idx].locKey;
+				this.mapIdx = idx;
+				BAWK.play('ui_onchange');
+			}
+		},
+		onServerChange(val) {
+			this.$emit('onRegionPicked', val);
+		},
+		onMapSerachKeyup(e) {
+			if (this.$refs.mapSearch.value.length >= 1) {
+				this.mapSearchResultsShow = true;
+				this.mapSearchResults = this.mapList.filter((map, idx) => {
+					if (map.name.toLowerCase().replace(/[^a-zA-Z ]/g, "").startsWith(this.$refs.mapSearch.value.toLowerCase())) {
+						if (map.modes[vueData.gameTypeKeys[this.pickedGameType]]) {
+							if (!this.mapSearchResults.some(map => idx === map.id)) {
+								return true;
+							}
+							return false;
+						}
+					} else {
+						return false;
+					}
+				});
+				if (!this.mapSearchResults.length) {
+					this.mapNotFound = true;
+				}
+			} else {
+				this.mapSearchResults.length = 0;
+				this.mapSearchResultsShow = false;
+				this.mapNotFound = false;
+			}
+
+			if (this.mapSearchResults.length === 1) {
+				this.onMapChangeClick(this.mapList.findIndex(m => m.filename === this.mapSearchResults[0].filename));
+				this.mapSearchResultsShow = false;
+				this.mapNotFound = false;
+			}
+		},
+		onMapSearchReset() {
+			this.$refs.mapSearch.value = '';
+			this.mapSearchResultsShow = false;
+			this.mapSearchResults.length = 0;
+			this.mapNotFound = false;
+			this.mapSearchIsFocused = false;
+		},
+		onMapSearchResultClick(map) {
+			this.onMapSearchReset();
+			this.onMapChangeClick(this.mapList.findIndex(m => m.filename === map.filename));
+		},
+		onBlurSearhFocus() {
+			this.mapSearchIsFocused = false;
+		}
+    },
+	computed: {
+		serverTxt() {
+				let name = '';
+				if (hasValue(this.regions) && hasValue(this.currentRegionId)) {
+					name = this.regions.filter(s => s.id === this.currentRegionId)[0].locKey;
+				}
+			return {
+				title: this.loc.p_servers_title,
+				subTitle: this.loc[name]
+			}
+		},
+		mapSizeIcon() {
+			if (this.mapList[this.mapIdx].numPlayers <= 13) {
+				return 'ico-map-size-small';
+			} else if (this.mapList[this.mapIdx].numPlayers >= 14 && this.mapList[this.mapIdx].numPlayers <= 17) {
+				return 'ico-map-size-med';
+			} else if (this.mapList[this.mapIdx].numPlayers > 17) {
+				return 'ico-map-size-large';
+			}
+		}
+	},
+    watch: {
+        isGameReady(val) {
+            if (this.gameClickedBeforeReady && val) {
+                setTimeout(() => this.onPlayClick(), 700);
             }
         }
-    };
-</script><!-- Main Account Panel Template -->
-<script id="account-panel-template" type="text/x-template">
-    <transition name="fade">
-        <div v-if="!playClicked">
-            <account-header 
-                :current-screen="normalizedCurrentScreen" 
-                :screens="screens"
-                :show-corner-buttons="showCornerButtons"
-                :egg-balance="eggBalance"
-                :is-anonymous="isAnonymous"
-                :account-btn-text="accountBtnText"
-                :account-btn-class="accountBtnCls"
-                :is-not-signed-in="isNotSignedIn"
-                :show-not-in-game="showNotInGame"
-                :sign-in-button-visibility="signInButtonVisibility"
-                :is-private-game="isPrivateGame"
-                :show-share-link-button="showShareLinkButton"
-                :is-crazy-games="isCrazyGames"
-                :crazy-games-active="crazyGamesActive"
-                :cg-user-btn-text="cgUserBtnText"
-                :cg-profile-picture-url="cgProfilePictureUrl"
-                :is-crazy-games-linked="isCrazyGamesLinked"
-                :loc="loc"
-                @egg-store-click="handleEggStoreClick"
-                @account-btn-click="handleAccountBtnClick"
-                @crazy-games-link-click="handleCrazyGamesLinkClick"
-                @game-options-click="handleGameOptionsClick"
-                @tutorial-click="handleTutorialClick"
-                @share-link-click="handleShareLinkClick"
-                @settings-click="handleSettingsClick"
-                @fullscreen-click="handleFullscreenClick"
-            />
-        </div>
-    </transition>
+	}   
+};
+</script><script id="account-panel-template" type="text/x-template">
+	<transition name="fade">
+		<div v-if="!playClicked">
+			<div id="account_top" class="f_row f_end_only account-wrapper align-items-center ">
+				<event-panel v-show="showCornerButtons" :current-screen="currentScreen" :screens="screens"></event-panel>
+				<!-- <eggstore-notify ref="shirtStore" :show="showCornerButtons" :loc="loc" :sku="sku" icon="fa-tshirt" :text-hide="true" text="p_egg_shop_sale_notify" title="account_threadless" color="blue" url="https://bluewizard.threadless.com/" analytics="threadless"></eggstore-notify> -->
+				<!-- <eggstore-notify ref="eggStoreSaleNotify" :text-hide="!hideNewItemNotify" :show="showCornerButtons" :loc="loc" :sku="sku" title="account_premium_item" icon="fa-gem" text="p_egg_shop_sale_notify" analytics="diamond"></eggstore-notify> -->
+				<div class="account_eggs roundme_sm clickme f_row align-items-center" @click="onEggStoreClick" v-bind:title="loc['account_title_eggshop']">
+					<div class="box_relative">
+						<img :src="isAnonymous ? 'img/svg/ico_goldenEgg_callout.svg' : 'img/svg/ico_goldenEgg.svg'" class="egg_icon">
+					</div>
+					<span ref="eggCounter" class="egg_count">{{ eggBalance }}</span>
+				</div>
+				<!-- <button v-if="showVipButton" @click="onSubscriptionClick" class="ss_button btn_yolk bevel_yolk btn_vip" :title="loc['account_vip']" :class="{'has-sub' : isVipLive}"><img src="img/vip-club/vip-club-emblem-sm.webp" alt="VIP Emblem"> {{vipButtonText}}</button> -->
+				<button v-show="showNotInGame" :class="accountBtnCls" @click="onAccountBtnClick" class="ss_button btn-account-status font-sigmar align-items-center text-center justify-content-center">
+					<span v-if="!isNotSignedIn">
+						<icon name="ico-vip"></icon>
+					</span> {{ accountBtnText }}
+				</button>
+				<!-- <input type="image" src="img/ico_nav_leaderboards.webp" class="account_icon roundme_sm"> -->
+				<div id="corner-buttons" v-show="showCornerButtons" class="f_row f_end_only align-items-center ">
+					<button v-if="isPrivateGame && !showNotInGame" class="ss_button btn_blue bevel_blue box_relative pause-screen-ui btn-account-w-icon text-shadow-none text_blue1" @click="onGameOptionsClick" :title="loc.p_privateoptions_button">
+						<!-- <img class="icon-md" src="img/svg-icons/ico-private-game-config.svg"> -->
+						<icon name="ico-private-game-config" class="icon-md svg-icon"></icon>
+					</button>
+					<!-- <input type="image" src="img/ico_nav_shop.webp" @click="itemStoreClick" class="account_icon roundme_sm" v-bind:title="loc['account_title_shop']"> -->
+					<!-- <input type="image" src="img/ico_nav_help.webp" @click="onHelpClick" class="account_icon roundme_sm" v-bind:title="loc['account_title_faq']"> -->
+					<button @click="onTutorialClicked" v-show="currentScreen === screens.game" class="ss_button btn_blue bevel_blue box_relative pause-screen-ui btn-account-w-icon text-shadow-none text_blue1" :title="loc.tutorial_title"><i class="fas fa-question"></i></button>
+					<button @click="onShareLinkClick" v-show="showShareLinkButton"  class="ss_button btn_blue bevel_blue box_relative pause-screen-ui btn-account-w-icon text-shadow-none text_blue1" :title="loc.p_pause_sharelink"><i :class="vueData.icon.invite"></i></button>
+					<button @click="onSettingsClick" class="ss_button btn_blue bevel_blue box_relative pause-screen-ui btn-account-w-icon text-shadow-none text_blue1" :title="loc.account_title_settings"><i :class="vueData.icon.settings"></i></button>
+					<button @click="onFullscreenClick" v-if="isCrazyGames" class="ss_button btn_blue bevel_blue box_relative pause-screen-ui btn-account-w-icon text-shadow-none text_blue1" :title="loc.account_title_fullscreen"><icon name="ico-fullscreen" class="btn-fullscreen"></icon></button>
+				</div>
+			</div>
+			
+			<!-- <div id="account_bottom" v-show="showBottom">
+				<language-selector :languages="languages" :loc="loc" :selectedLanguageCode="selectedLanguageCode" :langOptions="currentLangOptions"></language-selector>
+				<button id="signInButton" v-show="(isAnonymous && showSignIn)" @click="onSignInClicked" class="ss_button btn_yolk bevel_yolk">{{ loc.sign_in }}</button>
+				<button id="signOutButton" v-show="!isAnonymous" @click="onSignOutClicked" class="ss_button btn_yolk bevel_yolk">{{ loc.sign_out }}</button>
+				<div id="player_photo" class="box_relative" v-show="photoUrl !== null && photoUrl !== undefined && photoUrl !== '' && ! isAnonymous">
+					<img :src="photoUrl" class="roundme_sm bevel_blue"/>
+					<div v-if="isTwitch" class="box_absolute account-panel-twitch roundme_sm" @click="onTwitchIconClick"><i class="fab fa-twitch"></i></div>
+				</div>
+			</div> -->
+		</div>
+	</transition>
+
 </script>
-
-<!-- Account Header Sub-component -->
-<script id="account-header-template" type="text/x-template">
-    <div id="account_top" class="f_row f_end_only account-wrapper align-items-center">
-        <event-panel 
-            v-if="hasEventPanel"
-            v-show="showCornerButtons" 
-            :current-screen="currentScreen" 
-            :screens="screens"
-        />
-        
-        <egg-counter
-            :egg-balance="eggBalance"
-            :is-anonymous="isAnonymous"
-            :title="loc.account_title_eggshop || ''"
-            @click="$emit('egg-store-click')"
-        />
-        
-        <crazy-games-button
-            v-if="crazyGamesActive && showCornerButtons"
-            :text="cgUserBtnText"
-            :img="cgProfilePictureUrl"
-            :is-linked="isCrazyGamesLinked"
-            @click="$emit('crazy-games-link-click')"
-        />
-        
-        <account-status-button
-            v-show="signInButtonVisibility"
-            :text="accountBtnText"
-            :class-name="accountBtnClass"
-            :is-not-signed-in="isNotSignedIn"
-            @click="$emit('account-btn-click')"
-        />
-        
-        <corner-buttons
-            v-show="showCornerButtons"
-            :is-private-game="isPrivateGame"
-            :show-not-in-game="showNotInGame"
-            :sign-in-button-visibility="signInButtonVisibility"
-            :current-screen="currentScreen"
-            :screens="screens"
-            :show-share-link-button="showShareLinkButton"
-            :crazy-games-active="crazyGamesActive"
-            :is-crazy-games="isCrazyGames"
-            :loc="loc"
-            @game-options-click="$emit('game-options-click')"
-            @tutorial-click="$emit('tutorial-click')"
-            @share-link-click="$emit('share-link-click')"
-            @settings-click="$emit('settings-click')"
-            @fullscreen-click="$emit('fullscreen-click')"
-        />
-    </div>
-</script>
-
-<!-- Egg Counter Sub-component -->
-<script id="egg-counter-template" type="text/x-template">
-    <div 
-        class="account_eggs roundme_sm clickme f_row align-items-center" 
-        :title="title"
-        @click="handleClick"
-    >
-        <div class="box_relative">
-            <img 
-                :src="iconSrc" 
-                class="egg_icon"
-                alt="Golden Egg Icon"
-            >
-        </div>
-        <span ref="eggCounter" class="egg_count">{{ formattedBalance }}</span>
-    </div>
-</script>
-
-<!-- Account Status Button Sub-component -->
-<script id="account-status-button-template" type="text/x-template">
-    <button 
-        :class="buttonClasses"
-        class="ss_button btn-account-status font-sigmar align-items-center text-center justify-content-center"
-        @click="$emit('click')"
-    >
-        <span v-if="!isNotSignedIn">
-            <icon name="ico-vip"></icon>
-        </span>
-        {{ text }}
-    </button>
-</script>
-
-<!-- Corner Buttons Sub-component -->
-<script id="corner-buttons-template" type="text/x-template">
-    <div id="corner-buttons" class="f_row f_end_only align-items-center">
-        <button 
-            v-if="isPrivateGame && !showNotInGame" 
-            class="ss_button btn_blue bevel_blue box_relative pause-screen-ui btn-account-w-icon text-shadow-none text_blue1" 
-            :title="getLocValue('p_privateoptions_button')"
-            @click="$emit('game-options-click')"
-        >
-            <icon name="ico-private-game-config" class="icon-md svg-icon"></icon>
-        </button>
-        
-        <button 
-            v-show="isGameScreen"
-            class="ss_button btn_blue bevel_blue box_relative pause-screen-ui btn-account-w-icon text-shadow-none text_blue1" 
-            :title="getLocValue('tutorial_title')"
-            @click="$emit('tutorial-click')"
-        >
-            <i class="fas fa-question"></i>
-        </button>
-        
-        <button 
-            v-show="showShareLinkButton"  
-            class="ss_button btn_blue bevel_blue box_relative pause-screen-ui btn-account-w-icon text-shadow-none text_blue1" 
-            :title="getLocValue('p_pause_sharelink')"
-            @click="$emit('share-link-click')"
-        >
-            <i :class="shareIcon"></i>
-        </button>
-        
-        <button 
-            class="ss_button btn_blue bevel_blue box_relative pause-screen-ui btn-account-w-icon text-shadow-none text_blue1" 
-            :title="getLocValue('account_title_settings')"
-            @click="$emit('settings-click')"
-        >
-            <i :class="settingsIcon"></i>
-        </button>
-
-        <button
-            v-if="!crazyGamesActive"
-            class="ss_button btn_blue bevel_blue box_relative pause-screen-ui btn-account-w-icon text-shadow-none text_blue1" 
-            :title="getLocValue('account_title_fullscreen')"
-            @click="$emit('fullscreen-click')"
-        >
-            <icon name="ico-fullscreen" class="btn-fullscreen"></icon>
+<template id="egg-store-notify">
+    <div v-if="show" class="egg-store-sale-notify" :class="{'white-blue' : color}" @click="notifyClick">
+        <button class="account_icon roundme_sm account_icon-item" :title="getTitle"><i aria-hidden="true" class="fas" :class="icon"><span class="hideme">Egg</span></i>
+           <span class="text" :class="{hideme : textHide}"> {{loc[text]}}</span>
         </button>
     </div>
-</script>
-
-<!-- Crazy Games Button Sub-component -->
-<script id="crazy-games-button-template" type="text/x-template">
-    <button 
-        class="width-auto ss_button btn_yolk btn-account-status ss_button_cg_user display-grid gap-1 text-left grid-column-auto-1 align-items-center justify-content-center" 
-        @click="$emit('click')"
-    >
-        <img v-if="text.img" :src="text.img" alt="Crazy Games Profile Picture" class="icon-md svg-icon">
-        <div>
-            <span>{{ text.text }}</span>
-            <span v-show="!text.isLinked && text.isLoggedIn" class="display-block font-size-lg">Link to Shell Shockers</span>
-            <span v-show="text.isLinked" class="display-block font-size-lg">Linked to Shell Shockers</span>
-        </div>
-    </button>
-</script>
-
+</template>
 <script>
-    // Constants for better maintainability
-    const CONSTANTS = {
-        EGG_SHAKE_DURATION: 300,
-        LOCAL_STORAGE_KEY: 'localLoadOut',
-        ANALYTICS: {
-            CATEGORY: 'header-buttons',
-            ACTION: 'click'
-        },
-        SCREENS: {
-            GAME: 'game',
-            HOME: 'home',
-            EQUIP: 'equip'
-        }
-    };
-
-    // Type conversion utilities
-    const typeUtils = {
-        // Convert various truthy/falsy values to boolean
-        toBoolean(value) {
-            if (typeof value === 'boolean') return value;
-            if (typeof value === 'number') return value !== 0;
-            if (typeof value === 'string') return value !== '' && value !== '0' && value.toLowerCase() !== 'false';
-            return Boolean(value);
-        },
-
-        // Convert various values to string
-        toString(value) {
-            if (value === null || value === undefined) return '';
-            return String(value);
-        },
-
-        // Convert to number with fallback
-        toNumber(value, fallback = 0) {
-            const num = Number(value);
-            return isNaN(num) ? fallback : num;
-        }
-    };
-
-    // Utility functions for defensive programming
-    const safeGlobal = {
-        get vueApp() {
-            if (typeof window !== 'undefined' && window.vueApp) {
-                return window.vueApp;
-            }
-            return null;
-        },
-
-        get extern() {
-            if (typeof window !== 'undefined' && window.extern) {
-                return window.extern;
-            }
-            return null;
-        },
-
-        get BAWK() {
-            if (typeof window !== 'undefined' && window.BAWK) {
-                return window.BAWK;
-            }
-            return {
-                play: () => {}
-            }; // Safe fallback
-        },
-
-        get ga() {
-            if (typeof window !== 'undefined' && window.ga) {
-                return window.ga;
-            }
-            return () => {}; // Safe fallback
-        },
-
-        get isFromEU() {
-            if (typeof window !== 'undefined') {
-                return Boolean(window.isFromEU);
-            }
-            return false;
-        }
-    };
-
-    // Local storage utility with error handling
-    const localStorageUtil = {
-        getItem(key) {
-            try {
-                if (typeof localStorage === 'undefined') return null;
-                const item = localStorage.getItem(key);
-                return item ? JSON.parse(item) : null;
-            } catch (error) {
-                console.error('Error reading from localStorage:', error);
-                return null;
-            }
-        },
-
-        setItem(key, value) {
-            try {
-                if (typeof localStorage === 'undefined') return false;
-                localStorage.setItem(key, JSON.stringify(value));
-                return true;
-            } catch (error) {
-                console.error('Error writing to localStorage:', error);
-                return false;
-            }
-        }
-    };
-
-    // Safe component checker
-    const componentChecker = {
-        isAvailable(componentName) {
-            try {
-                return typeof window !== 'undefined' &&
-                    typeof window[componentName] !== 'undefined';
-            } catch (error) {
-                return false;
-            }
-        }
-    };
-
-    // Egg Counter Component
-    const EggCounterComponent = {
-        template: '#egg-counter-template',
-        props: {
-            eggBalance: {
-                type: Number,
-                default: 0,
-                validator: value => !isNaN(value) && value >= 0
-            },
-            isAnonymous: {
-                type: Boolean,
-                default: true
-            },
-            title: {
-                type: String,
-                default: ''
-            }
-        },
-        computed: {
-            iconSrc() {
-                return this.isAnonymous ?
-                    'img/svg/ico_goldenEgg_callout.svg' :
-                    'img/svg/ico_goldenEgg.svg';
-            },
-            formattedBalance() {
-                // Add number formatting for large values
-                try {
-                    return this.eggBalance.toLocaleString();
-                } catch (error) {
-                    return String(this.eggBalance);
-                }
-            }
-        },
+    const compEggStoreSaleNotify = {
+        template: '#egg-store-notify',
+        props: ['loc', 'show', 'sku', 'textHide', 'text', 'icon', 'color', 'url', 'title', 'analytics'],
         methods: {
-            handleClick() {
-                this.$emit('click');
-            },
-            shake() {
-                const counter = this.$refs.eggCounter;
-                if (!counter) return;
+            notifyClick() {
+                if (this.analytics) ga('send', 'event', 'header-buttons', 'click', this.analytics);
 
-                counter.classList.add('egg-shake');
-                setTimeout(() => {
-                    if (counter && counter.classList) {
-                        counter.classList.remove('egg-shake');
-                    }
-                }, CONSTANTS.EGG_SHAKE_DURATION);
-            }
-        }
-    };
+                if (this.url) {
+                    window.open(this.url, '_window');
+                    return;
+                }
 
-    // Account Status Button Component
-    const AccountStatusButtonComponent = {
-        template: '#account-status-button-template',
-        props: {
-            text: {
-                type: String,
-                default: ''
-            },
-            className: {
-                type: String,
-                default: ''
-            },
-            isNotSignedIn: {
-                type: Boolean,
-                default: false
+                // if (!vueData.firebaseId) {
+				//     vueApp.showGenericPopup('p_redeem_error_no_player_title', 'p_redeem_error_no_player_content', 'ok');
+				//     return;
+                // }
+
+                vueApp.eggStoreReferral = 'Sale notify ref';
+
+                if (this.sku) {
+                    return vueApp.showPopupEggStoreSingle(this.sku)
+                }
+
+                return vueApp.onPremiumItemsClicked();
             }
         },
         computed: {
-            buttonClasses() {
-                return this.className;
+            getTitle() {
+                if (!this.title) return null;
+                return this.loc[this.title];
             }
         }
     };
-
-    // Corner Buttons Component
-    const CornerButtonsComponent = {
-        template: '#corner-buttons-template',
-        props: {
-            isPrivateGame: {
-                type: Boolean,
-                default: false
-            },
-            showNotInGame: {
-                type: Boolean,
-                default: false
-            },
-            signInButtonVisibility: {
-                type: Boolean,
-                default: true
-            },
-            currentScreen: {
-                type: String,
-                default: ''
-            },
-            screens: {
-                type: Object,
-                default: () => CONSTANTS.SCREENS
-            },
-            showShareLinkButton: {
-                type: Boolean,
-                default: false
-            },
-            crazyGamesActive: {
-                type: Boolean,
-                default: false
-            },
-            loc: {
-                type: Object,
-                default: () => ({})
-            }
-        },
-        computed: {
-            shareIcon() {
-                const vueData = safeGlobal.vueApp?.vueData;
-                return vueData?.icon?.invite || 'fas fa-user-friends';
-            },
-            settingsIcon() {
-                const vueData = safeGlobal.vueApp?.vueData;
-                return vueData?.icon?.settings || 'fas fa-cog';
-            },
-            isGameScreen() {
-                return Number(this.currentScreen) === Number(this.screens.game);
-            }
-        },
-        methods: {
-            getLocValue(key) {
-                return this.loc[key] || '';
-            }
-        }
-    };
-
-    // Crazy Games Button Component
-    const CrazyGamesButtonComponent = {
-        template: '#crazy-games-button-template',
-        props: {
-            text: {
-                type: Object,
-                default: () => ({
-                    text: '',
-                    img: '',
-                    isLinked: false,
-                    isLoggedIn: false
-                })
-            },
-            img: {
-                type: String,
-                default: ''
-            },
-            isLinked: {
-                type: [Boolean, String],
-                default: ''
-            }
-        },
-    };
-
-    // Account Header Component
-    const AccountHeaderComponent = {
-        template: '#account-header-template',
-        components: {
-            'egg-counter': EggCounterComponent,
-            'account-status-button': AccountStatusButtonComponent,
-            'corner-buttons': CornerButtonsComponent,
-            'crazy-games-button': CrazyGamesButtonComponent
-        },
-        props: {
-            currentScreen: {
-                type: String,
-                default: ''
-            },
-            screens: {
-                type: Object,
-                default: () => CONSTANTS.SCREENS
-            },
-            showCornerButtons: {
-                type: Boolean,
-                default: true
-            },
-            eggBalance: {
-                type: Number,
-                default: 0
-            },
-            isAnonymous: {
-                type: Boolean,
-                default: true
-            },
-            accountBtnText: {
-                type: String,
-                default: ''
-            },
-            accountBtnClass: {
-                type: String,
-                default: ''
-            },
-            isNotSignedIn: {
-                type: Boolean,
-                default: true
-            },
-            showNotInGame: {
-                type: Boolean,
-                default: false
-            },
-            signInButtonVisibility: {
-                type: Boolean,
-                default: true
-            },
-            isPrivateGame: {
-                type: Boolean,
-                default: false
-            },
-            showShareLinkButton: {
-                type: Boolean,
-                default: false
-            },
-            isCrazyGames: {
-                type: Boolean,
-                default: false
-            },
-            crazyGamesActive: {
-                type: Boolean,
-                default: false
-            },
-            cgUserBtnText: {
-                type: Object,
-                default: () => ({
-                    text: '',
-                    img: '',
-                    isLinked: false,
-                    isLoggedIn: false
-                })
-            },
-            cgProfilePictureUrl: {
-                type: String,
-                default: ''
-            },
-            isCrazyGamesLinked: {
-                type: [Boolean, String],
-                default: ''
-            },
-            loc: {
-                type: Object,
-                default: () => ({})
-            }
-        },
-        computed: {
-            hasEventPanel() {
-                return componentChecker.isAvailable('comp_events');
-            }
-        }
-    };
-
-    // Main Account Panel Component
-    const comp_account_panel = {
-        template: '#account-panel-template',
-        components: {
-            'language-selector': componentChecker.isAvailable('comp_language_selector') ? comp_language_selector : {},
-            'eggstore-notify': componentChecker.isAvailable('compEggStoreSaleNotify') ? compEggStoreSaleNotify : {},
-            'event-panel': componentChecker.isAvailable('comp_events') ? comp_events : {},
-            'account-header': AccountHeaderComponent
-        },
-
-        props: {
-            loc: {
-                type: Object,
-                default: () => ({}),
-                validator: value => value && typeof value === 'object'
-            },
-            firebaseId: {
-                type: String,
-                default: ''
-            },
-            eggs: {
-                type: Number,
-                default: 0,
-                validator: value => !isNaN(value) && value >= 0
-            },
-            languages: {
-                type: Array,
-                default: () => []
-            },
-            selectedLanguageCode: {
-                type: String,
-                default: ''
-            },
-            isPaused: {
-                type: Boolean,
-                default: false
-            },
-            photoUrl: {
-                type: String,
-                default: ''
-            },
-            isAnonymous: {
-                type: Boolean,
-                default: true
-            },
-            isOfAge: {
-                type: Boolean,
-                default: false
-            },
-            showTargetedAds: {
-                type: Boolean,
-                default: false
-            },
-            showCornerButtons: {
-                type: Boolean,
-                default: true
-            },
-            ui: {
-                type: Object,
-                default: () => ({})
-            },
-            isEggStoreSale: {
-                type: Boolean,
-                default: false
-            },
-            sku: {
-                type: String,
-                default: ''
-            },
-            isSubscriber: {
-                type: Boolean,
-                default: false
-            },
-            isTwitch: {
-                // Accept multiple types but convert to Boolean
-                validator: () => true // Allow any type
-            },
-            currentLangOptions: {
-                type: Object,
-                default: () => ({})
-            },
-            currentScreen: {
-                // Accept multiple types but convert to String
-                validator: () => true // Allow any type
-            },
-            screens: {
-                type: Object,
-                default: () => CONSTANTS.SCREENS
-            },
-            isPrivateGame: {
-                type: Boolean,
-                default: false
-            },
-            playClicked: {
-                type: Boolean,
-                default: false
-            },
-            crazyGamesUser: {
-                type: Object,
-                default: () => ({
-                    hasAccount: false,
-                    hasLinked: false,
-                    username: '',
-                    profilePictureUrl: '',
-                    userLoggedIn: false,
-                    isAnonymous: true,
-                })
-            },
-            crazyGamesActive: {
-                type: Boolean,
-                default: false
-            },
-        },
-
-        data() {
-            return {
-                languageCode: this.selectedLanguageCode,
-                eggBalance: typeUtils.toNumber(this.eggs, 0),
-            };
-        },
-
-        created() {
-            this.initializeEggBalance();
-        },
-
-        computed: {
-            // Normalize props to correct types
-            normalizedIsTwitch() {
-                return typeUtils.toBoolean(this.isTwitch);
-            },
-
-            normalizedCurrentScreen() {
-                return typeUtils.toString(this.currentScreen);
-            },
-
-            // Safe access to vueData
-            vueData() {
-                return safeGlobal.vueApp?.vueData || {};
-            },
-
-            showSignIn() {
-                if (!safeGlobal.isFromEU) return true;
-                return safeGlobal.isFromEU && this.isOfAge && this.showTargetedAds;
-            },
-
-            showShareLinkButton() {
-                return this.showCornerButtons && this.normalizedCurrentScreen == this.screens.game;
-            },
-
-            vipButtonText() {
-                const extern = safeGlobal.extern;
-                const isExpired = extern?.account?.upgradeIsExpired ?? true;
-                return (this.isSubscriber && !isExpired) ? '' : (this.loc.s_btn_txt_subscribe || '');
-            },
-
-            showVipButton() {
-                return this.normalizedCurrentScreen === this.screens.home ||
-                    this.normalizedCurrentScreen === this.screens.equip;
-            },
-
-            isVipLive() {
-                const extern = safeGlobal.extern;
-                const isExpired = extern?.account?.upgradeIsExpired ?? true;
-                return this.isSubscriber && !isExpired;
-            },
-
-            accountBtnCls() {
-                if (this.isAnonymous && this.showSignIn) {
-                    return 'btn_green bevel_green';
-                } else {
-                    return this.isSubscriber ?
-                        'btn_yolk bevel_yolk btn_vip width-auto vertical-align-middle' :
-                        'btn_yolk bevel_yolk btn_vip vertical-align-middle';
-                }
-            },
-
-            cgUserBtnText() {
-                // Early exit if CrazyGames isn't active
-                if (!this.crazyGamesActive) return undefined;
-
-                const sdk = window?.crazySdk;
-
-                // Early exit if SDK or user account system isn't available
-                if (!sdk?.cgUserAccountAvailable) {
-                    return this.createBaseState(this.loc.sign_in_cg_not_available);
-                }
-
-                // Get the current user from the SDK or what might have been set when user logs in after load
-                const currentUser = sdk?.getCurrentUser() || this.crazyGamesUser;
-
-                const localUser = this.crazyGamesUser;
-
-                // Not logged into CrazyGames
-                if (!currentUser?.username) {
-                    return this.createBaseState(this.loc.sign_in_cg_not_logged_in);
-                }
-
-                // Logged into CrazyGames, but no Firebase account
-                if (!this.firebaseId) {
-                    return this.createBaseState(this.loc.sign_in_cg_not_logged_in_no_account);
-                }
-
-                // Has Firebase account but hasn't linked CrazyGames yet
-                if (localUser?.hasAccount && !localUser?.hasLinked) {
-                    return this.createBaseState(this.loc.sign_in_link_cg);
-                }
-
-                // Fully linked account
-                return {
-                    text: currentUser.username || this.loc.sign_in_cg_linked,
-                    img: currentUser.profilePictureUrl || 'img/crazy-games-logo.png',
-                    isLinked: localUser?.hasLinked || false,
-                    isLoggedIn: true
-                };
-            },
-
-            isCrazyGamesLinked() {
-                if (this.crazyGamesUser?.hasLinked) {
-                    return this.loc.linked_with_crazygames;
-                }
-                return false;
-            },
-
-            cgProfilePictureUrl() {
-                if (this.crazyGamesActive) {
-                    const user = this.crazyGamesUser || {
-                        hasAccount: false,
-                        hasLinked: false,
-                        username: '',
-                        profilePictureUrl: '',
-                        userLoggedIn: false,
-                        isAnonymous: true,
-                    };
-                    return user?.profilePictureUrl || 'img/crazy-games-logo.png';
-                }
-                return '';
-            },
-
-            accountBtnText() {
-                if (this.isAnonymous && this.showSignIn) {
-                    return this.loc.sign_in || '';
-                } else {
-                    return this.isSubscriber ? '' : (this.loc.s_btn_txt_subscribe || '');
-                }
-            },
-
-            isNotSignedIn() {
-                return this.isAnonymous && this.showSignIn;
-            },
-
-            showNotInGame() {
-                const extern = safeGlobal.extern;
-                return this.normalizedCurrentScreen !== this.screens.game && !extern?.inGame;
-            },
-
-            signInButtonVisibility() {
-                if (!this.showNotInGame) return false;
-
-                if (this.crazyGamesActive) {
-
-                    const providerData = firebase?.auth()?.currentUser?.providerData || [];
-
-                    if (!this.isAnonymous && providerData.length > 0) {
-                        return true;
-                    } else {
-                        if (!this.firebaseId) {
-                            return false;
-                        } else {
-                            return this.crazyGamesUser?.hasLinked;
-                        }
-                    }
-
-                }
-                return true;
-            },
-
-            isGameOwner() {
-                const extern = safeGlobal.extern;
-                return extern?.isGameOwner ?? false;
-            },
-
-            isCrazyGames() {
-                return !this.crazyGamesActive;
-            }
-        },
-
-        watch: {
-            eggs: {
-                handler(newEggs) {
-                    const normalizedEggs = typeUtils.toNumber(newEggs, 0);
-                    if (normalizedEggs !== this.eggBalance) {
-                        this.eggShake();
-                        this.eggBalance = normalizedEggs;
-                    }
-                },
-                immediate: true
-            }
-        },
-
-        methods: {
-            createBaseState(text) {
-                return {
-                    text: text,
-                    img: 'img/crazy-games-logo.png',
-                    isLinked: false,
-                    isLoggedIn: false
-                };
-            },
-            // Initialization
-            initializeEggBalance() {
-                const storage = localStorageUtil.getItem(CONSTANTS.LOCAL_STORAGE_KEY);
-                if (storage && typeof storage.balance === 'number') {
-                    this.eggBalance = storage.balance;
-                }
-            },
-
-            // Event handlers with defensive programming
-            handleEggStoreClick() {
-                const vueApp = safeGlobal.vueApp;
-                if (!vueApp) return;
-
-                if (vueApp.vueData?.showAdBlockerVideoAd) return;
-
-                if (!vueApp?.firebaseId) {
-                    if (vueApp.showGenericPopup) {
-                        vueApp.showGenericPopup(
-                            'p_redeem_error_no_player_title',
-                            'p_redeem_error_no_player_content',
-                            'ok'
-                        );
-                    }
-                    return;
-                }
-
-                if (vueApp.openEquipSwitchTo && vueApp.equipMode?.shop) {
-                    vueApp.openEquipSwitchTo(vueApp.equipMode.shop);
-                }
-                safeGlobal.BAWK.play('ui_popupopen');
-                this.gaSend('eggCount');
-            },
-
-            handleSettingsClick() {
-                this.gaSend('openSettings');
-                this.onSharedPopupOpen();
-                const vueApp = safeGlobal.vueApp;
-                if (vueApp?.showSettingsPopup) {
-                    vueApp.showSettingsPopup();
-                }
-                safeGlobal.BAWK.play('ui_popupopen');
-            },
-
-            handleTutorialClick() {
-                this.gaSend('openTutorial');
-                const vueApp = safeGlobal.vueApp;
-                if (vueApp?.onTutorialPopupClick) {
-                    vueApp.onTutorialPopupClick();
-                }
-                safeGlobal.BAWK.play('ui_popupopen');
-            },
-
-            handleFullscreenClick() {
-                this.gaSend('fullscreen');
-                const extern = safeGlobal.extern;
-                if (extern?.toggleFullscreen) {
-                    extern.toggleFullscreen();
-                }
-                safeGlobal.BAWK.play('ui_click');
-            },
-
-            handleShareLinkClick() {
-                this.gaSend('openShareLink');
-                this.onSharedPopupOpen();
-                const extern = safeGlobal.extern;
-                if (extern?.inviteFriends) {
-                    extern.inviteFriends();
-                }
-            },
-
-            handleAccountBtnClick() {
-                if (this.isAnonymous && this.showSignIn) {
-                    this.onSignInClicked();
-                    return;
-                } else {
-                    this.onSubscriptionClick();
-                }
-            },
-
-            handleGameOptionsClick() {
-                this.gaSend('gameOptions', 'respawn-popup');
-                const vueApp = safeGlobal.vueApp;
-                if (vueApp?.onGameOptionsClick) {
-                    vueApp.onGameOptionsClick();
-                }
-            },
-
-            async handleCrazyGamesLinkClick() {
-                if (!this.crazyGamesActive) return null;
-
-                const cgAccountAvailable = await crazySdk.isUserAccountAvailable();
-
-                console.log('handleCrazyGamesLinkClick cgAccountAvailable', cgAccountAvailable);
-
-                if (cgAccountAvailable) {
-                    const cgUser = await window.CrazyGames.SDK.user.getUser();
-                    console.log('handleCrazyGamesLinkClick cgUser', cgUser);
-
-                    if (!cgUser) {
-                        safeGlobal.BAWK.play('ui_click');
-                        safeGlobal.extern.showCrazyGamesAuthPrompt();
-                        return;
-                    }
-                }
-
-                const user = this.crazyGamesUser || {
-                    hasAccount: false,
-                    hasLinked: false,
-                    username: '',
-                    profilePictureUrl: '',
-                    userLoggedIn: false,
-                    isAnonymous: true,
-                };
-                const firebaseId = vueApp?.firebaseId;
-
-
-                if (!firebaseId) {
-                    safeGlobal.BAWK.play('ui_click');
-                    extern.cgCreateAccount();
-                    return;
-                }
-
-                if (user?.hasAccount && !user?.hasLinked) {
-                    vueApp.showLinkCgAccountPopup();
-                    return;
-                }
-
-                if (user.hasAccount && user?.hasLinked) {
-                    vueApp.showCrazyGamesUserManagementPopup();
-                    return;
-                }
-
-                // vueApp.showGenericPopup('player_not_found_title', 'player_not_found_desc', 'ok');
-            },
-
-            // Helper methods
-            onSignInClicked() {
-                const vueApp = safeGlobal.vueApp;
-                if (vueApp?.setDarkOverlay) {
-                    vueApp.setDarkOverlay(true);
-                }
-                this.$emit('sign-in-clicked');
-            },
-
-            onSubscriptionClick() {
-                this.gaSend('openVipPopup');
-                const vueApp = safeGlobal.vueApp;
-                if (vueApp?.showSubStorePopup) {
-                    vueApp.showSubStorePopup();
-                }
-            },
-            eggShake() {
-                this.$nextTick(() => {
-                    // Find the egg counter component
-                    const accountHeader = this.$children.find(child =>
-                        child.$options.components && child.$options.components['egg-counter']
-                    );
-
-                    if (accountHeader) {
-                        const eggCounter = accountHeader.$children.find(child =>
-                            child.$options === EggCounterComponent
-                        );
-
-                        if (eggCounter?.shake) {
-                            eggCounter.shake();
-                        }
-                    }
-                });
-            },
-
-            onSharedPopupOpen() {
-                // Reserved for future popup handling logic
-            },
-
-            // Analytics with error handling
-            gaSend(label, category = CONSTANTS.ANALYTICS.CATEGORY) {
-                if (!label) return;
-
-                try {
-                    safeGlobal.ga('send', 'event', category, CONSTANTS.ANALYTICS.ACTION, label);
-                } catch (error) {
-                    console.warn('Analytics tracking failed:', error);
-                }
-            },
-        },
-
-    };
-</script><script id="play-panel-template" type="text/x-template">
-    <transition name="fade">
+</script><script>
+var comp_account_panel = {
+	template: '#account-panel-template',
+	components: {
+		'language-selector': comp_language_selector,
+		'eggstore-notify': compEggStoreSaleNotify,
+		'event-panel': comp_events,
+	},
+
+	props: ['loc', 'eggs', 'languages', 'selectedLanguageCode', 'isPaused', 'photoUrl', 'isAnonymous', 'isOfAge', 'showTargetedAds', 'showCornerButtons', 'ui', 'isEggStoreSale', 'sku', 'isSubscriber', 'isTwitch', 'currentLangOptions', 'currentScreen', 'screens', 'isPrivateGame', 'playClicked'],
+
+	
+	data: function () {
+		return {
+			languageCode: this.selectedLanguageCode,
+			eggBalance: 0,
+			vueData,
+		}
+	},
+
+	created() {
+		this.getEggsLocalStorage();
+	},
+	methods: {
+		getEggsLocalStorage() {
+			const raw = localStore.getItem('localLoadOut');
+			if (!raw) {
+				return;
+			}
+			const storage = JSON.parse(raw);
+			if (!'balance' in storage) {
+				return;
+			}
+			return this.eggBalance = storage.balance;
+
+		},
+		onEggStoreClick: function () {
+			if (vueData.showAdBlockerVideoAd) {
+				return;
+			}
+			if (!vueData.firebaseId) {
+				vueApp.showGenericPopup('p_redeem_error_no_player_title', 'p_redeem_error_no_player_content', 'ok');
+				return;
+			}
+			vueApp.openEquipSwitchTo(vueApp.equipMode.shop)
+			BAWK.play('ui_popupopen');
+			this.gaSend('eggCount');
+		},
+		itemStoreClick: function() {
+			this.gaSend('openItemShop');
+			vueApp.openEquipSwitchTo();
+			vueApp.$refs.equipScreen.switchToShop();
+			BAWK.play('ui_popupopen');
+		},
+		onHelpClick: function () {
+			vueApp.showHelpPopup();
+			this.gaSend('openHelp');
+			BAWK.play('ui_popupopen');
+		},
+
+		onSettingsClick: function () {
+			this.gaSend('openSettings');
+			this.onSharedPopupOpen();
+			vueApp.showSettingsPopup();
+			BAWK.play('ui_popupopen');
+		},
+
+		onTutorialClicked() {
+			this.gaSend('openTutorial');
+			vueApp.onTutorialPopupClick();
+			BAWK.play('ui_popupopen');
+		},
+
+		onFullscreenClick: function () {
+			this.gaSend('fullscreen');
+			extern.toggleFullscreen();
+			BAWK.play('ui_click');
+		},
+
+		onSignInClicked: function () {
+			vueApp.setDarkOverlay(true);
+			this.$emit('sign-in-clicked');
+		},
+
+		onSignOutClicked: function () {
+			vueApp.setDarkOverlay(true);
+			this.$emit('sign-out-clicked');
+		},
+
+		onShareLinkClick: function () {
+			this.gaSend('openShareLink');
+			this.onSharedPopupOpen();
+            extern.inviteFriends();
+		},
+
+		onAnonWarningClick: function() {
+			ga('send', 'event', vueApp.googleAnalytics.cat.playerStats, vueApp.googleAnalytics.action.anonymousPopupOpen);
+			vueApp.showAttentionPopup();
+		},
+		onSubscriptionClick() {
+			this.gaSend('openVipPopup');
+			vueApp.showSubStorePopup();
+		},
+		gaSend(label) {
+			if (!label) return;
+            ga('send', 'event', 'header-buttons', 'click', label);
+		},
+		onTwitchIconClick() {
+			window.open(dynamicContentPrefix + 'twitch');
+		},
+		onAccountBtnClick() {
+			if (this.isAnonymous && this.showSignIn) {
+				this.onSignInClicked();
+			} else {
+				this.onSubscriptionClick();
+			}
+		},
+		eggShake() {
+			this.$refs.eggCounter.classList.add('egg-shake');
+			setTimeout(() => this.$refs.eggCounter.classList.remove('egg-shake'), 300);
+		},
+		onSharedPopupOpen() {
+			// if (extern.inGame) {
+			// 	vueApp.hideRespawnDisplayAd();
+			// }
+		},
+		onGameOptionsClick() {
+			ga('send', 'event', 'respawn-popup', 'click', 'gameOptions');
+			vueApp.onGameOptionsClick();
+		},
+	},
+
+	computed: {
+		showSignIn: function () {
+			if (!isFromEU) {
+				return true;
+			}
+
+			return isFromEU && this.isOfAge && this.showTargetedAds;
+		},
+
+		showShareLinkButton: function () {
+			return this.showCornerButtons && this.currentScreen === this.screens.game;
+		},
+
+		hideNewItemNotify() {
+			// if (!ssChangelogDate) return false;
+			// if (!this.showCornerButtons) return false;
+			// const lapsed = Date.now() - ssChangelogDate.valueOf(),
+			// 	  days = Math.floor((lapsed / (60*60*24*1000)));
+
+			// if (days <= 5 ) return true;
+			// return false;
+			return;
+		},
+
+		vipButtonText() {
+			return this.isSubscriber && !extern.account.upgradeIsExpired ? '' : this.loc.s_btn_txt_subscribe;
+		},
+		showVipButton() {
+			return this.showScreen === this.screens.home || this.showScreen === this.screens.equip;
+		},
+		isVipLive() {
+			return this.isSubscriber && !extern.account.upgradeIsExpired;
+		},
+		accountBtnCls() {
+			if (this.isAnonymous && this.showSignIn) {
+				return 'btn_green bevel_green'
+			} else {
+				if (this.isSubscriber) {
+					return 'btn_yolk bevel_yolk btn_vip width-auto vertical-align-middle';
+				} else {
+					return 'btn_yolk bevel_yolk btn_vip vertical-align-middle';
+				}
+			}
+
+		},
+		accountBtnText() {
+			if (this.isAnonymous && this.showSignIn) {
+				return this.loc.sign_in;
+			} else {
+				if (this.isSubscriber) {
+					return '';
+				} else {
+					return this.loc.s_btn_txt_subscribe;
+				}
+			}
+		},
+		isNotSignedIn() {
+			return this.isAnonymous && this.showSignIn;
+		},
+
+		showNotInGame() {
+			return this.currentScreen !== this.screens.game && !extern.inGame
+		},
+
+		isGameOwner() {
+			return extern.isGameOwner;
+		},
+
+		isCrazyGames() {
+			return !crazyGamesActive;
+		},
+	},
+	watch: {
+		eggs() {
+			this.eggShake();
+			this.eggBalance = this.eggs;
+		},
+	}
+};
+</script>
+<script id="play-panel-template" type="text/x-template">
+		<transition name="fade">
 			<div v-if="!playClicked" id="play-panel" class="box_relative">
 				<weapon-select-panel id="weapon_select" class="justify-content-center centered_x" :loc="loc" :account-settled="isGameReady" :current-class="currentClass" :current-screen="showScreen" :screens="screens" :play-clicked="playClicked" @changed-class="onChangedClass"></weapon-select-panel>
 				<div class="play-panel-btn-group display-grid grid-auto-flow-column gap-1 centered_x">
@@ -8057,14 +7105,14 @@ var comp_social_panel = {
 				</large-popup>
 	
 				<!-- Popup: Join Private Game -->
-				<large-popup id="joinPrivateGamePopup" ref="joinPrivateGamePopup" :class="joinOnlyCls" :popup-model="home.joinPrivateGamePopup" @popup-confirm="onJoinConfirmed" :hide-cancel="true" :hide-close="showCreateGameOnly" @popup-closed="onCloseCreateGame">
+				<large-popup id="joinPrivateGamePopup" ref="joinPrivateGamePopup" :class="joinOnlyCls" :popup-model="home.joinPrivateGamePopup" @popup-confirm="onJoinConfirmed" :hide-cancel="true" @popup-closed="onCloseCreateGame">
 					<template slot="content">
 						<div class="">
 							<div v-show="!joinUrlRequest" class="play-panel-panels roundme_md">
 								<create-private-game-popup id="createPrivateGame" ref="createPrivateGame" :loc="loc" :region-loc-key="regionLocKey" :is-game-ready="isGameReady" :picked-game-type="pickedGameType" :game-type-txt="gameTypeTxt" :game-types="gameTypes" @onGameTypeChange="onGameTypeChange" @onRegionPicked="onRegionPicked" map-img-base-path="maps/" :mapList="maps" :regions="regionList" :currentRegionId="currentRegionId"></create-private-game-popup>
 								<div class="error_text shadow_red" v-show="home.joinPrivateGamePopup.showInvalidCodeMsg">{{ loc.p_game_code_blank }}</div>
 							</div>
-							<div v-show="!showCreateGameOnly" class="play-panel-panels play-panel-panels-join roundme_md">
+							<div class="play-panel-panels play-panel-panels-join roundme_md">
 								<div class="private-game-wrapper fullwidth">
 									<div class="inner-wrapper">
 										<header>
@@ -8161,410 +7209,415 @@ var comp_region_list_popup = {
 	}
 };
 </script><template id="weaponselect_panel_template" type="text/x-template">
-    <div class="center_h ss_marginbottom_sm">
-        <div v-show="showDesc" class="grid-span-column-all text-center align-items-center ss_marginbottom_sm">
-            <h3 class="nospace text_blue8">{{ weapon.title }}</h3>
-            <p class="nospace text_blue3"><i>{{ weapon.desc }}</i></p>
-        </div>
-        <div :class="gridCls">
-            <div class="nospace" @click="onWeaponSelect(charClass.Soldier)">
-                <icon name="ico-weapon-soldier" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Soldier)"></icon>
-            </div>
-            <div class="nospace" @click="onWeaponSelect(charClass.Scrambler)">
-                <icon name="ico-weapon-scrambler" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Scrambler)"></icon>
-            </div>
-            <div class="nospace" @click="onWeaponSelect(charClass.Ranger)">
-                <icon name="ico-weapon-ranger" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Ranger)"></icon>
-            </div>
-            <div class="nospace" @click="onWeaponSelect(charClass.Eggsploder)">
-                <icon name="ico-weapon-rpegg" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Eggsploder)"></icon>
-            </div>
-            <div class="nospace" @click="onWeaponSelect(charClass.Whipper)">
-                <icon name="ico-weapon-whipper" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Whipper)"></icon>
-            </div>
-            <div class="nospace" @click="onWeaponSelect(charClass.Crackshot)">
-                <icon name="ico-weapon-crackshot" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Crackshot)"></icon>
-            </div>
-            <div class="nospace" @click="onWeaponSelect(charClass.TriHard)">
-                <icon name="ico-weapon-trihard" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.TriHard)"></icon>
-            </div>
-        </div>
-        <div v-if="currentScreen == screens.game && !disabler" class="grid-span-column-all text-center align-items-center ss_marginbottom_sm">
-            <h3 class="nospace text_blue8">{{ weapon.title }}{{ selectedWeaponDisabled }}</h3>
-            <p class="nospace text_blue3"><i>{{ weapon.desc }}</i></p>
-        </div>
-    </div>
+	<div class="center_h ss_marginbottom_sm">
+		<div v-show="showDesc" class="grid-span-column-all text-center align-items-center ss_marginbottom_sm">
+			<h3 class="nospace text_blue8">{{ weapon.title }}</h3>
+			<p class="nospace text_blue3"><i>{{ weapon.desc }}</i></p>
+		</div>
+		<div :class="gridCls">
+			<div class="nospace" @click="onWeaponSelect(charClass.Soldier)">
+				<icon name="ico-weapon-soldier" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Soldier)"></icon>
+			</div>
+			<div class="nospace" @click="onWeaponSelect(charClass.Scrambler)">
+				<icon name="ico-weapon-scrambler" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Scrambler)"></icon>
+			</div>
+			<div class="nospace" @click="onWeaponSelect(charClass.Ranger)">
+				<icon name="ico-weapon-ranger" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Ranger)"></icon>
+			</div>
+			<div class="nospace" @click="onWeaponSelect(charClass.Eggsploder)">
+				<icon name="ico-weapon-rpegg" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Eggsploder)"></icon>
+			</div>
+			<div class="nospace" @click="onWeaponSelect(charClass.Whipper)">
+				<icon name="ico-weapon-whipper" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Whipper)"></icon>
+			</div>
+			<div class="nospace" @click="onWeaponSelect(charClass.Crackshot)">
+				<icon name="ico-weapon-crackshot" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.Crackshot)"></icon>
+			</div>
+			<div class="nospace" @click="onWeaponSelect(charClass.TriHard)">
+				<icon name="ico-weapon-trihard" class="weapon_img roundme_md" :cls="addSelectedCssClass(charClass.TriHard)"></icon>
+			</div>
+		</div>
+		<div v-if="currentScreen == screens.game && !disabler" class="grid-span-column-all text-center align-items-center ss_marginbottom_sm">
+			<h3 class="nospace text_blue8">{{ weapon.title }}{{ selectedWeaponDisabled }}</h3>
+			<p class="nospace text_blue3"><i>{{ weapon.desc }}</i></p>
+		</div>
+	</div>
 </template>
 
 <script>
-    var comp_weapon_select_panel = {
-        template: '#weaponselect_panel_template',
-        props: ['currentClass', 'loc', 'accountSettled', 'playClicked', 'currentScreen', 'screens', 'hideDesc', 'disabler'],
+var comp_weapon_select_panel = {
+	template: '#weaponselect_panel_template',
+	props: ['currentClass', 'loc', 'accountSettled', 'playClicked', 'currentScreen', 'screens', 'hideDesc', 'disabler'],
 
-        data: function() {
-            return {
-                charClass: CharClass
-            }
-        },
+	data: function () {
+		return {
+			charClass: CharClass
+		}
+	},
 
-        methods: {
-            onWeaponSelect: function(classIdx) {
-                if (!extern.inGame && (this.playClicked || (this.currentClass === classIdx))) {
-                    return;
-                } else {
-                    if (this.$parent.$attrs.id !== 'game_screen' && !this.disabler) {
-                        extern.changeClass(classIdx);
-                        this.$emit('changed-class', classIdx);
-                    } else if (this.disabler) {
-                        if (!extern.isGameOwner) return;
-                        vueApp.$nextTick(() => this.$forceUpdate());
-                        this.$emit('weapon-toggled', classIdx);
-                    } else {
-                        if (!extern.GameOptions.value.weaponDisabled[classIdx]) {
-                            extern.changeClass(classIdx);
-                            this.$emit('changed-class', classIdx);
-                        }
-                    }
-                    BAWK.play('ui_click');
-                }
-            },
+	methods: {
+		onWeaponSelect: function (classIdx) {
+			if (!extern.inGame && (!this.accountSettled || this.playClicked || (this.currentClass === classIdx))) {
+				return;
+			}
+			else {
+				if (this.$parent.$attrs.id !== 'game_screen' && !this.disabler) {
+					extern.changeClass(classIdx);
+					this.$emit('changed-class', classIdx);
+				}
+				else if (this.disabler) {
+					if (!extern.isGameOwner) return;
+					vueApp.$nextTick(() => this.$forceUpdate());
+					this.$emit('weapon-toggled', classIdx);
+				}
+				else {
+					if (!extern.GameOptions.value.weaponDisabled[classIdx]) {
+						extern.changeClass(classIdx);
+						this.$emit('changed-class', classIdx);
+					}
+				}
+				BAWK.play('ui_click');
+			}
+		},
 
-            addSelectedCssClass: function(classIdx) {
-                if (this.disabler) {
-                    let classes = '';
+		addSelectedCssClass: function (classIdx) {
+			if (this.disabler) {
+				let classes = '';
 
-                    if (vueData.gameOptionsPopup.options.weaponDisabled && vueData.gameOptionsPopup.options.weaponDisabled[classIdx]) {
-                        classes += 'weapon_disabled ';
-                    }
+				if (vueData.gameOptionsPopup.options.weaponDisabled && vueData.gameOptionsPopup.options.weaponDisabled[classIdx]) {
+					classes += 'weapon_disabled ';
+				}
 
-                    if (!extern.isGameOwner) {
-                        classes += 'interactive-disabled ';
-                    }
+				if (!extern.isGameOwner) {
+					classes += 'interactive-disabled ';
+				}
 
-                    return classes;
-                } else {
-                    if (this.$parent.$attrs.id === 'game_screen' &&
-                        extern.GameOptions.value &&
-                        extern.GameOptions.value.weaponDisabled[classIdx]
-                    ) {
-                        return 'weapon_disabled noclick';
-                    } else if (this.currentClass === classIdx) {
-                        return 'weapon_selected';
-                    }
-                }
-                return '';
-            }
-        },
-        computed: {
-            weapon() {
-                let className = getKeyByValue(this.charClass, this.currentClass).toLowerCase();
-                return {
-                    title: this.loc[`weapon_${className}_title`],
-                    desc: this.loc[`weapon_${className}_content`],
-                }
-            },
-            selectedWeaponDisabled() {
-                let weap = this.disabler ?
-                    vueData.gameOptionsPopup.options.weaponDisabled :
-                    extern.GameOptions.value.weaponDisabled;
+				return classes;
+			}
+			else {
+				if (this.$parent.$attrs.id === 'game_screen' &&
+					extern.GameOptions.value &&
+					extern.GameOptions.value.weaponDisabled[classIdx]
+				) {
+					return 'weapon_disabled noclick';
+				}
+				else if (this.currentClass === classIdx) {
+					return 'weapon_selected';
+				}
+			}
+			return '';
+		}
+	},
+	computed: {
+		weapon() {
+			let className = getKeyByValue(this.charClass, this.currentClass).toLowerCase();
+			return {
+				title: this.loc[`weapon_${className}_title`],
+				desc: this.loc[`weapon_${className}_content`],
+			}
+		},
+		selectedWeaponDisabled () {
+			let weap = this.disabler ?
+				vueData.gameOptionsPopup.options.weaponDisabled :
+				extern.GameOptions.value.weaponDisabled;
 
-                return weap[this.currentClass] ? ` (${this.loc['p_weapon_disabled']})` : '';
-            },
+			return weap[this.currentClass] ? ` (${this.loc['p_weapon_disabled']})`: '';
+		},
 
-            isDisabled() {
-                return this.disabled ? 'interactive-disabled' : '';
-            },
+		isDisabled () {
+			return this.disabled ? 'interactive-disabled' : '';
+		},
 
-            showDesc() {
-                return !this.hideDesc && this.currentScreen !== this.screens.game;
-            },
+		showDesc() {
+			return !this.hideDesc && this.currentScreen !== this.screens.game;
+		},
 
-            gridCls() {
-                if (this.currentScreen === this.screens.game) {
-                    return 'weapon-grid f_row f_wrap-wrap justify-content-center gap-sm';
-                }
-                return 'display-grid grid-auto-flow-column justify-content-around gap-sm';
-            },
+		gridCls() {
+			if (this.currentScreen === this.screens.game) {
+				return 'weapon-grid f_row f_wrap-wrap justify-content-center gap-sm';
+			}
+			return 'display-grid grid-auto-flow-column justify-content-around gap-sm';
+		},
 
-            containerCls() {
-                return this.currentScreen === this.screens.game ? 'center_h' : '';
-            }
-        }
-    };
+		containerCls() {
+			return this.currentScreen === this.screens.game ? 'center_h' : '';
+		}
+	}
+};
 </script>
+
 <script>
-    var comp_play_panel = {
-        template: '#play-panel-template',
-        components: {
-            'create-private-game-popup': comp_create_private_game_popup,
-            'region-list-popup': comp_region_list_popup,
-            'weapon-select-panel': comp_weapon_select_panel,
-        },
+var comp_play_panel = {
+	template: '#play-panel-template',
+	components: {
+		'create-private-game-popup': comp_create_private_game_popup,
+		'region-list-popup': comp_region_list_popup,
+		'weapon-select-panel': comp_weapon_select_panel,
+	},
 
-        props: ['loc', 'playerName', 'gameTypes', 'currentGameType', 'regionList', 'currentRegionId', 'home', 'isGameReady', 'maps', 'currentClass', 'showScreen', 'screens', 'playClicked', 'languageCode'],
+	props: ['loc', 'playerName', 'gameTypes', 'currentGameType', 'regionList', 'currentRegionId', 'home', 'isGameReady', 'maps', 'currentClass', 'showScreen', 'screens', 'playClicked', 'languageCode'],
 
-        data: function() {
-            return {
-                pickedGameType: this.currentGameType,
-                isButtonDisabled: true,
-                playClickedBeforeReady: false,
-                playClickFunction: Function,
-                kotcPrompt: '',
-                typeSelect: '',
-                isPromptOpen: false,
-                joinUrlRequest: false,
-                showCreateGameOnly: false,
-            }
-        },
+	data: function() {
+		return {
+			pickedGameType: this.currentGameType,
+			isButtonDisabled: true,
+			playClickedBeforeReady: false,
+			playClickFunction: Function,
+			kotcPrompt: '',
+			typeSelect: '',
+			isPromptOpen: false,
+			joinUrlRequest: false,
+		}
+	},
+			
+	methods: {
+		onPickRegionButtonClick: function () {
+			this.$refs.pickRegionPopup.toggle();
+			BAWK.play('ui_popupopen');
+		},
+		
+		onRegionPicked: function (regionId) {
+			if (vueData.currentRegionId === regionId) { return; }
+			
+			vueData.currentRegionId = regionId;
+			extern.selectRegion(vueData.currentRegionId);
+			BAWK.play('ui_onchange');
+		},
 
-        methods: {
-            onPickRegionButtonClick: function() {
-                this.$refs.pickRegionPopup.toggle();
-                BAWK.play('ui_popupopen');
-            },
+		onPickRegionPopupClosed: function () {
+			if (this.$refs.createPrivateGame.showingRegionList) {
+				this.$refs.createPrivateGame.showingRegionList = false;
+				this.$refs.createPrivateGamePopup.toggle();
+				this.$refs.createPrivateGame.onKeyDownMapSelect();
+			}
+		},
 
-            onRegionPicked: function(regionId) {
-                if (vueData.currentRegionId === regionId) {
-                    return;
-                }
+		onNameChange: function (event) {
+			console.log('name changed to: ' + event.target.value);
+			this.$emit('playerNameChanged', event.target.value);
+		},
 
-                vueData.currentRegionId = regionId;
-                extern.selectRegion(vueData.currentRegionId);
-                BAWK.play('ui_onchange');
-            },
+		onPlayerNameKeyUp: function (event) {
+			event.target.value = extern.filterUnicode(event.target.value);
+			event.target.value = extern.fixStringWidth(event.target.value);
+			event.target.value = event.target.value.substring(0, 128);
 
-            onPickRegionPopupClosed: function() {
-                if (this.$refs.createPrivateGame.showingRegionList) {
-                    this.$refs.createPrivateGame.showingRegionList = false;
-                    this.$refs.createPrivateGamePopup.toggle();
-                    this.$refs.createPrivateGame.onKeyDownMapSelect();
-                }
-            },
+			// Send username to server to start the game!
+			if (event.code == "Enter" || event.keyCode == 13) {
+				if (vueData.playerName.length > 0) {
+					vueApp.externPlayObject(vueData.playTypes.joinPublic, this.pickedGameType, this.playerName, -1, '');
+				}
+			}
+		},
+		onGameTypeBtnOpen() {
+			if (this.isWinSizeSmall()) {
+				document.querySelector('.house-small').style.display = 'none';
+				vueApp.hideTitleScreenAd();
+			}
+		},
+		onGameTypeBtnClosed() {
+			if (this.isWinSizeSmall()) {
+				document.querySelector('.house-small').style.display = 'block';
+				vueApp.showTitleScreenAd();
+			}
+		},
+		isWinSizeSmall() {
+			var win = window,
+				doc = document,
+				docElem = doc.documentElement,
+				body = doc.getElementsByTagName('body')[0],
+				x = win.innerWidth || docElem.clientWidth || body.clientWidth,
+				y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
+			// if (x <= 1366 && y <= 768) {
+			if (x <= 1366) {
+				return true;
+			}
+			return false;
+		},
 
-            onNameChange: function(event) {
-                console.log('name changed to: ' + event.target.value);
-                this.$emit('playerNameChanged', event.target.value);
-            },
+		onGameTypeChange: function (event) {
+			let type;
+			if (event.target !== undefined) {
+				type = event.target.value;
+			} else {
+				type = event;
+			}
 
-            onPlayerNameKeyUp: function(event) {
-                event.target.value = extern.filterUnicode(event.target.value);
-                event.target.value = extern.fixStringWidth(event.target.value);
-                event.target.value = event.target.value.substring(0, 128);
+			this.pickedGameType = type;
+			this.$emit('game-type-changed', this.pickedGameType);
+			extern.selectGameType(this.pickedGameType);
+			BAWK.play('ui_onchange');
+		},
+		onPlayTypeWhenSignInComplete() {
+			return this.playClickFunction();
+		},
+		onPlaySentBeforeSignIn(callback) {
+			this.gameClickedBeforeReady = true;
+			vueApp.showSpinner('signin_auth_title', 'signin_auth_msg');
+			this.playClickFunction = callback;
+		},
+		hasValidPlayerNameCheck() {
+			console.log('invalid player name');
+			vueApp.showGenericPopup('play_pu_name_title', 'play_pu_name_content', 'ok');
+			vueApp.hideSpinner();
+			return;
+		},
+		onPlayButtonClick: function () {
+			// if (!hasValue(this.playerName)) {
+			// 	this.hasValidPlayerNameCheck();
+			// 	return;
+			// }
+			// if (!this.isGameReady) {
+			// 	this.onPlaySentBeforeSignIn(this.onPlayButtonClick);
+			// 	return;
+			// }
 
-                // Send username to server to start the game!
-                if (event.code == "Enter" || event.keyCode == 13) {
-                    if (vueData.playerName.length > 0) {
-                        vueApp.externPlayObject(vueData.playTypes.joinPublic, this.pickedGameType, this.playerName, -1, '');
-                    }
-                }
-            },
-            onGameTypeBtnOpen() {
-                if (this.isWinSizeSmall()) {
-                    document.querySelector('.house-small').style.display = 'none';
-                    vueApp.hideTitleScreenAd();
-                }
-            },
-            onGameTypeBtnClosed() {
-                if (this.isWinSizeSmall()) {
-                    document.querySelector('.house-small').style.display = 'block';
-                    vueApp.showTitleScreenAd();
-                }
-            },
-            isWinSizeSmall() {
-                var win = window,
-                    doc = document,
-                    docElem = doc.documentElement,
-                    body = doc.getElementsByTagName('body')[0],
-                    x = win.innerWidth || docElem.clientWidth || body.clientWidth,
-                    y = win.innerHeight || docElem.clientHeight || body.clientHeight;
-                // if (x <= 1366 && y <= 768) {
-                if (x <= 1366) {
-                    return true;
-                }
-                return false;
-            },
+			this.onCloseCreateGame();
+			vueApp.game.respawnTime = 0;
+			vueApp.externPlayObject(vueData.playTypes.joinPublic, this.pickedGameType, this.playerName, -1, '');
+			BAWK.play('ui_playconfirm');
+		},
 
-            onGameTypeChange: function(event) {
-                let type;
-                if (event.target !== undefined) {
-                    type = event.target.value;
-                } else {
-                    type = event;
-                }
+		onCloseCreateGame() {
+			this.$refs.createPrivateGame.removeKeydown();
+		},
 
-                this.pickedGameType = type;
-                this.$emit('game-type-changed', this.pickedGameType);
-                extern.selectGameType(this.pickedGameType);
-                BAWK.play('ui_onchange');
-            },
-            onPlayTypeWhenSignInComplete() {
-                return this.playClickFunction();
-            },
-            onPlaySentBeforeSignIn(callback) {
-                this.gameClickedBeforeReady = true;
-                vueApp.showSpinner('signin_auth_title', 'signin_auth_msg');
-                this.playClickFunction = callback;
-            },
-            hasValidPlayerNameCheck() {
-                console.log('invalid player name');
-                vueApp.showGenericPopup('play_pu_name_title', 'play_pu_name_content', 'ok');
-                vueApp.hideSpinner();
-                return;
-            },
-            onPlayButtonClick: function() {
-                // if (!hasValue(this.playerName)) {
-                // 	this.hasValidPlayerNameCheck();
-                // 	return;
-                // }
-                // if (!this.isGameReady) {
-                // 	this.onPlaySentBeforeSignIn(this.onPlayButtonClick);
-                // 	return;
-                // }
+		onJoinPrivateGameClick: function () {
+			this.showJoinPrivateGamePopup(vueData.home.joinPrivateGamePopup.code);
+			BAWK.play('ui_popupopen');
+		},
 
-                this.onCloseCreateGame();
-                vueApp.game.respawnTime = 0;
-                vueApp.externPlayObject(vueData.playTypes.joinPublic, this.pickedGameType, this.playerName, -1, '');
-                BAWK.play('ui_playconfirm');
-            },
+		showJoinPrivateGamePopup: function (showCode, urlRequest) {
+			// The popup must be active before it will update; set code after showing
 
-            onCloseCreateGame() {
-                this.$refs.createPrivateGame.removeKeydown();
-            },
+			this.joinUrlRequest = hasValue(urlRequest);
+			this.$refs.joinPrivateGamePopup.show();
+			this.$refs.createPrivateGame.onKeyDownMapSelect();
 
-            onJoinPrivateGameClickCrazyGames() {
-                this.showCreateGameOnly = true;
-                this.showJoinPrivateGamePopup(vueData.home.joinPrivateGamePopup.code);
-                BAWK.play('ui_popupopen');
-            },
+			vueData.home.joinPrivateGamePopup.code = showCode;
+		},
 
-            onJoinPrivateGameClick: function() {
-                this.showJoinPrivateGamePopup(vueData.home.joinPrivateGamePopup.code);
-                BAWK.play('ui_popupopen');
-            },
+		onJoinConfirmed: function () {
+			if (!hasValue(this.playerName)) {
+				this.hasValidPlayerNameCheck();
+				return;
+			}
+			// if (!this.isGameReady) {
+			// 	this.onPlaySentBeforeSignIn(this.onJoinConfirmed)
+			// 	return;
+			// }
 
-            showJoinPrivateGamePopup: function(showCode, urlRequest) {
-                // The popup must be active before it will update; set code after showing
+			let code = vueData.home.joinPrivateGamePopup.code;
+			let matches = code.match(/[A-Z|a-z]{4}/g);
 
-                this.joinUrlRequest = hasValue(urlRequest);
-                this.$refs.joinPrivateGamePopup.show();
-                this.$refs.createPrivateGame.onKeyDownMapSelect();
+			if (!matches || matches.length < 3) return;
 
-                vueData.home.joinPrivateGamePopup.code = showCode;
-            },
+			let newCode = matches.slice(-3).join('-');
 
-            onJoinConfirmed: function() {
-                if (!hasValue(this.playerName)) {
-                    this.hasValidPlayerNameCheck();
-                    return;
-                }
+			vueData.home.joinPrivateGamePopup.code = newCode;
 
-                let code = vueData.home.joinPrivateGamePopup.code;
-                let newCode = extern.parseJoinGameCode(code);
+			this.$refs.joinPrivateGamePopup.hide();
 
-                vueData.home.joinPrivateGamePopup.code = newCode;
+			// checking if the invite code is being used since, we are only trying to determine
+			extern.onJoinGameClick = true;
+			vueApp.externPlayObject(vueData.playTypes.joinPrivate, '', this.playerName, '', newCode);
+		},
+		kotcAttachSetup() {
+			const typePostion = this.typeSelect.getBoundingClientRect();
+			const kotcPrompt = this.kotcPrompt.getBoundingClientRect();
 
-                this.$refs.joinPrivateGamePopup.hide();
+			this.kotcPrompt.style.top = typePostion.top + 'px';
+			this.kotcPrompt.style.left = typePostion.right + 16 + 'px';
+		},
 
-                // checking if the invite code is being used since, we are only trying to determine
-                extern.onJoinGameClick = true;
-                vueApp.externPlayObject(vueData.playTypes.joinPrivate, '', this.playerName, '', newCode);
-            },
-            kotcAttachSetup() {
-                const typePostion = this.typeSelect.getBoundingClientRect();
-                const kotcPrompt = this.kotcPrompt.getBoundingClientRect();
+		anchorKotcPrompt() {
+			this.$nextTick(() => this.kotcAttachSetup());
+		},
+		onGameTypeClick() {
+			if (this.isPromptOpen) {
+				this.isPromptOpen = false;
+			} else {
+				this.isPromptOpen = true;
+			}
+			// this.$refs.showGameModePopup.show();
+		},
+		onGameModePopupConfirm() {
+			this.$refs.showGameModePopup.hide();
+		},
 
-                this.kotcPrompt.style.top = typePostion.top + 'px';
-                this.kotcPrompt.style.left = typePostion.right + 16 + 'px';
-            },
+		onJoinGameFocus() {
+			this.$refs.createPrivateGame.removeKeydown();
+		},
+		onChangedClass() {
+			vueApp.$refs.equipScreen.onChangedClass();
+		}
+	},
 
-            anchorKotcPrompt() {
-                this.$nextTick(() => this.kotcAttachSetup());
-            },
-            onGameTypeClick() {
-                if (this.isPromptOpen) {
-                    this.isPromptOpen = false;
-                } else {
-                    this.isPromptOpen = true;
-                }
-                // this.$refs.showGameModePopup.show();
-            },
-            onGameModePopupConfirm() {
-                this.$refs.showGameModePopup.hide();
-            },
+	computed: {
+		regionLocKey: function () {
+			if (!hasValue(this.regionList) || this.regionList.length === 0) {
+				return '';
+			}
 
-            onJoinGameFocus() {
-                this.$refs.createPrivateGame.removeKeydown();
-            },
-            onChangedClass() {
-                vueApp.$refs.equipScreen.onChangedClass();
-            }
-        },
+			var region = this.regionList.find(r => {
+				return r.id == vueData.currentRegionId;
+			});
 
-        computed: {
-            regionLocKey: function() {
-                if (!hasValue(this.regionList) || this.regionList.length === 0) {
-                    return '';
-                }
+			return hasValue(region) ? 'server_' + region.id : '';
+		},
+		regionName: function () {
+			if (!hasValue(this.regionList) || this.regionList.length === 0) {
+				return 'N/A';
+			}
 
-                var region = this.regionList.find(r => {
-                    return r.id == vueData.currentRegionId;
-                });
+			var region = this.regionList.find(r => {
+				return r.id == vueData.currentRegionId;
+			});
 
-                return hasValue(region) ? 'server_' + region.id : '';
-            },
-            regionName: function() {
-                if (!hasValue(this.regionList) || this.regionList.length === 0) {
-                    return 'N/A';
-                }
+			if (!region) return 'N/A';
 
-                var region = this.regionList.find(r => {
-                    return r.id == vueData.currentRegionId;
-                });
+			return this.loc[region.locKey] || region.id;
+		},
 
-                if (!region) return 'N/A';
+		selectedGameType() {
+			return this.loc[this.gameTypes.filter(el => el.value === this.pickedGameType)[0]['locKey']]; 
+		},
+		gameTypeTxt() {
+			return {
+				title: this.loc.stat_game_mode,
+				subTitle: this.loc[this.gameTypes.filter(el => el.value === this.pickedGameType)[0]['locKey']]
+			}
+		},
+		serverText () {
+			return {
+				title: this.loc.p_servers_title,
+				subTitle: this.currentRegionId ? this.loc[`server_${this.currentRegionId}`] : '',
+			}
+		},
+		playBtn() {
 
-                return this.loc[region.locKey] || region.id;
-            },
+			if (this.languageCode == 'de' || this.languageCode == 'es' || this.languageCode == 'pt' || this.languageCode == 'nl'){
+				return `<i class="fa fa-play fa-sm"></i> <span>${this.loc.home_play}</span>`
+			}
+			return `<i class="fa fa-play fa-sm"></i> ${this.loc.home_play}`;
+		},
+		joinOnlyCls() {
+			return this.joinUrlRequest ? 'join-request-only' : '';
+		}
 
-            selectedGameType() {
-                return this.loc[this.gameTypes.filter(el => el.value === this.pickedGameType)[0]['locKey']];
-            },
-            gameTypeTxt() {
-                return {
-                    title: this.loc.stat_game_mode,
-                    subTitle: this.loc[this.gameTypes.filter(el => el.value === this.pickedGameType)[0]['locKey']]
-                }
-            },
-            serverText() {
-                return {
-                    title: this.loc.p_servers_title,
-                    subTitle: this.currentRegionId ? this.loc[`server_${this.currentRegionId}`] : '',
-                }
-            },
-            playBtn() {
-
-                if (this.languageCode == 'de' || this.languageCode == 'es' || this.languageCode == 'pt' || this.languageCode == 'nl') {
-                    return `<i class="fa fa-play fa-sm"></i> <span>${this.loc.home_play}</span>`
-                }
-                return `<i class="fa fa-play fa-sm"></i> ${this.loc.home_play}`;
-            },
-            joinOnlyCls() {
-                return this.joinUrlRequest ? 'join-request-only' : '';
-            }
-
-        },
-        watch: {
-            currentGameType: function(val) {
-                this.pickedGameType = val;
-            },
-            isGameReady(val) {
-                this.isButtonDisabled = val ? false : true;
-                if (this.gameClickedBeforeReady && val) {
-                    this.onPlayTypeWhenSignInComplete()
-                }
-            }
-        }
-    };
+	},
+	watch: {
+		currentGameType: function (val) {
+			this.pickedGameType = val;
+		},
+		isGameReady(val) {
+			this.isButtonDisabled = val ? false : true;
+			if (this.gameClickedBeforeReady && val) {
+				this.onPlayTypeWhenSignInComplete()
+			}
+		}
+	}
+};
 </script><script id="newsfeed-panel-template" type="text/x-template">
 	<section class="news-panel">
 		<article v-if="items" v-for="item in activeItems" :key="item.id" @click="onItemThatIsClicked(item)" class="media-item news_item clickme">
@@ -9979,7 +9032,7 @@ var CompMediaPanel = {
     // Register component globally
     Vue.component('music-widget', createMusicWidget('#music-widget'));
 </script><script id="main-sidebar-template" type="text/x-template">
-    <div id="screens-menu" v-if="isGamePaused" class="screens-menu box_relative">
+	<div id="screens-menu" v-if="isGamePaused" class="screens-menu box_relative">
 		<!-- logo -->
 		<div id="logo" class="box_relative">
 			<a href="https://www.shellshock.io" @click="onLogoClick"><img class="home-screen-logo" :src="logo" @click="onLogoClick"></a>
@@ -10305,65 +9358,63 @@ const PlayerNameInput = {
 };
 </script>
 <script>
-    var COMPMAINSIDE = {
-        template: '#main-sidebar-template',
-        components: {
-            'menu-item': MainMenuItem,
-            'player-name': PlayerNameInput
-        },
+var COMPMAINSIDE = {
+	template: '#main-sidebar-template',
+	components: {
+		'menu-item': MainMenuItem,
+		'player-name': PlayerNameInput
+	},
 
-        props: ['loc', 'playerName', 'menuItems', 'currentScreen', 'screens', 'mode', 'currentMode', 'inGame', 'isGamePaused', 'pickedGameType', 'firebaseId', 'playClicked'],
-        data: function() {
-            return {
-                itemSelected: 0,
-                logo: shellLogo,
-            }
-        },
-        methods: {
-            onLogoClick(e) {
-                if (extern.inGame || crazyGamesActive) {
-                    e.preventDefault();
-                    return;
-                }
-                BAWK.play('ui_click')
-            },
-            onBackClick() {
-                if (this.currentScreen === this.screens.equip) {
-                    vueApp.onBackClick();
-                }
-                setTimeout(() => {
-                    extern.resize();
-                }, 1);
-                vueApp.hideHomeScreenAds();
-                vueApp.switchToGameUi();
-                vueApp.showGameMenu();
-            },
-            previousScreen(screen) {
-                this.$emit('previous-screen', screen);
-            }
-        },
-        computed: {
-            items() {
-                return this.firebaseId ? this.menuItems : this.menuItems.filter(item => (item.locKey !== 'eq_shop' && item.locKey !== 'p_pause_equipment'));
-            }
-        }
-    };
+	props: ['loc', 'playerName', 'menuItems', 'currentScreen', 'screens', 'mode', 'currentMode', 'inGame', 'isGamePaused', 'pickedGameType', 'firebaseId', 'playClicked'],
+	data: function() {
+		return {
+			itemSelected: 0,
+			logo: shellLogo,
+		}
+	},		
+	methods: {
+		onLogoClick(e) {
+			if (extern.inGame) {
+				e.preventDefault();
+				return;
+			}
+			BAWK.play('ui_click')
+		},
+		onBackClick() {
+			if (this.currentScreen === this.screens.equip) {
+				vueApp.onBackClick();
+			}
+			setTimeout(() => {
+				extern.resize();
+			}, 1);
+			vueApp.hideHomeScreenAds();
+			vueApp.switchToGameUi();
+			vueApp.showGameMenu();
+		},
+		previousScreen(screen) {
+			this.$emit('previous-screen', screen);
+		}
+	},
+	computed: {
+		items() {
+			return this.firebaseId ? this.menuItems : this.menuItems.filter(item => (item.locKey !== 'eq_shop' && item.locKey !== 'p_pause_equipment'));
+		}
+	}
+};
 </script><script id="profile-screen-template" type="text/x-template">
-    <div id="mainLayout" class="profile-content-wrap">
+	<div id="mainLayout" class="profile-content-wrap">
 		<section class="profile-page-content roundme_sm ss_marginright bg_blue6 common-box-shadow">
 			<section class="display-grid grid-column-2-eq paddings_xl bg_blue3 gap-sm">
 				<header class="f_row align-items-center">
 					<section>
 						<h1 class="text-shadow-black-40 text_white nospace">{{ playerName }}</h1>
-                        <p v-if="playerId" class="account-create-date nospace text_white opacity-7" @click="copyPlayerId" style="cursor: pointer">Player ID: {{ playerId }} <i class="far fa-copy"></i></p>
-                        <p v-if="cgUserHasLinked" class="account-create-date nospace text_white opacity-7"> Crazy Games: <strong>{{ crazyGamesUser.username }}</strong></p>
 						<!-- <player-name :loc="loc" :player-name="playerName" :picked-game-type="currentGameType" :current-screen="showScreen" :screens="screens"></player-name> -->
 						<!--button v-if="showTwitchEvent" class="ss_button btn-twitch bevel_twitch justify-content-center btn_sm box_relative f_row gap-sm align-items-center" @click="onTwitchDropsClick"><i aria-hidden="true" class="fab fa-twitch"></i> {{ isTwitchLinked }}</button>-->
 					</section>
 				</header>
 				<aside class="justify-self-end text-right">
 					<p class="account-create-date nospace text_white opacity-7" v-html="accountStatus"></p>
-					<button id="account-button" @click="onAccountBtnClicked" class="ss_button btn_md font-800" :class="accountBtnCls" :disabled="disableAccountBtn">{{ accountBtnTxt }}</button>
+					<button id="account-button" @click="onAccountBtnClicked" class="ss_button btn_md font-800" :class="accountBtnCls">{{ accountBtnTxt }}</button>
 				</aside>
 			</section>
 			<section class="profile-stat-wrap center_h paddings_xl box_relative">
@@ -10554,130 +9605,100 @@ var STATSPOPUP = {
 };
 </script>
 <script>
-    const ProfileScreen = {
-        template: '#profile-screen-template',
-        components: {
-            'stats-content': STATSPOPUP,
-            // 'player-name': PlayerNameInput
+const ProfileScreen = {
+	template: '#profile-screen-template',
+	components: {
+		'stats-content': STATSPOPUP,
+		// 'player-name': PlayerNameInput
+	},
+
+	props: ['claimed'],
+
+	data: function () {
+		return vueData;
+	},
+
+	methods: {
+		showSignIn: function () {
+			extern.showSignInDialog();
+			vueApp.$refs.firebaseSignInPopup.show();
+		},
+		onAccountBtnClicked: function () {
+			if (this.showAdBlockerVideoAd) {
+				return;
+			}
+
+			if (extern.inGame) {
+				if (this.isAnonymous && this.showSignIn) {
+					vueApp.onShowloginPopupWarning();
+				} else {
+					vueApp.onShowlogoutPopupWarning();
+				}
+			} else {
+				if (this.isAnonymous && this.showSignIn) {
+				vueApp.onSignInClicked();
+				} else {
+					vueApp.onSignOutClicked();
+				}
+			}
+		},
+
+		onQuitAndLoginManage() {
+			vueApp.onLeaveGameConfirm();
+			setTimeout(() => {
+				this.$emit('leave-game-confimed');
+			}, 1000);
+		},
+
+		onTwitchDropsClick() {
+			if (this.showAdBlockerVideoAd) {
+				return;
+			}
+
+			ga('send', 'event', 'profilePage', 'click', 'twitch_drops');
+			window.open(dynamicContentPrefix + 'twitch');
+		},
+		selectTab(val) {
+			if (this.ui.profile.statTab === val) {
+				return;
+			}
+			this.ui.profile.statTabClicked = true;
+			setTimeout(() => this.ui.profile.statTabClicked = false, 500);
+			BAWK.play('ui_toggletab');
+			this.ui.profile.statTab = val;
+		}
+	},
+	computed: {
+		isEggStoreSaleItem() {
+            return this.eggStoreItems.some( item => item['salePrice'] !== '');
         },
-
-        props: ['claimed', 'playerId', 'crazyGamesUser'],
-
-        data: function() {
-            return vueData;
-        },
-
-        methods: {
-            showSignIn: function() {
-                extern.showSignInDialog();
-                vueApp.$refs.firebaseSignInPopup.show();
-            },
-            onAccountBtnClicked: function() {
-                if (this.showAdBlockerVideoAd) {
-                    return;
-                }
-
-                if (crazyGamesActive && this.cgUserHasLinked) {
-                    return;
-                }
-
-                if (extern.inGame) {
-                    if (this.isAnonymous && this.showSignIn) {
-                        vueApp.onShowloginPopupWarning();
-                    } else {
-                        vueApp.onShowlogoutPopupWarning();
-                    }
-                } else {
-                    if (this.isAnonymous && this.showSignIn) {
-                        vueApp.onSignInClicked();
-                    } else {
-                        vueApp.onSignOutClicked();
-                    }
-                }
-            },
-
-            onQuitAndLoginManage() {
-                vueApp.onLeaveGameConfirm();
-                setTimeout(() => {
-                    this.$emit('leave-game-confimed');
-                }, 1000);
-            },
-
-            onTwitchDropsClick() {
-                if (this.showAdBlockerVideoAd) {
-                    return;
-                }
-
-                ga('send', 'event', 'profilePage', 'click', 'twitch_drops');
-                window.open(dynamicContentPrefix + 'twitch');
-            },
-            selectTab(val) {
-                if (this.ui.profile.statTab === val) {
-                    return;
-                }
-                this.ui.profile.statTabClicked = true;
-                setTimeout(() => this.ui.profile.statTabClicked = false, 500);
-                BAWK.play('ui_toggletab');
-                this.ui.profile.statTab = val;
-            },
-            copyPlayerId() {
-                if (!this.playerId) return;
-                navigator.clipboard.writeText(this.playerId)
-                    .then(() => {
-                        vueApp.showGenericPopup('p_sharelink_copied', 'player_id_copied', 'ok');
-                    })
-                    .catch(err => {
-                        console.error('Copy failed:', err);
-                    });
-            },
-        },
-        computed: {
-            isEggStoreSaleItem() {
-                return this.eggStoreItems.some(item => item['salePrice'] !== '');
-            },
-            showTwitchEvent() {
-                return this.ui.events.twitch;
-            },
-            isTwitchLinked() {
-                return this.twitchLinked ? this.loc.account_linked_to_twitch : this.loc.account_link_to_twitch;
-            },
-            accountStatus() {
-                if (this.accountCreated) {
-                    return `${this.loc.account_created}: <strong>${this.accountCreated}</strong>`;
-                }
-                return this.loc.account_profile_login_desc;
-            },
-            accountBtnCls() {
-                if (this.isAnonymous && this.showSignIn) {
-                    return 'btn_green bevel_green';
-                }
-                return 'btn_yolk bevel_yolk';
-
-            },
-            accountBtnTxt() {
-                if (this.isAnonymous && this.showSignIn) {
-                    return this.loc.sign_in;
-                }
-
-                if (crazyGamesActive && this.cgUserHasLinked) {
-                    return this.loc.crazygames_logout_text;
-                }
-
-                return this.loc.sign_out;
-            },
-
-            disableAccountBtn() {
-                if (crazyGamesActive && this.cgUserHasLinked) {
-                    return true;
-                }
-
-                return false;
-            },
-            cgUserHasLinked() {
-                return this.crazyGamesUser?.hasLinked;
-            }
-        }
-    };
+		showTwitchEvent() {
+			return this.ui.events.twitch;
+		},
+		isTwitchLinked() {
+			return this.twitchLinked ? this.loc.account_linked_to_twitch : this.loc.account_link_to_twitch;
+		},
+		accountStatus() {
+			if (this.accountCreated) {
+				return `${this.loc.account_created}: <strong>${this.accountCreated}</strong>`;	
+			}
+			return this.loc.account_profile_login_desc;
+		},
+		accountBtnCls() {
+			if (this.isAnonymous && this.showSignIn) {
+				return 'btn_green bevel_green';
+			}
+			return 'btn_yolk bevel_yolk';
+			
+		},
+		accountBtnTxt() {
+			if (this.isAnonymous && this.showSignIn) {
+				return this.loc.sign_in;
+			}
+			return this.loc.sign_out;
+		},
+	}
+};
 </script><!-- Faction Score Meter Template -->
 <script id="faction-meter-template" type="text/x-template">
 	<div id="gauge-meter" class="gauge-meter centered_x" @click="handleMeterClick" v-show="show">
@@ -11132,158 +10153,159 @@ var comp_shell_tips = {
 };
 </script>
 <script>
-    var comp_home_screen = {
-        template: '#home-screen-template',
-        components: {
-            'play-panel': comp_play_panel,
-            'house-ad-big': comp_house_ad_big,
-            'house-ad-small': comp_house_ad_small,
-            'account-panel': comp_account_panel,
-            'chicken-panel': comp_chicken_panel,
-            'footer-links-panel': comp_footer_links_panel,
-            'event-panel': comp_events,
-            'media-tabs': MEDIATABS,
-            'profile-screen': ProfileScreen,
-            // 'gauge-meter': CompGauge,
-            // 'faction-meter': FactionMeter,
-            'item': comp_item,
-            'progress-bar': comp_progress_bar,
-            'shell-tips': comp_shell_tips
-            // 'pwa-button': comp_pwa_btn,
+var comp_home_screen = {
+	template: '#home-screen-template',
+	components: {
+		'play-panel': comp_play_panel,
+		'house-ad-big': comp_house_ad_big,
+		'house-ad-small': comp_house_ad_small,
+		'account-panel': comp_account_panel,
+		'chicken-panel': comp_chicken_panel,
+		'footer-links-panel': comp_footer_links_panel,
+		'event-panel': comp_events,
+		'media-tabs': MEDIATABS,
+		'profile-screen': ProfileScreen,
+		// 'gauge-meter': CompGauge,
+		// 'faction-meter': FactionMeter,
+		'item': comp_item,
+		'progress-bar': comp_progress_bar,
+		'shell-tips': comp_shell_tips
+		// 'pwa-button': comp_pwa_btn,
+	},
+
+	data: function () {
+		return vueData;
+	},
+
+	methods: {
+		onHvsmPopupOpen() {
+			this.getHvsmItems();
+		},
+		onHvsmPopupClose() {
+		},
+		onHvsmClicked(item) {
+			let tag;	
+			if (typeof item === 'object') {
+				tag = item.item_data.tags.includes('Monsters') ? 'Monsters' : 'Heroes';
+			} else {
+				tag = item;
+			}
+			vueApp.showTaggedItemsOnEquipScreen(tag);
+			// this.$refs.hvsmPopup.close();
+		},
+		playSound (sound) {
+			BAWK.play(sound);
+		},
+		onEquipClicked: function () {
+			if (this.showAdBlockerVideoAd) {
+				return;
+			}
+			vueApp.openEquipSwitchTo();
+			BAWK.play('ui_equip');
+		},
+		showSignIn: function () {
+			extern.showSignInDialog();
+			vueApp.$refs.firebaseSignInPopup.show();
+		},
+		onSignInClicked: function () {
+			if (this.showAdBlockerVideoAd) {
+				return;
+			}
+			this.showSignIn();
+		},
+		onSignOutClicked: function () {
+			if (this.showAdBlockerVideoAd) {
+				return;
+			}
+			extern.signOut();
+		},
+		leaveGameConfirmed() {
+			if (this.showAdBlockerVideoAd) {
+				return;
+			}
+
+			if (this.isAnonymous && this.showSignIn) {
+				this.onSignInClicked();
+			} else {
+				extern.signOut();
+			}
+		},
+		onResendEmailClicked: function () {
+			extern.sendFirebaseVerificationEmail();
+			// vueApp.showGenericPopup('verify_email_sent', 'verify_email_instr', 'ok');
+			this.$refs.resendEmailConfirm.show();
+		},
+		onHideResendEmail() {
+			extern.accountCreationNotification();
+			// setTimeout(()=> vueApp.setDarkOverlay(true), 100);
+		},
+		onBigHouseAdClosed: function () {
+			console.log('big house ad closed event received');
+			this.ui.houseAds.big = null;
+			this.urlParamSet = this.urlParams ? true : null;
+			vueApp.showTitleScreenAd();
+            vueApp.shellShockUrlParamaterEvents();
+		},
+		onPlayerNameChanged: function (newName) {
+			console.log('play name event handler');
+			vueApp.setPlayerName(newName);
+			BAWK.play('ui_onchange');
+		},
+		onEggPlayClick() {
+            play: 'play game',
+			ga('send', 'event', vueData.googleAnalytics.cat.play, vueData.googleAnalytics.action.eggDollClick);
+			vueApp.$refs.homeScreen.$refs.playPanel.onPlayButtonClick();
+		},
+		api_incentivizedVideoRewardRequest() {
+			extern.api_incentivizedVideoRewardRequested();
+		},
+		onTwitchDropsClick() {
+			if (this.showAdBlockerVideoAd) {
+				return;
+			}
+			window.open(dynamicContentPrefix + 'twitch');
+		},
+		chwStopCycle() {
+			if (this.chwHomeTimer) {
+				clearInterval(this.chwHomeTimer);
+				this.chwHomeTimer = '';
+				this.chwHomeEl.classList.remove('.active');
+			}
+		},
+		onGameTypeChanged(val) {
+			vueApp.onGameTypeChanged(val);
+		},
+		// onGaugeMeterClick() {
+		// 	this.$refs.hvsmPopup.show();
+		// },
+
+		getHvsmItems() {
+			this.hvsm.hero.items = extern.getTaggedItems(this.hvsm.hero.name).filter( item => item.is_available);
+			this.hvsm.monster.items = extern.getTaggedItems(this.hvsm.monster.name).filter( item => item.is_available);
+		},
+	
+		challengeReroll(id) {
+			// TODO: update challenge slot and add to player Account functionality
+			// Add to limiter if reroll is consistently requested
+			extern.playerChallenges.reroll(id);
+		},
+	},
+	computed: {
+		isEggStoreSaleItem() {
+            return this.eggStoreItems.some( item => item['salePrice'] !== '');
         },
-
-        data: function() {
-            return vueData;
-        },
-
-        methods: {
-            onHvsmPopupOpen() {
-                this.getHvsmItems();
-            },
-            onHvsmPopupClose() {},
-            onHvsmClicked(item) {
-                let tag;
-                if (typeof item === 'object') {
-                    tag = item.item_data.tags.includes('Monsters') ? 'Monsters' : 'Heroes';
-                } else {
-                    tag = item;
-                }
-                vueApp.showTaggedItemsOnEquipScreen(tag);
-                // this.$refs.hvsmPopup.close();
-            },
-            playSound(sound) {
-                BAWK.play(sound);
-            },
-            onEquipClicked: function() {
-                if (this.showAdBlockerVideoAd) {
-                    return;
-                }
-                vueApp.openEquipSwitchTo();
-                BAWK.play('ui_equip');
-            },
-            showSignIn: function() {
-                extern.showSignInDialog();
-                vueApp.$refs.firebaseSignInPopup.show();
-            },
-            onSignInClicked: function() {
-                if (this.showAdBlockerVideoAd) {
-                    return;
-                }
-                this.showSignIn();
-            },
-            onSignOutClicked: function() {
-                if (this.showAdBlockerVideoAd) {
-                    return;
-                }
-                extern.signOut();
-            },
-            leaveGameConfirmed() {
-                if (this.showAdBlockerVideoAd) {
-                    return;
-                }
-
-                if (this.isAnonymous && this.showSignIn) {
-                    this.onSignInClicked();
-                } else {
-                    extern.signOut();
-                }
-            },
-            onResendEmailClicked: function() {
-                extern.sendFirebaseVerificationEmail();
-                // vueApp.showGenericPopup('verify_email_sent', 'verify_email_instr', 'ok');
-                this.$refs.resendEmailConfirm.show();
-            },
-            onHideResendEmail() {
-                extern.accountCreationNotification();
-                // setTimeout(()=> vueApp.setDarkOverlay(true), 100);
-            },
-            onBigHouseAdClosed: function() {
-                console.log('big house ad closed event received');
-                this.ui.houseAds.big = null;
-                this.urlParamSet = this.urlParams ? true : null;
-                vueApp.showTitleScreenAd();
-                vueApp.shellShockUrlParamaterEvents();
-            },
-            onPlayerNameChanged: function(newName) {
-                console.log('play name event handler');
-                vueApp.setPlayerName(newName);
-                BAWK.play('ui_onchange');
-            },
-            onEggPlayClick() {
-                play: 'play game',
-                ga('send', 'event', vueData.googleAnalytics.cat.play, vueData.googleAnalytics.action.eggDollClick);
-                vueApp.$refs.homeScreen.$refs.playPanel.onPlayButtonClick();
-            },
-            api_incentivizedVideoRewardRequest() {
-                extern.api_incentivizedVideoRewardRequested();
-            },
-            onTwitchDropsClick() {
-                if (this.showAdBlockerVideoAd) {
-                    return;
-                }
-                window.open(dynamicContentPrefix + 'twitch');
-            },
-            chwStopCycle() {
-                if (this.chwHomeTimer) {
-                    clearInterval(this.chwHomeTimer);
-                    this.chwHomeTimer = '';
-                    this.chwHomeEl.classList.remove('.active');
-                }
-            },
-            onGameTypeChanged(val) {
-                vueApp.onGameTypeChanged(val);
-            },
-            // onGaugeMeterClick() {
-            // 	this.$refs.hvsmPopup.show();
-            // },
-
-            getHvsmItems() {
-                this.hvsm.hero.items = extern.getTaggedItems(this.hvsm.hero.name).filter(item => item.is_available);
-                this.hvsm.monster.items = extern.getTaggedItems(this.hvsm.monster.name).filter(item => item.is_available);
-            },
-
-            challengeReroll(id) {
-                // TODO: update challenge slot and add to player Account functionality
-                // Add to limiter if reroll is consistently requested
-                extern.playerChallenges.reroll(id);
-            },
-        },
-        computed: {
-            isEggStoreSaleItem() {
-                return this.eggStoreItems.some(item => item['salePrice'] !== '');
-            },
-            twitchDropsBtnImgSrs() {
-                if (this.twitchLinked) {
-                    return '../img/events/twitch-drops-btn-linked.webp';
-                }
-                return '../img/events/twitch-drops-btn-link-now.webp';
-            },
-            isTwitchLinked() {
-                if (this.twitchLinked) return '<i class="fas fa-check-circle text_twitch_yellow"></i>';
-                return '<i class="fas fa-times-circle text_grey"></i>';
-            }
-        }
-    };
+		twitchDropsBtnImgSrs() {
+			if (this.twitchLinked) {
+				return '../img/events/twitch-drops-btn-linked.webp';
+			}
+			return '../img/events/twitch-drops-btn-link-now.webp';
+		},
+		isTwitchLinked() {
+			if (this.twitchLinked) return '<i class="fas fa-check-circle text_twitch_yellow"></i>';
+			return '<i class="fas fa-times-circle text_grey"></i>';
+		}
+	}
+};
 </script><script id="gold-chicken-template" type="text/x-template">
     <div>
 		<img v-lazyload :data-src="ui.lazyImages.chwPopup" class="lazy-load chw-popup-img" alt="Play chicken winner!">
@@ -11915,44 +10937,42 @@ var comp_item_grid = {
 
 <template id="comp-store-item">
     <div v-if="showItem" class="single-egg-store-item box_relative align-items-center roundme_md common-box-shadow" :class="[itemCls, {purchased: purchased}]" :style="style">
-        <header v-if="productTypeItem || productTypeBundle" class="grid-span-2-start-1">
-            <h6 class="single-egg-store-header nospace f_row align-items-center f_space_between text-center">
-                <span class="box_relative">{{ loc[title] }}</span>
-                <icon v-if="productTypeItem" class="egg-store-item-type box_absolute right-0" :name="productIcon"></icon>
-            </h6>
-        </header>
-        <div class="display-grid align-items-center text-center" :class="headerGrid">
-            <div>
-                <img :src="img" class="eggshop_image roundme_md display-block center_h centered_y" :class="imgCls" @click="onTryPremItemOn">
-                <!-- <div v-if="productTypeItem" class="text-center">
+		<header v-if="productTypeItem || productTypeBundle" class="grid-span-2-start-1">
+			<h6 class="single-egg-store-header nospace f_row align-items-center f_space_between text-center">
+				<span class="box_relative">{{ loc[title] }}</span>
+				<icon v-if="productTypeItem" class="egg-store-item-type box_absolute right-0" :name="productIcon"></icon>
+			</h6>
+		</header>
+		<div class="display-grid align-items-center text-center" :class="headerGrid">
+			<div>
+				<img :src="img" class="eggshop_image roundme_md display-block center_h centered_y" :class="imgCls" @click="onTryPremItemOn">
+				<!-- <div v-if="productTypeItem" class="text-center">
 					<div class="eggshop_pricebox text_brown" :class="{ slashed: item.salePrice }">
 						${{ price }} <span>USD</span>
 					</div>
 				</div> -->
-            </div>
-            <div class="single-egg-store-wrapper">
-                <header v-if="!productTypeItem && !productTypeBundle && !productTypePass">
-                    <h6 class="eggshop_bigtitle nospace text_blue5">{{ loc[title] }}</h6>
-                </header>
-                <div class="display-grid">
-                    <p v-if="showSubtitle" class="eggshop_subtitle font-sigmar" :class="subTitleCls" v-html="loc[description]"></p>
-                </div>
-                <div class="single-egg-store-price box_relative z-index-2">
-                    <img src="img/store/passes/pass_welcome_title.png" v-if="productTypePass" class="pass-title-img">
-                    <div class="single-egg-store-info f_row align-items-center gap-micro">
-                        <p v-if="!productTypePass" class="eggshop_pricebox nospace display-inline" :class="priceCls"><span class="eggshop-dollar-sign">$</span>{{ item.price }}<span class="eggshop-currency-type"> USD</span></p>
-                        <button v-if="productTypeBundle || productTypePass || productTypeItem" class="btn_store ss_button btn_yolk bevel_yolk btn_sm f_row align-items-center" :class="secondaryBtnStyle" @click="onPremSecondaryBtnClicked">{{ premItemBtnText }}
-                            <icon v-if="productTypeItem" name="ico-vip" class="equip-vip-icon"></icon>
-                        </button>
-                        <button class="btn_store ss_button btn_sm" :class="buyNowBtnStyles" @click="onItemClicked()" :disabled="purchased && productTypeBundle">{{ buyBtnText }}</button>
-                    </div>
-                </div>
-                <!-- <button v-if="productTypeItem && !purchased && inStore" class="ss_button btn_yolk bevel_yolk btn_sm center_h vip-get-btn f_row align-items-center" @click="onVipClick"><span v-html="loc.p_egg_shop_free_with_vip"></span><icon class="egg-store-item-type shadow-filter" name="ico-vip"></icon></button> -->
+			</div>
+			<div class="single-egg-store-wrapper">
+				<header v-if="!productTypeItem && !productTypeBundle && !productTypePass">
+					<h6 class="eggshop_bigtitle nospace text_blue5">{{ loc[title] }}</h6>
+				</header>
+				<div class="display-grid">
+					<p v-if="showSubtitle" class="eggshop_subtitle font-sigmar" :class="subTitleCls" v-html="loc[description]"></p>
+				</div>
+				<div class="single-egg-store-price box_relative z-index-2">
+					<img src="img/store/passes/pass_welcome_title.png" v-if="productTypePass" class="pass-title-img">
+					<div class="single-egg-store-info f_row align-items-center gap-micro">
+						<p v-if="!productTypePass" class="eggshop_pricebox nospace display-inline" :class="priceCls"><span class="eggshop-dollar-sign">$</span>{{ item.price }}<span class="eggshop-currency-type"> USD</span></p>
+						<button v-if="productTypeBundle || productTypePass || productTypeItem" class="btn_store ss_button btn_yolk bevel_yolk btn_sm f_row align-items-center" :class="secondaryBtnStyle" @click="onPremSecondaryBtnClicked">{{ premItemBtnText }} <icon v-if="productTypeItem" name="ico-vip" class="equip-vip-icon"></icon></button>
+						<button class="btn_store ss_button btn_sm" :class="buyNowBtnStyles" @click="onItemClicked()" :disabled="purchased && productTypeBundle">{{ buyBtnText }}</button>
+					</div>
+				</div>
+				<!-- <button v-if="productTypeItem && !purchased && inStore" class="ss_button btn_yolk bevel_yolk btn_sm center_h vip-get-btn f_row align-items-center" @click="onVipClick"><span v-html="loc.p_egg_shop_free_with_vip"></span><icon class="egg-store-item-type shadow-filter" name="ico-vip"></icon></button> -->
 
-            </div>
-        </div>
-        <!-- <div v-if="item.salePrice" class="sale-desc box_absolute bottom-0">{{ loc.egg_pack_special_msg }}</div> -->
-    </div>
+			</div>
+		</div>
+		<!-- <div v-if="item.salePrice" class="sale-desc box_absolute bottom-0">{{ loc.egg_pack_special_msg }}</div> -->
+	</div>
 </template>
 <script>
     const comp_store_item = {
@@ -11962,33 +10982,30 @@ var comp_item_grid = {
             return {
                 purchased: false,
                 attempt: 0,
-                productItems: [],
-                productIcon: '',
-                bundleInfo: {
-                    items: [],
-                    isOwned: false,
-                    price: 0,
-                    img: '',
-                    name: '',
-                },
+				productItems: [],
+				productIcon: '',
+				bundleInfo: {
+					items: [],
+					isOwned: false,
+					price: 0,
+					img: '',
+					name: '',
+				},
             };
         },
-        mounted() {
-            this.setupProduct();
-        },
+		mounted() {
+			this.setupProduct();
+		},
         methods: {
 
-            onTryPremItemOn() {
-                if (this.productTypeItem) {
-                    this.$emit('on-try-prem-item-on', this.productItems[0]);
-                }
-            },
+			onTryPremItemOn() {
+				if (this.productTypeItem) {
+					this.$emit('on-try-prem-item-on', this.productItems[0]);
+				}
+			},
 
             onItemClicked() {
-                const {
-                    sku,
-                    itemIds
-                } = this.item;
+                const { sku, itemIds } = this.item;
 
                 if (this.purchased && this.productTypeItem) {
                     if (Array.isArray(itemIds) && itemIds.length) {
@@ -12001,159 +11018,153 @@ var comp_item_grid = {
                 extern.buyProductForMoney(sku);
                 ga('send', 'event', vueApp.googleAnalytics.cat.purchases, vueApp.googleAnalytics.action.eggShackProductClick, sku);
             },
-            onPremSecondaryBtnClicked() {
+			onPremSecondaryBtnClicked() {
 
-                if (this.productTypeItem) {
-                    this.onVipClick();
-                    return;
-                }
+				if (this.productTypeItem) {
+					this.onVipClick();
+					return;
+				}
 
-                if (this.productTypePass) {
-                    vueApp.welcomeBundleInfoRequested = true;
-                    vueApp.onWelcomeBundlePopupShow();
-                    return;
-                }
+				if (this.productTypePass) {
+					vueApp.welcomeBundleInfoRequested = true;
+					vueApp.onWelcomeBundlePopupShow();
+					return;
+				}
 
-                if (this.bundleInfo.items.length === 0) {
-                    this.productItems.forEach(item => {
-                        this.bundleInfo.items.push(item);
-                    });
-                    this.bundleInfo.isOwned = this.purchased;
-                    this.bundleInfo.price = this.price;
-                    this.bundleInfo.img = this.img;
-                    this.bundleInfo.name = this.description;
-                }
+				if (this.bundleInfo.items.length === 0) {
+					this.productItems.forEach(item => {
+						this.bundleInfo.items.push(item);
+					});
+					this.bundleInfo.isOwned = this.purchased;
+					this.bundleInfo.price = this.price;
+					this.bundleInfo.img = this.img;
+					this.bundleInfo.name = this.description;
+				}
 
-                this.$emit('on-bundle-info-clicked', this.bundleInfo);
-            },
+				this.$emit('on-bundle-info-clicked', this.bundleInfo);
+			},
             onVipClick() {
                 // this.$parent.$parent.hide();
                 vueApp.showSubStorePopup();
             },
-            getItemType() {
-                const item = extern.catalog.findItemById(this.item.itemIds[0]);
-                const obj = {};
+			getItemType() {
+				const item = extern.catalog.findItemById(this.item.itemIds[0]);
+				const obj = {};
 
-                if (item.exclusive_for_class !== null) {
-                    obj.name = getKeyByValue(CharClass, item.exclusive_for_class).toLowerCase();
-                    obj.isClass = true;
-                } else {
-                    obj.name = getKeyByValue(ItemType, item.item_type_id).toLowerCase();
-                    obj.isClass = false;
-                }
+				if (item.exclusive_for_class !== null) {
+					obj.name = getKeyByValue(CharClass, item.exclusive_for_class).toLowerCase();
+					obj.isClass = true;
+				} else {
+					obj.name = getKeyByValue(ItemType, item.item_type_id).toLowerCase();
+					obj.isClass = false;
+				}
 
-                return obj;
-            },
-            setupProduct() {
+				return obj;
+			},
+			setupProduct() {
 
-                switch (this.item.type) {
-                    case 'item':
-                        this.productItems = [extern.catalog.findItemById(this.item.itemIds[0])];
-                        this.purchased = extern.isItemOwned(this.productItems[0]);
-                        this.getIcon();
-                        break;
-                    case 'bundle':
-                    case 'pass':
-                        let owned = [];
-                        if (!this.item.itemIds || this.item.itemIds.length === 0) {
-                            console.log('bundle or pass no item ids');
-                            this.productItems = [];
-                            this.purchased = false;
-                            return;
-                        }
-                        this.productItems = extern.catalog.findItemsByIds(this.item.itemIds);
-                        this.productItems.forEach(item => {
-                            if (extern.isItemOwned(item)) {
-                                owned.push(item.id)
-                            }
-                        });
-                        this.purchased = owned.length === this.productItems.length;
-                        break;
-
-                    default:
-                        break;
-                }
-            },
-            getIcon() {
-                if (this.productItems[0].exclusive_for_class !== null) {
-                    this.productIcon = `ico-weapon-${getKeyByValue(CharClass, this.productItems[0].exclusive_for_class).toLowerCase()}`;
-                } else {
-                    this.productIcon = `ico-${getKeyByValue(ItemType, this.productItems[0].item_type_id).toLowerCase()}`;
-                }
-            }
+				switch (this.item.type) {
+					case 'item':
+						this.productItems = [extern.catalog.findItemById(this.item.itemIds[0])];
+						this.purchased = extern.isItemOwned(this.productItems[0]);
+						this.getIcon();
+						break;
+					case 'bundle':
+					case 'pass':
+						let owned = [];
+						this.productItems = extern.catalog.findItemsByIds(this.item.itemIds);
+						this.productItems.forEach(item => {
+							if (extern.isItemOwned(item)) {
+								owned.push(item.id)
+							}
+						});
+						this.purchased = owned.length === this.productItems.length;
+						break;
+				
+					default:
+						break;
+				}
+			},
+			getIcon() {
+				if (this.productItems[0].exclusive_for_class !== null) {
+					this.productIcon = `ico-weapon-${getKeyByValue(CharClass, this.productItems[0].exclusive_for_class).toLowerCase()}`;
+				} else {
+					this.productIcon = `ico-${getKeyByValue(ItemType, this.productItems[0].item_type_id).toLowerCase()}`;
+				}
+			}
         },
         computed: {
-            headerGrid() {
-                return !this.productTypePass ? 'grid-column-1-2' : ''
-            },
-            productTypeItem() {
-                return this.item.type === 'item'
-            },
-            productTypeBundle() {
-                return this.item.type === 'bundle'
-            },
-            productTypeCurrency() {
-                return this.item.type === 'currency'
-            },
-            productTypePass() {
-                return this.item.type === 'pass'
-            },
+			headerGrid() {
+				return !this.productTypePass ? 'grid-column-1-2' : ''
+			},
+			productTypeItem() {
+				return this.item.type === 'item'
+			},
+			productTypeBundle() {
+				return this.item.type === 'bundle'
+			},
+			productTypeCurrency() {
+				return this.item.type === 'currency'
+			},
+			productTypePass() {
+				return this.item.type === 'pass'
+			},
             title() {
-                if (this.productTypeBundle) {
-                    return `product_bundles_title`;
-                }
+				if (this.productTypeBundle) {
+					return `product_bundles_title`;
+				}
                 return `${this.item.sku}_title`;
             },
-            imgCls() {
-                if (this.item.type === 'pass' || this.item.type === 'pass') {
-                    return 'box_absolute centered_y z-index-1';
-                }
-            },
-            priceCls() {
-                return this.productTypeBundle || this.productTypeItem ? 'text_yellow' : 'text_blue5';
-            },
+			imgCls() {
+				if (this.item.type === 'pass' || this.item.type === 'pass') {
+					return 'box_absolute centered_y z-index-1';
+				}
+			},
+			priceCls() {
+				return this.productTypeBundle || this.productTypeItem ? 'text_yellow' : 'text_blue5';
+			},
             description() {
-                if (this.productTypeBundle) {
-                    return `${this.item.sku}_title`;
-                }
+				if (this.productTypeBundle) {
+					return `${this.item.sku}_title`;
+				}
                 return `${this.item.sku}_desc`;
             },
-            saleDesc() {
-                if (this.item.salePrice) {
-                    return `${this.item.sku}_sale_desc`;
-                }
-            },
-            style() {
-                return this.productTypePass ? `background-image: url(img/store/passes/${this.item.sku}_bg.png); background-size: cover;` : '';
-            },
+			saleDesc() {
+				if (this.item.salePrice) {
+					return `${this.item.sku}_sale_desc`;
+				}
+			},
+			style() {
+				return this.productTypePass ? `background-image: url(img/store/passes/${this.item.sku}_bg.png); background-size: cover;` : '';
+			},
             img() {
-                switch (this.item.type) {
-                    case 'item':
-                        return `img/store/items/${this.item.sku}.webp`;
-                        break;
-                    case 'bundle':
-                        return `img/store/bundles/${this.item.sku}.webp`;
-                        break;
-                    case 'pass':
-                        return `img/store/passes/${this.item.sku}.png`;
-                        break;
-                    default:
-                        return `img/${!this.isSaleEvent ? '' : 'store-black-friday/'}${this.item.sku}.webp`;
-                        break;
-                }
+				switch (this.item.type) {
+					case 'item':
+						return `img/store/items/${this.item.sku}.webp`;
+						break;
+					case 'bundle':
+						return `img/store/bundles/${this.item.sku}.webp`;
+						break;
+					case 'pass':
+						return `img/store/passes/${this.item.sku}.png`;
+						break;
+					default:
+					return `img/${!this.isSaleEvent ? '' : 'store-black-friday/'}${this.item.sku}.webp`;
+						break;
+				}
             },
             itemType() {
                 return 'single-egg-store-item-is-' + this.item.type;
             },
-            itemCls() {
-                return `${this.itemType} ${this.item.sku} ${this.item.type === 'currency' ? '' : ''}`;
-            },
+			itemCls() {
+				return `${this.itemType} ${this.item.sku} ${this.item.type === 'currency' ? '' : ''}`;
+			},
             buyBtnText() {
                 if (this.purchased && this.productTypeItem) {
                     return this.loc.p_egg_shop_see_item;
                 } else if ((this.productTypeBundle && this.purchased) || this.productTypePass && this.purchased) {
-                    return this.loc.eq_owned;
-                }
+					return this.loc.eq_owned;
+				}
                 return this.loc.p_buy_item_confirm;
             },
             showItem() {
@@ -12166,45 +11177,45 @@ var comp_item_grid = {
                 }
                 return 'fa-gem'
             },
-            showSubtitle() {
-                if (this.productTypeItem) return true;
-                if (this.isSaleEvent) {
-                    return false;
-                }
-                return true;
-            },
-            price() {
-                if (this.item.salePrice) {
-                    return this.item.salePrice;
-                } else {
-                    return this.item.price;
-                }
-            },
-            subTitleCls() {
-                switch (this.item.type) {
-                    case 'item':
-                    case 'bundle':
-                        return 'text_white text-shadow-black-40';
-                        break;
-
-                    default:
-                        return 'text_blue5 nospace';
-                        break;
-                }
-            },
-            buyNowBtnStyles() {
-                return !this.productTypePass ? 'btn_green bevel_green' : 'btn_pink bevel_pink';
-            },
-            premItemBtnText() {
-                if (this.productTypeBundle || this.productTypePass) {
-                    return this.loc.missing_moreinfo;
-                } else {
-                    return this.loc.p_egg_shop_free_with_vip;
-                }
-            },
-            secondaryBtnStyle() {
-                return this.productTypeItem ? 'is_item_btn' : '';
-            }
+			showSubtitle() {
+				if (this.productTypeItem) return true;
+				if (this.isSaleEvent) {
+					return false;
+				}
+				return true;
+			},
+			price() {
+				if (this.item.salePrice) {
+					return this.item.salePrice;
+				} else {
+					return this.item.price;
+				}
+			},
+			subTitleCls() {
+				switch (this.item.type) {
+					case 'item':
+					case 'bundle':
+						return 'text_white text-shadow-black-40';
+						break;
+				
+					default:
+						return 'text_blue5 nospace';
+						break;
+				}
+			},
+			buyNowBtnStyles() {
+				return !this.productTypePass ? 'btn_green bevel_green' : 'btn_pink bevel_pink';
+			},
+			premItemBtnText() {
+				if (this.productTypeBundle || this.productTypePass) {
+					return this.loc.missing_moreinfo;
+				} else {
+					return this.loc.p_egg_shop_free_with_vip;
+				}
+			},
+			secondaryBtnStyle() {
+				return this.productTypeItem ? 'is_item_btn' : '';
+			}
         },
     };
 </script>
@@ -14045,7 +13056,7 @@ const CompShellStreakMsg = {
             crazyAdsRespawn() {
                 this.cGrespawnBannerErrors = 0;
                 this.$nextTick(() => {
-                    // crazySdk.requestResponsiveBanner('shellshock-io_respawn_three');
+                    crazySdk.requestResponsiveBanner('shellshock-io_respawn_three');
                     crazySdk.requestResponsiveBanner('shellshockers_respawn_banner-new_ad');
                     crazySdk.requestResponsiveBanner('shellshockers_respawn_banner_2_ad');
                 });
@@ -16541,10 +15552,6 @@ const NotifiSlider = {
                     this.$refs.homeScreen.$refs.playPanel.showJoinPrivateGamePopup();
                 },
 
-                showCreateGamePopupCrazyGames() {
-                    this.$refs.homeScreen.$refs.playPanel.onJoinPrivateGameClickCrazyGames();
-                },
-
                 showPrivateGamePopup() {
                     this.$refs.homeScreen.$refs.playPanel.$refs.createPrivateGamePopup.toggle();
                 },
@@ -17068,9 +16075,7 @@ const NotifiSlider = {
                         return;
                     }
                     if (!this.ui.tutorialPopup.show || !this.faction.showPopup || !this.$refs.factionPopup.isShowing) {
-                        if (!crazyGamesActive) {
-                            this.$refs.gameScreen.$refs.headerDisplayAdGame.show();
-                        }
+                        this.$refs.gameScreen.$refs.headerDisplayAdGame.show();
                         this.$refs.gameScreen.$refs.respawnDisplayAd.show();
                         this.$refs.gameScreen.$refs.respawnTwoDisplayAd.show();
                     }
@@ -17278,7 +16283,6 @@ const NotifiSlider = {
                     this.equip.extraColorsLocked = true;
                     this.upgradeName = '';
                     this.isSubscriber = false;
-                    this.photoUrl = null;
                 },
                 mediaTabsStartRotate() {
                     const mediaTabs = this.$refs?.homeScreen?.$refs?.mediaTabs;
@@ -17784,108 +16788,6 @@ const NotifiSlider = {
                 // 		this.toggleRespawnDisplayAd(false);
                 // 	}
                 // },
-                showCrazyGamesDelink() {
-                    this.hideCrazyGamesUserManagementPopup();
-                    this.$refs.crazyGamesDelink.show();
-                },
-                hideCrazyGamesDelink() {
-                    this.$refs.crazyGamesDelink.hide();
-                },
-                onCrazyGamesDelink() {
-                    // this.$refs.crazyGamesDelink.hide();
-                    extern.handleCrazyGamesDelink();
-                },
-                showCrazyGamesUserManagementPopup() {
-                    this.$refs.crazyGamesUserManagementPopup.show();
-                },
-                hideCrazyGamesUserManagementPopup() {
-                    this.$refs.crazyGamesUserManagementPopup.hide();
-                },
-                onCrazyGamesAutoLink() {
-                    this.$refs.crazyGamesAutoLinkPopup.hide();
-                    extern.showCrazyGamesLinkPrompt();
-                },
-                showCrazyGamesAutoLinkPopup() {
-                    this.crazyGamesUser = {
-                        ...this.crazyGamesUser,
-                        hasAccount: true
-                    };
-                    this.$refs.crazyGamesAutoLinkPopup.show();
-                },
-                showLinkCgAccountPopup() {
-                    this.$refs.linkCgAccountPopup.show();
-                },
-                onLinkCgAccount() {
-                    this.$refs.linkCgAccountPopup.hide();
-                    extern.showCrazyGamesLinkPrompt();
-                },
-                onCGSignInClicked() {
-                    this.$refs.crazyGamesUserManagementPopup.hide();
-                    this.showHelpPopup();
-                    // get player id and firebase id and add the feedback textara
-                    const playerId = this.id;
-                    const firebaseId = this.firebaseId;
-                    this.$refs.help.openFeedbackTabWith(this.feedbackType.account.id);
-                    console.log('onCGSignInClicked this.$refs.help.$refs.feedbackText ', this.$refs.help.$refs.feedbackText);
-                    this.$nextTick(() => {
-                        const feedbackText = this.$refs.help?.$refs?.feedbackText;
-                        if (feedbackText) {
-                            feedbackText.value = `Player ID: ${playerId}\nFirebase ID: ${firebaseId}\nRequests to claim Crazy Games account.`;
-                        } else {
-                            console.warn('feedbackText ref not available yet.');
-                        }
-                    });
-                },
-                onFirebasePasswordReauth() {
-                    this.$refs.firebasePasswordReauthPopup.hide();
-                    extern.handleFirebasePasswordReauth();
-                },
-                firebasePasswordReauthPopup(email) {
-                    this.setDarkOverlay(true);
-                    this.$refs.reAuthPasswordShowPasswordModal.classList.remove('hideme');
-                    this.reAuthPassword.firebasePasswordReauthEmail = email;
-                    this.reAuthPassword.firebasePasswordReauthPassword = '';
-                    this.reAuthPassword.showPasswordModal = true;
-
-                    return new Promise((resolve, reject) => {
-                        this.reAuthPassword._pwResolve = resolve;
-                        this.reAuthPassword._pwReject = reject;
-                    });
-                },
-
-                confirmPassword() {
-                    const pw = (this.reAuthPassword.firebasePasswordReauthPassword || '').trim();
-
-                    const resolve = this.reAuthPassword._pwResolve;
-                    this.reAuthPassword._pwResolve = null;
-                    this.reAuthPassword._pwReject = null;
-
-                    this.setDarkOverlay(false);
-                    this.$refs.reAuthPasswordShowPasswordModal.classList.add('hideme');
-                    this.reAuthPassword.showPasswordModal = false;
-
-                    if (typeof resolve === 'function') {
-                        resolve(pw);
-                    } else {
-                        console.warn('Password resolver missing; modal not opened via popup method.');
-                    }
-                },
-
-                cancelPassword() {
-                    const reject = this.reAuthPassword._pwReject;
-                    this.reAuthPassword._pwResolve = null;
-                    this.reAuthPassword._pwReject = null;
-
-                    this.setDarkOverlay(false);
-                    this.$refs.reAuthPasswordShowPasswordModal.classList.add('hideme');
-                    this.reAuthPassword.showPasswordModal = false;
-
-                    if (typeof reject === 'function') {
-                        reject(new Error('reauth_cancelled'));
-                    } else {
-                        console.warn('Password rejecter missing; modal not opened via popup method.');
-                    }
-                },
             },
             computed: {
                 appClassObj() {
@@ -18063,13 +16965,6 @@ const NotifiSlider = {
                 },
                 factionLogo() {
                     return `img/gauge-bar/${this.factionsPopupStyle}.png`;
-                },
-                cgUserManagementPopupContent() {
-                    if (this.crazyGamesUser.isAnonymous) {
-                        return this.loc.crazygames_user_management_popup_anonymous_text;
-                    } else {
-                        return this.loc.crazygames_user_management_popup_linked_text;
-                    }
                 },
             },
             watch: {

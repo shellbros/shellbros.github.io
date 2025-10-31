@@ -46,7 +46,7 @@ export async function onRequest(context) {
             const backend = shuffled[i];
             
             try {
-                const backendUrl = `wss://${backend}/matchmaker`;
+                const backendUrl = `wss://${backend}/matchmaker/`;
                 console.log(`[Proxy] Attempt ${i + 1}: ${backendUrl}`);
                 
                 const upstreamProtocols = selectedClientProto ? [selectedClientProto, token] : [token];
