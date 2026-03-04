@@ -1,5 +1,18 @@
 [		
-		{
+			{
+		"version": "1.0.20",
+        "date": "Feb 3 2026",
+        "content": [
+			"Cute critters and lovebirds abound! It's the Feral February update!",
+			"Miss me? The very first bundle ever released is back!",
+			"The Cat's Pajamas Bundle is in the shop, knocking all the other items off the shelf",
+			"This Month's VIP items: The Bear Claw Melee and Wild Mongoose Hat. In shop and free for VIPs",
+			"In loving memory of the very best of doggos, the Neko Stamp is now a permanent addition to all players inventories",
+			"Fixed issues where some maps were not being vaulted. Indigo has been shot into the sun",
+			"The new community map: Sanctuary, has been added to the private and public pools",
+			"The public map pool has been shuffled and is available for all players!"
+		]
+	},{
 		"version": "1.0.19",
         "date": "Jan 7 2026",
         "content": [
