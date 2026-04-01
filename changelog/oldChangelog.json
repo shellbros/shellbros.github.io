@@ -1,5 +1,16 @@
 [		
-			{
+	{
+		"version": "1.0.21",
+        "date": "Mar 4 2026",
+        "content": [
+			"Fields of Fortune update is here! — a lucky rerun of our St. Patrick’s + farm set mash-up, ready to harvest",
+			"Clover-kissed cosmetics and country-fresh gear return for a limited time",
+			"Reap the rewards of this month's VIP items: Mr Spud Hat and Irish Crackshot. In shop and free for VIPs",
+			"Return to the land with the Farmer John Bundle. Party in the pasture",
+			"The new community map: Gravel Stomp, has been added to the private and public pools",
+			"The public map pool has been shuffled and is available for all players!"
+		]
+	},	{
 		"version": "1.0.20",
         "date": "Feb 3 2026",
         "content": [
