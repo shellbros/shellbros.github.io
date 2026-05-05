@@ -56,4 +56,16 @@ awk '
 
 echo "Rewriting paths in $FILE"
 node cdnSearchReplace.js "$CDN"
+
+# Patch Loader bugs shipped from distShellHome:
+#  1. j.sha -> j.build_version (build.json schema uses build_version)
+#  2. Loader.cdnurl -> Loader.cdnUrl (camelCase typo)
+#  3. Drop bogus <script src=".../build.json"></script> (loads JSON as JS)
+echo "Patching Loader bugs in $FILE"
+sed -i '' \
+  -e 's/j && j\.sha || /j \&\& j.build_version || /g' \
+  -e 's/Loader\.cdnurl(/Loader.cdnUrl(/g' \
+  -e '/<script src="https:\/\/cdn\.jsdelivr\.net\/gh\/shellbros\/shellbros\.github\.io\/app\/build\.json"><\/script>/d' \
+  "$FILE"
+
 echo "Build complete. Output available in '../..'."

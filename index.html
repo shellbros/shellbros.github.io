@@ -16,9 +16,8 @@
     let testCrazy = false;
     let crazyGamesHouseAdCheck = null;
 </script>
-<script src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/app/build.json"></script>
-<script>window.JSCDN="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@a95122d/";</script>
-<script src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@a95122d/app/checker.js"></script>
+<script>window.JSCDN="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@ffcfb17/";</script>
+<script src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@ffcfb17/app/checker.js"></script>
 <script>
     let HouseAds;
     var shellLogo = 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/logo.svg';
@@ -303,7 +302,7 @@
 			if (!res.ok) throw new Error(`build.json fetch failed: ${res.status} ${res.statusText}`);
 
 			const j = await res.json();
-			const sha = (j && j.sha || '').trim();
+			const sha = (j && j.build_version || '').trim();
 
 			// defensive: only allow hex SHAs (7..40)
 			if (!/^[0-9a-f]{7,40}$/i.test(sha)) throw new Error(`Invalid sha in build.json: "${sha}"`);
@@ -351,7 +350,7 @@
 
 		static async importWasmLoader() {
 			if (Loader._wasmMod) return Loader._wasmMod;
-			const url = await Loader.cdnurl('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/js/wasm_loader.js');
+			const url = await Loader.cdnUrl('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/js/wasm_loader.js');
 			Loader._wasmMod = import(url);
 			return Loader._wasmMod;
 		}
