@@ -1,5 +1,13 @@
 /* Display ads */
 
+// Isolate ad containers from the game canvas so ad iframe loads,
+// internal reflows, and paints don't trigger layout/repaint on the
+// Babylon.js canvas. Each container gets its own compositor layer.
+.display-ad-container {
+	contain: layout style paint;
+	will-change: contents;
+}
+
 .respawn-container {
 	margin: 0 auto;
 	z-index: 2000;

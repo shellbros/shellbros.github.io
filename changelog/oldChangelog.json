@@ -1,5 +1,22 @@
 [		
 	{
+		"version": "1.0.22",
+        "date": "April 2026",
+        "content": [
+			"It's time for the cheekiest update yet - Just Butts",
+			"EGG ORG isn't here but you may notice some extra bootaful Eggs in-game!",
+			"Reap the rewards of this month's VIP items: Retro Melee and Hothead Hat bringing up the rear. In shop and free for VIPs",
+			"Clap back at reality with the Hackerman Bundle - 1 month only!",	
+			"Watch your back: a range of Crackshots have been added to the shop, plus the Cards items!",
+			"Butt there's more - Added grenade effect animations in-store and in inventory!",
+			"Fixed long time visual bug where bullets fired from behind the egg",
+			"Fixed long time mini-egg bug where hitbox wouldn't return to normal",	
+			"Fixed small crack in Gravel Stomp - Mid-block bug piece removed.",
+			"The latest map added to the game, Courtyard. Get in there and shake your shell!",
+			"Butt seriously, the map: Gravel Stomp, has had some small quality of life edits",
+			"The public map pool has been shuffled and is available for all players!"
+		]
+	},{
 		"version": "1.0.21",
         "date": "Mar 4 2026",
         "content": [

@@ -54,6 +54,8 @@
 .btn_green {
 	background: var(--ss-green1);
 	border-color: var(--ss-green2);
+	text-shadow: .08em .08em .05em rgb(0 0 0 / 60%);
+	letter-spacing: 0.05em;
 }
 
 .btn_red {
