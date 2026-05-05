@@ -61,11 +61,13 @@ node cdnSearchReplace.js "$CDN"
 #  1. j.sha -> j.build_version (build.json schema uses build_version)
 #  2. Loader.cdnurl -> Loader.cdnUrl (camelCase typo)
 #  3. Drop bogus <script src=".../build.json"></script> (loads JSON as JS)
+#  4. Strip bogus literal CDN prefix before ${window.JSCDN} (double-prefix bug from re-run search-replace)
 echo "Patching Loader bugs in $FILE"
 sed -i '' \
   -e 's/j && j\.sha || /j \&\& j.build_version || /g' \
   -e 's/Loader\.cdnurl(/Loader.cdnUrl(/g' \
   -e '/<script src="https:\/\/cdn\.jsdelivr\.net\/gh\/shellbros\/shellbros\.github\.io\/app\/build\.json"><\/script>/d' \
+  -e 's|https://cdn\.jsdelivr\.net/gh/shellbros/shellbros\.github\.io/\${window\.JSCDN}|${window.JSCDN}|g' \
   "$FILE"
 
 echo "Build complete. Output available in '../..'."

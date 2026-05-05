@@ -12184,18 +12184,18 @@ var comp_item_grid = {
                 }
             },
             style() {
-                return this.productTypePass ? `background-image: url(https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/${window.JSCDN}img/store/passes/${this.item.sku}_bg.png); background-size: cover;` : '';
+                return this.productTypePass ? `background-image: url(${window.JSCDN}img/store/passes/${this.item.sku}_bg.png); background-size: cover;` : '';
             },
             img() {
                 switch (this.item.type) {
                     case 'item':
-                        return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/${window.JSCDN}img/store/items/${this.item.sku}.webp`;
+                        return `${window.JSCDN}img/store/items/${this.item.sku}.webp`;
                         break;
                     case 'bundle':
-                        return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/${window.JSCDN}img/store/bundles/${this.item.sku}.webp`;
+                        return `${window.JSCDN}img/store/bundles/${this.item.sku}.webp`;
                         break;
                     case 'pass':
-                        return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/${window.JSCDN}img/store/passes/${this.item.sku}.png`;
+                        return `${window.JSCDN}img/store/passes/${this.item.sku}.png`;
                         break;
                     default:
                         return `${window.JSCDN}${!this.isSaleEvent ? '' : 'store-black-friday/'}${this.item.sku}.webp`;

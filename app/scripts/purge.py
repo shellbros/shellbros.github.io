@@ -11,9 +11,9 @@ import urllib.request
 
 
 JSDELIVR_PURGE_URLS = [
-    "https://purge.jsdelivr.net/gh/shellbros/shellbros/app/build.json",
-    "https://purge.jsdelivr.net/gh/shellbros/shellbros/app/checker.js",
-    "https://purge.jsdelivr.net/gh/shellbros/shellbros/index.js",
+    "https://purge.jsdelivr.net/gh/shellbros/shellbros.github.io/app/build.json",
+    "https://purge.jsdelivr.net/gh/shellbros/shellbros.github.io/app/checker.js",
+    "https://purge.jsdelivr.net/gh/shellbros/shellbros.github.io/index.html",
 ]
 
 
