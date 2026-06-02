@@ -15,10 +15,12 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Files
-JSON_FILE="../../root_domains.json"
-WSPROXY_FILE="../../functions/_shared/wsProxy.js"
-WSPROXY_BACKUP="../../functions/_shared/wsProxy.js.backup"
+# Files (resolve relative to script location, not cwd)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+JSON_FILE="$REPO_ROOT/root_domains.json"
+WSPROXY_FILE="$REPO_ROOT/functions/_shared/wsProxy.js"
+WSPROXY_BACKUP="$REPO_ROOT/functions/_shared/wsProxy.js.backup"
 
 echo -e "${BLUE}╔════════════════════════════════════════╗${NC}"
 echo -e "${BLUE}║  Updating WebSocket Proxy Allowlist   ║${NC}"
