@@ -106818,7 +106818,7 @@ ${this._fragmentCompilationState.compilationString}`;
   };
 
   // src/version.mjs
-  var ClientVersion = "e8af40d0a";
+  var ClientVersion = "d28d1ae3a";
 
   // ../node_modules/@babylonjs/core/Loading/sceneLoader.js
   var SceneLoaderAnimationGroupLoadingMode;
