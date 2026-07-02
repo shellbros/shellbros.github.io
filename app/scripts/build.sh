@@ -61,6 +61,45 @@ echo -e "${GREEN}Dependencies available${NC}"
 echo ""
 
 # ============================================
+# Compiled-client freshness guard
+# The game client is compiled manually via `sudo ./compile.sh live compress` in
+# the ShellShockers/game dir. If that compile is missing or older than any source
+# file, this build would silently ship a stale client. Fail loudly instead, BEFORE
+# the destructive sync runs.
+# ============================================
+echo -e "${YELLOW}Checking compiled client freshness...${NC}"
+
+GAME_DIR="$(cd "$REPO_ROOT/../ShellShockers/game" 2>/dev/null && pwd)"
+COMPILED_JS="$GAME_DIR/home/js/shellshock.js"
+
+if [ -z "$GAME_DIR" ] || [ ! -d "$GAME_DIR/src" ]; then
+    echo -e "${RED}Error: game source not found (expected $REPO_ROOT/../ShellShockers/game)${NC}"
+    exit 1
+fi
+
+if [ ! -f "$COMPILED_JS" ]; then
+    echo -e "${RED}Error: compiled client not found: $COMPILED_JS${NC}"
+    echo -e "${YELLOW}Run the compile first:${NC}"
+    echo -e "   ${GREEN}cd \"$GAME_DIR\" && sudo ./compile.sh live compress${NC}"
+    exit 1
+fi
+
+STALE_SRC="$(find "$GAME_DIR/src" -type f -newer "$COMPILED_JS" 2>/dev/null)"
+if [ -n "$STALE_SRC" ]; then
+    STALE_COUNT="$(printf '%s\n' "$STALE_SRC" | wc -l | tr -d ' ')"
+    echo -e "${RED}Error: compiled client is STALE.${NC}"
+    echo -e "${RED}$STALE_COUNT source file(s) are newer than home/js/shellshock.js.${NC}"
+    echo -e "${YELLOW}Recompile before building:${NC}"
+    echo -e "   ${GREEN}cd \"$GAME_DIR\" && sudo ./compile.sh live compress${NC}"
+    echo -e "${YELLOW}Newer than the compiled client (first 10):${NC}"
+    printf '%s\n' "$STALE_SRC" | head -10 | sed 's/^/   /'
+    exit 1
+fi
+
+echo -e "${GREEN}Compiled client is up to date${NC}"
+echo ""
+
+# ============================================
 # Step 1: Sync Files
 # ============================================
 echo -e "${BLUE}╔════════════════════════════════════════╗${NC}"
