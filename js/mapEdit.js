@@ -106818,7 +106818,7 @@ ${this._fragmentCompilationState.compilationString}`;
   };
 
   // src/version.mjs
-  var ClientVersion = "d8a32828d";
+  var ClientVersion = "4a0691a11";
 
   // ../node_modules/@babylonjs/core/Loading/sceneLoader.js
   var SceneLoaderAnimationGroupLoadingMode;
@@ -131612,11 +131612,7 @@ void main() {
     var numEggs = 0;
     var numHands = 0;
     for (var idx = 0; idx < meshCount; idx++) {
-      let baseUrl = "";
-      if (typeof window !== "undefined" && window.JSCDN) {
-        baseUrl = window.JSCDN;
-      }
-      var rootUrl = !loadAll ? baseUrl + "models/" : baseUrl + "models/full/";
+      var rootUrl = !loadAll ? "models/" : "models/full/";
       var path = meshNames[idx] + ".glb";
       path += "?" + ClientVersion;
       let id = Loader.addTask();

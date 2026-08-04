@@ -157,7 +157,7 @@
 
 	--home-screen-r-padding: .68em;
 
-	--social-icons-dimen: calc(var(--ss-space-lg)*2);
+	--social-icons-dimen: calc(var(--ss-space-md)*2);
 
 	/* shadows */
 	--ss-box-shadow-1:  .16em .16em 0 rgba(11, 147, 189,.5);
@@ -2810,7 +2810,7 @@ button:focus { outline: none; }
 }
 
 .eggshop_subtitle span {
-	font-size: 1em;
+	font-size: 1.3em;
 	color: var(--ss-red-btn-fill);
 }
 

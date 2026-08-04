@@ -576,11 +576,10 @@
   "item_hat_somb_desc": "Bold brim energy",
   "item_gre_pop_title": "Popcorn Bucket Grenade",
   "item_gre_pop_desc": "Kernals. Butter. Gunpowder.",
-  "item_hat_grid_title": "The Griddle Hat",
+  "item_hat_grid_title": "The Griddle Backpack",
   "item_hat_grid_desc": "Baby got back bacon",
   "bun_eggpo_title": "The Eggperor Bundle",
   "bun_eggpo_desc": "Do It!",
-  
   "bun_farmer_title": "The Farmer John Bundle",
   "bun_farmer_desc": "Party in the pasture",
   "bun_hack_title": "HACKERMAN",
@@ -589,14 +588,12 @@
   "bun_bro_desc": "Lets go!!!",
   "bun_merica_title": "The 'Merica Bundle",
   "bun_merica_desc": "Freedom isn't free",
-
   "bun_toxic_title": "The Toxic Bundle",
   "bun_toxic_desc": "Do not ingest.",
   "bun_pres_title": "The Present Danger Bundle",
   "bun_pres_desc": "Open the gift early & see what happens",
   "bun_goodw_title": "The Goodwitch Bundle",
   "bun_goodw_desc": "Wicked Fun!",
-
   "bun_five_title": "Animatronic Bundle",
   "bun_five_desc": "Five Nights of HELL",
   "bun_xeno_title": "Xenomorph Bundle",
@@ -1820,5 +1817,6 @@
   "link_cg_account_title": "Link your account",
   "crazygames_link_error_invalid_credential": "The supplied credentials are invalid.",
   "contact_support": "Contact Support",
-  "sign_in_cg_not_available": "Crazy Games is not available"
+  "sign_in_cg_not_available": "Crazy Games is not available",
+  "vip_promo_remove_ads": "Remove all ads - Get VIP!"
 }

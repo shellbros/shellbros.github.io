@@ -6,7 +6,6 @@
 		<script>
     var dynamicContentRoot = '';
     var dynamicContentPrefix = '';
-    // const JSCDN = 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/';
     var gtmOptions = {
         cookie_flags: 'secure;samesite=none'
     };
@@ -16,14 +15,15 @@
     let testCrazy = false;
     let crazyGamesHouseAdCheck = null;
 </script>
-<script>window.JSCDN="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@b70658f/";</script>
-<script src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@b70658f/app/checker.js"></script>
+<script>window.JSCDN="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/";</script>
+<script src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/app/checker.js"></script>
+<script src="app/checker.js"></script>
 <script>
     let HouseAds;
-    var shellLogo = 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/logo.svg';
+    var shellLogo = 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/logo.svg';
 
     async function getAds() {
-        const response = await fetch(dynamicContentPrefix + 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/data/housePromo.json?' + Date.now());
+        const response = await fetch(dynamicContentPrefix + 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/data/housePromo.json?' + Date.now());
         HouseAds = await response.json();
         if (HouseAds.shellLogo !== undefined && HouseAds.shellLogo.length > 0) {
             const useLogo = HouseAds.shellLogo.filter(logo => logo.active);
@@ -95,7 +95,7 @@
             if (this.blueWizSrcAlt) {
                 blueWizLogo.src = this.blueWizSrcAlt;
             } else {
-                blueWizLogo.src = 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/blueWizard_logo.webp';
+                blueWizLogo.src = 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/blueWizard_logo.webp';
             }
 
             blueWizLogo.style = `
@@ -242,144 +242,65 @@
             Loader.progressBar.style.width = percent + '%';
         }
 
-		static async loadJS(path, callback) {
-			let p;
+        static loadJS(path, callback) {
+            let p = path;
 
-			// Build pinned CDN URL (fallback to origin if manifest/CDN fails)
-			try {
-				p = await Loader.cdnUrl(path);
-			} catch (e) {
-				console.error('[Loader] cdnUrl failed, falling back to origin path:', e);
-				p = path;
-			}
+            (function(p, cb) {
+                let xhr = new XMLHttpRequest();
+                xhr.open('GET', p, true);
 
-			(function (p, cb) {
-				let xhr = new XMLHttpRequest();
-				xhr.open('GET', p, true);
+                let id = Loader.addTask();
 
-				let id = Loader.addTask();
+                xhr.onprogress = event => {
+                    if (Loader.progressBar) {
+                        id = Loader.progress(id, event.loaded, event.total);
+                    }
+                };
 
-				xhr.onprogress = (event) => {
-				if (Loader.progressBar) {
-					id = Loader.progress(id, event.loaded, event.total);
-				}
-				};
+                xhr.onload = () => {
+                    if (xhr.status != 200) {
+                        console.log(`Error ${xhr.status}: ${xhr.statusText}`);
+                    } else {
+                        if (!cb) {
+                            Loader.finish(id);
+                            let script = document.createElement('script');
+                            script.innerHTML = xhr.response;
+                            document.body.appendChild(script);
+                            return;
+                        }
 
-				xhr.onload = () => {
-				if (xhr.status !== 200) {
-					console.log(`Error ${xhr.status}: ${xhr.statusText}`);
-					return;
-				}
+                        import('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/js/wasm_loader.js?6').then(({
+                            init,
+                            process,
+                            verify,
+                            validate,
+                            get_yaw_pitch,
+                            reset_yaw_pitch,
+                            set_mouse_params,
+                            poll_gamepad
+                        }) => {
+                            window.verify = verify;
+                            window.validate = validate;
+                            window.get_yaw_pitch = get_yaw_pitch;
+                            window.reset_yaw_pitch = reset_yaw_pitch;
+                            window.set_mouse_params = set_mouse_params;
+                            window.poll_gamepad = poll_gamepad;
 
-				if (!cb) {
-					Loader.finish(id);
-					let script = document.createElement('script');
-					script.innerHTML = xhr.response;
-					document.body.appendChild(script);
-					return;
-				}
+                            let encoder = new TextEncoder('utf-8');
+                            let decoder = new TextDecoder('utf-8');
+                            let data = encoder.encode(xhr.response);
+                            init().then(() => {
+                                process(data);
+                                cb();
+                            });
+                        });
+                    }
+                };
 
-				Loader.importWasmLoader()
-					.then(({
-					init,
-					process,
-					verify,
-					validate,
-					get_yaw_pitch,
-					reset_yaw_pitch,
-					set_mouse_params,
-					poll_gamepad
-					}) => {
-					window.verify = verify;
-					window.validate = validate;
-					window.get_yaw_pitch = get_yaw_pitch;
-					window.reset_yaw_pitch = reset_yaw_pitch;
-					window.set_mouse_params = set_mouse_params;
-					window.poll_gamepad = poll_gamepad;
-
-					let encoder = new TextEncoder('utf-8');
-					let data = encoder.encode(xhr.response);
-
-					init().then(() => {
-						process(data);
-						cb();
-					});
-					})
-					.catch((err) => {
-					console.error('[Loader] wasm_loader import failed:', err);
-					});
-				};
-
-				xhr.onerror = () => {
-				console.error('[Loader] XHR network error loading:', p);
-				};
-
-				xhr.send();
-			})(p, callback);
-		}
-
-		static async getBuildSha() {
-			if (Loader._buildSha) return Loader._buildSha;
-
-			const res = await fetch('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/app/build.json', { cache: 'no-store' });
-			if (!res.ok) throw new Error(`build.json fetch failed: ${res.status} ${res.statusText}`);
-
-			const j = await res.json();
-			const sha = (j && j.build_version || '').trim();
-
-			// defensive: only allow hex SHAs (7..40)
-			if (!/^[0-9a-f]{7,40}$/i.test(sha)) throw new Error(`Invalid sha in build.json: "${sha}"`);
-
-			Loader._buildSha = sha;
-			window.JSCDN = `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@${sha}/`;
-			return sha;
-		}
-
-		static async cdnUrl(input) {
-			const sha = await Loader.getBuildSha();
-			const raw = String(input || '').trim();
-
-			// Strip query/hash (your builder adds ?mtime)
-			const noQ = raw.split('#')[0].split('?')[0];
-
-			// If builder already rewrote to jsDelivr (unpinned), extract the path part
-			// Examples:
-			//  https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/js/shellshock.js
-			//  https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@main/js/shellshock.js
-			const jsdelivrPrefix = 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io';
-			let relPath = noQ;
-
-			if (relPath.startsWith(jsdelivrPrefix)) {
-				// Remove prefix and optional @ref segment if present
-				relPath = relPath.slice(jsdelivrPrefix.length);
-
-				// relPath now starts with either "/js/..." or "@ref/js/..."
-				if (relPath.startsWith('@')) {
-				const slash = relPath.indexOf('/');
-				relPath = slash >= 0 ? relPath.slice(slash) : '';
-				}
-			}
-
-			// Now force relative path form like "js/..."
-			relPath = relPath.replace(/^\/+/, '');
-
-			// Defensive: refuse anything still absolute or empty
-			if (!relPath || /^(https?:)?\/\//i.test(relPath) || relPath.startsWith('data:')) {
-				throw new Error(`Refusing invalid path: ${input}`);
-			}
-
-			return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@${sha}/${relPath}`;
-		}
-
-		static async importWasmLoader() {
-			if (Loader._wasmMod) return Loader._wasmMod;
-			const url = await Loader.cdnUrl('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/js/wasm_loader.js');
-			Loader._wasmMod = import(url);
-			return Loader._wasmMod;
-		}
+                xhr.send();
+            })(path, callback);
+        }
     }
-
-	Loader._buildSha = null;
 
     Loader.actualTasks = 0;
     Loader.tasks = 17;
@@ -423,7 +344,7 @@
         window.location = 'https://shellshock.io' + window.location.search + window.location.hash;
     }
 
-    // Loader.blueWizSrcAlt = 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/blueWizard_logo_borg.webp';
+    // Loader.blueWizSrcAlt = 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/blueWizard_logo_borg.webp';
     Loader.show();
 </script><!-- title, seo meta and favicons -->
 <meta charset="UTF-8" />
@@ -646,7 +567,7 @@
 </style><!-- Styles & Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Sigmar+One|Nunito:100,200,600,700,900" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/styles/style.min.css?1783005882"><script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/styles/style.min.css?1785871110"><script>
 function storageFactory(getStorage) {
 
 	const inMemoryStorage = {};
@@ -936,7 +857,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- Music audio tag -->
 <audio id="theAudio" preload="metadata"></audio>
 <!-- VueJS -->
-<script src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/js/vue/vue2.6.10.js"></script><!-- tools and varibles -->
+<script src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/js/vue/vue2.6.10.js"></script><!-- tools and varibles -->
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
 <script>
 	localStore.removeItem('brbTime');
@@ -1362,8 +1283,8 @@ const ShellStreak = {
 	let loaderInterval = setInterval(() => {
 		if (window.Loader) {
 			clearInterval(loaderInterval);
-			Loader.loadJS('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/js/screenShot.js');
-			Loader.loadJS('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/js/shellshock.js', ssJSComplete);
+			Loader.loadJS('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/js/screenShot.js?1685656368');
+			Loader.loadJS('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/js/shellshock.js?1785871134', ssJSComplete);
 		}
 	}, 100);
 </script>		<!-- google tag manager noscript -->
@@ -1390,7 +1311,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- <div class="video_ad_wrapper">
     <video id="asc_video_ad" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" muted="true" style="display: none;">
-        <source src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/video/tiny.mp4" type="video/mp4" />
+        <source src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/video/tiny.mp4" type="video/mp4" />
     </video>
 </div> -->
 		<div id="ss_background"></div>
@@ -1401,6 +1322,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 		<!-- Instantiate the Vue instance -->
 		<div id="app" :class="[currentLanguageCode, appClassObj, appClassScreen, isPhotoBooth]"> <!-- vue instance div: all vue-controlled elements MUST be inside this tag -->
+    <div id="egg-floatie-layer" ref="eggFloatieLayer" aria-hidden="true"></div>
     <!-- <asc-video-player id="mainVideoPlayer" ref="mainVideoPlayer" adTagUrl="adTagUrl"></asc-video-player> -->
     <div class="firebaseID">firebase ID: {{ firebaseId }}, maskedEmail: {{ maskedEmail }} isAnonymous: {{ isAnonymous }}, isEmailVerified: {{ isEmailVerified }}</div>
     <!-- Canvas -->
@@ -1440,9 +1362,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </main>
     </div>
     <div id="gameDescription" v-show="(showScreen === screens.home)">
-        <section class="social-icons ss_marginright">
-            <social-panel ref="socialIconPanel" id="social_panel" :loc="loc" :is-poki="isPoki" :use-social="ui.socialMedia.footer" :social-media="ui.socialMedia.selected"></social-panel>
-        </section>
         <section class="game-info">
             <h1 class="text-center">{{ loc.home_desc_about }}</h1>
             <p class="text-center">{{ loc.home_desc_pick }}
@@ -1456,7 +1375,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 {{ loc.home_desc_madeof }}
             </p>
             <section class="text-center">
-                <p>{{ loc.home_blocked_start }} shellplay.live {{ loc.home_blocked_end }}</p>
+                <p>{{ loc.home_blocked_start }} shellgame.me {{ loc.home_blocked_end }}</p>
             </section>
             <div class="display-grid grid-column-2-eq gap-1 ">
                 <section>
@@ -1504,6 +1423,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <button class="ss_button btn_lg btn_blue bevel_blue" @click="openUnblocked">{{ loc.home_unblocked_text }}</button>
             </p>
             <p v-html="footerLinksFormat"></p>
+
+            <p class="text-center footer-legal-links">
+                <a href="https://www.bluewizard.com/privacypolicy" target="_blank" rel="noopener">{{ loc.footer_privacypolicy }}</a> |
+                <a href="https://bluewizard.com/terms/" target="_blank" rel="noopener">{{ loc.footer_termsofservice }}</a>
+            </p>
 
             <p align="center"><button class="ss_button btn_yolk bevel_yolk" @click="vueApp.scrollToTop()">{{ loc.home_backtotop }}</button></p>
         </section>
@@ -1563,7 +1487,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </template>
     </large-popup>
 
-    <!-- <img v-if="blackFridayBanner" class="black-friday-banner" style="display: none" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/black-friday-banner.jpg" alt="Black Friday Sale"/> -->
+    <!-- <img v-if="blackFridayBanner" class="black-friday-banner" style="display: none" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/black-friday-banner.jpg" alt="Black Friday Sale"/> -->
 
     <!-- Popup: VIP store -->
     <large-popup id="subStorePopup" ref="subStorePopup" stop-key-capture="true" @popup-closed="onSharedPopupClosed" :overlay-close="true">
@@ -1686,7 +1610,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- Popup: Anon warning message -->
     <small-popup v-if="isAnonymous" id="anonWarningPopup" ref="anonWarningPopup" :hide-close="true" :overlay-close="false" @popup-cancel="anonWarningPopupCancel" @popup-confirm="anonWarningPopupConfrim">
-        <template slot="header"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_goldenEgg.svg" class="egg_icon" />{{ loc.account_anon_warn_popup_title }}! <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_goldenEgg.svg" class="egg_icon" /></template>
+        <template slot="header"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg.svg" class="egg_icon" />{{ loc.account_anon_warn_popup_title }}! <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg.svg" class="egg_icon" /></template>
         <template slot="content">
             <p v-html="anonPopupContent"></p>
         </template>
@@ -1754,10 +1678,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- <large-popup ref="kotcInstrucPopup" id="kotcInstrucPopup" :overlay-close="true" hide-confirm="true" hide-cancel="true">
         <template slot="content">
-            <img class="kotc-wordmark" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/kotc-wordmark.svg" alt="">
+            <img class="kotc-wordmark" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/kotc-wordmark.svg" alt="">
             <div class="kotc-how-to-play-wrapper box_absolute">
                 <h2 class="kotc-how-to-play-title text-center"><span class="roundme_md">{{ loc.home_kotc_popup_how_to }}</span><br />{{ loc.home_play }}!</h2>
-                <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/kotc-arrow.svg" aria-hidden="true">
+                <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/kotc-arrow.svg" aria-hidden="true">
             </div>
             <div class="display-grid grid-column-2-eq grid-gap-space-lg fullwidth ss_margintop_xxxxl">
                 <div class="img-container roundme_lg fullwidth step-one">
@@ -1775,7 +1699,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
             <div class="display-grid grid-column-2-eq grid-gap-space-lg roundme_md fullwidth ss_margintop_lg kotc-play-now step-three-wrapper">
                 <div class="fullwidth box_relative step-three">
-                    <img class="kotc-logo box_absolute" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/kotc-rooster.svg" alt="The King of the Coop Rooster">
+                    <img class="kotc-logo box_absolute" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/kotc-rooster.svg" alt="The King of the Coop Rooster">
 
                     <div>
                         <p class="text-center"><span class="sr-only">Step </span>3</p>
@@ -1784,11 +1708,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
                 <div class="fullwidth f_col f_space_between">
                     <div class="display-grid grid-column-5-eq kotc-crowns">
-                    <img aria-hidden="true" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/kotc-crown.svg" alt="Crowns">
-                    <img aria-hidden="true" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/kotc-crown.svg" alt="Crowns">
-                    <img aria-hidden="true" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/kotc-crown.svg" alt="Crowns">
-                    <img aria-hidden="true" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/kotc-crown.svg" alt="Crowns">
-                    <img aria-hidden="true" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/kotc-crown.svg" alt="Crowns">
+                    <img aria-hidden="true" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/kotc-crown.svg" alt="Crowns">
+                    <img aria-hidden="true" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/kotc-crown.svg" alt="Crowns">
+                    <img aria-hidden="true" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/kotc-crown.svg" alt="Crowns">
+                    <img aria-hidden="true" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/kotc-crown.svg" alt="Crowns">
+                    <img aria-hidden="true" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/kotc-crown.svg" alt="Crowns">
                     </div>
                     <button class="ss_button btn_big btn_green bevel_green fullwidth" @click="onClickPlayKotcNow"><i class="fa fa-play fa-sm"></i> {{ loc.home_play }}</button>
                 </div>
@@ -1904,8 +1828,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </small-popup>
 
     <!-- <div id="kotc-play-kotc" class="kotc-play-kotc display-grid">
-		<img class="kotc-play-kotc-watermark" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/kotc-crown-indicator.svg" alt="">
-		<img class="kotc-play-kotc-arrow" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/kotc-arrow.svg" aria-hidden="true">
+		<img class="kotc-play-kotc-watermark" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/kotc-crown-indicator.svg" alt="">
+		<img class="kotc-play-kotc-arrow" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/kotc-arrow.svg" aria-hidden="true">
 	</div> -->
     <!-- #kotc-play-kotc -->
 
@@ -2052,6 +1976,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     titleScreenDisplayAd: Function,
     displayAdObject: false,
     hideAds: false,
+
+	// "Remove all ads - Get VIP!" promo shown next to the welcome-bundle CTA.
+	// It always requires a non-VIP player and the promo window to be open (the
+	// value-pack CTA showing). `mode` controls the timing within that:
+	//   'whenBundleShows' -> show whenever the value-pack CTA is up (no ad needed)
+	//   'adThenLinger'    -> show on video ad start, hide when the CTA hides
+	//   'adTied'          -> show on video ad start, hide lingerMs after it ends
+	vipAdPromo: {
+		mode: 'whenBundleShows',
+		lingerMs: 2000,
+		active: false,
+		suppressed: false, // set when Play is clicked; hides it past the respawn ad
+		lingerTimer: null,
+	},
 
 	feedbackSelected: null,
 
@@ -2264,22 +2202,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		},
 
 		lazyImages: {
-			homeEgg1: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/eggPose05.webp',
-			homeEgg2: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/eggPose01.webp',
-			vipEmblem: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/vip-club/vip-club-popup-emblem.webp',
-			vipPayment: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/store/UI_paymentOptions.webp',
-			vipPopupBg: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/vip-club/vip-club-popup-background.webp',
-			chwPopup: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/ssAd_chicknWinner800x600-min.webp',
-			rickRoll: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/rickroll.gif',
-			adBlockPopup: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/shellshockers-unite-lg.webp',
-			vipImportant: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/vip-club/very-important-poultry.webp',
-			eggPackSm: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/egg_pack_small.webp',
-			goldenEgg: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_goldenEgg.svg',
-			eggOrgGiveStuff: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/egg-org/eggOrg_timeTravel_splash800x600-min.webp',
-			welcomePack: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/eggstra-value-pack.webp',
-			welcomePackPopup: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/welcome-pass-popup.webp',
-			kotcArrow: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/kotc-arrow.svg',
-			chwChest: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/chicken-nugget/chw-loot-btn.webp'
+			homeEgg1: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/eggPose05.webp',
+			homeEgg2: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/eggPose01.webp',
+			vipEmblem: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/vip-club/vip-club-popup-emblem.webp',
+			vipPayment: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/store/UI_paymentOptions.webp',
+			vipPopupBg: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/vip-club/vip-club-popup-background.webp',
+			chwPopup: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/ssAd_chicknWinner800x600-min.webp',
+			rickRoll: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/rickroll.gif',
+			adBlockPopup: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/shellshockers-unite-lg.webp',
+			vipImportant: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/vip-club/very-important-poultry.webp',
+			eggPackSm: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/egg_pack_small.webp',
+			goldenEgg: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg.svg',
+			eggOrgGiveStuff: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/egg-org/eggOrg_timeTravel_splash800x600-min.webp',
+			welcomePack: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/eggstra-value-pack.webp',
+			welcomePackPopup: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/welcome-pass-popup.webp',
+			kotcArrow: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/kotc-arrow.svg',
+			chwChest: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/chicken-nugget/chw-loot-btn.webp'
 		},
 
 		notification: null,
@@ -2487,25 +2425,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             keyboard: {
                 // The ids map to the field names in settings.controls[category]
                 game: [
-                    { id: 'up', side: 'left', locKey: 'keybindings_forward', value: 'W' },
-                    { id: 'down', side: 'left', locKey: 'keybindings_backward', value: 'S' },
-                    { id: 'left', side: 'left', locKey: 'keybindings_left', value: 'A' },
-                    { id: 'right', side: 'left', locKey: 'keybindings_right', value: 'D' },
-                    { id: 'jump', side: 'left', locKey: 'keybindings_jump', value: 'SPACE' },
-					{ id: 'melee', side: 'left', locKey: 'keybindings_melee', value: 'F' },
-					{ id: 'inspect', side: 'left', locKey: 'keybindings_inspect', value: 'G' },
-					{ id: 'despawn', side: 'left', locKey: 'keybindings_despawn', value: 'P' },
-                    { id: 'fire', side: 'right', locKey: 'keybindings_fire', value: 'MOUSE 0' },
-                    { id: 'scope', side: 'right', locKey: 'keybindings_aim', value: 'SHIFT' },
-                    { id: 'reload', side: 'right', locKey: 'keybindings_reload', value: 'R' },
-                    { id: 'swap_weapon', side: 'right', locKey: 'keybindings_swapweapon', value: 'E' },
-                    { id: 'grenade', side: 'right', locKey: 'keybindings_grenade', value: 'Q' },
+                    { id: 'up', side: 'left', locKey: 'keybindings_forward', value: { code: 'KeyW', label: 'W' } },
+                    { id: 'down', side: 'left', locKey: 'keybindings_backward', value: { code: 'KeyS', label: 'S' } },
+                    { id: 'left', side: 'left', locKey: 'keybindings_left', value: { code: 'KeyA', label: 'A' } },
+                    { id: 'right', side: 'left', locKey: 'keybindings_right', value: { code: 'KeyD', label: 'D' } },
+                    { id: 'jump', side: 'left', locKey: 'keybindings_jump', value: { code: 'Space', label: 'SPACE' } },
+					{ id: 'melee', side: 'left', locKey: 'keybindings_melee', value: { code: 'KeyF', label: 'F' } },
+					{ id: 'inspect', side: 'left', locKey: 'keybindings_inspect', value: { code: 'KeyG', label: 'G' } },
+					{ id: 'despawn', side: 'left', locKey: 'keybindings_despawn', value: { code: 'KeyP', label: 'P' } },
+                    { id: 'fire', side: 'right', locKey: 'keybindings_fire', value: { code: 'MOUSE 0', label: 'MOUSE 0' } },
+                    { id: 'scope', side: 'right', locKey: 'keybindings_aim', value: { code: 'ShiftLeft', label: 'SHIFT' } },
+                    { id: 'reload', side: 'right', locKey: 'keybindings_reload', value: { code: 'KeyR', label: 'R' } },
+                    { id: 'swap_weapon', side: 'right', locKey: 'keybindings_swapweapon', value: { code: 'KeyE', label: 'E' } },
+                    { id: 'grenade', side: 'right', locKey: 'keybindings_grenade', value: { code: 'KeyQ', label: 'Q' } },
                 ],
                 spectate: [
-					{ id: 'ascend', locKey: 'keybindings_spectate_ascend', value: 'SPACE' },
-					{ id: 'descend', locKey: 'keybindings_spectate_descend', value: 'SHIFT' },
-					{ id: 'toggle_freecam', locKey: 'keybindings_spectate_freecam', value: 'V' },
-                    { id: 'slow', locKey: 'keybindings_spectate_slow', value: 'MOUSE 0'},
+					{ id: 'ascend', locKey: 'keybindings_spectate_ascend', value: { code: 'Space', label: 'SPACE' } },
+					{ id: 'descend', locKey: 'keybindings_spectate_descend', value: { code: 'ShiftLeft', label: 'SHIFT' } },
+					{ id: 'toggle_freecam', locKey: 'keybindings_spectate_freecam', value: { code: 'KeyV', label: 'V' } },
+                    { id: 'slow', locKey: 'keybindings_spectate_slow', value: { code: 'MOUSE 0', label: 'MOUSE 0' } },
                 ]
             },
             gamepad: {
@@ -2532,7 +2470,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     music: {
         isMusic: false,
-        musicJson: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/data/sponsors.json',
+        musicJson: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/data/sponsors.json',
         musicSrc: '',
         theAudio: '',
         playing: false,
@@ -2597,12 +2535,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		hero: {
 			name: 'Heroes',
 			items: [],
-			img: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/shell_E&E_good_popup.webp',
+			img: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/shell_E&E_good_popup.webp',
 		},
 		monster: {
 			name: 'Monsters',
 			items: [],
-			img: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/shell_E&E_evil_popup.webp',
+			img: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/shell_E&E_evil_popup.webp',
 		},
 	},
 
@@ -2930,30 +2868,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             'RT',
             'Select',
             'Start',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_stickleft.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_stickright.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpadup.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpaddown.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpadleft.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpadright.svg">'
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_stickleft.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_stickright.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpadup.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpaddown.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpadleft.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpadright.svg">'
         ],
         ps: [
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_cross.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_circle.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_square.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_triangle.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_cross.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_circle.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_square.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_triangle.svg">',
             'LB',
             'RB',
             'LT',
             'RT',
             'Select',
             'Start',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_stickleft.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_stickright.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpadup.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpaddown.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpadleft.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpadright.svg">'
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_stickleft.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_stickright.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpadup.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpaddown.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpadleft.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpadright.svg">'
         ],
         switchpro: [
             'B',
@@ -2966,12 +2904,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             'RT',
             '-',
             '+',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_stickleft.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_stickright.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpadup.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpaddown.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpadleft.svg">',
-            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/controller/button_dpadright.svg">'
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_stickleft.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_stickright.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpadup.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpaddown.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpadleft.svg">',
+            '<img class="ss_buttonbind_icon" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/controller/button_dpadright.svg">'
         ],
         generic: [
             '0',
@@ -3033,17 +2971,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		ready: false,
 
 		imgs: {
-			// loot: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_sleep.svg',
-			// speak: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_speak.svg',
-			// limit: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_daily_limit.svg',
-			// sleep: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_sleep.svg',
-			// idle: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_idle.svg',
+			// loot: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_sleep.svg',
+			// speak: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_speak.svg',
+			// limit: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_daily_limit.svg',
+			// sleep: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_sleep.svg',
+			// idle: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_idle.svg',
 
-			idle: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/alt/cyborg/chickLoop_idle.svg',
-			speak: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/alt/cyborg/chickLoop_speak.svg',
-			limit: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/alt/cyborg/chickLoop_sleep.svg',
-			sleep: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/alt/cyborg/chickLoop_sleep.svg',
-			loot: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/alt/cyborg/chickLoop_sleep.svg',
+			idle: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/alt/cyborg/chickLoop_idle.svg',
+			speak: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/alt/cyborg/chickLoop_speak.svg',
+			limit: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/alt/cyborg/chickLoop_sleep.svg',
+			sleep: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/alt/cyborg/chickLoop_sleep.svg',
+			loot: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/alt/cyborg/chickLoop_sleep.svg',
 		}
 	},
 
@@ -3428,8 +3366,8 @@ function createDisplayAdComponent(templateId) {
                 now: new Date(),
 				day: 0,
 				hours: 0,
-				doubleEggSoonImgSrc: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/events/2XEggWeekend_cominSoon.webp',
-				doubleEggLiveImgSrc: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/events/2XEggWeekend_onNow.webp',
+				doubleEggSoonImgSrc: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/events/2XEggWeekend_cominSoon.webp',
+				doubleEggLiveImgSrc: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/events/2XEggWeekend_onNow.webp',
             };
         },
         methods: {
@@ -3566,7 +3504,7 @@ var comp_spinner_overlay = {
 			tipKey: null,
 			tips: [],
 			tip: '',
-			eggGuyImg: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/shellShockers_loadingTipEgg.webp',
+			eggGuyImg: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/shellShockers_loadingTipEgg.webp',
 			goodBrowser: true,
 			browserTipShown: false,
 		}
@@ -4338,7 +4276,7 @@ var comp_settings_control_binder = {
 	
 	data: function () {
 		return {
-			currentValue: this.controlValue,
+			currentValue: this.labelFor(this.controlValue),
 			isCapturing: false
 		}
 	},
@@ -4347,17 +4285,23 @@ var comp_settings_control_binder = {
 		playSound (sound) {
 			BAWK.play(sound);
 		},
-		
+
+		// A binding is { code, label }; the textbox shows the label (the actual
+		// key as it reads on the keyboard). null means unbound.
+		labelFor: function (binding) {
+			return (binding == null) ? 'undefined' : binding.label;
+		},
+
 		reset: function () {
-			this.currentValue = (this.controlValue === null) ? 'undefined' : this.controlValue;
+			this.currentValue = this.labelFor(this.controlValue);
 			this.isCapturing = false;
 			this.$refs.controlInput.blur();
 		},
 
-		capture: function (value) {
+		capture: function (binding) {
 			this.isCapturing = false;
 			this.$refs.controlInput.blur();
-			this.$emit('control-captured', this.controlId, value);
+			this.$emit('control-captured', this.controlId, binding);
 		},
 
 		onMouseDown: function (event) {
@@ -4366,7 +4310,8 @@ var comp_settings_control_binder = {
 				this.isCapturing = true;
 			} else {
 				BAWK.play('ui_onchange')
-				this.capture('MOUSE ' + event.button);
+				var token = 'MOUSE ' + event.button;
+				this.capture({ code: token, label: token });
 			}
 		},
 
@@ -4384,20 +4329,20 @@ var comp_settings_control_binder = {
 			}
 
 			if (key == ' ') {
-				key = 'space';
 				event.preventDefault();
 			}
-			
-			this.capture(key);
+
+			// Match on the physical code, but display the actual key label.
+			this.capture({ code: event.code, label: extern.keyToLabel(key) });
 		},
 
 		onWheel: function (event) {
 			if (this.isCapturing) {
 				BAWK.play('ui_onchange')
 				if (event.deltaY > 0) {
-					this.capture('WHEEL DOWN');
+					this.capture({ code: 'WHEEL DOWN', label: 'WHEEL DOWN' });
 				} else if (event.deltaY < 0) {
-					this.capture('WHEEL UP');
+					this.capture({ code: 'WHEEL UP', label: 'WHEEL UP' });
 				}
 			}
 		},
@@ -4410,7 +4355,7 @@ var comp_settings_control_binder = {
 	watch: {
 		// The value prop gets updated by the parent control; watch for changes and update the backing field of the textbox
 		controlValue: function (newValue) {
-			this.currentValue = (newValue === null) ? 'undefined' : newValue;
+			this.currentValue = this.labelFor(newValue);
 		}
 	}
 };
@@ -4614,11 +4559,11 @@ var comp_settings = {
 			musicStatChg: '',
 			currentRegion: '',
 			icons: {
-				keyboard: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_keyboard.svg',
-				mouse: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_mouse.svg',
-				gamePad: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_gamepad.svg',
-				monitor: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_monitor.svg',
-				speaker: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_speaker.svg'
+				keyboard: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_keyboard.svg',
+				mouse: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_mouse.svg',
+				gamePad: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_gamepad.svg',
+				monitor: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_monitor.svg',
+				speaker: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_speaker.svg'
 			}
 		}
 	},
@@ -4688,14 +4633,14 @@ var comp_settings = {
 		},
 
 		onControlCaptured: function (controls, id, value) {
-			value = value.toLocaleUpperCase();
-
+			// value is a { code, label } binding. Bindings are unique, so clear
+			// any other action already using the same code.
 			controls
 				.forEach( (c) => {
 					if (c.id === id) {
 						c.value = value;
 					} else {
-						if (c.value === value) {
+						if (c.value && value && c.value.code === value.code) {
 							c.value = null;
 						}
 					}
@@ -5060,12 +5005,12 @@ var comp_settings = {
     <div id="controls_panel" class="font-700 line-height-1-2">
         <div class="box_relative display-grid grid-template tutorial-labels">
         <span v-for="(item, idx) in controls.keys" :key="idx" v-html="loc[item.locKey]" class="box_absolute" :class="item.cls"></span>
-        <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/tutorial/ss_tutorial_Keyboard.webp" class="tutorial-keyboard" alt="Tutorial keyboard image">
-        <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/tutorial/ss_tutorial_Mouse.webp" class="tutorial-mouse" alt="Tutorial mouse image">
+        <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/tutorial/ss_tutorial_Keyboard.webp" class="tutorial-keyboard" alt="Tutorial keyboard image">
+        <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/tutorial/ss_tutorial_Mouse.webp" class="tutorial-mouse" alt="Tutorial mouse image">
     </div>
     <div class="tutorial-content display-grid align-items-center center_h">
         <div>
-            <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/tutorial/ss_tutorial_EggTarget.webp" class="tutorial-egg" alt="Tutorial egg image">
+            <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/tutorial/ss_tutorial_EggTarget.webp" class="tutorial-egg" alt="Tutorial egg image">
         </div>
         <ul class="tutorial-list list-no-style">
             <li class="text-left">{{ loc.tutorial_point_1 }}</li>
@@ -5613,15 +5558,15 @@ var FactionsPopup = {
     getFactionImg(factionId) {
       const base = factionId === 1 ? 'eggsassins' : 'masters';
       const glam = this.playerFaction === factionId ? 'glamON' : 'glamOFF';
-      return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/${base}_${glam}.png`;
+      return `img/gauge-bar/${base}_${glam}.png`;
     }
   },
 
   computed: {
     eggOrgLogo() {
       return this.playerFaction === 1
-        ? 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/egg-org-red.png'
-        : 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/egg-org-blue.png';
+        ? 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/egg-org-red.png'
+        : 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/egg-org-blue.png';
     },
 	paraDescTxt() {
 		if (!this.firebaseId) {
@@ -6008,9 +5953,9 @@ var comp_item = {
 		},
 		bannerIconImg() {
 			if (this.isPremium) {
-				return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/store/PremiumTag.webp';
+				return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/store/PremiumTag.webp';
 			} else if (this.isVipItem) {
-				return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/store/VIPTag.webp';
+				return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/store/VIPTag.webp';
 			}
 		},
 		itemName() {
@@ -6032,7 +5977,7 @@ var comp_item = {
 		<section id="chickn-winner-wrapper" class="egg-chick-wrapper f_row roundme_lg box_relative justify-content-center">
 			<div v-show="eggGameReady" class="egg-chick-box box_relative" v-for="egg in eggs" :key="egg.id">
 				<div v-if="showAmountRewarded && busted && egg.value > 5" class="text-center chw-reward-amount box_absolute">
-					<h2 class="box_relative shadow_grey">{{ showAmountRewarded }} <img class="chw-winner-egg" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_goldenEgg.svg" /></h2>
+					<h2 class="box_relative shadow_grey">{{ showAmountRewarded }} <img class="chw-winner-egg" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_goldenEgg.svg" /></h2>
 				</div>
 				<img class="incentivized-egg-chick box_relative" :class="eggClass(egg.value)" @click="checkIfReady" :src="eggSrc(egg.value)" :id="egg.id">
 				<div v-if="rewardHasItem && egg.value > 5" class="centered">
@@ -6075,7 +6020,7 @@ var comp_chickn_winner_popup = {
 			clickedIdx: 0,
 			eggs: [{id:'eggOne', value: 0, active: true, hide: 0}, {id:'eggTwo', value: 0, active: true, hide: 0}, {id:'eggThree', value: 0, active: true, hide: 0}],
 			isMiniGameComplete: false,
-			bustedSrc: `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/incentivized-mini-game/svg/Egg07.svg`,
+			bustedSrc: `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/incentivized-mini-game/svg/Egg07.svg`,
 			busted: false,
 			showEggGame: false,
 			clickBeforeReady: false,
@@ -6090,14 +6035,14 @@ var comp_chickn_winner_popup = {
         },
 		eggSrc(count) {
 			if (count > 6) {
-				return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/incentivized-mini-game/svg/Egg06.svg`;
+				return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/incentivized-mini-game/svg/Egg06.svg`;
 			}
-			return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/incentivized-mini-game/svg/Egg0${count}.svg`;
+			return `img/incentivized-mini-game/svg/Egg0${count}.svg`;
 		},
 
 		eggSrcBusted() {
 			setTimeout(() => {
-				return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/incentivized-mini-game/svg/Egg07.svg`;
+				return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/incentivized-mini-game/svg/Egg07.svg`;
 			}, 2424);
 		},
 
@@ -6150,6 +6095,10 @@ var comp_chickn_winner_popup = {
 					this.busted = true;
 
 					extern.api_checkBalance();
+
+					if (this.reward.eggs > 0) {
+						vueApp.eggFloatie(this.reward.eggs);
+					}
 
 					this.eggs.forEach(i => {
 						if (i.id === e.target.id) return;
@@ -6312,7 +6261,7 @@ var comp_chickn_winner_popup = {
 	}
 };
 </script><script id="social-panel-template" type="text/x-template">
-	<div ref="socialMediaIcons" class="social_icons roundme_sm f_row gap-sm ss_margintop_xl fullwidth justify-content-end">
+	<div ref="socialMediaIcons" class="social_icons roundme_sm f_row gap-sm fullwidth justify-content-end">
 		<!-- <a :href="newsLetterUrl" target="_blank" @click="playSound('newYolker')">
 			<div class="icon-wrap bg_blue3 roundme_sm">
 				<span class="sr-only">Get the Shell Shocker's Newsletter: The New Yolker</span>
@@ -6515,7 +6464,7 @@ var comp_social_panel = {
         props: ['loc', 'screens', 'currentScreen', 'ui', 'chw', 'firebaseId', 'playClicked'],
         data: function() {
             return {
-                chest: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chw-loot-btn.webp'
+                chest: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chw-loot-btn.webp'
             }
         },
         methods: {
@@ -6563,14 +6512,14 @@ var comp_social_panel = {
             },
             chwChickSrc() {
                 if (this.chw.limitReached || this.isChicknWinnerError) {
-                    // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_daily_limit.svg';
+                    // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_daily_limit.svg';
                     return this.chw.imgs.limit;
                 } else {
                     if (!this.chw.ready) {
-                        // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_sleep.svg';
+                        // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_sleep.svg';
                         return this.chw.imgs.sleep;
                     } else {
-                        // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_speak.svg';
+                        // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_speak.svg';
                         return this.chw.imgs.speak;
                     }
                 }
@@ -6619,7 +6568,7 @@ var comp_social_panel = {
 <script id="home-screen-template" type="text/x-template">
     <div>
 		<!-- <div class="twitch-btn-wrap box_absolute">
-			<button v-if="ui.events.twitch && !extern.inGame" class="ss_button twitch-btn btn_sm box_relative text-right" @click="onTwitchDropsClick">Twitch Drops Live!<span class="twitch-btn-status" v-html="isTwitchLinked"></span> <img class="box_absolute" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/twitch/img/twitch-drops-parachute.svg" alt=""></button>
+			<button v-if="ui.events.twitch && !extern.inGame" class="ss_button twitch-btn btn_sm box_relative text-right" @click="onTwitchDropsClick">Twitch Drops Live!<span class="twitch-btn-status" v-html="isTwitchLinked"></span> <img class="box_absolute" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/twitch/img/twitch-drops-parachute.svg" alt=""></button>
 		</div> -->
 
 		<house-ad-big id="big-house-ad" ref="bigHouseAd" :useAd="ui.houseAds.big" @big-house-ad-closed="onBigHouseAdClosed"></house-ad-big>
@@ -6652,7 +6601,7 @@ var comp_social_panel = {
 			<div id="mainFooter" v-show="!playClicked" class="centered_x">
 				<!-- <chicken-panel ref="chickenPanel" id="chicken_panel" :local="loc" :do-upgraded="isUpgraded"></chicken-panel> -->
 				<section>
-					<footer-links-panel id="footer_links_panel" :loc="loc" :version="changelog.version" :is-poki="isPoki"></footer-links-panel>
+					<footer-links-panel id="footer_links_panel" :loc="loc" :version="changelog.version" :is-poki="isPoki" :social-media="ui.socialMedia.footer" :selected-social="ui.socialMedia.selected"></footer-links-panel>
 				</section>
 			</div>
 		</transition>
@@ -7366,8 +7315,8 @@ var comp_social_panel = {
         computed: {
             iconSrc() {
                 return this.isAnonymous ?
-                    'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_goldenEgg_callout.svg' :
-                    'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_goldenEgg.svg';
+                    'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg_callout.svg' :
+                    'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg.svg';
             },
             formattedBalance() {
                 // Add number formatting for large values
@@ -7834,7 +7783,7 @@ var comp_social_panel = {
                 // Fully linked account
                 return {
                     text: currentUser.username || this.loc.sign_in_cg_linked,
-                    img: currentUser.profilePictureUrl || 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/crazy-games-logo.png',
+                    img: currentUser.profilePictureUrl || 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/crazy-games-logo.png',
                     isLinked: localUser?.hasLinked || false,
                     isLoggedIn: true
                 };
@@ -7857,7 +7806,7 @@ var comp_social_panel = {
                         userLoggedIn: false,
                         isAnonymous: true,
                     };
-                    return user?.profilePictureUrl || 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/crazy-games-logo.png';
+                    return user?.profilePictureUrl || 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/crazy-games-logo.png';
                 }
                 return '';
             },
@@ -7927,7 +7876,7 @@ var comp_social_panel = {
             createBaseState(text) {
                 return {
                     text: text,
-                    img: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/crazy-games-logo.png',
+                    img: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/crazy-games-logo.png',
                     isLinked: false,
                     isLoggedIn: false
                 };
@@ -8125,7 +8074,7 @@ var comp_social_panel = {
 				<weapon-select-panel id="weapon_select" class="justify-content-center centered_x" :loc="loc" :account-settled="isGameReady" :current-class="currentClass" :current-screen="showScreen" :screens="screens" :play-clicked="playClicked" @changed-class="onChangedClass"></weapon-select-panel>
 				<div class="play-panel-btn-group display-grid grid-auto-flow-column gap-1 centered_x">
 					<button @click="onJoinPrivateGameClick" class="is-for-play ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative">
-						<!-- <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_star_gold.svg" class="icon-star top-left"/> -->
+						<!-- <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_star_gold.svg" class="icon-star top-left"/> -->
 						<span>{{ loc.p_privatematch_friends }}</span>
 					</button>
 					<button @click="onPlayButtonClick" class="is-for-play ss_button btn_big btn_green bevel_green play-button box_relative" v-html="playBtn"></button>
@@ -8548,6 +8497,10 @@ var comp_region_list_popup = {
 
                 this.$refs.joinPrivateGamePopup.hide();
 
+                // Track how the player reached this Join Game button: via a shared
+                // link (join-only view) or by entering a code after Play With Friends.
+                ga('send', 'event', vueData.googleAnalytics.cat.play, this.joinUrlRequest ? 'joinWithLink' : 'joinWithCode');
+
                 // checking if the invite code is being used since, we are only trying to determine
                 extern.onJoinGameClick = true;
                 vueApp.externPlayObject(vueData.playTypes.joinPrivate, '', this.playerName, '', newCode);
@@ -8692,7 +8645,7 @@ var comp_newsfeed_panel = {
 		<div class="chicken-panel--upgraded" v-show="doUpgraded && !isSubscriber">
 			<div class="tool-tip tool-tip--right">
 				<span v-if="nugCounter" id="nugget-countdown">{{nugCounter}} Minutes remaining.</span>
-				<img class="upgraded-nugget" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/goldenNugget_static.webp">
+				<img class="upgraded-nugget" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/goldenNugget_static.webp">
 				<!-- <div id="nugget-timer" class="nugget-timer--wrapper">
 					<div class="timer-background"></div>
 					<div class="timer spinner"></div>
@@ -8703,11 +8656,11 @@ var comp_newsfeed_panel = {
 		</div>
 		
 		<div class="chicken-panel--no-upgraded" v-show="!doUpgraded">
-			<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/starburst.webp" @click="onChickenClick" class="clickme starburst">
-			<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/goldenNuggetGIFWIP.gif" @click="onChickenClick" class="clickme nugget-chick">
+			<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/starburst.webp" @click="onChickenClick" class="clickme starburst">
+			<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/goldenNuggetGIFWIP.gif" @click="onChickenClick" class="clickme nugget-chick">
 		
 			<div id="buyPassChickenSpeech">
-				<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/speechtail.webp" class="buyPassChickenSpeechTail">
+				<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/speechtail.webp" class="buyPassChickenSpeechTail">
 				<span v-html="loc.chicken_cta"></span>
 			</div>
 		</div>
@@ -8731,17 +8684,19 @@ var comp_chicken_panel = {
 };
 </script><script id="footer-links-panel-template" type="text/x-template">
 	<footer class="main-footer">
-		<!-- <section class="social-icons">
-			<social-panel id="social_panel" :loc="loc" :is-poki="isPoki" :use-social="selectedSocial" :social-media="socialMedia"></social-panel>
-		</section> -->
-		<section class="centered">
+		<section class="main-footer--left">
 			<nav class="footer-nav text-center">
-				<button @click="onChangelogClicked" class="clickme ss_button_as_text">{{ version }}</button> | 
+				<button @click="onChangelogClicked" class="clickme ss_button_as_text">{{ version }}</button>
+				<button @click="onHelpClick" class="clickme ss_button_as_text">{{ loc['account_title_faq'] }}</button>
+			</nav>
+		</section>
+		<section class="social-icons">
+			<social-panel id="social_panel" :loc="loc" :is-poki="isPoki" :use-social="socialMedia" :social-media="selectedSocial"></social-panel>
+		</section>
+		<section class="main-footer--right">
+			<nav class="footer-nav text-center">
 				<!-- <a href="https://shell-shockers.myshopify.com/collections/all" target="_blank" @click="BAWK.play('ui_click')">{{ loc.footer_merchandise }}</a> |  -->
-				<button class="ss_button_as_text" target="_blank" @click="openInNewTab('https://www.bluewizard.com/privacypolicy')">{{ loc.footer_privacypolicy }}</button> | 
-				<button class="ss_button_as_text" target="_blank" @click="openInNewTab('https://bluewizard.com/terms/')">{{ loc.footer_termsofservice }}</button> | 
-				<button class="ss_button_as_text" @click="onHelpClick">{{ loc['account_title_faq'] }}</button> | 
-				<button class="ss_button_as_text" target="_blank" @click="openInNewTab('https://www.bluewizard.com')">&copy; 2026 <img class="main-footer--logo-blue-wiz-mini" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/blue-wizard-logo-tiny-min.webp" :alt="loc.footer_bluewizard + ' logo'"><span class="hideme">{{ loc.footer_bluewizard }}</span></button>
+				<button class="ss_button_as_text" target="_blank" @click="openInNewTab('https://www.bluewizard.com')">&copy; 2026 <img class="main-footer--logo-blue-wiz-mini" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/blue-wizard-logo-tiny-min.webp" :alt="loc.footer_bluewizard + ' logo'"><span class="hideme">{{ loc.footer_bluewizard }}</span></button>
 			</nav>
 		</section>
 	</footer>
@@ -8750,6 +8705,9 @@ var comp_chicken_panel = {
 <script>
 var comp_footer_links_panel = {
 	template: '#footer-links-panel-template',
+	components: {
+		'social-panel': comp_social_panel
+	},
 	props: ['loc', 'version', 'isPoki', 'socialMedia', 'selectedSocial'],
 
 	methods: {
@@ -8800,7 +8758,7 @@ var comp_footer_links_panel = {
 		data: function () {
             return {
 				isVisible: true,
-				portalImage: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/free-games-io2.webp',
+				portalImage: 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/free-games-io2.webp',
 				portalAltText: 'Free Games .io logo'
 			}
 		},
@@ -8953,7 +8911,7 @@ var comp_footer_links_panel = {
 				</div>
 				<div class="display-grid grid-column-2-eq align-items-center">
 					<div class="player-challenge-single-reward text-shadow-black-40 display-grid align-items-center grid-column-auto-1 gap-sm">
-						<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_goldenEgg.svg"> {{ reward }}
+						<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg.svg"> {{ reward }}
 					</div>
 					<div class="player-challenge-single-action justify-self-end margin-0 box_relative" :class="actionState">
 						<div v-show="showActionBtn" class="player-challenge-tool-tip box_relative">
@@ -9624,7 +9582,7 @@ var CompMediaPanel = {
         
         methods: {
 			fetchJson() {
-				extern.requestJson('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/data/shellNews.json', (data) => {
+				extern.requestJson('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/data/shellNews.json', (data) => {
 					if (crazyGamesActive) {
 						const newNews = data.filter((item, idx) => {
 							if (item.hideOnCrazyGames !== null && item.hideOnCrazyGames) {
@@ -9639,8 +9597,8 @@ var CompMediaPanel = {
 					this.news = data;
 
 				});
-				extern.requestJson('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/data/shellYouTube.json', (data) => this.youTube = data);
-				extern.requestJson('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/data/twitchStreams.json', (streams) => {
+				extern.requestJson('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/data/shellYouTube.json', (data) => this.youTube = data);
+				extern.requestJson('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/data/twitchStreams.json', (streams) => {
 						
 						streams.sort((a, b) => {
 							return b.viewers - a.viewers;
@@ -10066,7 +10024,7 @@ var CompMediaPanel = {
 		<!-- logo -->
 		<div id="logo" class="box_relative">
 			<a href="https://www.shellshock.io" @click="onLogoClick"><img class="home-screen-logo" :src="logo" @click="onLogoClick"></a>
-			<!-- <img v-if="eggOrg" class="egg-org-logo" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/egg-org/logo_EggOrg.svg"> -->
+			<!-- <img v-if="eggOrg" class="egg-org-logo" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/egg-org/logo_EggOrg.svg"> -->
 		</div>
 		<transition name="fade">
 			<div class="box_relative" v-show="!playClicked">
@@ -10188,12 +10146,12 @@ var COMPCHWBUBBLE = {
 		},
 		chwChickSrc() {
 			if (this.limitReached || this.error) {
-				return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_daily_limit.svg';
+				return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_daily_limit.svg';
 			} else {
 				if (!this.ready) {
-					return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_sleep.svg';
+					return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_sleep.svg';
 				} else {
-					return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_speak.svg';
+					return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_speak.svg';
 				}
 			}
 		},
@@ -10772,11 +10730,11 @@ var STATSPOPUP = {
 			<!-- The meter bar itself -->
 			<div class="faction-meter-shell ss-shell-meter centered_x">
 				<div id="ss-shell-gauge" class="gauge">
-					<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/shadows-meter.png" class="centered_x meter-gauge">
-					<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/red-glow.png" class="glow red" v-if="leadingFaction === 0">
-					<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/blue-glow.png" class="glow blue" v-if="leadingFaction === 1">
+					<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/shadows-meter.png" class="centered_x meter-gauge">
+					<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/red-glow.png" class="glow red" v-if="leadingFaction === 0">
+					<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/blue-glow.png" class="glow blue" v-if="leadingFaction === 1">
 					<div ref="needle" class="needle">
-						<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/meter_marker.png" class="centered_x">
+						<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/meter_marker.png" class="centered_x">
 					</div>
 				</div>
 			</div>
@@ -10790,7 +10748,7 @@ var STATSPOPUP = {
 					@mouseenter="hoverFactionA = true" 
 					@mouseleave="hoverFactionA = false"
 					:class="{ 'faction-hover': hoverFactionA }">
-					<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/ico_crossbones.svg" alt=""> 
+					<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/ico_crossbones.svg" alt=""> 
 					<span>{{ hoverFactionA ? factionAHoverValue : factionATotals }}</span>
 				</div>
 				<div class="text-center faction-label-txt text-uppercase font-800 faction-txt-red">{{ loc.faction_a_title }}</div>
@@ -10800,7 +10758,7 @@ var STATSPOPUP = {
 					@mouseenter="hoverFactionB = true" 
 					@mouseleave="hoverFactionB = false"
 					:class="{ 'faction-hover': hoverFactionB }">
-					<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/ico_crossbones.svg" alt=""> 
+					<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/ico_crossbones.svg" alt=""> 
 					<span>{{ hoverFactionB ? factionBHoverValue : factionBTotals }}</span>
 				</div>
 				<div class="text-center faction-label-txt  text-uppercase font-800 faction-txt-blue">{{ loc.faction_b_title }}</div>
@@ -11357,9 +11315,9 @@ var comp_shell_tips = {
             },
             twitchDropsBtnImgSrs() {
                 if (this.twitchLinked) {
-                    return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/../img/events/twitch-drops-btn-linked.webp';
+                    return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/../img/events/twitch-drops-btn-linked.webp';
                 }
-                return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/../img/events/twitch-drops-btn-link-now.webp';
+                return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/../img/events/twitch-drops-btn-link-now.webp';
             },
             isTwitchLinked() {
                 if (this.twitchLinked) return '<i class="fas fa-check-circle text_twitch_yellow"></i>';
@@ -11489,7 +11447,7 @@ var comp_gold_chicken_popup = {
 					<canvas id="buyItemCanvas" ref="buyItemCanvas" width="250" height="250"></canvas>
 				</div>
 				<div class="f_row f_center">
-					<img v-if="!isBuyingItemPrem" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_goldenEgg.webp" class="egg_icon"/>
+					<img v-if="!isBuyingItemPrem" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_goldenEgg.webp" class="egg_icon"/>
 					<i v-else class="fas fa-dollar-sign"></i>
 					<h1>{{ (equip.buyingItem) ? equip.buyingItem.price : '' }}</h1>
 				</div>
@@ -11522,7 +11480,7 @@ var comp_gold_chicken_popup = {
 					<div>
 						<item :loc="loc" :item="equip.physicalUnlockPopup.item" :isSelected="false" :show-item-only="true"></item>
 						<div class="f_row f_center">
-							<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_goldenEgg.webp" class="egg_icon"/>
+							<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_goldenEgg.webp" class="egg_icon"/>
 							<h1>{{ loc.p_buy_special_price }}</h1>
 						</div>
 					</div>
@@ -11552,7 +11510,7 @@ var comp_gold_chicken_popup = {
 				<div id="hvsm-popup-item-grid-wrap" v-show="isOnEquipModeFeatured || isEquipModeShop" class="hvsm-popup-item-grid-wrap paddings_lg display-grid  grid-auto-flow-column align-items-center justify-content-center">
 					<div class="hvsm-popup-item-grid">
 						<header>
-							<img class="display-block center_h" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/shell_E&E_good_popup.webp" alt="Heroes logo">
+							<img class="display-block center_h" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/shell_E&E_good_popup.webp" alt="Heroes logo">
 							<h4 class="text-center text-uppercase nospace text_blue5">Heroes</h4>
 						</header>
 						<item-grid id="hvsmHeroesItemGrid" ref="hvsmHeroesItemGrid" :loc="loc" :items="equip.hvsmHeroItems" :has-buy-btn="false" :selectedItem="equip.selectedItem" @item-selected="onItemSelected" :in-shop="isInShop" :in-inventory="isEquipModeInventory"></item-grid>
@@ -11580,7 +11538,7 @@ var comp_gold_chicken_popup = {
 					</div>
 					<div class="hvsm-popup-item-grid">
 						<header>
-							<img class="display-block center_h" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/shell_E&E_evil_popup.webp" alt="Monsters logo">
+							<img class="display-block center_h" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/shell_E&E_evil_popup.webp" alt="Monsters logo">
 							<h4 class="text-center text-uppercase nospace text_blue5">Monsters</h4>
 						</header>
 						<item-grid id="hvsmMonsterItemGrid" ref="hvsmMonsterItemGrid" :loc="loc" :items="equip.hvsmMonsterItems" :has-buy-btn="false" :selectedItem="equip.selectedItem" @item-selected="onItemSelected" :in-shop="isInShop" :in-inventory="isEquipModeInventory"></item-grid>
@@ -11600,28 +11558,28 @@ var comp_gold_chicken_popup = {
 		<div id="equip_equippedslots">
 			<div class="equip_item roundme_lg clickme f_row f_center" @click="onClick(itemType.Primary)">
 				<item :loc="loc" id="primary_item" ref="primary_item" v-if="primaryItem" :item="primaryItem" class="equip_icon" :equippedSlot="true"></item>
-				<div v-if="!primaryItem" class="equip_icon equip_icon_hat equip_icon_no_item"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/inventory-icons/ico_weaponPrimary.svg" alt="Primary equip slot"></div>
+				<div v-if="!primaryItem" class="equip_icon equip_icon_hat equip_icon_no_item"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/inventory-icons/ico_weaponPrimary.svg" alt="Primary equip slot"></div>
 			</div>
 
 			<div class="equip_item roundme_lg clickme f_row f_center" @click="onClick(itemType.Secondary)">
 				<item :loc="loc" id="secondary_item" ref="secondary_item" v-if="secondaryItem" :item="secondaryItem" class="equip_icon" :equippedSlot="true"></item>
-				<div v-if="!secondaryItem" class="equip_icon equip_icon_hat equip_icon_no_item"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/inventory-icons/ico_weaponSecondary.svg" alt="Secondary equip slot"></div>
+				<div v-if="!secondaryItem" class="equip_icon equip_icon_hat equip_icon_no_item"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/inventory-icons/ico_weaponSecondary.svg" alt="Secondary equip slot"></div>
 			</div>
 
 			<div class="equip_item roundme_lg clickme f_row f_center" @click="onClick(itemType.Grenade)">
 				<item :loc="loc" id="grenade_item" ref="grenade_item" v-if="grenadeItem" :item="grenadeItem" class="equip_icon" :equippedSlot="true"></item>
-				<div v-if="!grenadeItem" class="equip_icon equip_icon_hat equip_icon_no_item"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/inventory-icons/ico_grenade.svg" alt="Grenade equip slot"></div>
+				<div v-if="!grenadeItem" class="equip_icon equip_icon_hat equip_icon_no_item"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/inventory-icons/ico_grenade.svg" alt="Grenade equip slot"></div>
 
 			</div>
 			
 			<div class="equip_item roundme_lg clickme f_row f_center" @click="onClick(itemType.Hat)">
 				<item :loc="loc" id="hat_item" ref="hat_item" v-if="hatItem" :item="hatItem" :equippedSlot="true"></item>
-				<div v-if="!hatItem" class="equip_icon equip_icon_hat equip_icon_no_item"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/inventory-icons/ico_hat.svg" alt="Hat item slot"></div>
+				<div v-if="!hatItem" class="equip_icon equip_icon_hat equip_icon_no_item"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/inventory-icons/ico_hat.svg" alt="Hat item slot"></div>
 			</div>
 			
 			<div class="equip_item roundme_lg clickme f_row f_center" @click="onClick(itemType.Stamp)">
 				<item :loc="loc" id="stamp_item" ref="stamp_item" v-if="stampItem" :item="stampItem" :equippedSlot="true"></item>
-				<div v-if="!stampItem" class="equip_icon equip_icon_stamp equip_icon_no_item"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/inventory-icons/ico_stamp.svg" alt="Stamp item slot"></div>
+				<div v-if="!stampItem" class="equip_icon equip_icon_stamp equip_icon_no_item"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/inventory-icons/ico_stamp.svg" alt="Stamp item slot"></div>
 			</div>
 		</div>
 	</div>
@@ -11661,7 +11619,7 @@ var comp_equipped_slots = {
 		<div id="equip_free_colors" class="display-grid text-center grid-auto-flow-column align-items-center ">
 			<!-- <svg v-for="(c, index) in freeColors" class="eggIcon equip_color" :style="{ color: c }" :class="isSelectedClass(index)" @click="onClick(index)"><use xlink:href="#icon-egg"></use></svg> -->
 			<span v-for="(c, index) in freeColors" class="box_relative roundme_sm egg-color-icon " @click="onClick(index)">
-				<img v-if="index === colorIdx" class="centered_x color-select-arrow" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico-arrow-colorPicker.svg"/>
+				<img v-if="index === colorIdx" class="centered_x color-select-arrow" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico-arrow-colorPicker.svg"/>
 				<i  class="fas fa-egg" :style="{ color: c }" :class="isSelectedClass(index)"></i>
 			</span>
 		<!-- </div>
@@ -11669,7 +11627,7 @@ var comp_equipped_slots = {
 
 			<!-- <svg v-for="(c, index) in paidColors" class="eggIcon equip_color" :style="{ color: c }" :class="isSelectedClass(index + freeColors.length)" @click="onClick(index + freeColors.length)"><use :xlink:href="getExtraColorEggIcon"></use></svg> -->
 			<span v-for="(c, index) in paidColors" class="box_relative roundme_sm egg-color-icon" @click="onClick(index + freeColors.length)">
-				<img v-if="colorIdx === (index + freeColors.length)" class="centered_x color-select-arrow" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico-arrow-colorPicker.svg"/>
+				<img v-if="colorIdx === (index + freeColors.length)" class="centered_x color-select-arrow" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico-arrow-colorPicker.svg"/>
 				<span class="fa-stack roundme_sm" :class="isSelectedClass(index + freeColors.length)">
 					<i class="fas fa-egg fa-stack-1x" :style="{ color: c }"></i>
 					<i v-if="!isUpgrade" class="fas fa-lock fa-stack-1x text_white"></i>
@@ -11732,7 +11690,7 @@ var comp_item_timer = {
 
 		<button v-if="!playerNeedsMoreEggs && !isItemOwned" class="ss_button btn_green bevel_green btn_md btn_buy_item display-grid fullwidth font-nunito f_row align-items-center justify-content-center box_relative" @click="onBuyClick">
 			{{priceTagText}}
-			<img v-if="!isPremium" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_goldenEgg.webp" class="ss_marginright_sm ss_marginleft">
+			<img v-if="!isPremium" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_goldenEgg.webp" class="ss_marginright_sm ss_marginleft">
 			<i v-else class="fas fa-dollar-sign ss_marginleft"></i>
 			{{ item.price }}
 		</button>
@@ -11814,11 +11772,11 @@ var comp_item_timer = {
 </script><script id="physical-tag-template" type="text/x-template">
 	<div id="equip_get_physical_item" class="equip_purchase_items">
 		<div id="equip_pricetag" class="equip_pricetag shadow_blue2">
-			<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/pricetag_left.webp">
+			<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/pricetag_left.webp">
 			<div class="equip_pricetag__tag equip_pricetag__is_special_tag">
-				<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_goldenEgg.webp" class="ss_marginright">{{ loc.p_buy_special_price }}
+				<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_goldenEgg.webp" class="ss_marginright">{{ loc.p_buy_special_price }}
 			</div>
-			<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/pricetag_right.webp">
+			<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/pricetag_right.webp">
 		</div>
 		<button class="ss_button btn_yolk bevel_yolk is_special_get_btn" @click="onBuyClick">{{ loc.p_chicken_goldbutton }}</button>
 	</div>
@@ -12021,7 +11979,7 @@ var comp_item_grid = {
                     <p v-if="showSubtitle" class="eggshop_subtitle font-sigmar" :class="subTitleCls" v-html="loc[description]"></p>
                 </div>
                 <div class="single-egg-store-price box_relative z-index-2">
-                    <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/store/passes/pass_welcome_title.png" v-if="productTypePass" class="pass-title-img">
+                    <img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/store/passes/pass_welcome_title.png" v-if="productTypePass" class="pass-title-img">
                     <div class="single-egg-store-info f_row align-items-center gap-micro">
                         <p v-if="!productTypePass" class="eggshop_pricebox nospace display-inline" :class="priceCls"><span class="eggshop-dollar-sign">$</span>{{ item.price }}<span class="eggshop-currency-type"> USD</span></p>
                         <button v-if="productTypeBundle || productTypePass || productTypeItem" class="btn_store ss_button btn_yolk bevel_yolk btn_sm f_row align-items-center" :class="secondaryBtnStyle" @click="onPremSecondaryBtnClicked">{{ premItemBtnText }}
@@ -12207,21 +12165,21 @@ var comp_item_grid = {
                 }
             },
             style() {
-                return this.productTypePass ? `background-image: url(${window.JSCDN}img/store/passes/${this.item.sku}_bg.png); background-size: cover;` : '';
+                return this.productTypePass ? `background-image: url(img/store/passes/${this.item.sku}_bg.png); background-size: cover;` : '';
             },
             img() {
                 switch (this.item.type) {
                     case 'item':
-                        return `${window.JSCDN}img/store/items/${this.item.sku}.webp`;
+                        return `img/store/items/${this.item.sku}.webp`;
                         break;
                     case 'bundle':
-                        return `${window.JSCDN}img/store/bundles/${this.item.sku}.webp`;
+                        return `img/store/bundles/${this.item.sku}.webp`;
                         break;
                     case 'pass':
-                        return `${window.JSCDN}img/store/passes/${this.item.sku}.png`;
+                        return `img/store/passes/${this.item.sku}.png`;
                         break;
                     default:
-                        return `${window.JSCDN}${!this.isSaleEvent ? '' : 'store-black-friday/'}${this.item.sku}.webp`;
+                        return `img/${!this.isSaleEvent ? '' : 'store-black-friday/'}${this.item.sku}.webp`;
                         break;
                 }
             },
@@ -12559,13 +12517,17 @@ var comp_egg_store = {
 
             stampPositionKeyboardHandler(e) {
                 var keybinds = this.settingsUi.controls.keyboard.game;
-                if (e.key.toUpperCase() == keybinds[keybinds.findIndex(item => item.id === "up")].value) {
+                var codeOf = function (id) {
+                    var binding = keybinds[keybinds.findIndex(item => item.id === id)].value;
+                    return binding ? binding.code : null;
+                };
+                if (e.code == codeOf("up")) {
                     this.moveStamp(0, 1);
-                } else if (e.key.toUpperCase() == keybinds[keybinds.findIndex(item => item.id === "down")].value) {
+                } else if (e.code == codeOf("down")) {
                     this.moveStamp(0, -1);
-                } else if (e.key.toUpperCase() == keybinds[keybinds.findIndex(item => item.id === "left")].value) {
+                } else if (e.code == codeOf("left")) {
                     this.moveStamp(-1, 0);
-                } else if (e.key.toUpperCase() == keybinds[keybinds.findIndex(item => item.id === "right")].value) {
+                } else if (e.code == codeOf("right")) {
                     this.moveStamp(1, 0);
                 }
             },
@@ -13299,8 +13261,8 @@ var comp_egg_store = {
 		<div ref="gameUIWrapper">
 			<div ref="gameUiInner" class="paused-game-ui z-index-1 centered_x fullwidth" v-show="showScreen === screens.game">
 				<!-- <div class="factions-game-score centered_x">
-					<div class="faction-label faction-0-label f_row align-items-center justify-content-center roundme_sm box_absolute right-0 tool-tip"><span class="tool-tip-text faction-tooltip">{{ loc.factions_in_game_tip.format(loc.faction_b_title) }}</span><img class="faction-game-logo box_absolute" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/faction-egg-masters.png" alt=""><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/ico_crossbones.svg" alt=""> <i class="display-block">{{ factionsBGameScore }}</i></div>
-					<div class="faction-label faction-1-label f_row align-items-center justify-content-center roundme_sm box_absolute left-0 tool-tip"><span class="tool-tip-text faction-tooltip">{{ loc.factions_in_game_tip.format(loc.faction_a_title) }}</span><img class="faction-game-logo box_absolute" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/faction-egg-assasins.png" alt=""><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/ico_crossbones.svg" alt=""> <i class="display-block">{{ factionsAGameScore }}</i></div>
+					<div class="faction-label faction-0-label f_row align-items-center justify-content-center roundme_sm box_absolute right-0 tool-tip"><span class="tool-tip-text faction-tooltip">{{ loc.factions_in_game_tip.format(loc.faction_b_title) }}</span><img class="faction-game-logo box_absolute" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/faction-egg-masters.png" alt=""><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/ico_crossbones.svg" alt=""> <i class="display-block">{{ factionsBGameScore }}</i></div>
+					<div class="faction-label faction-1-label f_row align-items-center justify-content-center roundme_sm box_absolute left-0 tool-tip"><span class="tool-tip-text faction-tooltip">{{ loc.factions_in_game_tip.format(loc.faction_a_title) }}</span><img class="faction-game-logo box_absolute" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/faction-egg-assasins.png" alt=""><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/ico_crossbones.svg" alt=""> <i class="display-block">{{ factionsAGameScore }}</i></div>
 				</div> -->
 <!-- 
 				<div v-show="game.pauseScreen.showMenu" class="centered_x z-index-1 bg_blue3">
@@ -13360,7 +13322,7 @@ var comp_egg_store = {
 							<p id="teamScoreNum1" class="number centered_x">0</p>
 					</div>
 					<!--<div>
-							<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/spatulaIcon.webp" style="width: 3em; transform: rotate(60deg)">
+							<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/spatulaIcon.webp" style="width: 3em; transform: rotate(60deg)">
 					</div>-->
 				</div>
 
@@ -13375,7 +13337,7 @@ var comp_egg_store = {
 							</div>
 		
 							<svg id="captureIcon" viewBox="0 0 53.6 36">
-								<use href="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/crown.svg#crown" />
+								<use href="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/crown.svg#crown" />
 							</svg>
 						</div>
 					</div>
@@ -13420,7 +13382,7 @@ var comp_egg_store = {
 				<div id="captureContainer">
 					<div class="captureScoreContainer">
 						<svg class="captureCrown" viewBox="0 0 53.6 36">
-							<use href="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/crown.svg#crown" fill="var(--ss-team-red-light)" />
+							<use href="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/crown.svg#crown" fill="var(--ss-team-red-light)" />
 						</svg>
 	
 						<div id="captureScoreRed" class="captureScore">0/5</div>
@@ -13435,7 +13397,7 @@ var comp_egg_store = {
 	
 					<div class="captureScoreContainer">
 						<svg class="captureCrown" viewBox="0 0 53.6 36">
-							<use href="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/kotc/crown.svg#crown" fill="var(--ss-team-blue-light)" />
+							<use href="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/kotc/crown.svg#crown" fill="var(--ss-team-blue-light)" />
 						</svg>
 						<div id="captureScoreBlue" class="captureScore">0/5</div>
 					</div>
@@ -13452,9 +13414,9 @@ var comp_egg_store = {
 				<!-- Weapon -->
 				<div id="weaponBox">
 					<div id="grenades">
-						<img id="grenade3" class="grenade" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_grenadeEmpty.webp?v=1"/>
-						<img id="grenade2" class="grenade" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_grenadeEmpty.webp?v=1"/>
-						<img id="grenade1" class="grenade" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_grenadeEmpty.webp?v=1"/>
+						<img id="grenade3" class="grenade" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_grenadeEmpty.webp?v=1"/>
+						<img id="grenade2" class="grenade" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_grenadeEmpty.webp?v=1"/>
+						<img id="grenade1" class="grenade" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_grenadeEmpty.webp?v=1"/>
 					</div>
 					<h2 id="weaponName"></h2>
 					<h2 id="ammo" class="shadow_grey"></h2>
@@ -13484,7 +13446,7 @@ var comp_egg_store = {
 				</div>
 
 				<div id="kill-death-box" ref="killDeathBox" v-show="game.ingameNotification.showing" class="in-game-notification centered_x">
-					<img v-show="game.ingameNotification.item.type !== 2" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/ico_streak.webp" alt="" class="centered_x kill-death-box-img" />
+					<img v-show="game.ingameNotification.item.type !== 2" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/ico_streak.webp" alt="" class="centered_x kill-death-box-img" />
 					<span v-show="game.ingameNotification.item.type == 2" class="h1 text_yellow centered_x"><span>x</span>{{game.ingameNotification.item.streak}}</span>
 					<h2 v-show="game.ingameNotification.item.type == 2" class="nospace text_white">{{ loc.ks_shell_streak }}!</h2>
 					<div class="kill-death-msg" ref="killMsg" v-show="game.ingameNotification.item.type !== 2" :class="game.ingameNotification.item.style" v-html="game.ingameNotification.item.msg"></div>
@@ -13540,7 +13502,13 @@ var comp_egg_store = {
 		<div v-show="game.showWelcomeBundleCta" id="welcome-bundle-ui" class="cta-welcome-bundle box_absolute roundme_lg z-index-2">
 			<img v-lazyload :data-src="ui.lazyImages.welcomePack" class="lazy-load" alt="Buy the welcome pack for $1 usd" @click="onEmitShowWelcomeBundlePopup" />
 		</div>
-		
+		<transition name="vip-promo-fade">
+			<div v-show="showVipAdPromo" id="vip-ad-promo" class="cta-vip-promo box_absolute roundme_lg z-index-2" @click="onEmitShowWelcomeBundlePopup">
+				<span class="cta-vip-promo__arrow">&#9664;</span>
+				<span class="cta-vip-promo__text">{{ loc.vip_promo_remove_ads || 'Remove all ads - Get VIP!' }}</span>
+			</div>
+		</transition>
+
 		<div ref="chatWrapper" :class="[{'chat-hidden': !chatEnabled}]" class="chat-wrapper pause-ui-element box_absolute roundme_lg">
 			<div ref="announcementMsg" v-show="announcementMessage" id="announcement_message" class="font-nunito text_white"><span class="text_yellow">Announcement: </span>{{ announcementMessage }}</div>
 			<div v-show="!chatEnabled" class="paddings_md">
@@ -13676,7 +13644,7 @@ var comp_egg_store = {
 								</div>
 								<!-- end .pause-screen-content -->
 								<!-- <div class="pause-screen-play-btn center_h text-center"> -->
-								<button v-if="!extern.observingGame" @click="onPlayClicked()" class="ss_button btn_big btn-dark-bevel btn-respawn" :class="playBtnColor" :disabled="isRespawning">
+								<button ref="respawnBtn" v-if="!extern.observingGame" @click="onPlayClicked()" class="ss_button btn_big btn-dark-bevel btn-respawn" :class="[playBtnColor, { 'respawn-waiting': isRespawning }]">
 									<i v-if="delayTheCracking" v-show="!isRespawning" class="fa fa-play"></i>{{ playBtnText }} <span style="display: inline-block; font-size: 0.4em;">{{ playBtnAdBlockerText }}</span>
 								</button>
 								<button v-if="delayTheCracking" v-show="isTeamGame" @click="onSwitchTeamClicked" class="ss_button btn_big btn_team_switch btn-dark-bevel btn-respawn" :class="teamColorCss">
@@ -13998,14 +13966,34 @@ const CompShellStreakMsg = {
 
             onPlayClicked() {
                 if ((!this.delayTheCracking && !this.isRespawning) || (this.delayTheCracking && this.isRespawning) || this.game.disableRespawnButton) {
+                    // Clicked before the button is ready (Get Ready / respawn or
+                    // ad-delay countdown): give feedback but don't respawn.
+                    this.jiggleRespawnButton();
                     return;
                 }
 
                 vueApp.disableRespawnButton(true);
                 vueData.ui.showCornerButtons = false;
+                this.vipAdPromo.suppressed = true;
                 extern.respawn();
                 BAWK.play('ui_playconfirm');
                 this.gaSendOnClassChange();
+            },
+
+            jiggleRespawnButton() {
+                // Egg hit-marker noise, throttled so rapid clicks don't machine-gun.
+                const now = performance.now();
+                if (!this._lastRespawnJiggleSound || now - this._lastRespawnJiggleSound > 100) {
+                    this._lastRespawnJiggleSound = now;
+                    BAWK.play('hit');
+                }
+
+                const btn = this.$refs.respawnBtn;
+                if (!btn) return;
+                // Remove + force reflow so the shake restarts on every click.
+                btn.classList.remove('jiggle');
+                void btn.offsetWidth;
+                btn.classList.add('jiggle');
             },
 
             onSpectateClicked: function() {
@@ -14425,6 +14413,23 @@ const CompShellStreakMsg = {
                 return this.game.respawnTime > 0;
             },
 
+            vipPromoWindowOpen: function() {
+                // When the VIP promo may show. It normally rides the welcome-bundle
+                // CTA (intro-bundle panel, not chicken winner). But if the player
+                // already bought the $1 bundle that CTA never appears, so fall back
+                // to the in-game pause/respawn screen — VIP still gets promoted.
+                if (this.game.showWelcomeBundleCta) return true;
+                if (extern.getIsWelcomeBundlePurchased && this.game.isPaused && this.showScreen === this.screens.game) return true;
+                return false;
+            },
+
+            showVipAdPromo: function() {
+                if (this.isSubscriber) return false;
+                if (!this.vipPromoWindowOpen) return false;
+                if (this.vipAdPromo.suppressed) return false;
+                return this.vipAdPromo.mode === 'whenBundleShows' || this.vipAdPromo.active;
+            },
+
             isTeamGame: function() {
                 // Would be better to use the same enum as the client game code
                 return this.game.gameType !== 0;
@@ -14463,7 +14468,7 @@ const CompShellStreakMsg = {
                 return this.eggStoreItems.some(item => item['salePrice'] !== '' && this.ui.showCornerButtons);
             },
             upgradeBadgeUrl() {
-                return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/vip-club/vip-club-popup-emblem.webp';
+                return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/vip-club/vip-club-popup-emblem.webp';
             },
             playerSocial() {
                 return SOCIALMEDIA[this.playerActionsPopup.social.id];
@@ -14580,7 +14585,8 @@ const CompShellStreakMsg = {
                 return this.loc['server_' + this.currentRegionId];
             },
             spectateControls() {
-                let key = this.settingsUi.controls.keyboard.spectate[this.settingsUi.controls.keyboard.spectate.findIndex(item => item.id === "toggle_freecam")].value;
+                let binding = this.settingsUi.controls.keyboard.spectate[this.settingsUi.controls.keyboard.spectate.findIndex(item => item.id === "toggle_freecam")].value;
+                let key = binding ? binding.label : '';
                 return this.loc['ui_game_spectate_controls'].format(key);
             },
             canChangeTeams() {
@@ -14633,6 +14639,20 @@ const CompShellStreakMsg = {
                 } else {
                     this.announcementMsgReset();
                 }
+            },
+            vipPromoWindowOpen(open) {
+                if (open) {
+                    // New showing window: clear any dismissal left over from the last
+                    // one, so clicking Play previously doesn't hide it forever.
+                    this.vipAdPromo.suppressed = false;
+                } else {
+                    this.vipAdPromo.active = false;
+                    this.vipAdPromo.suppressed = false;
+                    if (this.vipAdPromo.lingerTimer) {
+                        clearTimeout(this.vipAdPromo.lingerTimer);
+                        this.vipAdPromo.lingerTimer = null;
+                    }
+                }
             }
         }
     };
@@ -14640,7 +14660,7 @@ const CompShellStreakMsg = {
 	<div data-html2canvas-ignore>
 		<div class="box_relative margins_lg screens-menu" :class="{'phb-active-bg' : bgIdx}">
 			<div v-show="uiActive">
-				<h3 class="pb-title text-center text_white display-grid grid-auto-flow-column justify-content-center gap-sm text-shadow-black-40"><img class="pb-title-img" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/photo-booth/ico_shelfieStars.svg" />Shellfie<br /> Booth <img class="pb-title-img pb-title-img-flip"src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/photo-booth/ico_shelfieStars.svg" /></h3>
+				<h3 class="pb-title text-center text_white display-grid grid-auto-flow-column justify-content-center gap-sm text-shadow-black-40"><img class="pb-title-img" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/photo-booth/ico_shelfieStars.svg" />Shellfie<br /> Booth <img class="pb-title-img pb-title-img-flip"src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/photo-booth/ico_shelfieStars.svg" /></h3>
 				<section id="photoBooth-map" class="ss_marginbottom photo-booth-map-section">
 					<ss-button-dropdown class="btn-1 fullwidth" :loc="loc" :loc-txt="mapTxt" :list-items="bgData" :selected-item="bgIdx" menuPos="right" @onListItemClick="onChangeMap"></ss-button-dropdown>
 				</section>
@@ -14901,12 +14921,12 @@ const CompPhotoboothUi = {
             <div class="vip-club--content">
                 <div class="subs-info">
                     <ul class="display-grid align-content-space-between">
-                        <li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img">{{loc.p_chicken_goldfeature1}}</li>
-                        <li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img"> <span v-html="loc.p_chicken_goldfeature3"></span></li>
-                        <li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img"><span v-html="eggsPerKill"></span></li>
-                        <li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img"> {{loc.s_popup_feature_premium_items}}</li>
-						<li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img"> {{loc.s_popup_feature_premium_stamp_pos}}</li>
-						<li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img"> {{loc.s_popup_and_more}}</li>
+                        <li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img">{{loc.p_chicken_goldfeature1}}</li>
+                        <li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img"> <span v-html="loc.p_chicken_goldfeature3"></span></li>
+                        <li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img"><span v-html="eggsPerKill"></span></li>
+                        <li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img"> {{loc.s_popup_feature_premium_items}}</li>
+						<li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img"> {{loc.s_popup_feature_premium_stamp_pos}}</li>
+						<li class="display-grid align-items-start"><img class="vip-club-star" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/vip-club/vip-club-popup-bullet-point-star.webp" alt="star-list-img"> {{loc.s_popup_and_more}}</li>
                     </ul>
                 </div>
             </div>
@@ -15000,7 +15020,7 @@ const CompPhotoboothUi = {
                 return `s-${this.locName}-title`;
             },
             img() {
-                return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/vip-club/vip-club-popup-item-${this.locName}-bg.webp`;
+                return `img/vip-club/vip-club-popup-item-${this.locName}-bg.webp`;
             },
             priceTag() {
                 let price = this.item.salePrice ? this.item.salePrice : this.item.price,
@@ -15106,7 +15126,7 @@ var compVipClubTemplate = {
 		},
 
 		eggsPerKill() {
-			return this.loc.p_chicken_goldfeature2.format('<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_goldenEgg.svg" />');
+			return this.loc.p_chicken_goldfeature2.format('<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg.svg" />');
 		},
 		hasActivePass() {
 			if (!this.subs) return false;
@@ -15432,8 +15452,8 @@ var comp_game_options_popup = {
 						<header>
 							<h1 class="text-center">{{ rewardTitle }}</h1>
 						</header>
-						<img  src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/egg_pack_small.webp" />
-						<h2><img class="vertical-align-middle width_1 egg-img" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_goldenEgg.svg" />{{notify.data.eggs}}</h2>
+						<img  src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/egg_pack_small.webp" />
+						<h2><img class="vertical-align-middle width_1 egg-img" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg.svg" />{{notify.data.eggs}}</h2>
 						<p class="item-name text-center text_blue5">{{eggName(notify.data.eggs)}}</p>
 						<button v-if="bonus" @click="goToShop" class="ss_button btn_lg btn_green bevel_green f_row align-items-center justify-content-center fullwidth">{{loc.account_creation_popup_button}}</button>
 					</div>
@@ -15445,7 +15465,7 @@ var comp_game_options_popup = {
 
 <script id="notification-slider" type="text/x-template">
 	<div v-if="type" class="notify-group notify-group-items f_col justify-content-center roundme_lg box_relative" :class="clsType">
-		<img v-if="type === 'eggOrg'" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/egg-org-red.png" class="centered_x factions-egg-org-logo">
+		<img v-if="type === 'eggOrg'" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/gauge-bar/egg-org-red.png" class="centered_x factions-egg-org-logo">
 		<header>
 			<h1 class="text-center" :class="headerStyle">{{ title }}</h1>
 		</header>
@@ -15485,7 +15505,7 @@ var comp_game_options_popup = {
 			<h3 class="text_blue5 text-center nospace" v-html="chlgName(i[1])"></h3>
 			<p class="text-center text_blue5 nospace" v-html="chlgDesc(i[1])"></p>
 			<div class="account_eggs roundme_sm clickme f_row justify-content-center ss_margintop_lg ss_marginbottom_lg">
-				<span class="egg_count text-center text-shadow-black-40"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_goldenEgg.svg" class="egg_icon"> {{ i[2] }}</span>
+				<span class="egg_count text-center text-shadow-black-40"><img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg.svg" class="egg_icon"> {{ i[2] }}</span>
 			</div>
 		</div>
 	</div>
@@ -15528,8 +15548,8 @@ var comp_game_options_popup = {
 	};
 </script><script id="notification-currency" type="text/x-template">
 	<div class="egg-give-stuff">
-			<img  src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/egg_pack_small.webp" />
-			<h2><img class="vertical-align-middle width_1 egg-img" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_goldenEgg.svg" />{{eggs}}</h2>
+			<img  src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/egg_pack_small.webp" />
+			<h2><img class="vertical-align-middle width_1 egg-img" src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg.svg" />{{eggs}}</h2>
 		</div>
 </script>
 
@@ -15962,6 +15982,62 @@ const NotifiSlider = {
             },
 
             methods: {
+                eggFloatie(amount) {
+                    amount = Math.round(Number(amount) || 0);
+                    if (amount === 0) return;
+                    if (!this._eggFloatieQueue) this._eggFloatieQueue = [];
+                    this._eggFloatieQueue.push(amount);
+                    if (!this._eggFloatieRunning) this._runEggFloatieQueue();
+                },
+                _runEggFloatieQueue() {
+                    const layer = this.$refs.eggFloatieLayer;
+                    if (!layer || !this._eggFloatieQueue || !this._eggFloatieQueue.length) {
+                        this._eggFloatieRunning = false;
+                        return;
+                    }
+                    this._eggFloatieRunning = true;
+                    const amount = this._eggFloatieQueue.shift();
+
+                    // Anchor just below the egg total when it's on screen (menus);
+                    // otherwise fall back to the fixed corner from CSS (in-game, counter hidden).
+                    let anchored = false;
+                    const counters = document.querySelectorAll('.account_eggs');
+                    for (let i = 0; i < counters.length; i++) {
+                        const rect = counters[i].getBoundingClientRect();
+                        if (rect.width > 0 && rect.height > 0) {
+                            layer.style.top = rect.bottom + 'px';
+                            layer.style.right = (window.innerWidth - rect.right) + 'px';
+                            anchored = true;
+                            break;
+                        }
+                    }
+                    if (!anchored) {
+                        layer.style.top = '';
+                        layer.style.right = '';
+                    }
+                    layer.classList.toggle('egg-floatie-layer--corner', !anchored);
+
+                    const el = document.createElement('div');
+                    el.className = 'egg-floatie ' + (amount < 0 ? 'egg-floatie--spend' : 'egg-floatie--gain');
+                    const span = document.createElement('span');
+                    span.textContent = (amount > 0 ? '+' : '') + amount.toLocaleString();
+                    const img = document.createElement('img');
+                    img.className = 'egg-floatie__icon';
+                    img.src = 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg.svg';
+                    img.alt = '';
+                    el.appendChild(span);
+                    el.appendChild(img);
+                    layer.appendChild(el);
+
+                    const durRaw = getComputedStyle(document.documentElement)
+                        .getPropertyValue('--egg-floatie-duration').trim();
+                    const durMs = durRaw.endsWith('ms') ? parseFloat(durRaw)
+                        : (parseFloat(durRaw) || 0.8) * 1000;
+                    setTimeout(() => {
+                        el.remove();
+                        this._runEggFloatieQueue();
+                    }, durMs);
+                },
                 async initializeApplication() {
                     this.ready = true;
 
@@ -16216,6 +16292,7 @@ const NotifiSlider = {
                         this.showGameMenu();
                         if (this.eggs >= 1250) {
                             this.eggs = this.eggs - 1250;
+                            this.eggFloatie(-1250);
                         }
                         this.abTestInventory.closed = true;
                         return;
@@ -16473,7 +16550,7 @@ const NotifiSlider = {
                 },
 
                 showHistoryChangelogPopup() {
-                    fetch('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/changelog/oldChangelog.json', {
+                    fetch('https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/changelog/oldChangelog.json', {
                             cache: "no-cache"
                         })
                         .then(response => response.json())
@@ -16535,7 +16612,7 @@ const NotifiSlider = {
                 },
 
                 onPhotoBoothBgImageChange(url) {
-                    document.getElementById('ss_background').style.backgroundImage = (url && url !== 'none') ? `url(https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/photo-booth/maps/${url}.webp)` : '';
+                    document.getElementById('ss_background').style.backgroundImage = (url && url !== 'none') ? `url(img/photo-booth/maps/${url}.webp)` : '';
                 },
 
                 onPhotoBoothHideUi(show) {
@@ -16754,6 +16831,26 @@ const NotifiSlider = {
                 setLightOverlay: function(visible, overlayClass) {
                     this.$refs.lightOverlay.show = visible;
                     this.$refs.darkOverlay.overlayClass = overlayClass;
+                },
+
+                // Toggle the "Remove all ads - Get VIP!" promo from the ad lifecycle.
+                // isStarting=true arms it on ad start; false lets it fade per config.
+                setVipAdPromoActive: function(isStarting) {
+                    var promo = this.vipAdPromo;
+                    if (promo.lingerTimer) {
+                        clearTimeout(promo.lingerTimer);
+                        promo.lingerTimer = null;
+                    }
+                    if (isStarting) {
+                        promo.active = true;
+                    } else if (promo.mode === 'adTied') {
+                        promo.lingerTimer = setTimeout(function() {
+                            promo.active = false;
+                            promo.lingerTimer = null;
+                        }, promo.lingerMs);
+                    }
+                    // 'adThenLinger' keeps it visible until the bundle CTA hides;
+                    // 'whenBundleShows' is not driven by ads.
                 },
 
                 authCompleted: function() {
@@ -18041,14 +18138,14 @@ const NotifiSlider = {
                 },
                 chwChickSrc() {
                     if (this.chw.limitReached || this.isChicknWinnerError) {
-                        // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_daily_limit.svg';
+                        // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_daily_limit.svg';
                         return this.chw.imgs.limit;
                     } else {
                         if (!this.chw.ready) {
-                            // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_sleep.svg';
+                            // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_sleep.svg';
                             return this.chw.imgs.sleep;
                         } else {
-                            // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/chicken-nugget/chickLoop_speak.svg';
+                            // return 'https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/chicken-nugget/chickLoop_speak.svg';
                             return this.chw.imgs.speak;
                         }
                     }
@@ -18125,7 +18222,7 @@ const NotifiSlider = {
                     }
                 },
                 anonPopupContent() {
-                    return this.loc.account_anon_warn_paragraph_block.format('<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/svg/ico_goldenEgg.svg" class="egg_icon" />');
+                    return this.loc.account_anon_warn_paragraph_block.format('<img src="https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io@59decc2/img/svg/ico_goldenEgg.svg" class="egg_icon" />');
                 },
                 chwShowBtn() {
                     //chw.ready && !chw.adBlockDetect"
@@ -18141,7 +18238,8 @@ const NotifiSlider = {
                     let setting = '';
 
                     if (this.abTestInventory.clickables[idx].setting) {
-                        setting = vueApp.settingsUi.controls.keyboard.game.find(item => item.id === this.abTestInventory.clickables[idx].setting).value;
+                        var control = vueApp.settingsUi.controls.keyboard.game.find(item => item.id === this.abTestInventory.clickables[idx].setting);
+                        setting = (control && control.value) ? control.value.label : '';
                     }
                     let text = this.loc[this.abTestInventory.clickables[idx].locKey];
 
@@ -18162,7 +18260,7 @@ const NotifiSlider = {
                     return this.faction.playerFaction === 1 ? 'faction-egg-assasins' : 'faction-egg-masters';
                 },
                 factionLogo() {
-                    return `https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/img/gauge-bar/${this.factionsPopupStyle}.png`;
+                    return `img/gauge-bar/${this.factionsPopupStyle}.png`;
                 },
                 cgUserManagementPopupContent() {
                     if (this.crazyGamesUser.isAnonymous) {

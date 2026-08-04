@@ -703,7 +703,7 @@
   "item_hat_somb_desc": "Bold brim energy",
   "item_gre_pop_title": "Popcorn Bucket Grenade",
   "item_gre_pop_desc": "Kernals. Butter. Gunpowder.",
-  "item_hat_grid_title": "The Griddle Hat",
+  "item_hat_grid_title": "The Griddle Backpack",
   "item_hat_grid_desc": "Baby got back bacon",
   
   
@@ -1054,6 +1054,7 @@
   "faqItems_q19_q": "System requirements",
   "faqItems_q19_a": "<ul>\n  <li>A mouse (or trackpad) & keyboard.</li>\n  <li>2.0Ghz processor.</li>\n  <li>4GB RAM.</li>\n  <li>A graphics accelerator that supports WebGL.</li>\n  <li>A broadband connection.</li>\n  <li>A WebGL and WebSocket-compatible browser. We recommend Chrome.</li>\n</ul>",
 
+  "vip_promo_remove_ads": "Remove all ads - Get VIP!",
   "vipHelptitle": "Very Important Poultry (VIP) FAQ",
   "vipHelpDesc": "The VIP Club is a way to earn more skins and rewards from playing Shell Shockers.",
   "vipHelpDesc2": "NO ACTUAL POULTRY PROVIDED!",

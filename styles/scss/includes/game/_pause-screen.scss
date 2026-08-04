@@ -296,6 +296,27 @@
 	margin-bottom: 0;
 }
 
+// Not-ready states (respawn / ad-delay countdown): keep the dimmed look the
+// disabled button used to have, but stay clickable so clicking early can give
+// feedback (see jiggleRespawnButton / .jiggle below).
+.btn-respawn.respawn-waiting {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+// Shake feedback when the play/respawn button is clicked before it's ready.
+.btn-respawn.jiggle {
+	animation: respawn-jiggle 0.3s ease;
+}
+
+@keyframes respawn-jiggle {
+	0%, 100% { transform: translateX(0); }
+	20% { transform: translateX(-0.35em); }
+	40% { transform: translateX(0.35em); }
+	60% { transform: translateX(-0.2em); }
+	80% { transform: translateX(0.2em); }
+}
+
 .btn-dark-bevel.bevel_green, #vipEnded .bevel_green {
 	box-shadow: var(--ss-btn-dark-shadow), var(--ss-btn-dark-bevel) rgb(14,140,76), var(--ss-btn-light-bevel) var(--ss-green0);
 };

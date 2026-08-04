@@ -1,0 +1,56 @@
+/* --------------------------------------------------------- Egg floatie -- */
+/* Look/feel knobs — change these to tune the effect */
+:root {
+	--egg-floatie-duration: 1.6s;   /* also read by JS via getComputedStyle */
+	--egg-floatie-rise: 2.6em;      /* how far it drifts up */
+	--egg-floatie-rise-ingame: 1.8em; /* in-game: rise less so it stays on-screen at the same duration */
+	--egg-floatie-size: 1.5em;
+	--egg-floatie-gain-color: #ffd63a;
+	--egg-floatie-spend-color: #ff5a5a;
+	--egg-floatie-top: 2em;         /* in-game corner offset — sits above the FPS/readouts panel (top 2.5em) */
+	--egg-floatie-right: 1.1em;
+	--egg-floatie-z: 100000;        /* above popups/ads (~2000), below GDPR banner (~1e10) */
+	--egg-floatie-icon-size: 1em;
+}
+
+#egg-floatie-layer {
+	position: fixed;
+	top: var(--egg-floatie-top);
+	right: var(--egg-floatie-right);
+	z-index: var(--egg-floatie-z);
+	pointer-events: none;
+	text-align: right;
+}
+
+.egg-floatie {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.15em;
+	font-family: 'Sigmar One', sans-serif;
+	font-size: var(--egg-floatie-size);
+	line-height: 1;
+	white-space: nowrap;
+	text-shadow: 0 0.06em 0 rgba(0, 0, 0, 0.35);
+	animation: egg-floatie-rise var(--egg-floatie-duration) ease-out forwards;
+}
+
+.egg-floatie__icon {
+	height: var(--egg-floatie-icon-size);
+	width: auto;
+}
+
+.egg-floatie--gain { color: var(--egg-floatie-gain-color); }
+.egg-floatie--spend { color: var(--egg-floatie-spend-color); }
+
+/* In-game the floatie can't anchor to the on-screen egg counter (it's hidden),
+   so it falls back to the fixed corner. Rise a shorter distance there so it
+   clears the FPS/readouts panel and stays on-screen for the same duration. */
+#egg-floatie-layer.egg-floatie-layer--corner {
+	--egg-floatie-rise: var(--egg-floatie-rise-ingame);
+}
+
+@keyframes egg-floatie-rise {
+	0%   { opacity: 0; transform: translateY(0) scale(0.8); }
+	20%  { opacity: 1; transform: translateY(-0.3em) scale(1.1); }
+	100% { opacity: 0; transform: translateY(calc(-1 * var(--egg-floatie-rise))) scale(1); }
+}

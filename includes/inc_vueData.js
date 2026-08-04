@@ -32,6 +32,20 @@ var vueData = {
     displayAdObject: false,
     hideAds: false,
 
+	// "Remove all ads - Get VIP!" promo shown next to the welcome-bundle CTA.
+	// It always requires a non-VIP player and the promo window to be open (the
+	// value-pack CTA showing). `mode` controls the timing within that:
+	//   'whenBundleShows' -> show whenever the value-pack CTA is up (no ad needed)
+	//   'adThenLinger'    -> show on video ad start, hide when the CTA hides
+	//   'adTied'          -> show on video ad start, hide lingerMs after it ends
+	vipAdPromo: {
+		mode: 'whenBundleShows',
+		lingerMs: 2000,
+		active: false,
+		suppressed: false, // set when Play is clicked; hides it past the respawn ad
+		lingerTimer: null,
+	},
+
 	feedbackSelected: null,
 
     isPoki: false,
@@ -466,25 +480,25 @@ var vueData = {
             keyboard: {
                 // The ids map to the field names in settings.controls[category]
                 game: [
-                    { id: 'up', side: 'left', locKey: 'keybindings_forward', value: 'W' },
-                    { id: 'down', side: 'left', locKey: 'keybindings_backward', value: 'S' },
-                    { id: 'left', side: 'left', locKey: 'keybindings_left', value: 'A' },
-                    { id: 'right', side: 'left', locKey: 'keybindings_right', value: 'D' },
-                    { id: 'jump', side: 'left', locKey: 'keybindings_jump', value: 'SPACE' },
-					{ id: 'melee', side: 'left', locKey: 'keybindings_melee', value: 'F' },
-					{ id: 'inspect', side: 'left', locKey: 'keybindings_inspect', value: 'G' },
-					{ id: 'despawn', side: 'left', locKey: 'keybindings_despawn', value: 'P' },
-                    { id: 'fire', side: 'right', locKey: 'keybindings_fire', value: 'MOUSE 0' },
-                    { id: 'scope', side: 'right', locKey: 'keybindings_aim', value: 'SHIFT' },
-                    { id: 'reload', side: 'right', locKey: 'keybindings_reload', value: 'R' },
-                    { id: 'swap_weapon', side: 'right', locKey: 'keybindings_swapweapon', value: 'E' },
-                    { id: 'grenade', side: 'right', locKey: 'keybindings_grenade', value: 'Q' },
+                    { id: 'up', side: 'left', locKey: 'keybindings_forward', value: { code: 'KeyW', label: 'W' } },
+                    { id: 'down', side: 'left', locKey: 'keybindings_backward', value: { code: 'KeyS', label: 'S' } },
+                    { id: 'left', side: 'left', locKey: 'keybindings_left', value: { code: 'KeyA', label: 'A' } },
+                    { id: 'right', side: 'left', locKey: 'keybindings_right', value: { code: 'KeyD', label: 'D' } },
+                    { id: 'jump', side: 'left', locKey: 'keybindings_jump', value: { code: 'Space', label: 'SPACE' } },
+					{ id: 'melee', side: 'left', locKey: 'keybindings_melee', value: { code: 'KeyF', label: 'F' } },
+					{ id: 'inspect', side: 'left', locKey: 'keybindings_inspect', value: { code: 'KeyG', label: 'G' } },
+					{ id: 'despawn', side: 'left', locKey: 'keybindings_despawn', value: { code: 'KeyP', label: 'P' } },
+                    { id: 'fire', side: 'right', locKey: 'keybindings_fire', value: { code: 'MOUSE 0', label: 'MOUSE 0' } },
+                    { id: 'scope', side: 'right', locKey: 'keybindings_aim', value: { code: 'ShiftLeft', label: 'SHIFT' } },
+                    { id: 'reload', side: 'right', locKey: 'keybindings_reload', value: { code: 'KeyR', label: 'R' } },
+                    { id: 'swap_weapon', side: 'right', locKey: 'keybindings_swapweapon', value: { code: 'KeyE', label: 'E' } },
+                    { id: 'grenade', side: 'right', locKey: 'keybindings_grenade', value: { code: 'KeyQ', label: 'Q' } },
                 ],
                 spectate: [
-					{ id: 'ascend', locKey: 'keybindings_spectate_ascend', value: 'SPACE' },
-					{ id: 'descend', locKey: 'keybindings_spectate_descend', value: 'SHIFT' },
-					{ id: 'toggle_freecam', locKey: 'keybindings_spectate_freecam', value: 'V' },
-                    { id: 'slow', locKey: 'keybindings_spectate_slow', value: 'MOUSE 0'},
+					{ id: 'ascend', locKey: 'keybindings_spectate_ascend', value: { code: 'Space', label: 'SPACE' } },
+					{ id: 'descend', locKey: 'keybindings_spectate_descend', value: { code: 'ShiftLeft', label: 'SHIFT' } },
+					{ id: 'toggle_freecam', locKey: 'keybindings_spectate_freecam', value: { code: 'KeyV', label: 'V' } },
+                    { id: 'slow', locKey: 'keybindings_spectate_slow', value: { code: 'MOUSE 0', label: 'MOUSE 0' } },
                 ]
             },
             gamepad: {

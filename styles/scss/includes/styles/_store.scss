@@ -16,16 +16,20 @@
 }
 
 .eggshop_subtitle span {
-	font-size: 1em;
+	font-size: 1.3em;
 	color: var(--ss-red-btn-fill);
 }
 
 .eggshop_pricebox {
-	font-size: 1em;
+	font-size: 1.5em;
 	font-weight: 900;
 	margin-bottom: 0.2em;
 	margin-top: 0.2em;
 	line-height: 1;
+
+	.ru &, .es & {
+		font-size: 1em;
+	}
 }
 
 .eggshop_pricebox span.eggshop-currency-type {
@@ -231,7 +235,7 @@
 
 		.single-egg-store-info,
 		.single-egg-store-wrapper {
-			width: 16em;
+			width: 18em;
 		}
 	}
 

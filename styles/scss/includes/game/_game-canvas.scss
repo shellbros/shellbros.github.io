@@ -12,6 +12,10 @@
 	overflow: hidden;
 }
 
+.gameCanvas canvas {
+    outline: none;
+}
+
 .is-paused .gameCanvas canvas {
     pointer-events: none;
 }
