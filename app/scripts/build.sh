@@ -61,6 +61,34 @@ echo -e "${GREEN}Dependencies available${NC}"
 echo ""
 
 # ============================================
+# Upstream branch guard
+# makeShellHome.sh differs per branch — it hardcodes which CDN base it injects and
+# which asset rewriter it runs. Building from the wrong branch yields an index.html
+# full of URLs pointing at another repo, which 404. Check BEFORE the destructive sync.
+# ============================================
+echo -e "${YELLOW}Checking upstream branch...${NC}"
+
+UPSTREAM_REPO="$(cd "$REPO_ROOT/../ShellShockers" 2>/dev/null && pwd)"
+EXPECTED_BRANCH="${EXPECTED_BRANCH_OVERRIDE:-portalBranch}"
+
+if [ -z "$UPSTREAM_REPO" ]; then
+    echo -e "${RED}Error: ShellShockers not found beside $REPO_ROOT${NC}"
+    exit 1
+fi
+
+CURRENT_BRANCH="$(git -C "$UPSTREAM_REPO" branch --show-current)"
+
+if [ "$CURRENT_BRANCH" != "$EXPECTED_BRANCH" ]; then
+    echo -e "${RED}Error: upstream is on '$CURRENT_BRANCH', expected '$EXPECTED_BRANCH'${NC}"
+    echo -e "${YELLOW}Switch:${NC}   ${GREEN}git -C $UPSTREAM_REPO switch $EXPECTED_BRANCH${NC}"
+    echo -e "${YELLOW}Override:${NC} ${GREEN}EXPECTED_BRANCH_OVERRIDE=$CURRENT_BRANCH bash app/scripts/build.sh${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}Upstream on $CURRENT_BRANCH${NC}"
+echo ""
+
+# ============================================
 # Compiled-client freshness guard
 # The game client is compiled manually via `sudo ./compile.sh live compress` in
 # the ShellShockers/game dir. If that compile is missing or older than any source
@@ -133,6 +161,42 @@ SHORT_HASH="$(git -C "$REPO_ROOT" rev-parse --short HEAD)"
 cd "$SCRIPT_DIR"
 bash "$MAKESHELL_SCRIPT" "$SHORT_HASH"
 cd "$REPO_ROOT"
+echo ""
+
+# ============================================
+# Built-output guard
+# Cause-agnostic: catches a wrong upstream branch, a changed upstream script, or a
+# broken rewriter. Runs BEFORE the commit so a bad build never enters history.
+# cdnSearchReplace.js only rewrites relative paths, so absolute URLs injected
+# upstream pass straight through untouched — this is what catches them.
+# ============================================
+echo -e "${YELLOW}Validating built index.html...${NC}"
+
+EXPECTED_REPO="gh/shellbros/shellbros.github.io"
+MIN_CDN_URLS=150
+
+CDN_REFS="$(grep -oE 'cdn\.jsdelivr\.net/gh/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+' "$REPO_ROOT/index.html" \
+            | sed 's|cdn\.jsdelivr\.net/||' || true)"
+
+FOREIGN="$(printf '%s\n' "$CDN_REFS" | sort -u | grep -vx "$EXPECTED_REPO" || true)"
+
+if [ -n "$FOREIGN" ]; then
+    echo -e "${RED}Error: index.html references unexpected CDN repos:${NC}"
+    printf '   %s\n' $FOREIGN
+    echo -e "${YELLOW}Usually means the upstream build script came from the wrong branch.${NC}"
+    exit 1
+fi
+
+# A zero-foreign result also passes when the rewrite never ran at all, so floor it.
+CDN_COUNT="$(printf '%s\n' "$CDN_REFS" | grep -cx "$EXPECTED_REPO" || true)"
+
+if [ "$CDN_COUNT" -lt "$MIN_CDN_URLS" ]; then
+    echo -e "${RED}Error: only $CDN_COUNT CDN URLs in index.html — expected >= $MIN_CDN_URLS${NC}"
+    echo -e "${YELLOW}The path rewrite (cdnSearchReplace.js) likely did not run.${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}index.html OK — $CDN_COUNT CDN URLs, all $EXPECTED_REPO${NC}"
 echo ""
 
 # ============================================

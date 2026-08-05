@@ -49,6 +49,10 @@ Preconditions — the build fails or silently degrades without these:
    be newer than every file in `game/src/`. `build.sh` hard-fails if not. Compile with:
    `cd ../ShellShockers/game && sudo ./compile.sh live compress` (answer `1` = No at the
    vault prompt).
+1b. **Upstream on the right branch.** `../ShellShockers` must be on `portalBranch`.
+   `makeShellHome.sh` differs per branch — it hardcodes the CDN base it injects and the
+   asset rewriter it runs. Override for a one-off:
+   `EXPECTED_BRANCH_OVERRIDE=<branch> bash app/scripts/build.sh`.
 2. **A real terminal.** `makeShellHome.sh` runs `sudo`, and `compile.sh live` has an
    interactive prompt. Both need a tty — see the sudo gotcha below.
 3. **nginx + php-fpm serving `localhost/index.php`.** The build curls it (basic auth
@@ -76,6 +80,20 @@ the unversioned `app/build.json`, which is what tells the client which sha to lo
 Only assets going through `Loader` get re-pinned at runtime. Plain `<img src>`,
 `<link rel=stylesheet>`, `<script src>`, `import()` and `fetch()` URLs use whatever
 sha is baked into `index.html`. See gotcha 1.
+
+## Guards in `build.sh`
+
+Both known failure modes were silent — success reported, two commits made, shipped.
+So the pipeline validates its **output**, not just its inputs.
+
+| Guard | When | Catches |
+|---|---|---|
+| Branch | before sync | Upstream on the wrong branch (wrong CDN base / wrong rewriter) |
+| Freshness | before sync | A stale bundle when the upstream compile didn't run |
+| **Output** | after rewrite, before commit | Foreign CDN repos in `index.html`, or a rewrite that didn't run (floor of 150 URLs; healthy ≈ 178) |
+
+The output guard is the one that matters — it's cause-agnostic, so it catches classes
+of failure the input guards don't anticipate. Details in `app/scripts/README.md`.
 
 ## Known gotchas
 

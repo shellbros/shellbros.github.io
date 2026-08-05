@@ -36,16 +36,63 @@ sudo ./compile.sh live compress    # answer 1 = No at the vault prompt
 
 | # | Step | Script | Effect |
 |---|---|---|---|
-| 0 | Guard | `build.sh` | Verifies deps, and that `home/js/shellshock.js` is newer than all of `game/src/` |
+| 0 | **Guard: deps** | `build.sh` | Verifies `python3`, `node`, `git` |
+| 0 | **Guard: branch** | `build.sh` | Aborts unless upstream `ShellShockers` is on the expected branch |
+| 0 | **Guard: freshness** | `build.sh` | Aborts if any file in `game/src/` is newer than `home/js/shellshock.js` |
 | 1 | Sync | `sync.py` | Runs `makeShellHome.sh`, wipes this repo (minus whitelist), copies `distShellHome` in, empties `distShellHome` |
 | 2 | Allowlist | `update-proxy-list.sh` | Regenerates the `allowlist` array in `functions/_shared/wsProxy.js` from `root_domains.json` |
 | 3 | CDN rewrite | `makeShell.sh <sha>` | Injects `window.JSCDN` + `checker.js`, strips meta/title/ld+json, rewrites asset paths via `cdnSearchReplace.js`, patches known Loader bugs |
+| 3½ | **Guard: output** | `build.sh` | Aborts if `index.html` references a foreign CDN repo or has too few CDN URLs |
 | 4 | Commit | `build.sh` | `BUILD shell YYYY-MM-DD` |
 | 5 | Version | `update-build.py` | Writes the new sha to `build.json`, increments `build_number` |
 | 6 | Commit | `build.sh` | `UPDATE build YYYY-MM-DD` |
 
 Two commits are required because step 3 needs a sha that does not exist until step 4
 creates it. Step 5 exists to close that gap.
+
+## Guards
+
+Three guards exist because this pipeline pulls a script from a sibling repo and runs
+it. Both known failure modes were **silent** — the build reported success, committed
+twice, and shipped.
+
+### Branch guard (input)
+
+`makeShellHome.sh` lives in `../ShellShockers` and **differs per branch** — it hardcodes
+which CDN base it injects and which asset rewriter it runs. Building from the wrong
+branch produced an `index.html` with 189 asset URLs pointing at a different GitHub
+repo, most of which 404.
+
+Expected branch is `portalBranch`. For a one-off build from another branch, use the
+env var rather than editing the script:
+
+```bash
+EXPECTED_BRANCH_OVERRIDE=someBranch bash app/scripts/build.sh
+```
+
+### Output guard (the important one)
+
+Runs after the rewrite, before the commit, so a bad build never enters git history.
+Cause-agnostic — it catches a wrong branch, a changed upstream script, or a broken
+rewriter equally.
+
+Two checks:
+
+1. **No foreign CDN repos.** Every `cdn.jsdelivr.net/gh/<owner>/<repo>` reference in
+   `index.html` must be `gh/shellbros/shellbros.github.io`.
+2. **Floor of 150 URLs.** "Zero foreign repos" also passes when the rewrite never ran
+   at all. A healthy build has ~178; the broken one had 2.
+
+Why the foreign URLs slipped through: `cdnSearchReplace.js` only rewrites *relative*
+paths, so absolute URLs injected upstream pass through untouched. And `makeShell.sh`
+only `sed`s the CDN base on two lines — so those two looked correct while 189 were
+wrong. Tune `MIN_CDN_URLS` in `build.sh` if the real count shifts.
+
+### Freshness guard (input)
+
+Asserts `home/js/shellshock.js` is newer than every file in `game/src/`. Without it the
+pipeline silently shipped a stale bundle when the upstream compile step went missing.
+This one is real code (`find -newer`), not a comment claiming a check exists.
 
 ## Scripts
 
