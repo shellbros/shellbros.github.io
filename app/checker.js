@@ -613,11 +613,16 @@ async function preloadProxyHost() {
 
 	window.overrideWssBase = null;
 
-    if (!window.location.hostname.endsWith('github.io')) return;
+    // Probe only when this page's own host cannot serve WebSockets. GitHub Pages
+    // does not support them; blob:, about:blank and file: have no host at all.
+    // Everywhere else -- including *.pages.dev embeds like quizape -- location.host
+    // is already correct, so leave overrideWssBase null and change nothing.
+    const pageHost = window.location.host;
+    if (pageHost && !pageHost.endsWith('github.io')) return;
 
     const urls = [
-        'mathlete.pages.dev',
-        'shellbros.pages.dev'
+        'shellbros.pages.dev',
+        'mathlete.pages.dev'
     ];
 
     const working = await findFirstWorkingWss(urls);
