@@ -212,6 +212,20 @@ echo -e "${GREEN}index.html OK — $CDN_COUNT CDN URLs, all $EXPECTED_REPO${NC}"
 echo ""
 
 # ============================================
+# Generate standalone.html
+#
+# index.html assumes it is served from this repo's own origin. standalone.html
+# is the same page made safe to run with no origin at all (blob:, about:blank,
+# file:), where relative paths cannot resolve and commit-pinned URLs freeze on
+# the build that produced them. Runs after the CDN guard so it only ever derives
+# from an index.html that already passed validation, and it verifies its own
+# output -- a failure here stops the build.
+# ============================================
+echo -e "${YELLOW}Generating standalone.html...${NC}"
+node "$SCRIPT_DIR/makeStandalone.js"
+echo ""
+
+# ============================================
 # Step 4: Commit "BUILD shell"
 # ============================================
 echo -e "${BLUE}╔════════════════════════════════════════╗${NC}"
