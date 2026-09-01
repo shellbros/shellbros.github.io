@@ -171,17 +171,16 @@ of failure the input guards don't anticipate. Details in `app/scripts/README.md`
 what this repo's `checker.js` and `index.html` read. That is correct here — do not
 change it to `@main` to match mathlete, whose `checker.js` reads a different URL.
 
-**A purge can be silently rate-limited.** jsDelivr returns `"status": "finished"`
-with `"throttled": true` when the same path is re-purged in quick succession, and
-`purge.py` prints a tick either way. "Purged successfully" is never proof the edge
-refetched. Confirm by reading the file back:
+It also purges the `@main/` variants that `standalone-shellbros.html` depends on.
+Every jsDelivr URL is a separate cache object: `/gh/o/r/f` and `/gh/o/r@main/f` are
+two caches of the same file, and purging one does nothing for the other.
 
-```bash
-curl -s https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/app/build.json
-```
-
-If it is stale and the purge reported finished, you were throttled. Wait rather
-than re-purging, which extends the throttle.
+**A purge can be silently rate-limited.** jsDelivr answers `"status": "finished"`
+with `"throttled": true` when the same path is purged repeatedly in quick
+succession, which is indistinguishable from success. `purge.py` therefore reads
+`build.json` back and compares it to the local one, exiting non-zero if the edge
+is still stale. If it reports STALE after a throttle, wait — re-purging extends
+the throttle rather than clearing it.
 
 ## Known gotchas
 
