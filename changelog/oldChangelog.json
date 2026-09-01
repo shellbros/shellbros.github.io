@@ -1,5 +1,20 @@
 [		
-		{
+	{
+		"version": "1.0.26",
+        "date": "Aug 2026",
+        "content": [
+			"Breakfast is served! Clear room on your plate and crack into the Big Breakfast update",
+			"Pop into the action with the Popcorn Bucket Grenade, the first VIP item of the month",
+			"The homescreen Eggdoll has been eating his wheaties. Now 15% bigger!",
+			"Later this month, fire up the Griddle Backpack as our next premium item - Time to cook",
+			"The brand-new Sandvich Hat has joined the store permanently. It alvays good time for Sandvich",
+			"Eat too much? The Toilet Bundle is back to help you handle the... fallout",
+			"Social icons have returned to the homepage",
+			"Scroll down to find Privacy Policy and Terms",
+			"A brand-new map has entered the pool. Stealth is now available in public and private lobbies",
+			"The public map pool has been shuffled and is available for all players!"
+		]
+	},{
 		"version": "1.0.25",
         "date": "July 2026",
         "content": [

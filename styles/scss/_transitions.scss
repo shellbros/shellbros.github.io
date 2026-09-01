@@ -3,7 +3,11 @@
 .fade-enter-active, .fade-leave-active {
 	transition: opacity .25s;
   }
-  .fade-enter, .fade-leave-to {
+  /* Vue 3 renamed .x-enter to .x-enter-from (and .x-leave to .x-leave-from).
+     Both names are listed so this works under either version; -enter-active,
+     -leave-active and -leave-to are unchanged between versions. Do NOT drop the
+     Vue 2 names until the flip has landed - they are what Vue 2 applies. */
+  .fade-enter, .fade-enter-from, .fade-leave-to {
 	opacity: 0;
   }
   
@@ -12,7 +16,7 @@
 	  bottom: 10em;
   }
   
-  .slidein-enter, .slidein-leave-to {
+  .slidein-enter, .slidein-enter-from, .slidein-leave-to {
 	  bottom: 0em;
   }
   
@@ -26,7 +30,7 @@
   .fadeout-enter-active {
 	transition: opacity .0s;
   }
-  .fadeout-enter  {
+  .fadeout-enter, .fadeout-enter-from  {
 	opacity: 1;
   }
   
@@ -35,6 +39,10 @@
 	  transform: translate(-50%, 0) scale(1.5) !important;
   }
   
+  /* NOTE: this one has only the Vue 3 name, never the Vue 2 `.fadeScale-enter`,
+     so its enter start-state does not apply on Vue 2 at all. Pre-existing, and
+     left alone deliberately - the `fadeScale` transition is referenced by no
+     template, and the flip will make it correct rather than break it. */
   .fadeScale-enter-from,
   .fadeScale-leave-to {
 	opacity: 0;
@@ -53,7 +61,7 @@
   }
   /* .expand-enter defines the starting state for entering */
   /* .expand-leave defines the ending state for leaving */
-  .expand-enter, .expand-leave {
+  .expand-enter, .expand-enter-from, .expand-leave, .expand-leave-from {
 	height: 0;
 	padding: 0 10px;
 	opacity: 0;

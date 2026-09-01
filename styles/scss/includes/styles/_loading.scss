@@ -73,6 +73,43 @@
 
 }
 
+/* ------------------------------------------------- home-to-game progress bar -- */
+/* Recovered from the `<style scoped>` block in
+   includes/screen_home/inc_comp_progress_bar.php, which the Vue-out-of-PHP
+   extraction deleted along with the file - the <template> and <script> moved to
+   src/home/components/home/progress-bar.js but the styles were not carried over,
+   leaving the bar in the DOM but invisible. Copied verbatim and kept global:
+   `scoped` on a plain PHP <style> tag was never honoured by browsers (scoped CSS
+   was dropped from the spec), so these rules were already global. */
+
+.loading-progress-outer {
+	background: #643219;
+	border-radius: 2em;
+	height: 3.3em;
+	width: 24em;
+	margin-top: 2em;
+	overflow: hidden;
+	bottom: 8em;
+}
+
+.loading-progress {
+	margin-top: 1em;
+	width: 23em;
+	height: 2.2em;
+	background: white;
+	padding: 0.5em;
+	border-radius: 2em;
+	margin: 0.3em 0.5em 0;
+	position: relative;
+}
+
+.loading-progress-bar {
+	display: block;
+	height: 100%;
+	background: orange;
+	border-radius: 2em;
+}
+
 // .spinner-tips p:after {
 //     content: '';
 //     position: absolute;

@@ -36,12 +36,36 @@ Functions in `functions/`, and this file are the exceptions — they live here.
 
 ## Build
 
+### Normally: use the orchestrator, which lives in the sibling repo
+
+Two shells are built from one game source, and the orchestrator lives in the other one:
+
+```bash
+bash ../mathlete/app/scripts/build-all.sh
+```
+
+It compiles the game once, builds **this repo first** and then `mathlete` from that
+single bundle — so both ship identical bytes — verifies they match, and stops without
+pushing. Add `--push` to push and purge both.
+
+This repo goes first on purpose: it hosts the assets both live sites resolve through.
+`quizape.com` and `apstudy.github.io` read **this** repo's `app/build.json` to decide
+which bundle to load, so building `mathlete` alone changes nothing for either.
+
+Builds are **sequential, never parallel** — both repos sync through the same
+`../ShellShockers/game/distShellHome`, and `sync.py` empties it after copying.
+
+### This repo alone
+
 ```bash
 bash app/scripts/build.sh
 ```
 
 Path-independent; every script resolves its own location. Ends with two local commits
 (`BUILD shell <date>`, `UPDATE build <date>`). **It never pushes.**
+
+`git push origin main` is correct here — this repo has no `master` branch, unlike
+`mathlete`, where jsDelivr also serves `@master`.
 
 Preconditions — the build fails or silently degrades without these:
 

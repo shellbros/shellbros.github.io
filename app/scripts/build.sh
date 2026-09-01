@@ -98,25 +98,33 @@ echo ""
 echo -e "${YELLOW}Checking compiled client freshness...${NC}"
 
 GAME_DIR="$(cd "$REPO_ROOT/../ShellShockers/game" 2>/dev/null && pwd)"
+# compile.sh emits two bundles: shellshock.js (the game) and home.js (the Vue 3
+# home/UI). Checking only one would pass a compile that produced that bundle and
+# failed on the other.
 COMPILED_JS="$GAME_DIR/home/js/shellshock.js"
+COMPILED_HOME_JS="$GAME_DIR/home/js/home.js"
 
 if [ -z "$GAME_DIR" ] || [ ! -d "$GAME_DIR/src" ]; then
     echo -e "${RED}Error: game source not found (expected $REPO_ROOT/../ShellShockers/game)${NC}"
     exit 1
 fi
 
-if [ ! -f "$COMPILED_JS" ]; then
-    echo -e "${RED}Error: compiled client not found: $COMPILED_JS${NC}"
+for BUNDLE in "$COMPILED_JS" "$COMPILED_HOME_JS"; do
+  if [ ! -f "$BUNDLE" ]; then
+    echo -e "${RED}Error: compiled client not found: $BUNDLE${NC}"
     echo -e "${YELLOW}Run the compile first:${NC}"
     echo -e "   ${GREEN}cd \"$GAME_DIR\" && sudo ./compile.sh live compress${NC}"
     exit 1
-fi
+  fi
+done
 
-STALE_SRC="$(find "$GAME_DIR/src" -type f -newer "$COMPILED_JS" 2>/dev/null)"
+OLDEST_BUNDLE="$COMPILED_JS"
+[ "$COMPILED_HOME_JS" -ot "$OLDEST_BUNDLE" ] && OLDEST_BUNDLE="$COMPILED_HOME_JS"
+STALE_SRC="$(find "$GAME_DIR/src" -type f -newer "$OLDEST_BUNDLE" 2>/dev/null)"
 if [ -n "$STALE_SRC" ]; then
     STALE_COUNT="$(printf '%s\n' "$STALE_SRC" | wc -l | tr -d ' ')"
     echo -e "${RED}Error: compiled client is STALE.${NC}"
-    echo -e "${RED}$STALE_COUNT source file(s) are newer than home/js/shellshock.js.${NC}"
+    echo -e "${RED}$STALE_COUNT source file(s) are newer than $(basename "$OLDEST_BUNDLE").${NC}"
     echo -e "${YELLOW}Recompile before building:${NC}"
     echo -e "   ${GREEN}cd \"$GAME_DIR\" && sudo ./compile.sh live compress${NC}"
     echo -e "${YELLOW}Newer than the compiled client (first 10):${NC}"
@@ -173,7 +181,11 @@ echo ""
 echo -e "${YELLOW}Validating built index.html...${NC}"
 
 EXPECTED_REPO="gh/shellbros/shellbros.github.io"
-MIN_CDN_URLS=150
+# Re-baselined for the Vue 3 migration. Templates are precompiled into
+# js/home.js and assets now resolve at RUNTIME via window.JSCDN, so the built
+# index.html carries ~17-19 rewritten URLs instead of ~190. A rewrite that did
+# not run at all still lands at 0, which this floor catches.
+MIN_CDN_URLS=12
 
 CDN_REFS="$(grep -oE 'cdn\.jsdelivr\.net/gh/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+' "$REPO_ROOT/index.html" \
             | sed 's|cdn\.jsdelivr\.net/||' || true)"

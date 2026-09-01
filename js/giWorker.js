@@ -5,8 +5,8 @@
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   };
   var __export = (target, all) => {
-    for (var name154 in all)
-      __defProp(target, name154, { get: all[name154], enumerable: true });
+    for (var name85 in all)
+      __defProp(target, name85, { get: all[name85], enumerable: true });
   };
 
   // ../node_modules/@babylonjs/core/Engines/shaderStore.js
@@ -89,46 +89,17 @@ void main(void)
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/postprocess.vertex.js
+  // wgsl-stub:../ShadersWGSL/postprocess.vertex.js
   var postprocess_vertex_exports2 = {};
-  __export(postprocess_vertex_exports2, {
-    postprocessVertexShaderWGSL: () => postprocessVertexShaderWGSL
-  });
-  var name3, shader3, postprocessVertexShaderWGSL;
   var init_postprocess_vertex2 = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/postprocess.vertex.js"() {
-      init_shaderStore();
-      name3 = "postprocessVertexShader";
-      shader3 = `attribute position: vec2<f32>;uniform scale: vec2<f32>;varying vUV: vec2<f32>;const madd=vec2(0.5,0.5);
-#define CUSTOM_VERTEX_DEFINITIONS
-@vertex
-fn main(input : VertexInputs)->FragmentInputs {
-#define CUSTOM_VERTEX_MAIN_BEGIN
-vertexOutputs.vUV=(vertexInputs.position*madd+madd)*uniforms.scale;vertexOutputs.position=vec4(vertexInputs.position,0.0,1.0);
-#define CUSTOM_VERTEX_MAIN_END
-}
-`;
-      ShaderStore.ShadersStoreWGSL[name3] = shader3;
-      postprocessVertexShaderWGSL = { name: name3, shader: shader3 };
+    "wgsl-stub:../ShadersWGSL/postprocess.vertex.js"() {
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/pass.fragment.js
+  // wgsl-stub:../ShadersWGSL/pass.fragment.js
   var pass_fragment_exports2 = {};
-  __export(pass_fragment_exports2, {
-    passPixelShaderWGSL: () => passPixelShaderWGSL
-  });
-  var name4, shader4, passPixelShaderWGSL;
   var init_pass_fragment2 = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/pass.fragment.js"() {
-      init_shaderStore();
-      name4 = "passPixelShader";
-      shader4 = `varying vUV: vec2f;var textureSamplerSampler: sampler;var textureSampler: texture_2d<f32>;
-#define CUSTOM_FRAGMENT_DEFINITIONS
-@fragment
-fn main(input: FragmentInputs)->FragmentOutputs {fragmentOutputs.color=textureSample(textureSampler,textureSamplerSampler,input.vUV);}`;
-      ShaderStore.ShadersStoreWGSL[name4] = shader4;
-      passPixelShaderWGSL = { name: name4, shader: shader4 };
+    "wgsl-stub:../ShadersWGSL/pass.fragment.js"() {
     }
   });
 
@@ -137,12 +108,12 @@ fn main(input: FragmentInputs)->FragmentOutputs {fragmentOutputs.color=textureSa
   __export(helperFunctions_exports, {
     helperFunctions: () => helperFunctions
   });
-  var name8, shader8, helperFunctions;
+  var name6, shader6, helperFunctions;
   var init_helperFunctions = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/helperFunctions.js"() {
       init_shaderStore();
-      name8 = "helperFunctions";
-      shader8 = `const float PI=3.1415926535897932384626433832795;const float RECIPROCAL_PI=0.3183098861837907;const float RECIPROCAL_PI2=0.15915494309189535;const float HALF_MIN=5.96046448e-08; 
+      name6 = "helperFunctions";
+      shader6 = `const float PI=3.1415926535897932384626433832795;const float RECIPROCAL_PI=0.3183098861837907;const float RECIPROCAL_PI2=0.15915494309189535;const float HALF_MIN=5.96046448e-08; 
 const float LinearEncodePowerApprox=2.2;const float GammaEncodePowerApprox=1.0/LinearEncodePowerApprox;const vec3 LuminanceEncodeApprox=vec3(0.2126,0.7152,0.0722);const float Epsilon=0.0000001;
 #define saturate(x) clamp(x,0.0,1.0)
 #define absEps(x) abs(x)+Epsilon
@@ -243,578 +214,36 @@ const float rgbdMaxRange=255.0;vec4 toRGBD(vec3 color) {float maxRGB=maxEps(max(
 vec3 fromRGBD(vec4 rgbd) {rgbd.rgb=toLinearSpace(rgbd.rgb);return rgbd.rgb/rgbd.a;}
 vec3 parallaxCorrectNormal( vec3 vertexPos,vec3 origVec,vec3 cubeSize,vec3 cubePos ) {vec3 invOrigVec=vec3(1.0,1.0,1.0)/origVec;vec3 halfSize=cubeSize*0.5;vec3 intersecAtMaxPlane=(cubePos+halfSize-vertexPos)*invOrigVec;vec3 intersecAtMinPlane=(cubePos-halfSize-vertexPos)*invOrigVec;vec3 largestIntersec=max(intersecAtMaxPlane,intersecAtMinPlane);float distance=min(min(largestIntersec.x,largestIntersec.y),largestIntersec.z);vec3 intersectPositionWS=vertexPos+origVec*distance;return intersectPositionWS-cubePos;}
 `;
-      ShaderStore.IncludesShadersStore[name8] = shader8;
-      helperFunctions = { name: name8, shader: shader8 };
+      ShaderStore.IncludesShadersStore[name6] = shader6;
+      helperFunctions = { name: name6, shader: shader6 };
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bonesDeclaration.js
-  var bonesDeclaration_exports = {};
-  __export(bonesDeclaration_exports, {
-    bonesDeclarationWGSL: () => bonesDeclarationWGSL
-  });
-  var name13, shader13, bonesDeclarationWGSL;
-  var init_bonesDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bonesDeclaration.js"() {
-      init_shaderStore();
-      name13 = "bonesDeclaration";
-      shader13 = `#if NUM_BONE_INFLUENCERS>0
-attribute matricesIndices : vec4<f32>;attribute matricesWeights : vec4<f32>;
-#if NUM_BONE_INFLUENCERS>4
-attribute matricesIndicesExtra : vec4<f32>;attribute matricesWeightsExtra : vec4<f32>;
-#endif
-#ifndef BAKED_VERTEX_ANIMATION_TEXTURE
-#ifdef BONETEXTURE
-var boneSampler : texture_2d<f32>;uniform boneTextureWidth : f32;
-#else
-uniform mBones : array<mat4x4,BonesPerMesh>;
-#ifdef BONES_VELOCITY_ENABLED
-uniform mPreviousBones : array<mat4x4,BonesPerMesh>;
-#endif
-#endif
-#ifdef BONETEXTURE
-fn readMatrixFromRawSampler(smp : texture_2d<f32>,index : f32)->mat4x4<f32>
-{let offset=i32(index) *4; 
-let m0=textureLoad(smp,vec2<i32>(offset+0,0),0);let m1=textureLoad(smp,vec2<i32>(offset+1,0),0);let m2=textureLoad(smp,vec2<i32>(offset+2,0),0);let m3=textureLoad(smp,vec2<i32>(offset+3,0),0);return mat4x4<f32>(m0,m1,m2,m3);}
-#endif
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name13] = shader13;
-      bonesDeclarationWGSL = { name: name13, shader: shader13 };
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bakedVertexAnimationDeclaration.js
-  var name14, shader14;
-  var init_bakedVertexAnimationDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bakedVertexAnimationDeclaration.js"() {
-      init_shaderStore();
-      name14 = "bakedVertexAnimationDeclaration";
-      shader14 = `#ifdef BAKED_VERTEX_ANIMATION_TEXTURE
-uniform bakedVertexAnimationTime: f32;uniform bakedVertexAnimationTextureSizeInverted: vec2<f32>;uniform bakedVertexAnimationSettings: vec4<f32>;var bakedVertexAnimationTexture : texture_2d<f32>;
-#ifdef INSTANCES
-attribute bakedVertexAnimationSettingsInstanced : vec4<f32>;
-#endif
-fn readMatrixFromRawSamplerVAT(smp : texture_2d<f32>,index : f32,frame : f32)->mat4x4<f32>
-{let offset=i32(index)*4;let frameUV=i32(frame);let m0=textureLoad(smp,vec2<i32>(offset+0,frameUV),0);let m1=textureLoad(smp,vec2<i32>(offset+1,frameUV),0);let m2=textureLoad(smp,vec2<i32>(offset+2,frameUV),0);let m3=textureLoad(smp,vec2<i32>(offset+3,frameUV),0);return mat4x4<f32>(m0,m1,m2,m3);}
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name14] = shader14;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/clipPlaneVertexDeclaration.js
-  var name15, shader15;
-  var init_clipPlaneVertexDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/clipPlaneVertexDeclaration.js"() {
-      init_shaderStore();
-      name15 = "clipPlaneVertexDeclaration";
-      shader15 = `#ifdef CLIPPLANE
-uniform vClipPlane: vec4<f32>;varying fClipDistance: f32;
-#endif
-#ifdef CLIPPLANE2
-uniform vClipPlane2: vec4<f32>;varying fClipDistance2: f32;
-#endif
-#ifdef CLIPPLANE3
-uniform vClipPlane3: vec4<f32>;varying fClipDistance3: f32;
-#endif
-#ifdef CLIPPLANE4
-uniform vClipPlane4: vec4<f32>;varying fClipDistance4: f32;
-#endif
-#ifdef CLIPPLANE5
-uniform vClipPlane5: vec4<f32>;varying fClipDistance5: f32;
-#endif
-#ifdef CLIPPLANE6
-uniform vClipPlane6: vec4<f32>;varying fClipDistance6: f32;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name15] = shader15;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/fogVertexDeclaration.js
-  var name16, shader16;
-  var init_fogVertexDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/fogVertexDeclaration.js"() {
-      init_shaderStore();
-      name16 = "fogVertexDeclaration";
-      shader16 = `#ifdef FOG
-varying vFogDistance: vec3f;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name16] = shader16;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/instancesDeclaration.js
-  var name17, shader17;
-  var init_instancesDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/instancesDeclaration.js"() {
-      init_shaderStore();
-      name17 = "instancesDeclaration";
-      shader17 = `#ifdef INSTANCES
-attribute world0 : vec4<f32>;attribute world1 : vec4<f32>;attribute world2 : vec4<f32>;attribute world3 : vec4<f32>;
-#ifdef INSTANCESCOLOR
-attribute instanceColor : vec4<f32>;
-#endif
-#if defined(THIN_INSTANCES) && !defined(WORLD_UBO)
-uniform world : mat4x4<f32>;
-#endif
-#if defined(VELOCITY) || defined(PREPASS_VELOCITY)
-attribute previousWorld0 : vec4<f32>;attribute previousWorld1 : vec4<f32>;attribute previousWorld2 : vec4<f32>;attribute previousWorld3 : vec4<f32>;
-#ifdef THIN_INSTANCES
-uniform previousWorld : mat4x4<f32>;
-#endif
-#endif
-#else
-#if !defined(WORLD_UBO)
-uniform world : mat4x4<f32>;
-#endif
-#if defined(VELOCITY) || defined(PREPASS_VELOCITY)
-uniform previousWorld : mat4x4<f32>;
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name17] = shader17;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/instancesVertex.js
-  var name18, shader18;
-  var init_instancesVertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/instancesVertex.js"() {
-      init_shaderStore();
-      name18 = "instancesVertex";
-      shader18 = `#ifdef INSTANCES
-var finalWorld=mat4x4<f32>(vertexInputs.world0,vertexInputs.world1,vertexInputs.world2,vertexInputs.world3);
-#if defined(PREPASS_VELOCITY) || defined(VELOCITY)
-var finalPreviousWorld=mat4x4<f32>(vertexInputs.previousWorld0,vertexInputs.previousWorld1,vertexInputs.previousWorld2,vertexInputs.previousWorld3);
-#endif
-#ifdef THIN_INSTANCES
-#if !defined(WORLD_UBO)
-finalWorld=uniforms.world*finalWorld;
-#else
-finalWorld=mesh.world*finalWorld;
-#endif
-#if defined(PREPASS_VELOCITY) || defined(VELOCITY)
-finalPreviousWorld=uniforms.previousWorld*finalPreviousWorld;
-#endif
-#endif
-#else
-#if !defined(WORLD_UBO)
-var finalWorld=uniforms.world;
-#else
-var finalWorld=mesh.world;
-#endif
-#if defined(PREPASS_VELOCITY) || defined(VELOCITY)
-var finalPreviousWorld=uniforms.previousWorld;
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name18] = shader18;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bonesVertex.js
-  var bonesVertex_exports = {};
-  __export(bonesVertex_exports, {
-    bonesVertexWGSL: () => bonesVertexWGSL
-  });
-  var name19, shader19, bonesVertexWGSL;
-  var init_bonesVertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bonesVertex.js"() {
-      init_shaderStore();
-      name19 = "bonesVertex";
-      shader19 = `#ifndef BAKED_VERTEX_ANIMATION_TEXTURE
-#if NUM_BONE_INFLUENCERS>0
-var influence : mat4x4<f32>;
-#ifdef BONETEXTURE
-influence=readMatrixFromRawSampler(boneSampler,vertexInputs.matricesIndices[0])*vertexInputs.matricesWeights[0];
-#if NUM_BONE_INFLUENCERS>1
-influence=influence+readMatrixFromRawSampler(boneSampler,vertexInputs.matricesIndices[1])*vertexInputs.matricesWeights[1];
-#endif 
-#if NUM_BONE_INFLUENCERS>2
-influence=influence+readMatrixFromRawSampler(boneSampler,vertexInputs.matricesIndices[2])*vertexInputs.matricesWeights[2];
-#endif 
-#if NUM_BONE_INFLUENCERS>3
-influence=influence+readMatrixFromRawSampler(boneSampler,vertexInputs.matricesIndices[3])*vertexInputs.matricesWeights[3];
-#endif 
-#if NUM_BONE_INFLUENCERS>4
-influence=influence+readMatrixFromRawSampler(boneSampler,vertexInputs.matricesIndicesExtra[0])*vertexInputs.matricesWeightsExtra[0];
-#endif 
-#if NUM_BONE_INFLUENCERS>5
-influence=influence+readMatrixFromRawSampler(boneSampler,vertexInputs.matricesIndicesExtra[1])*vertexInputs.matricesWeightsExtra[1];
-#endif 
-#if NUM_BONE_INFLUENCERS>6
-influence=influence+readMatrixFromRawSampler(boneSampler,vertexInputs.matricesIndicesExtra[2])*vertexInputs.matricesWeightsExtra[2];
-#endif 
-#if NUM_BONE_INFLUENCERS>7
-influence=influence+readMatrixFromRawSampler(boneSampler,vertexInputs.matricesIndicesExtra[3])*vertexInputs.matricesWeightsExtra[3];
-#endif 
-#else 
-influence=uniforms.mBones[int(vertexInputs.matricesIndices[0])]*vertexInputs.matricesWeights[0];
-#if NUM_BONE_INFLUENCERS>1
-influence=influence+uniforms.mBones[int(vertexInputs.matricesIndices[1])]*vertexInputs.matricesWeights[1];
-#endif 
-#if NUM_BONE_INFLUENCERS>2
-influence=influence+uniforms.mBones[int(vertexInputs.matricesIndices[2])]*vertexInputs.matricesWeights[2];
-#endif 
-#if NUM_BONE_INFLUENCERS>3
-influence=influence+uniforms.mBones[int(vertexInputs.matricesIndices[3])]*vertexInputs.matricesWeights[3];
-#endif 
-#if NUM_BONE_INFLUENCERS>4
-influence=influence+uniforms.mBones[int(vertexInputs.matricesIndicesExtra[0])]*vertexInputs.matricesWeightsExtra[0];
-#endif 
-#if NUM_BONE_INFLUENCERS>5
-influence=influence+uniforms.mBones[int(vertexInputs.matricesIndicesExtra[1])]*vertexInputs.matricesWeightsExtra[1];
-#endif 
-#if NUM_BONE_INFLUENCERS>6
-influence=influence+uniforms.mBones[int(vertexInputs.matricesIndicesExtra[2])]*vertexInputs.matricesWeightsExtra[2];
-#endif 
-#if NUM_BONE_INFLUENCERS>7
-influence=influence+uniforms.mBones[int(vertexInputs.matricesIndicesExtra[3])]*vertexInputs.matricesWeightsExtra[3];
-#endif 
-#endif
-finalWorld=finalWorld*influence;
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name19] = shader19;
-      bonesVertexWGSL = { name: name19, shader: shader19 };
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bakedVertexAnimation.js
-  var name20, shader20;
-  var init_bakedVertexAnimation = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bakedVertexAnimation.js"() {
-      init_shaderStore();
-      name20 = "bakedVertexAnimation";
-      shader20 = `#ifdef BAKED_VERTEX_ANIMATION_TEXTURE
-{
-#ifdef INSTANCES
-let VATStartFrame: f32=vertexInputs.bakedVertexAnimationSettingsInstanced.x;let VATEndFrame: f32=vertexInputs.bakedVertexAnimationSettingsInstanced.y;let VATOffsetFrame: f32=vertexInputs.bakedVertexAnimationSettingsInstanced.z;let VATSpeed: f32=vertexInputs.bakedVertexAnimationSettingsInstanced.w;
-#else
-let VATStartFrame: f32=uniforms.bakedVertexAnimationSettings.x;let VATEndFrame: f32=uniforms.bakedVertexAnimationSettings.y;let VATOffsetFrame: f32=uniforms.bakedVertexAnimationSettings.z;let VATSpeed: f32=uniforms.bakedVertexAnimationSettings.w;
-#endif
-let totalFrames: f32=VATEndFrame-VATStartFrame+1.0;let time: f32=uniforms.bakedVertexAnimationTime*VATSpeed/totalFrames;let frameCorrection: f32=select(1.0,0.0,time<1.0);let numOfFrames: f32=totalFrames-frameCorrection;var VATFrameNum: f32=fract(time)*numOfFrames;VATFrameNum=(VATFrameNum+VATOffsetFrame) % numOfFrames;VATFrameNum=floor(VATFrameNum);VATFrameNum=VATFrameNum+VATStartFrame+frameCorrection;var VATInfluence : mat4x4<f32>;VATInfluence=readMatrixFromRawSamplerVAT(bakedVertexAnimationTexture,vertexInputs.matricesIndices[0],VATFrameNum)*vertexInputs.matricesWeights[0];
-#if NUM_BONE_INFLUENCERS>1
-VATInfluence=VATInfluence+readMatrixFromRawSamplerVAT(bakedVertexAnimationTexture,vertexInputs.matricesIndices[1],VATFrameNum)*vertexInputs.matricesWeights[1];
-#endif
-#if NUM_BONE_INFLUENCERS>2
-VATInfluence=VATInfluence+readMatrixFromRawSamplerVAT(bakedVertexAnimationTexture,vertexInputs.matricesIndices[2],VATFrameNum)*vertexInputs.matricesWeights[2];
-#endif
-#if NUM_BONE_INFLUENCERS>3
-VATInfluence=VATInfluence+readMatrixFromRawSamplerVAT(bakedVertexAnimationTexture,vertexInputs.matricesIndices[3],VATFrameNum)*vertexInputs.matricesWeights[3];
-#endif
-#if NUM_BONE_INFLUENCERS>4
-VATInfluence=VATInfluence+readMatrixFromRawSamplerVAT(bakedVertexAnimationTexture,vertexInputs.matricesIndicesExtra[0],VATFrameNum)*vertexInputs.matricesWeightsExtra[0];
-#endif
-#if NUM_BONE_INFLUENCERS>5
-VATInfluence=VATInfluence+readMatrixFromRawSamplerVAT(bakedVertexAnimationTexture,vertexInputs.matricesIndicesExtra[1],VATFrameNum)*vertexInputs.matricesWeightsExtra[1];
-#endif
-#if NUM_BONE_INFLUENCERS>6
-VATInfluence=VATInfluence+readMatrixFromRawSamplerVAT(bakedVertexAnimationTexture,vertexInputs.matricesIndicesExtra[2],VATFrameNum)*vertexInputs.matricesWeightsExtra[2];
-#endif
-#if NUM_BONE_INFLUENCERS>7
-VATInfluence=VATInfluence+readMatrixFromRawSamplerVAT(bakedVertexAnimationTexture,vertexInputs.matricesIndicesExtra[3],VATFrameNum)*vertexInputs.matricesWeightsExtra[3];
-#endif
-finalWorld=finalWorld*VATInfluence;}
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name20] = shader20;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/clipPlaneVertex.js
-  var name21, shader21;
-  var init_clipPlaneVertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/clipPlaneVertex.js"() {
-      init_shaderStore();
-      name21 = "clipPlaneVertex";
-      shader21 = `#ifdef CLIPPLANE
-vertexOutputs.fClipDistance=dot(worldPos,uniforms.vClipPlane);
-#endif
-#ifdef CLIPPLANE2
-vertexOutputs.fClipDistance2=dot(worldPos,uniforms.vClipPlane2);
-#endif
-#ifdef CLIPPLANE3
-vertexOutputs.fClipDistance3=dot(worldPos,uniforms.vClipPlane3);
-#endif
-#ifdef CLIPPLANE4
-vertexOutputs.fClipDistance4=dot(worldPos,uniforms.vClipPlane4);
-#endif
-#ifdef CLIPPLANE5
-vertexOutputs.fClipDistance5=dot(worldPos,uniforms.vClipPlane5);
-#endif
-#ifdef CLIPPLANE6
-vertexOutputs.fClipDistance6=dot(worldPos,uniforms.vClipPlane6);
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name21] = shader21;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/fogVertex.js
-  var name22, shader22;
-  var init_fogVertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/fogVertex.js"() {
-      init_shaderStore();
-      name22 = "fogVertex";
-      shader22 = `#ifdef FOG
-vertexOutputs.vFogDistance=(scene.view*worldPos).xyz;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name22] = shader22;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/vertexColorMixing.js
-  var name23, shader23;
-  var init_vertexColorMixing = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/vertexColorMixing.js"() {
-      init_shaderStore();
-      name23 = "vertexColorMixing";
-      shader23 = `#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
-vertexOutputs.vColor=vec4f(1.0);
-#ifdef VERTEXCOLOR
-#ifdef VERTEXALPHA
-vertexOutputs.vColor*=vertexInputs.color;
-#else
-vertexOutputs.vColor=vec4f(vertexOutputs.vColor.rgb*vertexInputs.color.rgb,vertexOutputs.vColor.a);
-#endif
-#endif
-#ifdef INSTANCESCOLOR
-vertexOutputs.vColor*=vertexInputs.instanceColor;
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name23] = shader23;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/color.vertex.js
+  // wgsl-stub:../ShadersWGSL/color.vertex.js
   var color_vertex_exports = {};
-  __export(color_vertex_exports, {
-    colorVertexShaderWGSL: () => colorVertexShaderWGSL
-  });
-  var name24, shader24, colorVertexShaderWGSL;
   var init_color_vertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/color.vertex.js"() {
-      init_shaderStore();
-      init_bonesDeclaration();
-      init_bakedVertexAnimationDeclaration();
-      init_clipPlaneVertexDeclaration();
-      init_fogVertexDeclaration();
-      init_instancesDeclaration();
-      init_instancesVertex();
-      init_bonesVertex();
-      init_bakedVertexAnimation();
-      init_clipPlaneVertex();
-      init_fogVertex();
-      init_vertexColorMixing();
-      name24 = "colorVertexShader";
-      shader24 = `attribute position: vec3f;
-#ifdef VERTEXCOLOR
-attribute color: vec4f;
-#endif
-#include<bonesDeclaration>
-#include<bakedVertexAnimationDeclaration>
-#include<clipPlaneVertexDeclaration>
-#include<fogVertexDeclaration>
-#ifdef FOG
-uniform view: mat4x4f;
-#endif
-#include<instancesDeclaration>
-uniform viewProjection: mat4x4f;
-#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
-varying vColor: vec4f;
-#endif
-#define CUSTOM_VERTEX_DEFINITIONS
-@vertex
-fn main(input : VertexInputs)->FragmentInputs {
-#define CUSTOM_VERTEX_MAIN_BEGIN
-#include<instancesVertex>
-#include<bonesVertex>
-#include<bakedVertexAnimation>
-var worldPos: vec4f=finalWorld* vec4f(input.position,1.0);vertexOutputs.position=uniforms.viewProjection*worldPos;
-#include<clipPlaneVertex>
-#include<fogVertex>
-#include<vertexColorMixing>
-#define CUSTOM_VERTEX_MAIN_END
-}`;
-      ShaderStore.ShadersStoreWGSL[name24] = shader24;
-      colorVertexShaderWGSL = { name: name24, shader: shader24 };
+    "wgsl-stub:../ShadersWGSL/color.vertex.js"() {
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/clipPlaneFragmentDeclaration.js
-  var name25, shader25;
-  var init_clipPlaneFragmentDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/clipPlaneFragmentDeclaration.js"() {
-      init_shaderStore();
-      name25 = "clipPlaneFragmentDeclaration";
-      shader25 = `#ifdef CLIPPLANE
-varying fClipDistance: f32;
-#endif
-#ifdef CLIPPLANE2
-varying fClipDistance2: f32;
-#endif
-#ifdef CLIPPLANE3
-varying fClipDistance3: f32;
-#endif
-#ifdef CLIPPLANE4
-varying fClipDistance4: f32;
-#endif
-#ifdef CLIPPLANE5
-varying fClipDistance5: f32;
-#endif
-#ifdef CLIPPLANE6
-varying fClipDistance6: f32;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name25] = shader25;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/fogFragmentDeclaration.js
-  var fogFragmentDeclaration_exports = {};
-  __export(fogFragmentDeclaration_exports, {
-    fogFragmentDeclarationWGSL: () => fogFragmentDeclarationWGSL
-  });
-  var name26, shader26, fogFragmentDeclarationWGSL;
-  var init_fogFragmentDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/fogFragmentDeclaration.js"() {
-      init_shaderStore();
-      name26 = "fogFragmentDeclaration";
-      shader26 = `#ifdef FOG
-#define FOGMODE_NONE 0.
-#define FOGMODE_EXP 1.
-#define FOGMODE_EXP2 2.
-#define FOGMODE_LINEAR 3.
-const E=2.71828;uniform vFogInfos: vec4f;uniform vFogColor: vec3f;varying vFogDistance: vec3f;fn CalcFogFactor()->f32
-{var fogCoeff: f32=1.0;var fogStart: f32=uniforms.vFogInfos.y;var fogEnd: f32=uniforms.vFogInfos.z;var fogDensity: f32=uniforms.vFogInfos.w;var fogDistance: f32=length(fragmentInputs.vFogDistance);if (FOGMODE_LINEAR==uniforms.vFogInfos.x)
-{fogCoeff=(fogEnd-fogDistance)/(fogEnd-fogStart);}
-else if (FOGMODE_EXP==uniforms.vFogInfos.x)
-{fogCoeff=1.0/pow(E,fogDistance*fogDensity);}
-else if (FOGMODE_EXP2==uniforms.vFogInfos.x)
-{fogCoeff=1.0/pow(E,fogDistance*fogDistance*fogDensity*fogDensity);}
-return clamp(fogCoeff,0.0,1.0);}
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name26] = shader26;
-      fogFragmentDeclarationWGSL = { name: name26, shader: shader26 };
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/clipPlaneFragment.js
-  var name27, shader27;
-  var init_clipPlaneFragment = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/clipPlaneFragment.js"() {
-      init_shaderStore();
-      name27 = "clipPlaneFragment";
-      shader27 = `#if defined(CLIPPLANE) || defined(CLIPPLANE2) || defined(CLIPPLANE3) || defined(CLIPPLANE4) || defined(CLIPPLANE5) || defined(CLIPPLANE6)
-if (false) {}
-#endif
-#ifdef CLIPPLANE
-else if (fragmentInputs.fClipDistance>0.0)
-{discard;}
-#endif
-#ifdef CLIPPLANE2
-else if (fragmentInputs.fClipDistance2>0.0)
-{discard;}
-#endif
-#ifdef CLIPPLANE3
-else if (fragmentInputs.fClipDistance3>0.0)
-{discard;}
-#endif
-#ifdef CLIPPLANE4
-else if (fragmentInputs.fClipDistance4>0.0)
-{discard;}
-#endif
-#ifdef CLIPPLANE5
-else if (fragmentInputs.fClipDistance5>0.0)
-{discard;}
-#endif
-#ifdef CLIPPLANE6
-else if (fragmentInputs.fClipDistance6>0.0)
-{discard;}
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name27] = shader27;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/fogFragment.js
-  var name28, shader28;
-  var init_fogFragment = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/fogFragment.js"() {
-      init_shaderStore();
-      name28 = "fogFragment";
-      shader28 = `#ifdef FOG
-var fog: f32=CalcFogFactor();
-#ifdef PBR
-fog=toLinearSpace(fog);
-#endif
-color= vec4f(mix(uniforms.vFogColor,color.rgb,fog),color.a);
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name28] = shader28;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/color.fragment.js
+  // wgsl-stub:../ShadersWGSL/color.fragment.js
   var color_fragment_exports = {};
-  __export(color_fragment_exports, {
-    colorPixelShaderWGSL: () => colorPixelShaderWGSL
-  });
-  var name29, shader29, colorPixelShaderWGSL;
   var init_color_fragment = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/color.fragment.js"() {
-      init_shaderStore();
-      init_clipPlaneFragmentDeclaration();
-      init_fogFragmentDeclaration();
-      init_clipPlaneFragment();
-      init_fogFragment();
-      name29 = "colorPixelShader";
-      shader29 = `#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
-#define VERTEXCOLOR
-varying vColor: vec4f;
-#else
-uniform color: vec4f;
-#endif
-#include<clipPlaneFragmentDeclaration>
-#include<fogFragmentDeclaration>
-#define CUSTOM_FRAGMENT_DEFINITIONS
-@fragment
-fn main(input: FragmentInputs)->FragmentOutputs {
-#define CUSTOM_FRAGMENT_MAIN_BEGIN
-#include<clipPlaneFragment>
-#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
-fragmentOutputs.color=input.vColor;
-#else
-fragmentOutputs.color=uniforms.color;
-#endif
-#include<fogFragment>(color,fragmentOutputs.color)
-#define CUSTOM_FRAGMENT_MAIN_END
-}`;
-      ShaderStore.ShadersStoreWGSL[name29] = shader29;
-      colorPixelShaderWGSL = { name: name29, shader: shader29 };
+    "wgsl-stub:../ShadersWGSL/color.fragment.js"() {
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/bonesDeclaration.js
-  var bonesDeclaration_exports2 = {};
-  __export(bonesDeclaration_exports2, {
+  var bonesDeclaration_exports = {};
+  __export(bonesDeclaration_exports, {
     bonesDeclaration: () => bonesDeclaration
   });
-  var name30, shader30, bonesDeclaration;
-  var init_bonesDeclaration2 = __esm({
+  var name11, shader11, bonesDeclaration;
+  var init_bonesDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/bonesDeclaration.js"() {
       init_shaderStore();
-      name30 = "bonesDeclaration";
-      shader30 = `#if NUM_BONE_INFLUENCERS>0
+      name11 = "bonesDeclaration";
+      shader11 = `#if NUM_BONE_INFLUENCERS>0
 attribute vec4 matricesIndices;attribute vec4 matricesWeights;
 #if NUM_BONE_INFLUENCERS>4
 attribute vec4 matricesIndicesExtra;attribute vec4 matricesWeightsExtra;
@@ -836,18 +265,18 @@ mat4 readMatrixFromRawSampler(sampler2D smp,float index)
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name30] = shader30;
-      bonesDeclaration = { name: name30, shader: shader30 };
+      ShaderStore.IncludesShadersStore[name11] = shader11;
+      bonesDeclaration = { name: name11, shader: shader11 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/bakedVertexAnimationDeclaration.js
-  var name31, shader31;
-  var init_bakedVertexAnimationDeclaration2 = __esm({
+  var name12, shader12;
+  var init_bakedVertexAnimationDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/bakedVertexAnimationDeclaration.js"() {
       init_shaderStore();
-      name31 = "bakedVertexAnimationDeclaration";
-      shader31 = `#ifdef BAKED_VERTEX_ANIMATION_TEXTURE
+      name12 = "bakedVertexAnimationDeclaration";
+      shader12 = `#ifdef BAKED_VERTEX_ANIMATION_TEXTURE
 uniform float bakedVertexAnimationTime;uniform vec2 bakedVertexAnimationTextureSizeInverted;uniform vec4 bakedVertexAnimationSettings;uniform sampler2D bakedVertexAnimationTexture;
 #ifdef INSTANCES
 attribute vec4 bakedVertexAnimationSettingsInstanced;
@@ -857,17 +286,17 @@ mat4 readMatrixFromRawSamplerVAT(sampler2D smp,float index,float frame)
 {float offset=index*4.0;float frameUV=(frame+0.5)*bakedVertexAnimationTextureSizeInverted.y;float dx=bakedVertexAnimationTextureSizeInverted.x;vec4 m0=texture2D(smp,vec2(dx*(offset+0.5),frameUV));vec4 m1=texture2D(smp,vec2(dx*(offset+1.5),frameUV));vec4 m2=texture2D(smp,vec2(dx*(offset+2.5),frameUV));vec4 m3=texture2D(smp,vec2(dx*(offset+3.5),frameUV));return mat4(m0,m1,m2,m3);}
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name31] = shader31;
+      ShaderStore.IncludesShadersStore[name12] = shader12;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/clipPlaneVertexDeclaration.js
-  var name32, shader32;
-  var init_clipPlaneVertexDeclaration2 = __esm({
+  var name13, shader13;
+  var init_clipPlaneVertexDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/clipPlaneVertexDeclaration.js"() {
       init_shaderStore();
-      name32 = "clipPlaneVertexDeclaration";
-      shader32 = `#ifdef CLIPPLANE
+      name13 = "clipPlaneVertexDeclaration";
+      shader13 = `#ifdef CLIPPLANE
 uniform vec4 vClipPlane;varying float fClipDistance;
 #endif
 #ifdef CLIPPLANE2
@@ -886,31 +315,31 @@ uniform vec4 vClipPlane5;varying float fClipDistance5;
 uniform vec4 vClipPlane6;varying float fClipDistance6;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name32] = shader32;
+      ShaderStore.IncludesShadersStore[name13] = shader13;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/fogVertexDeclaration.js
-  var name33, shader33;
-  var init_fogVertexDeclaration2 = __esm({
+  var name14, shader14;
+  var init_fogVertexDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/fogVertexDeclaration.js"() {
       init_shaderStore();
-      name33 = "fogVertexDeclaration";
-      shader33 = `#ifdef FOG
+      name14 = "fogVertexDeclaration";
+      shader14 = `#ifdef FOG
 varying vec3 vFogDistance;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name33] = shader33;
+      ShaderStore.IncludesShadersStore[name14] = shader14;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/instancesDeclaration.js
-  var name34, shader34;
-  var init_instancesDeclaration2 = __esm({
+  var name15, shader15;
+  var init_instancesDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/instancesDeclaration.js"() {
       init_shaderStore();
-      name34 = "instancesDeclaration";
-      shader34 = `#ifdef INSTANCES
+      name15 = "instancesDeclaration";
+      shader15 = `#ifdef INSTANCES
 attribute vec4 world0;attribute vec4 world1;attribute vec4 world2;attribute vec4 world3;
 #ifdef INSTANCESCOLOR
 attribute vec4 instanceColor;
@@ -933,17 +362,17 @@ uniform mat4 previousWorld;
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name34] = shader34;
+      ShaderStore.IncludesShadersStore[name15] = shader15;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/instancesVertex.js
-  var name35, shader35;
-  var init_instancesVertex2 = __esm({
+  var name16, shader16;
+  var init_instancesVertex = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/instancesVertex.js"() {
       init_shaderStore();
-      name35 = "instancesVertex";
-      shader35 = `#ifdef INSTANCES
+      name16 = "instancesVertex";
+      shader16 = `#ifdef INSTANCES
 mat4 finalWorld=mat4(world0,world1,world2,world3);
 #if defined(PREPASS_VELOCITY) || defined(VELOCITY)
 mat4 finalPreviousWorld=mat4(previousWorld0,previousWorld1,previousWorld2,previousWorld3);
@@ -961,21 +390,21 @@ mat4 finalPreviousWorld=previousWorld;
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name35] = shader35;
+      ShaderStore.IncludesShadersStore[name16] = shader16;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/bonesVertex.js
-  var bonesVertex_exports2 = {};
-  __export(bonesVertex_exports2, {
+  var bonesVertex_exports = {};
+  __export(bonesVertex_exports, {
     bonesVertex: () => bonesVertex
   });
-  var name36, shader36, bonesVertex;
-  var init_bonesVertex2 = __esm({
+  var name17, shader17, bonesVertex;
+  var init_bonesVertex = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/bonesVertex.js"() {
       init_shaderStore();
-      name36 = "bonesVertex";
-      shader36 = `#ifndef BAKED_VERTEX_ANIMATION_TEXTURE
+      name17 = "bonesVertex";
+      shader17 = `#ifndef BAKED_VERTEX_ANIMATION_TEXTURE
 #if NUM_BONE_INFLUENCERS>0
 mat4 influence;
 #ifdef BONETEXTURE
@@ -1029,18 +458,18 @@ finalWorld=finalWorld*influence;
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name36] = shader36;
-      bonesVertex = { name: name36, shader: shader36 };
+      ShaderStore.IncludesShadersStore[name17] = shader17;
+      bonesVertex = { name: name17, shader: shader17 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/bakedVertexAnimation.js
-  var name37, shader37;
-  var init_bakedVertexAnimation2 = __esm({
+  var name18, shader18;
+  var init_bakedVertexAnimation = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/bakedVertexAnimation.js"() {
       init_shaderStore();
-      name37 = "bakedVertexAnimation";
-      shader37 = `#ifdef BAKED_VERTEX_ANIMATION_TEXTURE
+      name18 = "bakedVertexAnimation";
+      shader18 = `#ifdef BAKED_VERTEX_ANIMATION_TEXTURE
 {
 #ifdef INSTANCES
 #define BVASNAME bakedVertexAnimationSettingsInstanced
@@ -1072,17 +501,17 @@ VATInfluence+=readMatrixFromRawSamplerVAT(bakedVertexAnimationTexture,matricesIn
 finalWorld=finalWorld*VATInfluence;}
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name37] = shader37;
+      ShaderStore.IncludesShadersStore[name18] = shader18;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/clipPlaneVertex.js
-  var name38, shader38;
-  var init_clipPlaneVertex2 = __esm({
+  var name19, shader19;
+  var init_clipPlaneVertex = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/clipPlaneVertex.js"() {
       init_shaderStore();
-      name38 = "clipPlaneVertex";
-      shader38 = `#ifdef CLIPPLANE
+      name19 = "clipPlaneVertex";
+      shader19 = `#ifdef CLIPPLANE
 fClipDistance=dot(worldPos,vClipPlane);
 #endif
 #ifdef CLIPPLANE2
@@ -1101,31 +530,31 @@ fClipDistance5=dot(worldPos,vClipPlane5);
 fClipDistance6=dot(worldPos,vClipPlane6);
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name38] = shader38;
+      ShaderStore.IncludesShadersStore[name19] = shader19;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/fogVertex.js
-  var name39, shader39;
-  var init_fogVertex2 = __esm({
+  var name20, shader20;
+  var init_fogVertex = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/fogVertex.js"() {
       init_shaderStore();
-      name39 = "fogVertex";
-      shader39 = `#ifdef FOG
+      name20 = "fogVertex";
+      shader20 = `#ifdef FOG
 vFogDistance=(view*worldPos).xyz;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name39] = shader39;
+      ShaderStore.IncludesShadersStore[name20] = shader20;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/vertexColorMixing.js
-  var name40, shader40;
-  var init_vertexColorMixing2 = __esm({
+  var name21, shader21;
+  var init_vertexColorMixing = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/vertexColorMixing.js"() {
       init_shaderStore();
-      name40 = "vertexColorMixing";
-      shader40 = `#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
+      name21 = "vertexColorMixing";
+      shader21 = `#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
 vColor=vec4(1.0);
 #ifdef VERTEXCOLOR
 #ifdef VERTEXALPHA
@@ -1139,7 +568,7 @@ vColor*=instanceColor;
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name40] = shader40;
+      ShaderStore.IncludesShadersStore[name21] = shader21;
     }
   });
 
@@ -1148,23 +577,23 @@ vColor*=instanceColor;
   __export(color_vertex_exports2, {
     colorVertexShader: () => colorVertexShader
   });
-  var name41, shader41, colorVertexShader;
+  var name22, shader22, colorVertexShader;
   var init_color_vertex2 = __esm({
     "../node_modules/@babylonjs/core/Shaders/color.vertex.js"() {
       init_shaderStore();
-      init_bonesDeclaration2();
-      init_bakedVertexAnimationDeclaration2();
-      init_clipPlaneVertexDeclaration2();
-      init_fogVertexDeclaration2();
-      init_instancesDeclaration2();
-      init_instancesVertex2();
-      init_bonesVertex2();
-      init_bakedVertexAnimation2();
-      init_clipPlaneVertex2();
-      init_fogVertex2();
-      init_vertexColorMixing2();
-      name41 = "colorVertexShader";
-      shader41 = `attribute vec3 position;
+      init_bonesDeclaration();
+      init_bakedVertexAnimationDeclaration();
+      init_clipPlaneVertexDeclaration();
+      init_fogVertexDeclaration();
+      init_instancesDeclaration();
+      init_instancesVertex();
+      init_bonesVertex();
+      init_bakedVertexAnimation();
+      init_clipPlaneVertex();
+      init_fogVertex();
+      init_vertexColorMixing();
+      name22 = "colorVertexShader";
+      shader22 = `attribute vec3 position;
 #ifdef VERTEXCOLOR
 attribute vec4 color;
 #endif
@@ -1200,18 +629,18 @@ gl_Position=viewProjection*worldPos;
 #include<vertexColorMixing>
 #define CUSTOM_VERTEX_MAIN_END
 }`;
-      ShaderStore.ShadersStore[name41] = shader41;
-      colorVertexShader = { name: name41, shader: shader41 };
+      ShaderStore.ShadersStore[name22] = shader22;
+      colorVertexShader = { name: name22, shader: shader22 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/clipPlaneFragmentDeclaration.js
-  var name42, shader42;
-  var init_clipPlaneFragmentDeclaration2 = __esm({
+  var name23, shader23;
+  var init_clipPlaneFragmentDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/clipPlaneFragmentDeclaration.js"() {
       init_shaderStore();
-      name42 = "clipPlaneFragmentDeclaration";
-      shader42 = `#ifdef CLIPPLANE
+      name23 = "clipPlaneFragmentDeclaration";
+      shader23 = `#ifdef CLIPPLANE
 varying float fClipDistance;
 #endif
 #ifdef CLIPPLANE2
@@ -1230,21 +659,21 @@ varying float fClipDistance5;
 varying float fClipDistance6;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name42] = shader42;
+      ShaderStore.IncludesShadersStore[name23] = shader23;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/fogFragmentDeclaration.js
-  var fogFragmentDeclaration_exports2 = {};
-  __export(fogFragmentDeclaration_exports2, {
+  var fogFragmentDeclaration_exports = {};
+  __export(fogFragmentDeclaration_exports, {
     fogFragmentDeclaration: () => fogFragmentDeclaration
   });
-  var name43, shader43, fogFragmentDeclaration;
-  var init_fogFragmentDeclaration2 = __esm({
+  var name24, shader24, fogFragmentDeclaration;
+  var init_fogFragmentDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/fogFragmentDeclaration.js"() {
       init_shaderStore();
-      name43 = "fogFragmentDeclaration";
-      shader43 = `#ifdef FOG
+      name24 = "fogFragmentDeclaration";
+      shader24 = `#ifdef FOG
 #define FOGMODE_NONE 0.
 #define FOGMODE_EXP 1.
 #define FOGMODE_EXP2 2.
@@ -1260,18 +689,18 @@ else if (FOGMODE_EXP2==vFogInfos.x)
 return clamp(fogCoeff,0.0,1.0);}
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name43] = shader43;
-      fogFragmentDeclaration = { name: name43, shader: shader43 };
+      ShaderStore.IncludesShadersStore[name24] = shader24;
+      fogFragmentDeclaration = { name: name24, shader: shader24 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/clipPlaneFragment.js
-  var name44, shader44;
-  var init_clipPlaneFragment2 = __esm({
+  var name25, shader25;
+  var init_clipPlaneFragment = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/clipPlaneFragment.js"() {
       init_shaderStore();
-      name44 = "clipPlaneFragment";
-      shader44 = `#if defined(CLIPPLANE) || defined(CLIPPLANE2) || defined(CLIPPLANE3) || defined(CLIPPLANE4) || defined(CLIPPLANE5) || defined(CLIPPLANE6)
+      name25 = "clipPlaneFragment";
+      shader25 = `#if defined(CLIPPLANE) || defined(CLIPPLANE2) || defined(CLIPPLANE3) || defined(CLIPPLANE4) || defined(CLIPPLANE5) || defined(CLIPPLANE6)
 if (false) {}
 #endif
 #ifdef CLIPPLANE
@@ -1299,17 +728,17 @@ else if (fClipDistance6>0.0)
 {discard;}
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name44] = shader44;
+      ShaderStore.IncludesShadersStore[name25] = shader25;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/fogFragment.js
-  var name45, shader45;
-  var init_fogFragment2 = __esm({
+  var name26, shader26;
+  var init_fogFragment = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/fogFragment.js"() {
       init_shaderStore();
-      name45 = "fogFragment";
-      shader45 = `#ifdef FOG
+      name26 = "fogFragment";
+      shader26 = `#ifdef FOG
 float fog=CalcFogFactor();
 #ifdef PBR
 fog=toLinearSpace(fog);
@@ -1317,7 +746,7 @@ fog=toLinearSpace(fog);
 color.rgb=mix(vFogColor,color.rgb,fog);
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name45] = shader45;
+      ShaderStore.IncludesShadersStore[name26] = shader26;
     }
   });
 
@@ -1326,16 +755,16 @@ color.rgb=mix(vFogColor,color.rgb,fog);
   __export(color_fragment_exports2, {
     colorPixelShader: () => colorPixelShader
   });
-  var name46, shader46, colorPixelShader;
+  var name27, shader27, colorPixelShader;
   var init_color_fragment2 = __esm({
     "../node_modules/@babylonjs/core/Shaders/color.fragment.js"() {
       init_shaderStore();
-      init_clipPlaneFragmentDeclaration2();
-      init_fogFragmentDeclaration2();
-      init_clipPlaneFragment2();
-      init_fogFragment2();
-      name46 = "colorPixelShader";
-      shader46 = `#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
+      init_clipPlaneFragmentDeclaration();
+      init_fogFragmentDeclaration();
+      init_clipPlaneFragment();
+      init_fogFragment();
+      name27 = "colorPixelShader";
+      shader27 = `#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
 #define VERTEXCOLOR
 varying vec4 vColor;
 #else
@@ -1355,170 +784,50 @@ gl_FragColor=color;
 #include<fogFragment>(color,gl_FragColor)
 #define CUSTOM_FRAGMENT_MAIN_END
 }`;
-      ShaderStore.ShadersStore[name46] = shader46;
-      colorPixelShader = { name: name46, shader: shader46 };
+      ShaderStore.ShadersStore[name27] = shader27;
+      colorPixelShader = { name: name27, shader: shader27 };
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/logDepthDeclaration.js
-  var name47, shader47;
-  var init_logDepthDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/logDepthDeclaration.js"() {
-      init_shaderStore();
-      name47 = "logDepthDeclaration";
-      shader47 = `#ifdef LOGARITHMICDEPTH
-uniform logarithmicDepthConstant: f32;varying vFragmentDepth: f32;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name47] = shader47;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/logDepthVertex.js
-  var name48, shader48;
-  var init_logDepthVertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/logDepthVertex.js"() {
-      init_shaderStore();
-      name48 = "logDepthVertex";
-      shader48 = `#ifdef LOGARITHMICDEPTH
-vertexOutputs.vFragmentDepth=1.0+vertexOutputs.position.w;vertexOutputs.position.z=log2(max(0.000001,vertexOutputs.vFragmentDepth))*uniforms.logarithmicDepthConstant;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name48] = shader48;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/sprites.vertex.js
+  // wgsl-stub:../ShadersWGSL/sprites.vertex.js
   var sprites_vertex_exports = {};
-  __export(sprites_vertex_exports, {
-    spritesVertexShaderWGSL: () => spritesVertexShaderWGSL
-  });
-  var name49, shader49, spritesVertexShaderWGSL;
   var init_sprites_vertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/sprites.vertex.js"() {
-      init_shaderStore();
-      init_fogVertexDeclaration();
-      init_logDepthDeclaration();
-      init_logDepthVertex();
-      name49 = "spritesVertexShader";
-      shader49 = `attribute position: vec4f;attribute options: vec2f;attribute offsets: vec2f;attribute inverts: vec2f;attribute cellInfo: vec4f;attribute color: vec4f;uniform view: mat4x4f;uniform projection: mat4x4f;varying vUV: vec2f;varying vColor: vec4f;
-#include<fogVertexDeclaration>
-#include<logDepthDeclaration>
-#define CUSTOM_VERTEX_DEFINITIONS
-@vertex
-fn main(input : VertexInputs)->FragmentInputs {
-#define CUSTOM_VERTEX_MAIN_BEGIN
-var viewPos: vec3f=(uniforms.view* vec4f(input.position.xyz,1.0)).xyz; 
-var cornerPos: vec2f;var angle: f32=input.position.w;var size: vec2f= vec2f(input.options.x,input.options.y);var offset: vec2f=input.offsets.xy;cornerPos= vec2f(offset.x-0.5,offset.y -0.5)*size;var rotatedCorner: vec3f;rotatedCorner.x=cornerPos.x*cos(angle)-cornerPos.y*sin(angle);rotatedCorner.y=cornerPos.x*sin(angle)+cornerPos.y*cos(angle);rotatedCorner.z=0.;viewPos+=rotatedCorner;vertexOutputs.position=uniforms.projection*vec4f(viewPos,1.0); 
-vertexOutputs.vColor=input.color;var uvOffset: vec2f= vec2f(abs(offset.x-input.inverts.x),abs(1.0-offset.y-input.inverts.y));var uvPlace: vec2f=input.cellInfo.xy;var uvSize: vec2f=input.cellInfo.zw;vertexOutputs.vUV.x=uvPlace.x+uvSize.x*uvOffset.x;vertexOutputs.vUV.y=uvPlace.y+uvSize.y*uvOffset.y;
-#ifdef FOG
-vertexOutputs.vFogDistance=viewPos;
-#endif
-#include<logDepthVertex>
-#define CUSTOM_VERTEX_MAIN_END
-}`;
-      ShaderStore.ShadersStoreWGSL[name49] = shader49;
-      spritesVertexShaderWGSL = { name: name49, shader: shader49 };
+    "wgsl-stub:../ShadersWGSL/sprites.vertex.js"() {
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/logDepthFragment.js
-  var name50, shader50;
-  var init_logDepthFragment = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/logDepthFragment.js"() {
-      init_shaderStore();
-      name50 = "logDepthFragment";
-      shader50 = `#ifdef LOGARITHMICDEPTH
-fragmentOutputs.fragDepth=log2(fragmentInputs.vFragmentDepth)*uniforms.logarithmicDepthConstant*0.5;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name50] = shader50;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/imageProcessingCompatibility.js
-  var name51, shader51;
-  var init_imageProcessingCompatibility = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/imageProcessingCompatibility.js"() {
-      init_shaderStore();
-      name51 = "imageProcessingCompatibility";
-      shader51 = `#ifdef IMAGEPROCESSINGPOSTPROCESS
-fragmentOutputs.color=vec4f(pow(fragmentOutputs.color.rgb, vec3f(2.2)),fragmentOutputs.color.a);
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name51] = shader51;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/sprites.fragment.js
+  // wgsl-stub:../ShadersWGSL/sprites.fragment.js
   var sprites_fragment_exports = {};
-  __export(sprites_fragment_exports, {
-    spritesPixelShaderWGSL: () => spritesPixelShaderWGSL
-  });
-  var name52, shader52, spritesPixelShaderWGSL;
   var init_sprites_fragment = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/sprites.fragment.js"() {
-      init_shaderStore();
-      init_fogFragmentDeclaration();
-      init_logDepthDeclaration();
-      init_logDepthFragment();
-      init_fogFragment();
-      init_imageProcessingCompatibility();
-      name52 = "spritesPixelShader";
-      shader52 = `uniform alphaTest: i32;varying vColor: vec4f;varying vUV: vec2f;var diffuseSamplerSampler: sampler;var diffuseSampler: texture_2d<f32>;
-#include<fogFragmentDeclaration>
-#include<logDepthDeclaration>
-#define CUSTOM_FRAGMENT_DEFINITIONS
-#ifdef PIXEL_PERFECT
-fn uvPixelPerfect(uv: vec2f)->vec2f {var res: vec2f= vec2f(textureDimensions(diffuseSampler,0));var uvTemp=uv*res;var seam: vec2f=floor(uvTemp+0.5);uvTemp=seam+clamp((uvTemp-seam)/fwidth(uvTemp),vec2f(-0.5),vec2f(0.5));return uvTemp/res;}
-#endif
-@fragment
-fn main(input: FragmentInputs)->FragmentOutputs {
-#define CUSTOM_FRAGMENT_MAIN_BEGIN
-#ifdef PIXEL_PERFECT
-var uv: vec2f=uvPixelPerfect(input.vUV);
-#else
-var uv: vec2f=input.vUV;
-#endif
-var color: vec4f=textureSample(diffuseSampler,diffuseSamplerSampler,uv);var fAlphaTest: f32= f32(uniforms.alphaTest);if (fAlphaTest != 0.)
-{if (color.a<0.95) {discard;}}
-color*=input.vColor;
-#include<logDepthFragment>
-#include<fogFragment>
-fragmentOutputs.color=color;
-#include<imageProcessingCompatibility>
-#define CUSTOM_FRAGMENT_MAIN_END
-}`;
-      ShaderStore.ShadersStoreWGSL[name52] = shader52;
-      spritesPixelShaderWGSL = { name: name52, shader: shader52 };
+    "wgsl-stub:../ShadersWGSL/sprites.fragment.js"() {
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/logDepthDeclaration.js
-  var name53, shader53;
-  var init_logDepthDeclaration2 = __esm({
+  var name28, shader28;
+  var init_logDepthDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/logDepthDeclaration.js"() {
       init_shaderStore();
-      name53 = "logDepthDeclaration";
-      shader53 = `#ifdef LOGARITHMICDEPTH
+      name28 = "logDepthDeclaration";
+      shader28 = `#ifdef LOGARITHMICDEPTH
 uniform float logarithmicDepthConstant;varying float vFragmentDepth;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name53] = shader53;
+      ShaderStore.IncludesShadersStore[name28] = shader28;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/logDepthVertex.js
-  var name54, shader54;
-  var init_logDepthVertex2 = __esm({
+  var name29, shader29;
+  var init_logDepthVertex = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/logDepthVertex.js"() {
       init_shaderStore();
-      name54 = "logDepthVertex";
-      shader54 = `#ifdef LOGARITHMICDEPTH
+      name29 = "logDepthVertex";
+      shader29 = `#ifdef LOGARITHMICDEPTH
 vFragmentDepth=1.0+gl_Position.w;gl_Position.z=log2(max(0.000001,vFragmentDepth))*logarithmicDepthConstant;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name54] = shader54;
+      ShaderStore.IncludesShadersStore[name29] = shader29;
     }
   });
 
@@ -1527,15 +836,15 @@ vFragmentDepth=1.0+gl_Position.w;gl_Position.z=log2(max(0.000001,vFragmentDepth)
   __export(sprites_vertex_exports2, {
     spritesVertexShader: () => spritesVertexShader
   });
-  var name55, shader55, spritesVertexShader;
+  var name30, shader30, spritesVertexShader;
   var init_sprites_vertex2 = __esm({
     "../node_modules/@babylonjs/core/Shaders/sprites.vertex.js"() {
       init_shaderStore();
-      init_fogVertexDeclaration2();
-      init_logDepthDeclaration2();
-      init_logDepthVertex2();
-      name55 = "spritesVertexShader";
-      shader55 = `attribute vec4 position;attribute vec2 options;attribute vec2 offsets;attribute vec2 inverts;attribute vec4 cellInfo;attribute vec4 color;uniform mat4 view;uniform mat4 projection;varying vec2 vUV;varying vec4 vColor;
+      init_fogVertexDeclaration();
+      init_logDepthDeclaration();
+      init_logDepthVertex();
+      name30 = "spritesVertexShader";
+      shader30 = `attribute vec4 position;attribute vec2 options;attribute vec2 offsets;attribute vec2 inverts;attribute vec4 cellInfo;attribute vec4 color;uniform mat4 view;uniform mat4 projection;varying vec2 vUV;varying vec4 vColor;
 #include<fogVertexDeclaration>
 #include<logDepthDeclaration>
 #define CUSTOM_VERTEX_DEFINITIONS
@@ -1550,36 +859,36 @@ vFogDistance=viewPos;
 #include<logDepthVertex>
 #define CUSTOM_VERTEX_MAIN_END
 }`;
-      ShaderStore.ShadersStore[name55] = shader55;
-      spritesVertexShader = { name: name55, shader: shader55 };
+      ShaderStore.ShadersStore[name30] = shader30;
+      spritesVertexShader = { name: name30, shader: shader30 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/logDepthFragment.js
-  var name56, shader56;
-  var init_logDepthFragment2 = __esm({
+  var name31, shader31;
+  var init_logDepthFragment = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/logDepthFragment.js"() {
       init_shaderStore();
-      name56 = "logDepthFragment";
-      shader56 = `#ifdef LOGARITHMICDEPTH
+      name31 = "logDepthFragment";
+      shader31 = `#ifdef LOGARITHMICDEPTH
 gl_FragDepthEXT=log2(vFragmentDepth)*logarithmicDepthConstant*0.5;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name56] = shader56;
+      ShaderStore.IncludesShadersStore[name31] = shader31;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/imageProcessingCompatibility.js
-  var name57, shader57;
-  var init_imageProcessingCompatibility2 = __esm({
+  var name32, shader32;
+  var init_imageProcessingCompatibility = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/imageProcessingCompatibility.js"() {
       init_shaderStore();
-      name57 = "imageProcessingCompatibility";
-      shader57 = `#ifdef IMAGEPROCESSINGPOSTPROCESS
+      name32 = "imageProcessingCompatibility";
+      shader32 = `#ifdef IMAGEPROCESSINGPOSTPROCESS
 gl_FragColor.rgb=pow(gl_FragColor.rgb,vec3(2.2));
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name57] = shader57;
+      ShaderStore.IncludesShadersStore[name32] = shader32;
     }
   });
 
@@ -1588,17 +897,17 @@ gl_FragColor.rgb=pow(gl_FragColor.rgb,vec3(2.2));
   __export(sprites_fragment_exports2, {
     spritesPixelShader: () => spritesPixelShader
   });
-  var name58, shader58, spritesPixelShader;
+  var name33, shader33, spritesPixelShader;
   var init_sprites_fragment2 = __esm({
     "../node_modules/@babylonjs/core/Shaders/sprites.fragment.js"() {
       init_shaderStore();
-      init_fogFragmentDeclaration2();
-      init_logDepthDeclaration2();
-      init_logDepthFragment2();
-      init_fogFragment2();
-      init_imageProcessingCompatibility2();
-      name58 = "spritesPixelShader";
-      shader58 = `#ifdef LOGARITHMICDEPTH
+      init_fogFragmentDeclaration();
+      init_logDepthDeclaration();
+      init_logDepthFragment();
+      init_fogFragment();
+      init_imageProcessingCompatibility();
+      name33 = "spritesPixelShader";
+      shader33 = `#ifdef LOGARITHMICDEPTH
 #extension GL_EXT_frag_depth : enable
 #endif
 uniform bool alphaTest;varying vec4 vColor;varying vec2 vUV;uniform sampler2D diffuseSampler;
@@ -1625,2392 +934,47 @@ gl_FragColor=color;
 #include<imageProcessingCompatibility>
 #define CUSTOM_FRAGMENT_MAIN_END
 }`;
-      ShaderStore.ShadersStore[name58] = shader58;
-      spritesPixelShader = { name: name58, shader: shader58 };
+      ShaderStore.ShadersStore[name33] = shader33;
+      spritesPixelShader = { name: name33, shader: shader33 };
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/sceneUboDeclaration.js
-  var name59, shader59;
-  var init_sceneUboDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/sceneUboDeclaration.js"() {
-      init_shaderStore();
-      name59 = "sceneUboDeclaration";
-      shader59 = `struct Scene {viewProjection : mat4x4<f32>,
-#ifdef MULTIVIEW
-viewProjectionR : mat4x4<f32>,
-#endif 
-view : mat4x4<f32>,
-projection : mat4x4<f32>,
-vEyePosition : vec4<f32>,};var<uniform> scene : Scene;
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name59] = shader59;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/meshUboDeclaration.js
-  var name60, shader60;
-  var init_meshUboDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/meshUboDeclaration.js"() {
-      init_shaderStore();
-      name60 = "meshUboDeclaration";
-      shader60 = `struct Mesh {world : mat4x4<f32>,
-visibility : f32,};var<uniform> mesh : Mesh;
-#define WORLD_UBO
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name60] = shader60;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/defaultUboDeclaration.js
-  var name61, shader61;
-  var init_defaultUboDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/defaultUboDeclaration.js"() {
-      init_shaderStore();
-      init_sceneUboDeclaration();
-      init_meshUboDeclaration();
-      name61 = "defaultUboDeclaration";
-      shader61 = `uniform diffuseLeftColor: vec4f;uniform diffuseRightColor: vec4f;uniform opacityParts: vec4f;uniform reflectionLeftColor: vec4f;uniform reflectionRightColor: vec4f;uniform refractionLeftColor: vec4f;uniform refractionRightColor: vec4f;uniform emissiveLeftColor: vec4f;uniform emissiveRightColor: vec4f;uniform vDiffuseInfos: vec2f;uniform vAmbientInfos: vec2f;uniform vOpacityInfos: vec2f;uniform vReflectionInfos: vec2f;uniform vReflectionPosition: vec3f;uniform vReflectionSize: vec3f;uniform vEmissiveInfos: vec2f;uniform vLightmapInfos: vec2f;uniform vSpecularInfos: vec2f;uniform vBumpInfos: vec3f;uniform diffuseMatrix: mat4x4f;uniform ambientMatrix: mat4x4f;uniform opacityMatrix: mat4x4f;uniform reflectionMatrix: mat4x4f;uniform emissiveMatrix: mat4x4f;uniform lightmapMatrix: mat4x4f;uniform specularMatrix: mat4x4f;uniform bumpMatrix: mat4x4f;uniform vTangentSpaceParams: vec2f;uniform pointSize: f32;uniform alphaCutOff: f32;uniform refractionMatrix: mat4x4f;uniform vRefractionInfos: vec4f;uniform vRefractionPosition: vec3f;uniform vRefractionSize: vec3f;uniform vSpecularColor: vec4f;uniform vEmissiveColor: vec3f;uniform vDiffuseColor: vec4f;uniform vAmbientColor: vec3f;
-#define ADDITIONAL_UBO_DECLARATION
-#include<sceneUboDeclaration>
-#include<meshUboDeclaration>
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name61] = shader61;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/uvAttributeDeclaration.js
-  var name62, shader62;
-  var init_uvAttributeDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/uvAttributeDeclaration.js"() {
-      init_shaderStore();
-      name62 = "uvAttributeDeclaration";
-      shader62 = `#ifdef UV{X}
-attribute uv{X}: vec2f;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name62] = shader62;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/helperFunctions.js
-  var helperFunctions_exports2 = {};
-  __export(helperFunctions_exports2, {
-    helperFunctionsWGSL: () => helperFunctionsWGSL
-  });
-  var name63, shader63, helperFunctionsWGSL;
-  var init_helperFunctions2 = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/helperFunctions.js"() {
-      init_shaderStore();
-      name63 = "helperFunctions";
-      shader63 = `const PI: f32=3.1415926535897932384626433832795;const RECIPROCAL_PI: f32=0.3183098861837907;const RECIPROCAL_PI2: f32=0.15915494309189535;const HALF_MIN: f32=5.96046448e-08; 
-const LinearEncodePowerApprox: f32=2.2;const GammaEncodePowerApprox: f32=1.0/LinearEncodePowerApprox;const LuminanceEncodeApprox: vec3<f32>=vec3<f32> (0.2126,0.7152,0.0722);const Epsilon:f32=0.0000001;fn square(x: f32)->f32 {return x*x;}
-fn saturate(x: f32)->f32 {return clamp(x,0.0,1.0);}
-fn saturateVec3(x: vec3f)->vec3f {return clamp(x,vec3f(0.0),vec3f(1.0));}
-fn saturateEps(x: f32)->f32 {return clamp(x,Epsilon,1.0);} 
-fn maxEps(x: f32)->f32 {return max(x,Epsilon);}
-fn maxEpsVec3(x: vec3f)->vec3f {return max(x,vec3f(Epsilon));}
-fn absEps(x: f32)->f32 {return abs(x)+Epsilon;}
-fn transposeMat3(inMatrix: mat3x3f)->mat3x3f {let i0: vec3<f32>=inMatrix[0];let i1: vec3<f32>=inMatrix[1];let i2: vec3<f32>=inMatrix[2];let outMatrix:mat3x3f=mat3x3f(
-vec3(i0.x,i1.x,i2.x),
-vec3(i0.y,i1.y,i2.y),
-vec3(i0.z,i1.z,i2.z)
-);return outMatrix;}
-fn inverseMat3(inMatrix: mat3x3f)->mat3x3f {let a00: f32=inMatrix[0][0];let a01: f32=inMatrix[0][1];let a02: f32=inMatrix[0][2];let a10: f32=inMatrix[1][0];let a11: f32=inMatrix[1][1];let a12: f32=inMatrix[1][2];let a20: f32=inMatrix[2][0];let a21: f32=inMatrix[2][1];let a22: f32=inMatrix[2][2];let b01: f32=a22*a11-a12*a21;let b11: f32=-a22*a10+a12*a20;let b21: f32=a21*a10-a11*a20;let det: f32=a00*b01+a01*b11+a02*b21;return mat3x3f(b01/det,(-a22*a01+a02*a21)/det,(a12*a01-a02*a11)/det,
-b11/det,(a22*a00-a02*a20)/det,(-a12*a00+a02*a10)/det,
-b21/det,(-a21*a00+a01*a20)/det,(a11*a00-a01*a10)/det);}
-#if USE_EXACT_SRGB_CONVERSIONS
-fn toLinearSpaceExact(color: vec3<f32>)->vec3<f32>
-{let nearZeroSection: vec3<f32>=0.0773993808*color;let remainingSection: vec3<f32>=pow(0.947867299*(color+vec3<f32>(0.055)),vec3<f32>(2.4));return mix(remainingSection,nearZeroSection,lessThanEqual(color,vec3<f32>(0.04045)));}
-fn toGammaSpaceExact(color: vec3<f32>)->vec3<f32>
-{let nearZeroSection: vec3<f32>=12.92*color;let remainingSection: vec3<f32>=1.055*pow(color,vec3<f32>(0.41666))-vec3<f32>(0.055);return mix(remainingSection,nearZeroSection,lessThanEqual(color,vec3<f32>(0.0031308)));}
-#endif
-fn toLinearSpace(color: f32)->f32
-{
-#if USE_EXACT_SRGB_CONVERSIONS
-var nearZeroSection=0.0773993808*color;var remainingSection=pow(0.947867299*(color+0.055),2.4);return select(remainingSection,nearZeroSection,color<=0.04045);
-#else
-return pow(color,LinearEncodePowerApprox);
-#endif
-}
-fn toLinearSpaceVec3(color: vec3<f32>)->vec3<f32>
-{
-#if USE_EXACT_SRGB_CONVERSIONS
-return toLinearSpaceExact(color);
-#else
-return pow(color,vec3<f32>(LinearEncodePowerApprox));
-#endif
-}
-fn toLinearSpaceVec4(color: vec4<f32>)->vec4<f32>
-{
-#if USE_EXACT_SRGB_CONVERSIONS
-return vec4f(toLinearSpaceExact(color.rgb),color.a);
-#else
-return vec4f(pow(color.rgb,vec3f(LinearEncodePowerApprox)),color.a);
-#endif
-}
-fn toGammaSpace(color: vec4<f32>)->vec4<f32>
-{
-#if USE_EXACT_SRGB_CONVERSIONS
-return vec4<f32>(toGammaSpaceExact(color.rgb),color.a);
-#else
-return vec4<f32>(pow(color.rgb,vec3<f32>(GammaEncodePowerApprox)),color.a);
-#endif
-}
-fn toGammaSpaceVec3(color: vec3<f32>)->vec3<f32>
-{
-#if USE_EXACT_SRGB_CONVERSIONS
-return toGammaSpaceExact(color);
-#else
-return pow(color,vec3<f32>(GammaEncodePowerApprox));
-#endif
-}
-fn squareVec3(value: vec3<f32>)->vec3<f32>
-{return value*value;}
-fn pow5(value: f32)->f32 {let sq: f32=value*value;return sq*sq*value;}
-fn getLuminance(color: vec3<f32>)->f32
-{return clamp(dot(color,LuminanceEncodeApprox),0.,1.);}
-fn getRand(seed: vec2<f32>)->f32 {return fract(sin(dot(seed.xy ,vec2<f32>(12.9898,78.233)))*43758.5453);}
-fn dither(seed: vec2<f32>,varianceAmount: f32)->f32 {let rand: f32=getRand(seed);let normVariance: f32=varianceAmount/255.0;let dither: f32=mix(-normVariance,normVariance,rand);return dither;}
-const rgbdMaxRange: f32=255.0;fn toRGBD(color: vec3<f32>)->vec4<f32> {let maxRGB: f32=max(max(color.r,max(color.g,color.b)),Epsilon);var D: f32 =max(rgbdMaxRange/maxRGB,1.);D =clamp(floor(D)/255.0,0.,1.);var rgb: vec3<f32> =color.rgb*D;rgb=toGammaSpaceVec3(rgb);return vec4<f32>(clamp(rgb,vec3<f32>(0.,0.,0.),vec3<f32>(1.,1.,1.)),D); }
-fn fromRGBD(rgbd: vec4<f32>)->vec3<f32> {let rgb=toLinearSpaceVec3(rgbd.rgb);return rgb/rgbd.a;}
-fn parallaxCorrectNormal(vertexPos: vec3<f32>,origVec: vec3<f32>,cubeSize: vec3<f32>,cubePos: vec3<f32>)->vec3<f32> {let invOrigVec: vec3<f32>=vec3<f32>(1.0,1.0,1.0)/origVec;let halfSize: vec3<f32>=cubeSize*0.5;let intersecAtMaxPlane: vec3<f32>=(cubePos+halfSize-vertexPos)*invOrigVec;let intersecAtMinPlane: vec3<f32>=(cubePos-halfSize-vertexPos)*invOrigVec;let largestIntersec: vec3<f32>=max(intersecAtMaxPlane,intersecAtMinPlane);let distance: f32=min(min(largestIntersec.x,largestIntersec.y),largestIntersec.z);let intersectPositionWS: vec3<f32>=vertexPos+origVec*distance;return intersectPositionWS-cubePos;}
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name63] = shader63;
-      helperFunctionsWGSL = { name: name63, shader: shader63 };
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/prePassVertexDeclaration.js
-  var name64, shader64;
-  var init_prePassVertexDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/prePassVertexDeclaration.js"() {
-      init_shaderStore();
-      name64 = "prePassVertexDeclaration";
-      shader64 = `#ifdef PREPASS
-#ifdef PREPASS_DEPTH
-varying vViewPos: vec3f;
-#endif
-#ifdef PREPASS_VELOCITY
-uniform previousViewProjection: mat4x4f;varying vCurrentPosition: vec4f;varying vPreviousPosition: vec4f;
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name64] = shader64;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/mainUVVaryingDeclaration.js
-  var name65, shader65;
-  var init_mainUVVaryingDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/mainUVVaryingDeclaration.js"() {
-      init_shaderStore();
-      name65 = "mainUVVaryingDeclaration";
-      shader65 = `#ifdef MAINUV{X}
-varying vMainUV{X}: vec2f;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name65] = shader65;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/samplerVertexDeclaration.js
-  var name66, shader66;
-  var init_samplerVertexDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/samplerVertexDeclaration.js"() {
-      init_shaderStore();
-      name66 = "samplerVertexDeclaration";
-      shader66 = `#if defined(_DEFINENAME_) && _DEFINENAME_DIRECTUV==0
-varying v_VARYINGNAME_UV: vec2f;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name66] = shader66;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bumpVertexDeclaration.js
-  var name67, shader67;
-  var init_bumpVertexDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bumpVertexDeclaration.js"() {
-      init_shaderStore();
-      name67 = "bumpVertexDeclaration";
-      shader67 = `#if defined(BUMP) || defined(PARALLAX) || defined(CLEARCOAT_BUMP) || defined(ANISOTROPIC)
-#if defined(TANGENT) && defined(NORMAL) 
-varying vTBN0: vec3f;varying vTBN1: vec3f;varying vTBN2: vec3f;
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name67] = shader67;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/lightVxFragmentDeclaration.js
-  var name68, shader68;
-  var init_lightVxFragmentDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/lightVxFragmentDeclaration.js"() {
-      init_shaderStore();
-      name68 = "lightVxFragmentDeclaration";
-      shader68 = `#ifdef LIGHT{X}
-uniform vLightData{X}: vec4f;uniform vLightDiffuse{X}: vec4f;
-#ifdef SPECULARTERM
-uniform vLightSpecular{X}: vec4f;
-#else
-var vLightSpecular{X}: vec4f= vec4f(0.);
-#endif
-#ifdef SHADOW{X}
-#ifdef SHADOWCSM{X}
-uniform lightMatrix{X}: mat4x4f[SHADOWCSMNUM_CASCADES{X}];varying var vPositionFromLight{X}: vec4f[SHADOWCSMNUM_CASCADES{X}];varying var vDepthMetric{X}: f32[SHADOWCSMNUM_CASCADES{X}];varying var vPositionFromCamera{X}: vec4f;
-#elif defined(SHADOWCUBE{X})
-#else
-varying var vPositionFromLight{X}: vec4f;varying var vDepthMetric{X}: f32;uniform lightMatrix{X}: mat4x4f;
-#endif
-uniform shadowsInfo{X}: vec4f;uniform depthValues{X}: vec2f;
-#endif
-#ifdef SPOTLIGHT{X}
-uniform vLightDirection{X}: vec4f;uniform vLightFalloff{X}: vec4f;
-#elif defined(POINTLIGHT{X})
-uniform vLightFalloff{X}: vec4f;
-#elif defined(HEMILIGHT{X})
-uniform vLightGround{X}: vec3f;
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name68] = shader68;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/lightVxUboDeclaration.js
-  var lightVxUboDeclaration_exports = {};
-  __export(lightVxUboDeclaration_exports, {
-    lightVxUboDeclarationWGSL: () => lightVxUboDeclarationWGSL
-  });
-  var name69, shader69, lightVxUboDeclarationWGSL;
-  var init_lightVxUboDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/lightVxUboDeclaration.js"() {
-      init_shaderStore();
-      name69 = "lightVxUboDeclaration";
-      shader69 = `#ifdef LIGHT{X}
-struct Light{X}
-{vLightData: vec4f,
-vLightDiffuse: vec4f,
-vLightSpecular: vec4f,
-#ifdef SPOTLIGHT{X}
-vLightDirection: vec4f,
-vLightFalloff: vec4f,
-#elif defined(POINTLIGHT{X})
-vLightFalloff: vec4f,
-#elif defined(HEMILIGHT{X})
-vLightGround: vec3f,
-#endif
-shadowsInfo: vec4f,
-depthValues: vec2f} ;var<uniform> light{X} : Light{X};
-#ifdef SHADOW{X}
-#ifdef SHADOWCSM{X}
-uniform lightMatrix{X}: array<mat4x4f,SHADOWCSMNUM_CASCADES{X}>;varying vPositionFromLight{X}_0: vec4f;varying vDepthMetric{X}_0: f32;varying vPositionFromLight{X}_1: vec4f;varying vDepthMetric{X}_1: f32;varying vPositionFromLight{X}_2: vec4f;varying vDepthMetric{X}_2: f32;varying vPositionFromLight{X}_3: vec4f;varying vDepthMetric{X}_3: f32;varying vPositionFromCamera{X}: vec4f;
-#elif defined(SHADOWCUBE{X})
-#else
-varying vPositionFromLight{X}: vec4f;varying vDepthMetric{X}: f32;uniform lightMatrix{X}: mat4x4f;
-#endif
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name69] = shader69;
-      lightVxUboDeclarationWGSL = { name: name69, shader: shader69 };
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/morphTargetsVertexGlobalDeclaration.js
-  var name70, shader70;
-  var init_morphTargetsVertexGlobalDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/morphTargetsVertexGlobalDeclaration.js"() {
-      init_shaderStore();
-      name70 = "morphTargetsVertexGlobalDeclaration";
-      shader70 = `#ifdef MORPHTARGETS
-uniform morphTargetInfluences : array<f32,NUM_MORPH_INFLUENCERS>;
-#ifdef MORPHTARGETS_TEXTURE 
-uniform morphTargetTextureIndices : array<f32,NUM_MORPH_INFLUENCERS>;uniform morphTargetTextureInfo : vec3<f32>;var morphTargets : texture_2d_array<f32>;var morphTargetsSampler : sampler;fn readVector3FromRawSampler(targetIndex : i32,vertexIndex : f32)->vec3<f32>
-{ 
-let y=floor(vertexIndex/uniforms.morphTargetTextureInfo.y);let x=vertexIndex-y*uniforms.morphTargetTextureInfo.y;let textureUV=vec2<f32>((x+0.5)/uniforms.morphTargetTextureInfo.y,(y+0.5)/uniforms.morphTargetTextureInfo.z);return textureSampleLevel(morphTargets,morphTargetsSampler,textureUV,i32(uniforms.morphTargetTextureIndices[targetIndex]),0.0).xyz;}
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name70] = shader70;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/morphTargetsVertexDeclaration.js
-  var name71, shader71;
-  var init_morphTargetsVertexDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/morphTargetsVertexDeclaration.js"() {
-      init_shaderStore();
-      name71 = "morphTargetsVertexDeclaration";
-      shader71 = `#ifdef MORPHTARGETS
-#ifndef MORPHTARGETS_TEXTURE
-attribute position{X} : vec3<f32>;
-#ifdef MORPHTARGETS_NORMAL
-attribute normal{X} : vec3<f32>;
-#endif
-#ifdef MORPHTARGETS_TANGENT
-attribute tangent{X} : vec3<f32>;
-#endif
-#ifdef MORPHTARGETS_UV
-attribute uv_{X} : vec2<f32>;
-#endif
-#elif {X}==0
-uniform morphTargetCount: i32;
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name71] = shader71;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/morphTargetsVertexGlobal.js
-  var name72, shader72;
-  var init_morphTargetsVertexGlobal = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/morphTargetsVertexGlobal.js"() {
-      init_shaderStore();
-      name72 = "morphTargetsVertexGlobal";
-      shader72 = `#ifdef MORPHTARGETS
-#ifdef MORPHTARGETS_TEXTURE
-var vertexID : f32;
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name72] = shader72;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/morphTargetsVertex.js
-  var name73, shader73;
-  var init_morphTargetsVertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/morphTargetsVertex.js"() {
-      init_shaderStore();
-      name73 = "morphTargetsVertex";
-      shader73 = `#ifdef MORPHTARGETS
-#ifdef MORPHTARGETS_TEXTURE
-#if {X}==0
-for (var i=0; i<NUM_MORPH_INFLUENCERS; i=i+1) {if (i>=uniforms.morphTargetCount) {break;}
-vertexID=f32(vertexInputs.vertexIndex)*uniforms.morphTargetTextureInfo.x;positionUpdated=positionUpdated+(readVector3FromRawSampler(i,vertexID)-vertexInputs.position)*uniforms.morphTargetInfluences[i];vertexID=vertexID+1.0;
-#ifdef MORPHTARGETS_NORMAL
-normalUpdated=normalUpdated+(readVector3FromRawSampler(i,vertexID) -vertexInputs.normal)*uniforms.morphTargetInfluences[i];vertexID=vertexID+1.0;
-#endif
-#ifdef MORPHTARGETS_UV
-uvUpdated=uvUpdated+(readVector3FromRawSampler(i,vertexID).xy-vertexInputs.uv)*uniforms.morphTargetInfluences[i];vertexID=vertexID+1.0;
-#endif
-#ifdef MORPHTARGETS_TANGENT
-tangentUpdated=vec4f(tangentUpdated.xyz+(readVector3FromRawSampler(i,vertexID) -vertexInputs.tangent.xyz)*uniforms.morphTargetInfluences[i],tangentUpdated.a);
-#endif
-}
-#endif
-#else
-positionUpdated=positionUpdated+(vertexInputs.position{X}-vertexInputs.position)*uniforms.morphTargetInfluences[{X}];
-#ifdef MORPHTARGETS_NORMAL
-normalUpdated+=(vertexInputs.normal{X}-vertexInputs.normal)*uniforms.morphTargetInfluences[{X}];
-#endif
-#ifdef MORPHTARGETS_TANGENT
-tangentUpdated=vec4f(tangentUpdated.xyz+(vertexInputs.tangent{X}-vertexInputs.tangent.xyz)*uniforms.morphTargetInfluences[{X}],tangentUpdated.a);
-#endif
-#ifdef MORPHTARGETS_UV
-uvUpdated=uvUpdated+(vertexInputs.uv_{X}-vertexInputs.uv)*uniforms.morphTargetInfluences[{X}];
-#endif
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name73] = shader73;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/prePassVertex.js
-  var name74, shader74;
-  var init_prePassVertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/prePassVertex.js"() {
-      init_shaderStore();
-      name74 = "prePassVertex";
-      shader74 = `#ifdef PREPASS_DEPTH
-vertexOutputs.vViewPos=(scene.view*worldPos).rgb;
-#endif
-#if defined(PREPASS_VELOCITY) && defined(BONES_VELOCITY_ENABLED)
-vertexOutputs.vCurrentPosition=scene.viewProjection*worldPos;
-#if NUM_BONE_INFLUENCERS>0
-var previousInfluence: mat4x4f;previousInfluence=mPreviousBones[ i32(matricesIndices[0])]*matricesWeights[0];
-#if NUM_BONE_INFLUENCERS>1
-previousInfluence+=mPreviousBones[ i32(matricesIndices[1])]*matricesWeights[1];
-#endif 
-#if NUM_BONE_INFLUENCERS>2
-previousInfluence+=mPreviousBones[ i32(matricesIndices[2])]*matricesWeights[2];
-#endif 
-#if NUM_BONE_INFLUENCERS>3
-previousInfluence+=mPreviousBones[ i32(matricesIndices[3])]*matricesWeights[3];
-#endif
-#if NUM_BONE_INFLUENCERS>4
-previousInfluence+=mPreviousBones[ i32(matricesIndicesExtra[0])]*matricesWeightsExtra[0];
-#endif 
-#if NUM_BONE_INFLUENCERS>5
-previousInfluence+=mPreviousBones[ i32(matricesIndicesExtra[1])]*matricesWeightsExtra[1];
-#endif 
-#if NUM_BONE_INFLUENCERS>6
-previousInfluence+=mPreviousBones[ i32(matricesIndicesExtra[2])]*matricesWeightsExtra[2];
-#endif 
-#if NUM_BONE_INFLUENCERS>7
-previousInfluence+=mPreviousBones[ i32(matricesIndicesExtra[3])]*matricesWeightsExtra[3];
-#endif
-vertexOutputs.vPreviousPosition=uniforms.previousViewProjection*finalPreviousWorld*previousInfluence* vec4f(positionUpdated,1.0);
-#else
-vertexOutputs.vPreviousPosition=uniforms.previousViewProjection*finalPreviousWorld* vec4f(positionUpdated,1.0);
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name74] = shader74;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/uvVariableDeclaration.js
-  var name75, shader75;
-  var init_uvVariableDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/uvVariableDeclaration.js"() {
-      init_shaderStore();
-      name75 = "uvVariableDeclaration";
-      shader75 = `#ifdef MAINUV{X}
-#if !defined(UV{X})
-var uv{X}: vec2f=vec2f(0.,0.);
-#else
-var uv{X}: vec2f=vertexInputs.uv{X};
-#endif
-vertexOutputs.vMainUV{X}=uv{X};
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name75] = shader75;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/samplerVertexImplementation.js
-  var name76, shader76;
-  var init_samplerVertexImplementation = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/samplerVertexImplementation.js"() {
-      init_shaderStore();
-      name76 = "samplerVertexImplementation";
-      shader76 = `#if defined(_DEFINENAME_) && _DEFINENAME_DIRECTUV==0
-if (uniforms.v_INFONAME_==0.)
-{vertexOutputs.v_VARYINGNAME_UV= (uniforms._MATRIXNAME_Matrix* vec4f(uvUpdated,1.0,0.0)).xy;}
-#ifdef UV2
-else if (uniforms.v_INFONAME_==1.)
-{vertexOutputs.v_VARYINGNAME_UV= (uniforms._MATRIXNAME_Matrix* vec4f(vertexInputs.uv2,1.0,0.0)).xy;}
-#endif
-#ifdef UV3
-else if (uniforms.v_INFONAME_==2.)
-{vertexOutputs.v_VARYINGNAME_UV= (uniforms._MATRIXNAME_Matrix* vec4f(vertexInputs.uv3,1.0,0.0)).xy;}
-#endif
-#ifdef UV4
-else if (uniforms.v_INFONAME_==3.)
-{vertexOutputs.v_VARYINGNAME_UV= (uniforms._MATRIXNAME_Matrix* vec4f(vertexInputs.uv4,1.0,0.0)).xy;}
-#endif
-#ifdef UV5
-else if (uniforms.v_INFONAME_==4.)
-{vertexOutputs.v_VARYINGNAME_UV= (uniforms._MATRIXNAME_Matrix* vec4f(vertexInputs.uv5,1.0,0.0)).xy;}
-#endif
-#ifdef UV6
-else if (uniforms.v_INFONAME_==5.)
-{vertexOutputs.v_VARYINGNAME_UV= (uniforms._MATRIXNAME_Matrix* vec4f(vertexInputs.uv6,1.0,0.0)).xy;}
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name76] = shader76;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bumpVertex.js
-  var name77, shader77;
-  var init_bumpVertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bumpVertex.js"() {
-      init_shaderStore();
-      name77 = "bumpVertex";
-      shader77 = `#if defined(BUMP) || defined(PARALLAX) || defined(CLEARCOAT_BUMP) || defined(ANISOTROPIC)
-#if defined(TANGENT) && defined(NORMAL)
-var tbnNormal: vec3f=normalize(normalUpdated);var tbnTangent: vec3f=normalize(tangentUpdated.xyz);var tbnBitangent: vec3f=cross(tbnNormal,tbnTangent)*tangentUpdated.w;var matTemp= mat3x3f(finalWorld[0].xyz,finalWorld[1].xyz,finalWorld[2].xyz)* mat3x3f(tbnTangent,tbnBitangent,tbnNormal);vertexOutputs.vTBN0=matTemp[0];vertexOutputs.vTBN1=matTemp[1];vertexOutputs.vTBN2=matTemp[2];
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name77] = shader77;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/shadowsVertex.js
-  var shadowsVertex_exports = {};
-  __export(shadowsVertex_exports, {
-    shadowsVertexWGSL: () => shadowsVertexWGSL
-  });
-  var name78, shader78, shadowsVertexWGSL;
-  var init_shadowsVertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/shadowsVertex.js"() {
-      init_shaderStore();
-      name78 = "shadowsVertex";
-      shader78 = `#ifdef SHADOWS
-#if defined(SHADOWCSM{X})
-vertexOutputs.vPositionFromCamera{X}=scene.view*worldPos;
-#if SHADOWCSMNUM_CASCADES{X}>0
-vertexOutputs.vPositionFromLight{X}_0=uniforms.lightMatrix{X}[0]*worldPos;
-#ifdef USE_REVERSE_DEPTHBUFFER
-vertexOutputs.vDepthMetric{X}_0=(-vertexOutputs.vPositionFromLight{X}_0.z+light{X}.depthValues.x)/light{X}.depthValues.y;
-#else
-vertexOutputs.vDepthMetric{X}_0= (vertexOutputs.vPositionFromLight{X}_0.z+light{X}.depthValues.x)/light{X}.depthValues.y;
-#endif
-#endif
-#if SHADOWCSMNUM_CASCADES{X}>1
-vertexOutputs.vPositionFromLight{X}_1=uniforms.lightMatrix{X}[1]*worldPos;
-#ifdef USE_REVERSE_DEPTHBUFFER
-vertexOutputs.vDepthMetric{X}_1=(-vertexOutputs.vPositionFromLight{X}_1.z+light{X}.depthValues.x)/light{X}.depthValues.y;
-#else
-vertexOutputs.vDepthMetric{X}_1= (vertexOutputs.vPositionFromLight{X}_1.z+light{X}.depthValues.x)/light{X}.depthValues.y;
-#endif
-#endif 
-#if SHADOWCSMNUM_CASCADES{X}>2
-vertexOutputs.vPositionFromLight{X}_2=uniforms.lightMatrix{X}[2]*worldPos;
-#ifdef USE_REVERSE_DEPTHBUFFER
-vertexOutputs.vDepthMetric{X}_2=(-vertexOutputs.vPositionFromLight{X}_2.z+light{X}.depthValues.x)/light{X}.depthValues.y;
-#else
-vertexOutputs.vDepthMetric{X}_2= (vertexOutputs.vPositionFromLight{X}_2.z+light{X}.depthValues.x)/light{X}.depthValues.y;
-#endif
-#endif 
-#if SHADOWCSMNUM_CASCADES{X}>3
-vertexOutputs.vPositionFromLight{X}_3=uniforms.lightMatrix{X}[3]*worldPos;
-#ifdef USE_REVERSE_DEPTHBUFFER
-vertexOutputs.vDepthMetric{X}_3=(-vertexOutputs.vPositionFromLight{X}_3.z+light{X}.depthValues.x)/light{X}.depthValues.y;
-#else
-vertexOutputs.vDepthMetric{X}_3= (vertexOutputs.vPositionFromLight{X}_3.z+light{X}.depthValues.x)/light{X}.depthValues.y;
-#endif
-#endif 
-#elif defined(SHADOW{X}) && !defined(SHADOWCUBE{X})
-vertexOutputs.vPositionFromLight{X}=uniforms.lightMatrix{X}*worldPos;
-#ifdef USE_REVERSE_DEPTHBUFFER
-vertexOutputs.vDepthMetric{X}=(-vertexOutputs.vPositionFromLight{X}.z+light{X}.depthValues.x)/light{X}.depthValues.y;
-#else
-vertexOutputs.vDepthMetric{X}=(vertexOutputs.vPositionFromLight{X}.z+light{X}.depthValues.x)/light{X}.depthValues.y;
-#endif
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name78] = shader78;
-      shadowsVertexWGSL = { name: name78, shader: shader78 };
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/default.vertex.js
+  // wgsl-stub:../ShadersWGSL/default.vertex.js
   var default_vertex_exports = {};
-  __export(default_vertex_exports, {
-    defaultVertexShaderWGSL: () => defaultVertexShaderWGSL
-  });
-  var name79, shader79, defaultVertexShaderWGSL;
   var init_default_vertex = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/default.vertex.js"() {
-      init_shaderStore();
-      init_defaultUboDeclaration();
-      init_uvAttributeDeclaration();
-      init_helperFunctions2();
-      init_bonesDeclaration();
-      init_bakedVertexAnimationDeclaration();
-      init_instancesDeclaration();
-      init_prePassVertexDeclaration();
-      init_mainUVVaryingDeclaration();
-      init_samplerVertexDeclaration();
-      init_bumpVertexDeclaration();
-      init_clipPlaneVertexDeclaration();
-      init_fogVertexDeclaration();
-      init_lightVxFragmentDeclaration();
-      init_lightVxUboDeclaration();
-      init_morphTargetsVertexGlobalDeclaration();
-      init_morphTargetsVertexDeclaration();
-      init_logDepthDeclaration();
-      init_morphTargetsVertexGlobal();
-      init_morphTargetsVertex();
-      init_instancesVertex();
-      init_bonesVertex();
-      init_bakedVertexAnimation();
-      init_prePassVertex();
-      init_uvVariableDeclaration();
-      init_samplerVertexImplementation();
-      init_bumpVertex();
-      init_clipPlaneVertex();
-      init_fogVertex();
-      init_shadowsVertex();
-      init_vertexColorMixing();
-      init_logDepthVertex();
-      name79 = "defaultVertexShader";
-      shader79 = `#include<defaultUboDeclaration>
-#define CUSTOM_VERTEX_BEGIN
-attribute position: vec3f;
-#ifdef NORMAL
-attribute normal: vec3f;
-#endif
-#ifdef TANGENT
-attribute tangent: vec4f;
-#endif
-#ifdef UV1
-attribute uv: vec2f;
-#endif
-#include<uvAttributeDeclaration>[2..7]
-#ifdef VERTEXCOLOR
-attribute color: vec4f;
-#endif
-#include<helperFunctions>
-#include<bonesDeclaration>
-#include<bakedVertexAnimationDeclaration>
-#include<instancesDeclaration>
-#include<prePassVertexDeclaration>
-#include<mainUVVaryingDeclaration>[1..7]
-#include<samplerVertexDeclaration>(_DEFINENAME_,DIFFUSE,_VARYINGNAME_,Diffuse)
-#include<samplerVertexDeclaration>(_DEFINENAME_,DETAIL,_VARYINGNAME_,Detail)
-#include<samplerVertexDeclaration>(_DEFINENAME_,AMBIENT,_VARYINGNAME_,Ambient)
-#include<samplerVertexDeclaration>(_DEFINENAME_,OPACITY,_VARYINGNAME_,Opacity)
-#include<samplerVertexDeclaration>(_DEFINENAME_,EMISSIVE,_VARYINGNAME_,Emissive)
-#include<samplerVertexDeclaration>(_DEFINENAME_,LIGHTMAP,_VARYINGNAME_,Lightmap)
-#if defined(SPECULARTERM)
-#include<samplerVertexDeclaration>(_DEFINENAME_,SPECULAR,_VARYINGNAME_,Specular)
-#endif
-#include<samplerVertexDeclaration>(_DEFINENAME_,BUMP,_VARYINGNAME_,Bump)
-#include<samplerVertexDeclaration>(_DEFINENAME_,DECAL,_VARYINGNAME_,Decal)
-varying vPositionW: vec3f;
-#ifdef NORMAL
-varying vNormalW: vec3f;
-#endif
-#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
-varying vColor: vec4f;
-#endif
-#include<bumpVertexDeclaration>
-#include<clipPlaneVertexDeclaration>
-#include<fogVertexDeclaration>
-#include<__decl__lightVxFragment>[0..maxSimultaneousLights]
-#include<morphTargetsVertexGlobalDeclaration>
-#include<morphTargetsVertexDeclaration>[0..maxSimultaneousMorphTargets]
-#ifdef REFLECTIONMAP_SKYBOX
-varying vPositionUVW: vec3f;
-#endif
-#if defined(REFLECTIONMAP_EQUIRECTANGULAR_FIXED) || defined(REFLECTIONMAP_MIRROREDEQUIRECTANGULAR_FIXED)
-varying vDirectionW: vec3f;
-#endif
-#include<logDepthDeclaration>
-#define CUSTOM_VERTEX_DEFINITIONS
-@vertex
-fn main(input : VertexInputs)->FragmentInputs {
-#define CUSTOM_VERTEX_MAIN_BEGIN
-var positionUpdated: vec3f=vertexInputs.position;
-#ifdef NORMAL
-var normalUpdated: vec3f=vertexInputs.normal;
-#endif
-#ifdef TANGENT
-var tangentUpdated: vec4f=vertexInputs.tangent;
-#endif
-#ifdef UV1
-var uvUpdated: vec2f=vertexInputs.uv;
-#endif
-#include<morphTargetsVertexGlobal>
-#include<morphTargetsVertex>[0..maxSimultaneousMorphTargets]
-#ifdef REFLECTIONMAP_SKYBOX
-vertexOutputs.vPositionUVW=positionUpdated;
-#endif
-#define CUSTOM_VERTEX_UPDATE_POSITION
-#define CUSTOM_VERTEX_UPDATE_NORMAL
-#include<instancesVertex>
-#if defined(PREPASS) && defined(PREPASS_VELOCITY) && !defined(BONES_VELOCITY_ENABLED)
-vertexOutputs.vCurrentPosition=scene.viewProjection*finalWorld* vec4f(positionUpdated,1.0);vertexOutputs.vPreviousPosition=uniforms.previousViewProjection*finalPreviousWorld* vec4f(positionUpdated,1.0);
-#endif
-#include<bonesVertex>
-#include<bakedVertexAnimation>
-var worldPos: vec4f=finalWorld*vec4f(positionUpdated,1.0);
-#ifdef NORMAL
-var normalWorld: mat3x3f= mat3x3f(finalWorld[0].xyz,finalWorld[1].xyz,finalWorld[2].xyz);
-#if defined(INSTANCES) && defined(THIN_INSTANCES)
-vertexOutputs.vNormalW=normalUpdated/ vec3f(dot(normalWorld[0],normalWorld[0]),dot(normalWorld[1],normalWorld[1]),dot(normalWorld[2],normalWorld[2]));vertexOutputs.vNormalW=normalize(normalWorld*vertexOutputs.vNormalW);
-#else
-#ifdef NONUNIFORMSCALING
-normalWorld=transposeMat3(inverseMat3(normalWorld));
-#endif
-vertexOutputs.vNormalW=normalize(normalWorld*normalUpdated);
-#endif
-#endif
-#define CUSTOM_VERTEX_UPDATE_WORLDPOS
-#ifdef MULTIVIEW
-if (gl_ViewID_OVR==0u) {vertexOutputs.position=scene.viewProjection*worldPos;} else {vertexOutputs.position=scene.viewProjectionR*worldPos;}
-#else
-vertexOutputs.position=scene.viewProjection*worldPos;
-#endif
-vertexOutputs.vPositionW= worldPos.xyz;
-#include<prePassVertex>
-#if defined(REFLECTIONMAP_EQUIRECTANGULAR_FIXED) || defined(REFLECTIONMAP_MIRROREDEQUIRECTANGULAR_FIXED)
-vertexOutputs.vDirectionW=normalize((finalWorld* vec4f(positionUpdated,0.0)).xyz);
-#endif
-#ifndef UV1
-var uvUpdated: vec2f=vec2f(0.,0.);
-#endif
-#ifdef MAINUV1
-vertexOutputs.vMainUV1=uvUpdated;
-#endif
-#include<uvVariableDeclaration>[2..7]
-#include<samplerVertexImplementation>(_DEFINENAME_,DIFFUSE,_VARYINGNAME_,Diffuse,_MATRIXNAME_,diffuse,_INFONAME_,DiffuseInfos.x)
-#include<samplerVertexImplementation>(_DEFINENAME_,DETAIL,_VARYINGNAME_,Detail,_MATRIXNAME_,detail,_INFONAME_,DetailInfos.x)
-#include<samplerVertexImplementation>(_DEFINENAME_,AMBIENT,_VARYINGNAME_,Ambient,_MATRIXNAME_,ambient,_INFONAME_,AmbientInfos.x)
-#include<samplerVertexImplementation>(_DEFINENAME_,OPACITY,_VARYINGNAME_,Opacity,_MATRIXNAME_,opacity,_INFONAME_,OpacityInfos.x)
-#include<samplerVertexImplementation>(_DEFINENAME_,EMISSIVE,_VARYINGNAME_,Emissive,_MATRIXNAME_,emissive,_INFONAME_,EmissiveInfos.x)
-#include<samplerVertexImplementation>(_DEFINENAME_,LIGHTMAP,_VARYINGNAME_,Lightmap,_MATRIXNAME_,lightmap,_INFONAME_,LightmapInfos.x)
-#if defined(SPECULARTERM)
-#include<samplerVertexImplementation>(_DEFINENAME_,SPECULAR,_VARYINGNAME_,Specular,_MATRIXNAME_,specular,_INFONAME_,SpecularInfos.x)
-#endif
-#include<samplerVertexImplementation>(_DEFINENAME_,BUMP,_VARYINGNAME_,Bump,_MATRIXNAME_,bump,_INFONAME_,BumpInfos.x)
-#include<samplerVertexImplementation>(_DEFINENAME_,DECAL,_VARYINGNAME_,Decal,_MATRIXNAME_,decal,_INFONAME_,DecalInfos.x)
-#include<bumpVertex>
-#include<clipPlaneVertex>
-#include<fogVertex>
-#include<shadowsVertex>[0..maxSimultaneousLights]
-#include<vertexColorMixing>
-#include<logDepthVertex>
-#define CUSTOM_VERTEX_MAIN_END
-}
-`;
-      ShaderStore.ShadersStoreWGSL[name79] = shader79;
-      defaultVertexShaderWGSL = { name: name79, shader: shader79 };
+    "wgsl-stub:../ShadersWGSL/default.vertex.js"() {
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/prePassDeclaration.js
-  var name80, shader80;
-  var init_prePassDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/prePassDeclaration.js"() {
-      init_shaderStore();
-      name80 = "prePassDeclaration";
-      shader80 = `#ifdef PREPASS
-#ifdef PREPASS_DEPTH
-varying vViewPos: vec3f;
-#endif
-#ifdef PREPASS_VELOCITY
-varying vCurrentPosition: vec4f;varying vPreviousPosition: vec4f;
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name80] = shader80;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/oitDeclaration.js
-  var name81, shader81;
-  var init_oitDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/oitDeclaration.js"() {
-      init_shaderStore();
-      name81 = "oitDeclaration";
-      shader81 = `#ifdef ORDER_INDEPENDENT_TRANSPARENCY
-#define MAX_DEPTH 99999.0
-var oitDepthSamplerSampler: sampler;var oitDepthSampler: texture_2d<f32>;var oitFrontColorSamplerSampler: sampler;var oitFrontColorSampler: texture_2d<f32>;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name81] = shader81;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/lightUboDeclaration.js
-  var lightUboDeclaration_exports = {};
-  __export(lightUboDeclaration_exports, {
-    lightUboDeclarationWGSL: () => lightUboDeclarationWGSL
-  });
-  var name82, shader82, lightUboDeclarationWGSL;
-  var init_lightUboDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/lightUboDeclaration.js"() {
-      init_shaderStore();
-      name82 = "lightUboDeclaration";
-      shader82 = `#ifdef LIGHT{X}
-struct Light{X}
-{vLightData: vec4f,
-vLightDiffuse: vec4f,
-vLightSpecular: vec4f,
-#ifdef SPOTLIGHT{X}
-vLightDirection: vec4f,
-vLightFalloff: vec4f,
-#elif defined(POINTLIGHT{X})
-vLightFalloff: vec4f,
-#elif defined(HEMILIGHT{X})
-vLightGround: vec3f,
-#endif
-shadowsInfo: vec4f,
-depthValues: vec2f} ;var<uniform> light{X} : Light{X};
-#ifdef PROJECTEDLIGHTTEXTURE{X}
-uniform textureProjectionMatrix{X}: mat4x4f;var projectionLightTexture{X}Sampler: sampler;var projectionLightTexture{X}: texture_2d<f32>;
-#endif
-#ifdef SHADOW{X}
-#ifdef SHADOWCSM{X}
-uniform lightMatrix{X}: array<mat4x4f,SHADOWCSMNUM_CASCADES{X}>;uniform viewFrustumZ{X}: array<f32,SHADOWCSMNUM_CASCADES{X}>;uniform frustumLengths{X}: array<f32,SHADOWCSMNUM_CASCADES{X}>;uniform cascadeBlendFactor{X}: f32;varying vPositionFromLight{X}_0: vec4f;varying vDepthMetric{X}_0: f32;varying vPositionFromLight{X}_1: vec4f;varying vDepthMetric{X}_1: f32;varying vPositionFromLight{X}_2: vec4f;varying vDepthMetric{X}_2: f32;varying vPositionFromLight{X}_3: vec4f;varying vDepthMetric{X}_3: f32;varying vPositionFromCamera{X}: vec4f;var<private> vPositionFromLight{X}: array<vec4f,4>;var<private> vDepthMetric{X} : array<f32,4>;
-#if defined(SHADOWPCSS{X})
-var shadowTexture{X}Sampler: sampler_comparison; 
-var shadowTexture{X}: texture_depth_2d_array;var depthTexture{X}Sampler: sampler;var depthTexture{X}: texture_2d_array<f32>;uniform lightSizeUVCorrection{X}: array<vec2f,SHADOWCSMNUM_CASCADES{X}>;uniform depthCorrection{X}: array<f32,SHADOWCSMNUM_CASCADES{X}>;uniform penumbraDarkness{X}: f32;
-#elif defined(SHADOWPCF{X})
-var shadowTexture{X}Sampler: sampler_comparison;var shadowTexture{X}: texture_depth_2d_array;
-#else 
-var shadowTexture{X}Sampler: sampler; 
-var shadowTexture{X}: texture_2d_array<f32>;
-#endif
-#ifdef SHADOWCSMDEBUG{X}
-const vCascadeColorsMultiplier{X}: array<vec3f,8>=array<vec3f,8>
-(
-vec3f ( 1.5,0.0,0.0 ),
-vec3f ( 0.0,1.5,0.0 ),
-vec3f ( 0.0,0.0,5.5 ),
-vec3f ( 1.5,0.0,5.5 ),
-vec3f ( 1.5,1.5,0.0 ),
-vec3f ( 1.0,1.0,1.0 ),
-vec3f ( 0.0,1.0,5.5 ),
-vec3f ( 0.5,3.5,0.75 )
-);
-#endif
-#elif defined(SHADOWCUBE{X})
-var shadowTexture{X}Sampler: sampler;var shadowTexture{X}: texture_cube<f32>;
-#else
-varying vPositionFromLight{X}: vec4f;varying vDepthMetric{X}: f32;
-#if defined(SHADOWPCSS{X})
-var shadowTexture{X}Sampler: sampler_comparison; 
-var shadowTexture{X}: texture_depth_2d;var depthTexture{X}Sampler: sampler; 
-var depthTexture{X}: texture_2d<f32>;
-#elif defined(SHADOWPCF{X})
-var shadowTexture{X}Sampler: sampler_comparison;var shadowTexture{X}: texture_depth_2d;
-#else
-var shadowTexture{X}Sampler: sampler; 
-var shadowTexture{X}: texture_2d<f32>;
-#endif
-uniform lightMatrix{X}: mat4x4f;
-#endif
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name82] = shader82;
-      lightUboDeclarationWGSL = { name: name82, shader: shader82 };
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/lightsFragmentFunctions.js
-  var lightsFragmentFunctions_exports = {};
-  __export(lightsFragmentFunctions_exports, {
-    lightsFragmentFunctionsWGSL: () => lightsFragmentFunctionsWGSL
-  });
-  var name83, shader83, lightsFragmentFunctionsWGSL;
-  var init_lightsFragmentFunctions = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/lightsFragmentFunctions.js"() {
-      init_shaderStore();
-      name83 = "lightsFragmentFunctions";
-      shader83 = `struct lightingInfo
-{diffuse: vec3f,
-#ifdef SPECULARTERM
-specular: vec3f,
-#endif
-#ifdef NDOTL
-ndl: f32,
-#endif
-};fn computeLighting(viewDirectionW: vec3f,vNormal: vec3f,lightData: vec4f,diffuseColor: vec3f,specularColor: vec3f,range: f32,glossiness: f32)->lightingInfo {var result: lightingInfo;var lightVectorW: vec3f;var attenuation: f32=1.0;if (lightData.w==0.)
-{var direction: vec3f=lightData.xyz-fragmentInputs.vPositionW;var attenuation: f32=max(0.,1.0-length(direction)/range);lightVectorW=normalize(direction);}
-else
-{lightVectorW=normalize(-lightData.xyz);}
-var ndl: f32=max(0.,dot(vNormal,lightVectorW));
-#ifdef NDOTL
-result.ndl=ndl;
-#endif
-result.diffuse=ndl*diffuseColor*attenuation;
-#ifdef SPECULARTERM
-var angleW: vec3f=normalize(viewDirectionW+lightVectorW);var specComp: f32=max(0.,dot(vNormal,angleW));specComp=pow(specComp,max(1.,glossiness));result.specular=specComp*specularColor*attenuation;
-#endif
-return result;}
-fn computeSpotLighting(viewDirectionW: vec3f,vNormal: vec3f ,lightData: vec4f,lightDirection: vec4f,diffuseColor: vec3f,specularColor: vec3f,range: f32,glossiness: f32)->lightingInfo {var result: lightingInfo;var direction: vec3f=lightData.xyz-fragmentInputs.vPositionW;var lightVectorW: vec3f=normalize(direction);var attenuation: f32=max(0.,1.0-length(direction)/range);var cosAngle: f32=max(0.,dot(lightDirection.xyz,-lightVectorW));if (cosAngle>=lightDirection.w)
-{cosAngle=max(0.,pow(cosAngle,lightData.w));attenuation*=cosAngle;var ndl: f32=max(0.,dot(vNormal,lightVectorW));
-#ifdef NDOTL
-result.ndl=ndl;
-#endif
-result.diffuse=ndl*diffuseColor*attenuation;
-#ifdef SPECULARTERM
-var angleW: vec3f=normalize(viewDirectionW+lightVectorW);var specComp: f32=max(0.,dot(vNormal,angleW));specComp=pow(specComp,max(1.,glossiness));result.specular=specComp*specularColor*attenuation;
-#endif
-return result;}
-result.diffuse=vec3f(0.);
-#ifdef SPECULARTERM
-result.specular=vec3f(0.);
-#endif
-#ifdef NDOTL
-result.ndl=0.;
-#endif
-return result;}
-fn computeHemisphericLighting(viewDirectionW: vec3f,vNormal: vec3f,lightData: vec4f,diffuseColor: vec3f,specularColor: vec3f,groundColor: vec3f,glossiness: f32)->lightingInfo {var result: lightingInfo;var ndl: f32=dot(vNormal,lightData.xyz)*0.5+0.5;
-#ifdef NDOTL
-result.ndl=ndl;
-#endif
-result.diffuse=mix(groundColor,diffuseColor,ndl);
-#ifdef SPECULARTERM
-var angleW: vec3f=normalize(viewDirectionW+lightData.xyz);var specComp: f32=max(0.,dot(vNormal,angleW));specComp=pow(specComp,max(1.,glossiness));result.specular=specComp*specularColor;
-#endif
-return result;}
-fn computeProjectionTextureDiffuseLighting(projectionLightTexture: texture_2d<f32>,projectionLightSampler: sampler,textureProjectionMatrix: mat4x4f,posW: vec3f)->vec3f {var strq: vec4f=textureProjectionMatrix*vec4f(posW,1.0);strq/=strq.w;var textureColor: vec3f=textureSample(projectionLightTexture,projectionLightSampler,strq.xy).rgb;return textureColor;}`;
-      ShaderStore.IncludesShadersStoreWGSL[name83] = shader83;
-      lightsFragmentFunctionsWGSL = { name: name83, shader: shader83 };
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/shadowsFragmentFunctions.js
-  var shadowsFragmentFunctions_exports = {};
-  __export(shadowsFragmentFunctions_exports, {
-    shadowsFragmentFunctionsWGSL: () => shadowsFragmentFunctionsWGSL
-  });
-  var name84, shader84, shadowsFragmentFunctionsWGSL;
-  var init_shadowsFragmentFunctions = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/shadowsFragmentFunctions.js"() {
-      init_shaderStore();
-      name84 = "shadowsFragmentFunctions";
-      shader84 = `#ifdef SHADOWS
-#ifndef SHADOWFLOAT
-fn unpack(color: vec4f)->f32
-{const bit_shift: vec4f= vec4f(1.0/(255.0*255.0*255.0),1.0/(255.0*255.0),1.0/255.0,1.0);return dot(color,bit_shift);}
-#endif
-fn computeFallOff(value: f32,clipSpace: vec2f,frustumEdgeFalloff: f32)->f32
-{var mask: f32=smoothstep(1.0-frustumEdgeFalloff,1.00000012,clamp(dot(clipSpace,clipSpace),0.,1.));return mix(value,1.0,mask);}
-fn computeShadowCube(worldPos: vec3f,lightPosition: vec3f,shadowTexture: texture_cube<f32>,shadowSampler: sampler,darkness: f32,depthValues: vec2f)->f32
-{var directionToLight: vec3f=worldPos-lightPosition;var depth: f32=length(directionToLight);depth=(depth+depthValues.x)/(depthValues.y);depth=clamp(depth,0.,1.0);directionToLight=normalize(directionToLight);directionToLight.y=-directionToLight.y;
-#ifndef SHADOWFLOAT
-var shadow: f32=unpack(textureSample(shadowTexture,shadowSampler,directionToLight));
-#else
-var shadow: f32=textureSample(shadowTexture,shadowSampler,directionToLight).x;
-#endif
-return select(darkness,1.0,depth>shadow);}
-fn computeShadowWithPoissonSamplingCube(worldPos: vec3f,lightPosition: vec3f,shadowTexture: texture_cube<f32>,shadowSampler: sampler,mapSize: f32,darkness: f32,depthValues: vec2f)->f32
-{var directionToLight: vec3f=worldPos-lightPosition;var depth: f32=length(directionToLight);depth=(depth+depthValues.x)/(depthValues.y);depth=clamp(depth,0.,1.0);directionToLight=normalize(directionToLight);directionToLight.y=-directionToLight.y;var visibility: f32=1.;var poissonDisk: array<vec3f,4>;poissonDisk[0]= vec3f(-1.0,1.0,-1.0);poissonDisk[1]= vec3f(1.0,-1.0,-1.0);poissonDisk[2]= vec3f(-1.0,-1.0,-1.0);poissonDisk[3]= vec3f(1.0,-1.0,1.0);
-#ifndef SHADOWFLOAT
-if (unpack(textureSample(shadowTexture,shadowSampler,directionToLight+poissonDisk[0]*mapSize))<depth) {visibility-=0.25;};if (unpack(textureSample(shadowTexture,shadowSampler,directionToLight+poissonDisk[1]*mapSize))<depth) {visibility-=0.25;};if (unpack(textureSample(shadowTexture,shadowSampler,directionToLight+poissonDisk[2]*mapSize))<depth) {visibility-=0.25;};if (unpack(textureSample(shadowTexture,shadowSampler,directionToLight+poissonDisk[3]*mapSize))<depth) {visibility-=0.25;};
-#else
-if (textureSample(shadowTexture,shadowSampler,directionToLight+poissonDisk[0]*mapSize).x<depth) {visibility-=0.25;};if (textureSample(shadowTexture,shadowSampler,directionToLight+poissonDisk[1]*mapSize).x<depth) {visibility-=0.25;};if (textureSample(shadowTexture,shadowSampler,directionToLight+poissonDisk[2]*mapSize).x<depth) {visibility-=0.25;};if (textureSample(shadowTexture,shadowSampler,directionToLight+poissonDisk[3]*mapSize).x<depth) {visibility-=0.25;};
-#endif
-return min(1.0,visibility+darkness);}
-fn computeShadowWithESMCube(worldPos: vec3f,lightPosition: vec3f,shadowTexture: texture_cube<f32>,shadowSampler: sampler,darkness: f32,depthScale: f32,depthValues: vec2f)->f32
-{var directionToLight: vec3f=worldPos-lightPosition;var depth: f32=length(directionToLight);depth=(depth+depthValues.x)/(depthValues.y);var shadowPixelDepth: f32=clamp(depth,0.,1.0);directionToLight=normalize(directionToLight);directionToLight.y=-directionToLight.y;
-#ifndef SHADOWFLOAT
-var shadowMapSample: f32=unpack(textureSample(shadowTexture,shadowSampler,directionToLight));
-#else
-var shadowMapSample: f32=textureSample(shadowTexture,shadowSampler,directionToLight).x;
-#endif
-var esm: f32=1.0-clamp(exp(min(87.,depthScale*shadowPixelDepth))*shadowMapSample,0.,1.-darkness);return esm;}
-fn computeShadowWithCloseESMCube(worldPos: vec3f,lightPosition: vec3f,shadowTexture: texture_cube<f32>,shadowSampler: sampler,darkness: f32,depthScale: f32,depthValues: vec2f)->f32
-{var directionToLight: vec3f=worldPos-lightPosition;var depth: f32=length(directionToLight);depth=(depth+depthValues.x)/(depthValues.y);var shadowPixelDepth: f32=clamp(depth,0.,1.0);directionToLight=normalize(directionToLight);directionToLight.y=-directionToLight.y;
-#ifndef SHADOWFLOAT
-var shadowMapSample: f32=unpack(textureSample(shadowTexture,shadowSampler,directionToLight));
-#else
-var shadowMapSample: f32=textureSample(shadowTexture,shadowSampler,directionToLight).x;
-#endif
-var esm: f32=clamp(exp(min(87.,-depthScale*(shadowPixelDepth-shadowMapSample))),darkness,1.);return esm;}
-fn computeShadowCSM(layer: i32,vPositionFromLight: vec4f,depthMetric: f32,shadowTexture: texture_2d_array<f32>,shadowSampler: sampler,darkness: f32,frustumEdgeFalloff: f32)->f32
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uv: vec2f=0.5*clipSpace.xy+ vec2f(0.5);var shadowPixelDepth: f32=clamp(depthMetric,0.,1.0);
-#ifndef SHADOWFLOAT
-var shadow: f32=unpack(textureSample(shadowTexture,shadowSampler,uv,layer));
-#else
-var shadow: f32=textureSample(shadowTexture,shadowSampler,uv,layer).x;
-#endif
-return select(1.,computeFallOff(darkness,clipSpace.xy,frustumEdgeFalloff),shadowPixelDepth>shadow );}
-fn computeShadow(vPositionFromLight: vec4f,depthMetric: f32,shadowTexture: texture_2d<f32>,shadowSampler: sampler,darkness: f32,frustumEdgeFalloff: f32)->f32
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uv: vec2f=0.5*clipSpace.xy+ vec2f(0.5);if (uv.x<0. || uv.x>1.0 || uv.y<0. || uv.y>1.0)
-{return 1.0;}
-else
-{var shadowPixelDepth: f32=clamp(depthMetric,0.,1.0);
-#ifndef SHADOWFLOAT
-var shadow: f32=unpack(textureSampleLevel(shadowTexture,shadowSampler,uv,0.));
-#else
-var shadow: f32=textureSampleLevel(shadowTexture,shadowSampler,uv,0.).x;
-#endif
-return select(1.,computeFallOff(darkness,clipSpace.xy,frustumEdgeFalloff),shadowPixelDepth>shadow );}}
-fn computeShadowWithPoissonSampling(vPositionFromLight: vec4f,depthMetric: f32,shadowTexture: texture_2d<f32>,shadowSampler: sampler,mapSize: f32,darkness: f32,frustumEdgeFalloff: f32)->f32
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uv: vec2f=0.5*clipSpace.xy+ vec2f(0.5);if (uv.x<0. || uv.x>1.0 || uv.y<0. || uv.y>1.0)
-{return 1.0;}
-else
-{var shadowPixelDepth: f32=clamp(depthMetric,0.,1.0);var visibility: f32=1.;var poissonDisk: array<vec2f,4>;poissonDisk[0]= vec2f(-0.94201624,-0.39906216);poissonDisk[1]= vec2f(0.94558609,-0.76890725);poissonDisk[2]= vec2f(-0.094184101,-0.92938870);poissonDisk[3]= vec2f(0.34495938,0.29387760);
-#ifndef SHADOWFLOAT
-if (unpack(textureSampleLevel(shadowTexture,shadowSampler,uv+poissonDisk[0]*mapSize,0.))<shadowPixelDepth) {visibility-=0.25;}
-if (unpack(textureSampleLevel(shadowTexture,shadowSampler,uv+poissonDisk[1]*mapSize,0.))<shadowPixelDepth) {visibility-=0.25;}
-if (unpack(textureSampleLevel(shadowTexture,shadowSampler,uv+poissonDisk[2]*mapSize,0.))<shadowPixelDepth) {visibility-=0.25;}
-if (unpack(textureSampleLevel(shadowTexture,shadowSampler,uv+poissonDisk[3]*mapSize,0.))<shadowPixelDepth) {visibility-=0.25;}
-#else
-if (textureSampleLevel(shadowTexture,shadowSampler,uv+poissonDisk[0]*mapSize,0.).x<shadowPixelDepth) {visibility-=0.25;}
-if (textureSampleLevel(shadowTexture,shadowSampler,uv+poissonDisk[1]*mapSize,0.).x<shadowPixelDepth) {visibility-=0.25;}
-if (textureSampleLevel(shadowTexture,shadowSampler,uv+poissonDisk[2]*mapSize,0.).x<shadowPixelDepth) {visibility-=0.25;}
-if (textureSampleLevel(shadowTexture,shadowSampler,uv+poissonDisk[3]*mapSize,0.).x<shadowPixelDepth) {visibility-=0.25;}
-#endif
-return computeFallOff(min(1.0,visibility+darkness),clipSpace.xy,frustumEdgeFalloff);}}
-fn computeShadowWithESM(vPositionFromLight: vec4f,depthMetric: f32,shadowTexture: texture_2d<f32>,shadowSampler: sampler,darkness: f32,depthScale: f32,frustumEdgeFalloff: f32)->f32
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uv: vec2f=0.5*clipSpace.xy+ vec2f(0.5);if (uv.x<0. || uv.x>1.0 || uv.y<0. || uv.y>1.0)
-{return 1.0;}
-else
-{var shadowPixelDepth: f32=clamp(depthMetric,0.,1.0);
-#ifndef SHADOWFLOAT
-var shadowMapSample: f32=unpack(textureSampleLevel(shadowTexture,shadowSampler,uv,0.));
-#else
-var shadowMapSample: f32=textureSampleLevel(shadowTexture,shadowSampler,uv,0.).x;
-#endif
-var esm: f32=1.0-clamp(exp(min(87.,depthScale*shadowPixelDepth))*shadowMapSample,0.,1.-darkness);return computeFallOff(esm,clipSpace.xy,frustumEdgeFalloff);}}
-fn computeShadowWithCloseESM(vPositionFromLight: vec4f,depthMetric: f32,shadowTexture: texture_2d<f32>,shadowSampler: sampler,darkness: f32,depthScale: f32,frustumEdgeFalloff: f32)->f32
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uv: vec2f=0.5*clipSpace.xy+ vec2f(0.5);if (uv.x<0. || uv.x>1.0 || uv.y<0. || uv.y>1.0)
-{return 1.0;}
-else
-{var shadowPixelDepth: f32=clamp(depthMetric,0.,1.0); 
-#ifndef SHADOWFLOAT
-var shadowMapSample: f32=unpack(textureSampleLevel(shadowTexture,shadowSampler,uv,0.));
-#else
-var shadowMapSample: f32=textureSampleLevel(shadowTexture,shadowSampler,uv,0.).x;
-#endif
-var esm: f32=clamp(exp(min(87.,-depthScale*(shadowPixelDepth-shadowMapSample))),darkness,1.);return computeFallOff(esm,clipSpace.xy,frustumEdgeFalloff);}}
-fn getZInClip(clipSpace: vec3f,uvDepth: vec3f)->f32
-{
-#ifdef IS_NDC_HALF_ZRANGE
-return clipSpace.z;
-#else
-return uvDepth.z;
-#endif
-}
-const GREATEST_LESS_THAN_ONE: f32=0.99999994;
-#define DISABLE_UNIFORMITY_ANALYSIS
-fn computeShadowWithCSMPCF1(layer: i32,vPositionFromLight: vec4f,depthMetric: f32,shadowTexture: texture_depth_2d_array,shadowSampler: sampler_comparison,darkness: f32,frustumEdgeFalloff: f32)->f32
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uvDepth: vec3f= vec3f(0.5*clipSpace.xyz+ vec3f(0.5));uvDepth.z=clamp(getZInClip(clipSpace,uvDepth),0.,GREATEST_LESS_THAN_ONE);var shadow: f32=textureSampleCompare(shadowTexture,shadowSampler,uvDepth.xy,layer,uvDepth.z);shadow=mix(darkness,1.,shadow);return computeFallOff(shadow,clipSpace.xy,frustumEdgeFalloff);}
-fn computeShadowWithCSMPCF3(layer: i32,vPositionFromLight: vec4f,depthMetric: f32,shadowTexture: texture_depth_2d_array,shadowSampler: sampler_comparison,shadowMapSizeAndInverse: vec2f,darkness: f32,frustumEdgeFalloff: f32)->f32
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uvDepth: vec3f= vec3f(0.5*clipSpace.xyz+ vec3f(0.5));uvDepth.z=clamp(getZInClip(clipSpace,uvDepth),0.,GREATEST_LESS_THAN_ONE);var uv: vec2f=uvDepth.xy*shadowMapSizeAndInverse.x; 
-uv+=0.5; 
-var st: vec2f=fract(uv); 
-var base_uv: vec2f=floor(uv)-0.5; 
-base_uv*=shadowMapSizeAndInverse.y; 
-var uvw0: vec2f=3.-2.*st;var uvw1: vec2f=1.+2.*st;var u: vec2f= vec2f((2.-st.x)/uvw0.x-1.,st.x/uvw1.x+1.)*shadowMapSizeAndInverse.y;var v: vec2f= vec2f((2.-st.y)/uvw0.y-1.,st.y/uvw1.y+1.)*shadowMapSizeAndInverse.y;var shadow: f32=0.;shadow+=uvw0.x*uvw0.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[0],v[0]),layer,uvDepth.z);shadow+=uvw1.x*uvw0.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[1],v[0]),layer,uvDepth.z);shadow+=uvw0.x*uvw1.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[0],v[1]),layer,uvDepth.z);shadow+=uvw1.x*uvw1.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[1],v[1]),layer,uvDepth.z);shadow=shadow/16.;shadow=mix(darkness,1.,shadow);return computeFallOff(shadow,clipSpace.xy,frustumEdgeFalloff);}
-fn computeShadowWithCSMPCF5(layer: i32,vPositionFromLight: vec4f,depthMetric: f32,shadowTexture: texture_depth_2d_array,shadowSampler: sampler_comparison,shadowMapSizeAndInverse: vec2f,darkness: f32,frustumEdgeFalloff: f32)->f32
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uvDepth: vec3f= vec3f(0.5*clipSpace.xyz+ vec3f(0.5));uvDepth.z=clamp(getZInClip(clipSpace,uvDepth),0.,GREATEST_LESS_THAN_ONE);var uv: vec2f=uvDepth.xy*shadowMapSizeAndInverse.x; 
-uv+=0.5; 
-var st: vec2f=fract(uv); 
-var base_uv: vec2f=floor(uv)-0.5; 
-base_uv*=shadowMapSizeAndInverse.y; 
-var uvw0: vec2f=4.-3.*st;var uvw1: vec2f= vec2f(7.);var uvw2: vec2f=1.+3.*st;var u: vec3f= vec3f((3.-2.*st.x)/uvw0.x-2.,(3.+st.x)/uvw1.x,st.x/uvw2.x+2.)*shadowMapSizeAndInverse.y;var v: vec3f= vec3f((3.-2.*st.y)/uvw0.y-2.,(3.+st.y)/uvw1.y,st.y/uvw2.y+2.)*shadowMapSizeAndInverse.y;var shadow: f32=0.;shadow+=uvw0.x*uvw0.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[0],v[0]),layer,uvDepth.z);shadow+=uvw1.x*uvw0.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[1],v[0]),layer,uvDepth.z);shadow+=uvw2.x*uvw0.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[2],v[0]),layer,uvDepth.z);shadow+=uvw0.x*uvw1.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[0],v[1]),layer,uvDepth.z);shadow+=uvw1.x*uvw1.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[1],v[1]),layer,uvDepth.z);shadow+=uvw2.x*uvw1.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[2],v[1]),layer,uvDepth.z);shadow+=uvw0.x*uvw2.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[0],v[2]),layer,uvDepth.z);shadow+=uvw1.x*uvw2.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[1],v[2]),layer,uvDepth.z);shadow+=uvw2.x*uvw2.y*textureSampleCompare(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[2],v[2]),layer,uvDepth.z);shadow=shadow/144.;shadow=mix(darkness,1.,shadow);return computeFallOff(shadow,clipSpace.xy,frustumEdgeFalloff);}
-fn computeShadowWithPCF1(vPositionFromLight: vec4f,depthMetric: f32,shadowTexture: texture_depth_2d,shadowSampler: sampler_comparison,darkness: f32,frustumEdgeFalloff: f32)->f32
-{if (depthMetric>1.0 || depthMetric<0.0) {return 1.0;}
-else
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uvDepth: vec3f= vec3f(0.5*clipSpace.xyz+ vec3f(0.5));uvDepth.z=getZInClip(clipSpace,uvDepth);var shadow: f32=textureSampleCompareLevel(shadowTexture,shadowSampler,uvDepth.xy,uvDepth.z);shadow=mix(darkness,1.,shadow);return computeFallOff(shadow,clipSpace.xy,frustumEdgeFalloff);}}
-fn computeShadowWithPCF3(vPositionFromLight: vec4f,depthMetric: f32,shadowTexture: texture_depth_2d,shadowSampler: sampler_comparison,shadowMapSizeAndInverse: vec2f,darkness: f32,frustumEdgeFalloff: f32)->f32
-{if (depthMetric>1.0 || depthMetric<0.0) {return 1.0;}
-else
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uvDepth: vec3f= vec3f(0.5*clipSpace.xyz+ vec3f(0.5));uvDepth.z=getZInClip(clipSpace,uvDepth);var uv: vec2f=uvDepth.xy*shadowMapSizeAndInverse.x; 
-uv+=0.5; 
-var st: vec2f=fract(uv); 
-var base_uv: vec2f=floor(uv)-0.5; 
-base_uv*=shadowMapSizeAndInverse.y; 
-var uvw0: vec2f=3.-2.*st;var uvw1: vec2f=1.+2.*st;var u: vec2f= vec2f((2.-st.x)/uvw0.x-1.,st.x/uvw1.x+1.)*shadowMapSizeAndInverse.y;var v: vec2f= vec2f((2.-st.y)/uvw0.y-1.,st.y/uvw1.y+1.)*shadowMapSizeAndInverse.y;var shadow: f32=0.;shadow+=uvw0.x*uvw0.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[0],v[0]),uvDepth.z);shadow+=uvw1.x*uvw0.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[1],v[0]),uvDepth.z);shadow+=uvw0.x*uvw1.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[0],v[1]),uvDepth.z);shadow+=uvw1.x*uvw1.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[1],v[1]),uvDepth.z);shadow=shadow/16.;shadow=mix(darkness,1.,shadow);return computeFallOff(shadow,clipSpace.xy,frustumEdgeFalloff);}}
-fn computeShadowWithPCF5(vPositionFromLight: vec4f,depthMetric: f32,shadowTexture: texture_depth_2d,shadowSampler: sampler_comparison,shadowMapSizeAndInverse: vec2f,darkness: f32,frustumEdgeFalloff: f32)->f32
-{if (depthMetric>1.0 || depthMetric<0.0) {return 1.0;}
-else
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uvDepth: vec3f= vec3f(0.5*clipSpace.xyz+ vec3f(0.5));uvDepth.z=getZInClip(clipSpace,uvDepth);var uv: vec2f=uvDepth.xy*shadowMapSizeAndInverse.x; 
-uv+=0.5; 
-var st: vec2f=fract(uv); 
-var base_uv: vec2f=floor(uv)-0.5; 
-base_uv*=shadowMapSizeAndInverse.y; 
-var uvw0: vec2f=4.-3.*st;var uvw1: vec2f= vec2f(7.);var uvw2: vec2f=1.+3.*st;var u: vec3f= vec3f((3.-2.*st.x)/uvw0.x-2.,(3.+st.x)/uvw1.x,st.x/uvw2.x+2.)*shadowMapSizeAndInverse.y;var v: vec3f= vec3f((3.-2.*st.y)/uvw0.y-2.,(3.+st.y)/uvw1.y,st.y/uvw2.y+2.)*shadowMapSizeAndInverse.y;var shadow: f32=0.;shadow+=uvw0.x*uvw0.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[0],v[0]),uvDepth.z);shadow+=uvw1.x*uvw0.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[1],v[0]),uvDepth.z);shadow+=uvw2.x*uvw0.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[2],v[0]),uvDepth.z);shadow+=uvw0.x*uvw1.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[0],v[1]),uvDepth.z);shadow+=uvw1.x*uvw1.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[1],v[1]),uvDepth.z);shadow+=uvw2.x*uvw1.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[2],v[1]),uvDepth.z);shadow+=uvw0.x*uvw2.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[0],v[2]),uvDepth.z);shadow+=uvw1.x*uvw2.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[1],v[2]),uvDepth.z);shadow+=uvw2.x*uvw2.y*textureSampleCompareLevel(shadowTexture,shadowSampler, base_uv.xy+ vec2f(u[2],v[2]),uvDepth.z);shadow=shadow/144.;shadow=mix(darkness,1.,shadow);return computeFallOff(shadow,clipSpace.xy,frustumEdgeFalloff);}}
-const PoissonSamplers32: array<vec3f,64>=array<vec3f,64> (
-vec3f(0.06407013,0.05409927,0.),
-vec3f(0.7366577,0.5789394,0.),
-vec3f(-0.6270542,-0.5320278,0.),
-vec3f(-0.4096107,0.8411095,0.),
-vec3f(0.6849564,-0.4990818,0.),
-vec3f(-0.874181,-0.04579735,0.),
-vec3f(0.9989998,0.0009880066,0.),
-vec3f(-0.004920578,-0.9151649,0.),
-vec3f(0.1805763,0.9747483,0.),
-vec3f(-0.2138451,0.2635818,0.),
-vec3f(0.109845,0.3884785,0.),
-vec3f(0.06876755,-0.3581074,0.),
-vec3f(0.374073,-0.7661266,0.),
-vec3f(0.3079132,-0.1216763,0.),
-vec3f(-0.3794335,-0.8271583,0.),
-vec3f(-0.203878,-0.07715034,0.),
-vec3f(0.5912697,0.1469799,0.),
-vec3f(-0.88069,0.3031784,0.),
-vec3f(0.5040108,0.8283722,0.),
-vec3f(-0.5844124,0.5494877,0.),
-vec3f(0.6017799,-0.1726654,0.),
-vec3f(-0.5554981,0.1559997,0.),
-vec3f(-0.3016369,-0.3900928,0.),
-vec3f(-0.5550632,-0.1723762,0.),
-vec3f(0.925029,0.2995041,0.),
-vec3f(-0.2473137,0.5538505,0.),
-vec3f(0.9183037,-0.2862392,0.),
-vec3f(0.2469421,0.6718712,0.),
-vec3f(0.3916397,-0.4328209,0.),
-vec3f(-0.03576927,-0.6220032,0.),
-vec3f(-0.04661255,0.7995201,0.),
-vec3f(0.4402924,0.3640312,0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.),
-vec3f(0.)
-);const PoissonSamplers64: array<vec3f,64>=array<vec3f,64> (
-vec3f(-0.613392,0.617481,0.),
-vec3f(0.170019,-0.040254,0.),
-vec3f(-0.299417,0.791925,0.),
-vec3f(0.645680,0.493210,0.),
-vec3f(-0.651784,0.717887,0.),
-vec3f(0.421003,0.027070,0.),
-vec3f(-0.817194,-0.271096,0.),
-vec3f(-0.705374,-0.668203,0.),
-vec3f(0.977050,-0.108615,0.),
-vec3f(0.063326,0.142369,0.),
-vec3f(0.203528,0.214331,0.),
-vec3f(-0.667531,0.326090,0.),
-vec3f(-0.098422,-0.295755,0.),
-vec3f(-0.885922,0.215369,0.),
-vec3f(0.566637,0.605213,0.),
-vec3f(0.039766,-0.396100,0.),
-vec3f(0.751946,0.453352,0.),
-vec3f(0.078707,-0.715323,0.),
-vec3f(-0.075838,-0.529344,0.),
-vec3f(0.724479,-0.580798,0.),
-vec3f(0.222999,-0.215125,0.),
-vec3f(-0.467574,-0.405438,0.),
-vec3f(-0.248268,-0.814753,0.),
-vec3f(0.354411,-0.887570,0.),
-vec3f(0.175817,0.382366,0.),
-vec3f(0.487472,-0.063082,0.),
-vec3f(-0.084078,0.898312,0.),
-vec3f(0.488876,-0.783441,0.),
-vec3f(0.470016,0.217933,0.),
-vec3f(-0.696890,-0.549791,0.),
-vec3f(-0.149693,0.605762,0.),
-vec3f(0.034211,0.979980,0.),
-vec3f(0.503098,-0.308878,0.),
-vec3f(-0.016205,-0.872921,0.),
-vec3f(0.385784,-0.393902,0.),
-vec3f(-0.146886,-0.859249,0.),
-vec3f(0.643361,0.164098,0.),
-vec3f(0.634388,-0.049471,0.),
-vec3f(-0.688894,0.007843,0.),
-vec3f(0.464034,-0.188818,0.),
-vec3f(-0.440840,0.137486,0.),
-vec3f(0.364483,0.511704,0.),
-vec3f(0.034028,0.325968,0.),
-vec3f(0.099094,-0.308023,0.),
-vec3f(0.693960,-0.366253,0.),
-vec3f(0.678884,-0.204688,0.),
-vec3f(0.001801,0.780328,0.),
-vec3f(0.145177,-0.898984,0.),
-vec3f(0.062655,-0.611866,0.),
-vec3f(0.315226,-0.604297,0.),
-vec3f(-0.780145,0.486251,0.),
-vec3f(-0.371868,0.882138,0.),
-vec3f(0.200476,0.494430,0.),
-vec3f(-0.494552,-0.711051,0.),
-vec3f(0.612476,0.705252,0.),
-vec3f(-0.578845,-0.768792,0.),
-vec3f(-0.772454,-0.090976,0.),
-vec3f(0.504440,0.372295,0.),
-vec3f(0.155736,0.065157,0.),
-vec3f(0.391522,0.849605,0.),
-vec3f(-0.620106,-0.328104,0.),
-vec3f(0.789239,-0.419965,0.),
-vec3f(-0.545396,0.538133,0.),
-vec3f(-0.178564,-0.596057,0.)
-);fn computeShadowWithCSMPCSS(layer: i32,vPositionFromLight: vec4f,depthMetric: f32,depthTexture: texture_2d_array<f32>,depthSampler: sampler,shadowTexture: texture_depth_2d_array,shadowSampler: sampler_comparison,shadowMapSizeInverse: f32,lightSizeUV: f32,darkness: f32,frustumEdgeFalloff: f32,searchTapCount: i32,pcfTapCount: i32,poissonSamplers: array<vec3f,64>,lightSizeUVCorrection: vec2f,depthCorrection: f32,penumbraDarkness: f32)->f32
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uvDepth: vec3f= vec3f(0.5*clipSpace.xyz+ vec3f(0.5));uvDepth.z=clamp(getZInClip(clipSpace,uvDepth),0.,GREATEST_LESS_THAN_ONE);var uvDepthLayer: vec4f= vec4f(uvDepth.x,uvDepth.y,f32(layer),uvDepth.z);var blockerDepth: f32=0.0;var sumBlockerDepth: f32=0.0;var numBlocker: f32=0.0;for (var i: i32=0; i<searchTapCount; i ++) {blockerDepth=textureSample(depthTexture,depthSampler, uvDepth.xy+(lightSizeUV*lightSizeUVCorrection*shadowMapSizeInverse*PoissonSamplers32[i].xy),layer).r;numBlocker+=select(0.,1.,blockerDepth<depthMetric);sumBlockerDepth+=select(0.,blockerDepth,blockerDepth<depthMetric);}
-var avgBlockerDepth: f32=sumBlockerDepth/numBlocker;var AAOffset: f32=shadowMapSizeInverse*10.;var penumbraRatio: f32=((depthMetric-avgBlockerDepth)*depthCorrection+AAOffset);var filterRadius: vec4f= vec4f(penumbraRatio*lightSizeUV*lightSizeUVCorrection*shadowMapSizeInverse,0.,0.);var random: f32=getRand(vPositionFromLight.xy);var rotationAngle: f32=random*3.1415926;var rotationVector: vec2f= vec2f(cos(rotationAngle),sin(rotationAngle));var shadow: f32=0.;for (var i: i32=0; i<pcfTapCount; i++) {var offset: vec4f= vec4f(poissonSamplers[i],0.);offset= vec4f(offset.x*rotationVector.x-offset.y*rotationVector.y,offset.y*rotationVector.x+offset.x*rotationVector.y,0.,0.);let coords=uvDepthLayer+offset*filterRadius;shadow+=textureSampleCompare(shadowTexture,shadowSampler,coords.xy,i32(coords.z),coords.w);}
-shadow/= f32(pcfTapCount);shadow=mix(shadow,1.,min((depthMetric-avgBlockerDepth)*depthCorrection*penumbraDarkness,1.));shadow=mix(darkness,1.,shadow);return select(computeFallOff(shadow,clipSpace.xy,frustumEdgeFalloff),1.0,numBlocker<1.0);}
-fn computeShadowWithPCSS(vPositionFromLight: vec4f,depthMetric: f32,depthTexture: texture_2d<f32>,depthSampler: sampler,shadowTexture: texture_depth_2d,shadowSampler: sampler_comparison,shadowMapSizeInverse: f32,lightSizeUV: f32,darkness: f32,frustumEdgeFalloff: f32,searchTapCount: i32,pcfTapCount: i32,poissonSamplers: array<vec3f,64>)->f32
-{var clipSpace: vec3f=vPositionFromLight.xyz/vPositionFromLight.w;var uvDepth: vec3f= vec3f(0.5*clipSpace.xyz+ vec3f(0.5));uvDepth.z=getZInClip(clipSpace,uvDepth);var blockerDepth: f32=0.0;var sumBlockerDepth: f32=0.0;var numBlocker: f32=0.0;var exitCondition: bool=depthMetric>1.0 || depthMetric<0.0;for (var i: i32=0; i<searchTapCount; i ++) {if (exitCondition) {break;}
-blockerDepth=textureSampleLevel(depthTexture,depthSampler,uvDepth.xy+(lightSizeUV*shadowMapSizeInverse*PoissonSamplers32[i].xy),0).r;numBlocker+=select(0.,1.,blockerDepth<depthMetric);sumBlockerDepth+=select(0.,blockerDepth,blockerDepth<depthMetric);}
-exitCondition=exitCondition || numBlocker<1.0;var avgBlockerDepth: f32=sumBlockerDepth/numBlocker;var AAOffset: f32=shadowMapSizeInverse*10.;var penumbraRatio: f32=((depthMetric-avgBlockerDepth)+AAOffset);var filterRadius: f32=penumbraRatio*lightSizeUV*shadowMapSizeInverse;var random: f32=getRand(vPositionFromLight.xy);var rotationAngle: f32=random*3.1415926;var rotationVector: vec2f= vec2f(cos(rotationAngle),sin(rotationAngle));var shadow: f32=0.;for (var i: i32=0; i<pcfTapCount; i++) {if (exitCondition) {break;}
-var offset: vec3f=poissonSamplers[i];offset= vec3f(offset.x*rotationVector.x-offset.y*rotationVector.y,offset.y*rotationVector.x+offset.x*rotationVector.y,0.);let coords=uvDepth+offset*filterRadius;shadow+=textureSampleCompareLevel(shadowTexture,shadowSampler,coords.xy,coords.z);}
-shadow/= f32(pcfTapCount);shadow=mix(shadow,1.,depthMetric-avgBlockerDepth);shadow=mix(darkness,1.,shadow);return select(computeFallOff(shadow,clipSpace.xy,frustumEdgeFalloff),1.0,exitCondition);}
-fn computeShadowWithPCSS16(vPositionFromLight: vec4f,depthMetric: f32,depthTexture: texture_2d<f32>,depthSampler: sampler,shadowTexture: texture_depth_2d,shadowSampler: sampler_comparison,shadowMapSizeInverse: f32,lightSizeUV: f32,darkness: f32,frustumEdgeFalloff: f32)->f32
-{return computeShadowWithPCSS(vPositionFromLight,depthMetric,depthTexture,depthSampler,shadowTexture,shadowSampler,shadowMapSizeInverse,lightSizeUV,darkness,frustumEdgeFalloff,16,16,PoissonSamplers32);}
-fn computeShadowWithPCSS32(vPositionFromLight: vec4f,depthMetric: f32,depthTexture: texture_2d<f32>,depthSampler: sampler,shadowTexture: texture_depth_2d,shadowSampler: sampler_comparison,shadowMapSizeInverse: f32,lightSizeUV: f32,darkness: f32,frustumEdgeFalloff: f32)->f32
-{return computeShadowWithPCSS(vPositionFromLight,depthMetric,depthTexture,depthSampler,shadowTexture,shadowSampler,shadowMapSizeInverse,lightSizeUV,darkness,frustumEdgeFalloff,16,32,PoissonSamplers32);}
-fn computeShadowWithPCSS64(vPositionFromLight: vec4f,depthMetric: f32,depthTexture: texture_2d<f32>,depthSampler: sampler,shadowTexture: texture_depth_2d,shadowSampler: sampler_comparison,shadowMapSizeInverse: f32,lightSizeUV: f32,darkness: f32,frustumEdgeFalloff: f32)->f32
-{return computeShadowWithPCSS(vPositionFromLight,depthMetric,depthTexture,depthSampler,shadowTexture,shadowSampler,shadowMapSizeInverse,lightSizeUV,darkness,frustumEdgeFalloff,32,64,PoissonSamplers64);}
-fn computeShadowWithCSMPCSS16(layer: i32,vPositionFromLight: vec4f,depthMetric: f32,depthTexture: texture_2d_array<f32>,depthSampler: sampler,shadowTexture: texture_depth_2d_array,shadowSampler: sampler_comparison,shadowMapSizeInverse: f32,lightSizeUV: f32,darkness: f32,frustumEdgeFalloff: f32,lightSizeUVCorrection: vec2f,depthCorrection: f32,penumbraDarkness: f32)->f32
-{return computeShadowWithCSMPCSS(layer,vPositionFromLight,depthMetric,depthTexture,depthSampler,shadowTexture,shadowSampler,shadowMapSizeInverse,lightSizeUV,darkness,frustumEdgeFalloff,16,16,PoissonSamplers32,lightSizeUVCorrection,depthCorrection,penumbraDarkness);}
-fn computeShadowWithCSMPCSS32(layer: i32,vPositionFromLight: vec4f,depthMetric: f32,depthTexture: texture_2d_array<f32>,depthSampler: sampler,shadowTexture: texture_depth_2d_array,shadowSampler: sampler_comparison,shadowMapSizeInverse: f32,lightSizeUV: f32,darkness: f32,frustumEdgeFalloff: f32,lightSizeUVCorrection: vec2f,depthCorrection: f32,penumbraDarkness: f32)->f32
-{return computeShadowWithCSMPCSS(layer,vPositionFromLight,depthMetric,depthTexture,depthSampler,shadowTexture,shadowSampler,shadowMapSizeInverse,lightSizeUV,darkness,frustumEdgeFalloff,16,32,PoissonSamplers32,lightSizeUVCorrection,depthCorrection,penumbraDarkness);}
-fn computeShadowWithCSMPCSS64(layer: i32,vPositionFromLight: vec4f,depthMetric: f32,depthTexture: texture_2d_array<f32>,depthSampler: sampler,shadowTexture: texture_depth_2d_array,shadowSampler: sampler_comparison,shadowMapSizeInverse: f32,lightSizeUV: f32,darkness: f32,frustumEdgeFalloff: f32,lightSizeUVCorrection: vec2f,depthCorrection: f32,penumbraDarkness: f32)->f32
-{return computeShadowWithCSMPCSS(layer,vPositionFromLight,depthMetric,depthTexture,depthSampler,shadowTexture,shadowSampler,shadowMapSizeInverse,lightSizeUV,darkness,frustumEdgeFalloff,32,64,PoissonSamplers64,lightSizeUVCorrection,depthCorrection,penumbraDarkness);}
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name84] = shader84;
-      shadowsFragmentFunctionsWGSL = { name: name84, shader: shader84 };
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/samplerFragmentDeclaration.js
-  var name85, shader85;
-  var init_samplerFragmentDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/samplerFragmentDeclaration.js"() {
-      init_shaderStore();
-      name85 = "samplerFragmentDeclaration";
-      shader85 = `#ifdef _DEFINENAME_
-#if _DEFINENAME_DIRECTUV==1
-#define v_VARYINGNAME_UV vMainUV1
-#elif _DEFINENAME_DIRECTUV==2
-#define v_VARYINGNAME_UV vMainUV2
-#elif _DEFINENAME_DIRECTUV==3
-#define v_VARYINGNAME_UV vMainUV3
-#elif _DEFINENAME_DIRECTUV==4
-#define v_VARYINGNAME_UV vMainUV4
-#elif _DEFINENAME_DIRECTUV==5
-#define v_VARYINGNAME_UV vMainUV5
-#elif _DEFINENAME_DIRECTUV==6
-#define v_VARYINGNAME_UV vMainUV6
-#else
-varying v_VARYINGNAME_UV: vec2f;
-#endif
-var _SAMPLERNAME_SamplerSampler: sampler;var _SAMPLERNAME_Sampler: texture_2d<f32>;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name85] = shader85;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/fresnelFunction.js
-  var name86, shader86;
-  var init_fresnelFunction = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/fresnelFunction.js"() {
-      init_shaderStore();
-      name86 = "fresnelFunction";
-      shader86 = `#ifdef FRESNEL
-fn computeFresnelTerm(viewDirection: vec3f,worldNormal: vec3f,bias: f32,power: f32)->f32
-{let fresnelTerm: f32=pow(bias+abs(dot(viewDirection,worldNormal)),power);return clamp(fresnelTerm,0.,1.);}
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name86] = shader86;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/reflectionFunction.js
-  var name87, shader87;
-  var init_reflectionFunction = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/reflectionFunction.js"() {
-      init_shaderStore();
-      name87 = "reflectionFunction";
-      shader87 = `fn computeFixedEquirectangularCoords(worldPos: vec4f,worldNormal: vec3f,direction: vec3f)->vec3f
-{var lon: f32=atan2(direction.z,direction.x);var lat: f32=acos(direction.y);var sphereCoords: vec2f= vec2f(lon,lat)*RECIPROCAL_PI2*2.0;var s: f32=sphereCoords.x*0.5+0.5;var t: f32=sphereCoords.y;return vec3f(s,t,0); }
-fn computeMirroredFixedEquirectangularCoords(worldPos: vec4f,worldNormal: vec3f,direction: vec3f)->vec3f
-{var lon: f32=atan2(direction.z,direction.x);var lat: f32=acos(direction.y);var sphereCoords: vec2f= vec2f(lon,lat)*RECIPROCAL_PI2*2.0;var s: f32=sphereCoords.x*0.5+0.5;var t: f32=sphereCoords.y;return vec3f(1.0-s,t,0); }
-fn computeEquirectangularCoords(worldPos: vec4f,worldNormal: vec3f,eyePosition: vec3f,reflectionMatrix: mat4x4f)->vec3f
-{var cameraToVertex: vec3f=normalize(worldPos.xyz-eyePosition);var r: vec3f=normalize(reflect(cameraToVertex,worldNormal));r= (reflectionMatrix* vec4f(r,0)).xyz;var lon: f32=atan2(r.z,r.x);var lat: f32=acos(r.y);var sphereCoords: vec2f= vec2f(lon,lat)*RECIPROCAL_PI2*2.0;var s: f32=sphereCoords.x*0.5+0.5;var t: f32=sphereCoords.y;return vec3f(s,t,0);}
-fn computeSphericalCoords(worldPos: vec4f,worldNormal: vec3f,view: mat4x4f,reflectionMatrix: mat4x4f)->vec3f
-{var viewDir: vec3f=normalize((view*worldPos).xyz);var viewNormal: vec3f=normalize((view* vec4f(worldNormal,0.0)).xyz);var r: vec3f=reflect(viewDir,viewNormal);r= (reflectionMatrix* vec4f(r,0)).xyz;r.z=r.z-1.0;var m: f32=2.0*length(r);return vec3f(r.x/m+0.5,1.0-r.y/m-0.5,0);}
-fn computePlanarCoords(worldPos: vec4f,worldNormal: vec3f,eyePosition: vec3f,reflectionMatrix: mat4x4f)->vec3f
-{var viewDir: vec3f=worldPos.xyz-eyePosition;var coords: vec3f=normalize(reflect(viewDir,worldNormal));return (reflectionMatrix* vec4f(coords,1)).xyz;}
-fn computeCubicCoords(worldPos: vec4f,worldNormal: vec3f,eyePosition: vec3f,reflectionMatrix: mat4x4f)->vec3f
-{var viewDir: vec3f=normalize(worldPos.xyz-eyePosition);var coords: vec3f=reflect(viewDir,worldNormal);coords= (reflectionMatrix* vec4f(coords,0)).xyz;
-#ifdef INVERTCUBICMAP
-coords.y*=-1.0;
-#endif
-return coords;}
-fn computeCubicLocalCoords(worldPos: vec4f,worldNormal: vec3f,eyePosition: vec3f,reflectionMatrix: mat4x4f,reflectionSize: vec3f,reflectionPosition: vec3f)->vec3f
-{var viewDir: vec3f=normalize(worldPos.xyz-eyePosition);var coords: vec3f=reflect(viewDir,worldNormal);coords=parallaxCorrectNormal(worldPos.xyz,coords,reflectionSize,reflectionPosition);coords=(reflectionMatrix* vec4f(coords,0)).xyz;
-#ifdef INVERTCUBICMAP
-coords.y*=-1.0;
-#endif
-return coords;}
-fn computeProjectionCoords(worldPos: vec4f,view: mat4x4f,reflectionMatrix: mat4x4f)->vec3f
-{return (reflectionMatrix*(view*worldPos)).xyz;}
-fn computeSkyBoxCoords(positionW: vec3f,reflectionMatrix: mat4x4f)->vec3f
-{return (reflectionMatrix* vec4f(positionW,1.)).xyz;}
-#ifdef REFLECTION
-fn computeReflectionCoords(worldPos: vec4f,worldNormal: vec3f)->vec3f
-{
-#ifdef REFLECTIONMAP_MIRROREDEQUIRECTANGULAR_FIXED
-var direction: vec3f=normalize(fragmentInputs.vDirectionW);return computeMirroredFixedEquirectangularCoords(worldPos,worldNormal,direction);
-#endif
-#ifdef REFLECTIONMAP_EQUIRECTANGULAR_FIXED
-var direction: vec3f=normalize(fragmentInputs.vDirectionW);return computeFixedEquirectangularCoords(worldPos,worldNormal,direction);
-#endif
-#ifdef REFLECTIONMAP_EQUIRECTANGULAR
-return computeEquirectangularCoords(worldPos,worldNormal,scene.vEyePosition.xyz,uniforms.reflectionMatrix);
-#endif
-#ifdef REFLECTIONMAP_SPHERICAL
-return computeSphericalCoords(worldPos,worldNormal,scene.view,uniforms.reflectionMatrix);
-#endif
-#ifdef REFLECTIONMAP_PLANAR
-return computePlanarCoords(worldPos,worldNormal,scene.vEyePosition.xyz,uniforms.reflectionMatrix);
-#endif
-#ifdef REFLECTIONMAP_CUBIC
-#ifdef USE_LOCAL_REFLECTIONMAP_CUBIC
-return computeCubicLocalCoords(worldPos,worldNormal,scene.vEyePosition.xyz,uniforms.reflectionMatrix,uniforms.vReflectionSize,uniforms.vReflectionPosition);
-#else
-return computeCubicCoords(worldPos,worldNormal,scene.vEyePosition.xyz,uniforms.reflectionMatrix);
-#endif
-#endif
-#ifdef REFLECTIONMAP_PROJECTION
-return computeProjectionCoords(worldPos,scene.view,uniforms.reflectionMatrix);
-#endif
-#ifndef REFLECTIONMAP_CUBIC
-#ifdef REFLECTIONMAP_SKYBOX
-return computeSkyBoxCoords(fragmentInputs.vPositionUVW,uniforms.reflectionMatrix);
-#endif
-#endif
-#ifdef REFLECTIONMAP_EXPLICIT
-return vec3f(0,0,0);
-#endif
-}
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name87] = shader87;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/imageProcessingDeclaration.js
-  var name88, shader88;
-  var init_imageProcessingDeclaration = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/imageProcessingDeclaration.js"() {
-      init_shaderStore();
-      name88 = "imageProcessingDeclaration";
-      shader88 = `#ifdef EXPOSURE
-uniform exposureLinear: f32;
-#endif
-#ifdef CONTRAST
-uniform contrast: f32;
-#endif
-#if defined(VIGNETTE) || defined(DITHER)
-uniform vInverseScreenSize: vec2f;
-#endif
-#ifdef VIGNETTE
-uniform vignetteSettings1: vec4f;uniform vignetteSettings2: vec4f;
-#endif
-#ifdef COLORCURVES
-uniform vCameraColorCurveNegative: vec4f;uniform vCameraColorCurveNeutral: vec4f;uniform vCameraColorCurvePositive: vec4f;
-#endif
-#ifdef COLORGRADING
-#ifdef COLORGRADING3D
-var txColorTransformSampler: sampler;var txColorTransform: texture_3d<f32>;
-#else
-var txColorTransformSampler: sampler;var txColorTransform: texture_2d<f32>;
-#endif
-uniform colorTransformSettings: vec4f;
-#endif
-#ifdef DITHER
-uniform ditherIntensity: f32;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name88] = shader88;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/imageProcessingFunctions.js
-  var name89, shader89;
-  var init_imageProcessingFunctions = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/imageProcessingFunctions.js"() {
-      init_shaderStore();
-      name89 = "imageProcessingFunctions";
-      shader89 = `#if TONEMAPPING==3
-const PBRNeutralStartCompression: f32=0.8-0.04;const PBRNeutralDesaturation: f32=0.15;fn PBRNeutralToneMapping( color: vec3f )->vec3f {var x: f32=min(color.r,min(color.g,color.b));var offset: f32=select(0.04,x-6.25*x*x,x<0.08);var result=color;result-=offset;var peak: f32=max(result.r,max(result.g,result.b));if (peak<PBRNeutralStartCompression) {return result;}
-var d: f32=1.-PBRNeutralStartCompression;var newPeak: f32=1.-d*d/(peak+d-PBRNeutralStartCompression);result*=newPeak/peak;var g: f32=1.-1./(PBRNeutralDesaturation*(peak-newPeak)+1.);return mix(result,newPeak* vec3f(1,1,1),g);}
-#endif
-#if TONEMAPPING==2
-const ACESInputMat: mat3x3f= mat3x3f(
-vec3f(0.59719,0.07600,0.02840),
-vec3f(0.35458,0.90834,0.13383),
-vec3f(0.04823,0.01566,0.83777)
-);const ACESOutputMat: mat3x3f= mat3x3f(
-vec3f( 1.60475,-0.10208,-0.00327),
-vec3f(-0.53108, 1.10813,-0.07276),
-vec3f(-0.07367,-0.00605, 1.07602)
-);fn RRTAndODTFit(v: vec3f)->vec3f
-{var a: vec3f=v*(v+0.0245786)-0.000090537;var b: vec3f=v*(0.983729*v+0.4329510)+0.238081;return a/b;}
-fn ACESFitted(color: vec3f)->vec3f
-{var output=ACESInputMat*color;output=RRTAndODTFit(output);output=ACESOutputMat*output;output=saturateVec3(output);return output;}
-#endif
-#define CUSTOM_IMAGEPROCESSINGFUNCTIONS_DEFINITIONS
-fn applyImageProcessing(result: vec4f)->vec4f {
-#define CUSTOM_IMAGEPROCESSINGFUNCTIONS_UPDATERESULT_ATSTART
-var rgb=result.rgb;;
-#ifdef EXPOSURE
-rgb*=uniforms.exposureLinear;
-#endif
-#ifdef VIGNETTE
-var viewportXY: vec2f=fragmentInputs.position.xy*uniforms.vInverseScreenSize;viewportXY=viewportXY*2.0-1.0;var vignetteXY1: vec3f= vec3f(viewportXY*uniforms.vignetteSettings1.xy+uniforms.vignetteSettings1.zw,1.0);var vignetteTerm: f32=dot(vignetteXY1,vignetteXY1);var vignette: f32=pow(vignetteTerm,uniforms.vignetteSettings2.w);var vignetteColor: vec3f=uniforms.vignetteSettings2.rgb;
-#ifdef VIGNETTEBLENDMODEMULTIPLY
-var vignetteColorMultiplier: vec3f=mix(vignetteColor, vec3f(1,1,1),vignette);rgb*=vignetteColorMultiplier;
-#endif
-#ifdef VIGNETTEBLENDMODEOPAQUE
-rgb=mix(vignetteColor,rgb,vignette);
-#endif
-#endif
-#if TONEMAPPING==3
-rgb=PBRNeutralToneMapping(rgb);
-#elif TONEMAPPING==2
-rgb=ACESFitted(rgb);
-#elif TONEMAPPING==1
-const tonemappingCalibration: f32=1.590579;rgb=1.0-exp2(-tonemappingCalibration*rgb);
-#endif
-rgb=toGammaSpaceVec3(rgb);rgb=saturateVec3(rgb);
-#ifdef CONTRAST
-var resultHighContrast: vec3f=rgb*rgb*(3.0-2.0*rgb);if (uniforms.contrast<1.0) {rgb=mix( vec3f(0.5,0.5,0.5),rgb,uniforms.contrast);} else {rgb=mix(rgb,resultHighContrast,uniforms.contrast-1.0);}
-#endif
-#ifdef COLORGRADING
-var colorTransformInput: vec3f=rgb*uniforms.colorTransformSettings.xxx+uniforms.colorTransformSettings.yyy;
-#ifdef COLORGRADING3D
-var colorTransformOutput: vec3f=textureSample(txColorTransform,txColorTransformSampler,colorTransformInput).rgb;
-#else
-var colorTransformOutput: vec3f=textureSample(txColorTransform,txColorTransformSampler,colorTransformInput,uniforms.colorTransformSettings.yz).rgb;
-#endif
-rgb=mix(rgb,colorTransformOutput,uniforms.colorTransformSettings.www);
-#endif
-#ifdef COLORCURVES
-var luma: f32=getLuminance(rgb);var curveMix: vec2f=clamp( vec2f(luma*3.0-1.5,luma*-3.0+1.5), vec2f(0.0), vec2f(1.0));var colorCurve: vec4f=uniforms.vCameraColorCurveNeutral+curveMix.x*uniforms.vCameraColorCurvePositive-curveMix.y*uniforms.vCameraColorCurveNegative;rgb*=colorCurve.rgb;rgb=mix( vec3f(luma),rgb,colorCurve.a);
-#endif
-#ifdef DITHER
-var rand: f32=getRand(fragmentInputs.position.xy*uniforms.vInverseScreenSize);var dither: f32=mix(-uniforms.ditherIntensity,uniforms.ditherIntensity,rand);rgb=saturateVec3(rgb+ vec3f(dither));
-#endif
-#define CUSTOM_IMAGEPROCESSINGFUNCTIONS_UPDATERESULT_ATEND
-return vec4f(rgb,result.a);}`;
-      ShaderStore.IncludesShadersStoreWGSL[name89] = shader89;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bumpFragmentMainFunctions.js
-  var name90, shader90;
-  var init_bumpFragmentMainFunctions = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bumpFragmentMainFunctions.js"() {
-      init_shaderStore();
-      name90 = "bumpFragmentMainFunctions";
-      shader90 = `#if defined(BUMP) || defined(CLEARCOAT_BUMP) || defined(ANISOTROPIC) || defined(DETAIL)
-#if defined(TANGENT) && defined(NORMAL) 
-varying vTBN0: vec3f;varying vTBN1: vec3f;varying vTBN2: vec3f;
-#endif
-#ifdef OBJECTSPACE_NORMALMAP
-uniform normalMatrix: mat4x4f;fn toNormalMatrix(m: mat4x4f)->mat4x4f
-{var a00=m[0][0];var a01=m[0][1];var a02=m[0][2];var a03=m[0][3];var a10=m[1][0];var a11=m[1][1];var a12=m[1][2];var a13=m[1][3];var a20=m[2][0]; 
-var a21=m[2][1];var a22=m[2][2];var a23=m[2][3];var a30=m[3][0]; 
-var a31=m[3][1];var a32=m[3][2];var a33=m[3][3];var b00=a00*a11-a01*a10;var b01=a00*a12-a02*a10;var b02=a00*a13-a03*a10;var b03=a01*a12-a02*a11;var b04=a01*a13-a03*a11;var b05=a02*a13-a03*a12;var b06=a20*a31-a21*a30;var b07=a20*a32-a22*a30;var b08=a20*a33-a23*a30;var b09=a21*a32-a22*a31;var b10=a21*a33-a23*a31;var b11=a22*a33-a23*a32;var det=b00*b11-b01*b10+b02*b09+b03*b08-b04*b07+b05*b06;var mi=mat4x4<f32>(
-(a11*b11-a12*b10+a13*b09)/det,
-(a02*b10-a01*b11-a03*b09)/det,
-(a31*b05-a32*b04+a33*b03)/det,
-(a22*b04-a21*b05-a23*b03)/det,
-(a12*b08-a10*b11-a13*b07)/det,
-(a00*b11-a02*b08+a03*b07)/det,
-(a32*b02-a30*b05-a33*b01)/det,
-(a20*b05-a22*b02+a23*b01)/det,
-(a10*b10-a11*b08+a13*b06)/det,
-(a01*b08-a00*b10-a03*b06)/det,
-(a30*b04-a31*b02+a33*b00)/det,
-(a21*b02-a20*b04-a23*b00)/det,
-(a11*b07-a10*b09-a12*b06)/det,
-(a00*b09-a01*b07+a02*b06)/det,
-(a31*b01-a30*b03-a32*b00)/det,
-(a20*b03-a21*b01+a22*b00)/det);return mat4x4<f32>(mi[0][0],mi[1][0],mi[2][0],mi[3][0],
-mi[0][1],mi[1][1],mi[2][1],mi[3][1],
-mi[0][2],mi[1][2],mi[2][2],mi[3][2],
-mi[0][3],mi[1][3],mi[2][3],mi[3][3]);}
-#endif
-fn perturbNormalBase(cotangentFrame: mat3x3f,normal: vec3f,scale: f32)->vec3f
-{var output=normal;
-#ifdef NORMALXYSCALE
-output=normalize(output* vec3f(scale,scale,1.0));
-#endif
-return normalize(cotangentFrame*output);}
-fn perturbNormal(cotangentFrame: mat3x3f,textureSample: vec3f,scale: f32)->vec3f
-{return perturbNormalBase(cotangentFrame,textureSample*2.0-1.0,scale);}
-fn cotangent_frame(normal: vec3f,p: vec3f,uv: vec2f,tangentSpaceParams: vec2f)->mat3x3f
-{var dp1: vec3f=dpdx(p);var dp2: vec3f=dpdy(p);var duv1: vec2f=dpdx(uv);var duv2: vec2f=dpdy(uv);var dp2perp: vec3f=cross(dp2,normal);var dp1perp: vec3f=cross(normal,dp1);var tangent: vec3f=dp2perp*duv1.x+dp1perp*duv2.x;var bitangent: vec3f=dp2perp*duv1.y+dp1perp*duv2.y;tangent*=tangentSpaceParams.x;bitangent*=tangentSpaceParams.y;var det: f32=max(dot(tangent,tangent),dot(bitangent,bitangent));var invmax: f32=select(inverseSqrt(det),0.0,det==0.0);return mat3x3f(tangent*invmax,bitangent*invmax,normal);}
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name90] = shader90;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bumpFragmentFunctions.js
-  var name91, shader91;
-  var init_bumpFragmentFunctions = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bumpFragmentFunctions.js"() {
-      init_shaderStore();
-      init_samplerFragmentDeclaration();
-      name91 = "bumpFragmentFunctions";
-      shader91 = `#if defined(BUMP)
-#include<samplerFragmentDeclaration>(_DEFINENAME_,BUMP,_VARYINGNAME_,Bump,_SAMPLERNAME_,bump)
-#endif
-#if defined(DETAIL)
-#include<samplerFragmentDeclaration>(_DEFINENAME_,DETAIL,_VARYINGNAME_,Detail,_SAMPLERNAME_,detail)
-#endif
-#if defined(BUMP) && defined(PARALLAX)
-const minSamples: f32=4.;const maxSamples: f32=15.;const iMaxSamples: i32=15;fn parallaxOcclusion(vViewDirCoT: vec3f,vNormalCoT: vec3f,texCoord: vec2f,parallaxScale: f32)->vec2f {var parallaxLimit: f32=length(vViewDirCoT.xy)/vViewDirCoT.z;parallaxLimit*=parallaxScale;var vOffsetDir: vec2f=normalize(vViewDirCoT.xy);var vMaxOffset: vec2f=vOffsetDir*parallaxLimit;var numSamples: f32=maxSamples+(dot(vViewDirCoT,vNormalCoT)*(minSamples-maxSamples));var stepSize: f32=1.0/numSamples;var currRayHeight: f32=1.0;var vCurrOffset: vec2f= vec2f(0,0);var vLastOffset: vec2f= vec2f(0,0);var lastSampledHeight: f32=1.0;var currSampledHeight: f32=1.0;var keepWorking: bool=true;for (var i: i32=0; i<iMaxSamples; i++)
-{currSampledHeight=textureSample(bumpSampler,bumpSamplerSampler,texCoord+vCurrOffset).w;if (!keepWorking)
-{}
-else if (currSampledHeight>currRayHeight)
-{var delta1: f32=currSampledHeight-currRayHeight;var delta2: f32=(currRayHeight+stepSize)-lastSampledHeight;var ratio: f32=delta1/(delta1+delta2);vCurrOffset=(ratio)* vLastOffset+(1.0-ratio)*vCurrOffset;keepWorking=false;}
-else
-{currRayHeight-=stepSize;vLastOffset=vCurrOffset;
-#ifdef PARALLAX_RHS
-vCurrOffset-=stepSize*vMaxOffset;
-#else
-vCurrOffset+=stepSize*vMaxOffset;
-#endif
-lastSampledHeight=currSampledHeight;}}
-return vCurrOffset;}
-fn parallaxOffset(viewDir: vec3f,heightScale: f32)->vec2f
-{var height: f32=textureSample(bumpSampler,bumpSamplerSampler,fragmentInputs.vBumpUV).w;var texCoordOffset: vec2f=heightScale*viewDir.xy*height;
-#ifdef PARALLAX_RHS
-return texCoordOffset;
-#else
-return -texCoordOffset;
-#endif
-}
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name91] = shader91;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bumpFragment.js
-  var name92, shader92;
-  var init_bumpFragment = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/bumpFragment.js"() {
-      init_shaderStore();
-      name92 = "bumpFragment";
-      shader92 = `var uvOffset: vec2f= vec2f(0.0,0.0);
-#if defined(BUMP) || defined(PARALLAX) || defined(DETAIL)
-#ifdef NORMALXYSCALE
-var normalScale: f32=1.0;
-#elif defined(BUMP)
-var normalScale: f32=uniforms.vBumpInfos.y;
-#else
-var normalScale: f32=1.0;
-#endif
-#if defined(TANGENT) && defined(NORMAL)
-var TBN: mat3x3f=mat3x3<f32>(input.vTBN0,input.vTBN1,input.vTBN2); 
-#elif defined(BUMP)
-var TBNUV: vec2f=select(-fragmentInputs.vBumpUV,fragmentInputs.vBumpUV,fragmentInputs.frontFacing);var TBN: mat3x3f=cotangent_frame(normalW*normalScale,input.vPositionW,TBNUV,uniforms.vTangentSpaceParams);
-#else
-var TBNUV: vec2f=select(-fragmentInputs.vDetailUV,fragmentInputs.vDetailUV,fragmentInputs.frontFacing);var TBN: mat3x3f=cotangent_frame(normalW*normalScale,input.vPositionW,TBNUV, vec2f(1.,1.));
-#endif
-#elif defined(ANISOTROPIC)
-#if defined(TANGENT) && defined(NORMAL)
-var TBN: mat3x3f=mat3x3<f32>(input.vTBN0,input.vTBN1,input.vTBN2); 
-#else
-var TBNUV: vec2f=select( -fragmentInputs.vMainUV1,fragmentInputs.vMainUV1,fragmentInputs.frontFacing);var TBN: mat3x3f=cotangent_frame(normalW,input.vPositionW,TBNUV, vec2f(1.,1.));
-#endif
-#endif
-#ifdef PARALLAX
-var invTBN: mat3x3f=transposeMat3(TBN);
-#ifdef PARALLAXOCCLUSION
-uvOffset=parallaxOcclusion(invTBN*-viewDirectionW,invTBN*normalW,fragmentInputs.vBumpUV,uniforms.vBumpInfos.z);
-#else
-uvOffset=parallaxOffset(invTBN*viewDirectionW,uniforms.vBumpInfos.z);
-#endif
-#endif
-#ifdef DETAIL
-var detailColor: vec4f=textureSample(detailSampler,detailSamplerSampler,fragmentInputs.vDetailUV+uvOffset);var detailNormalRG: vec2f=detailColor.wy*2.0-1.0;var detailNormalB: f32=sqrt(1.-saturate(dot(detailNormalRG,detailNormalRG)));var detailNormal: vec3f= vec3f(detailNormalRG,detailNormalB);
-#endif
-#ifdef BUMP
-#ifdef OBJECTSPACE_NORMALMAP
-#define CUSTOM_FRAGMENT_BUMP_FRAGMENT
-normalW=normalize(textureSample(bumpSampler,bumpSamplerSampler,fragmentInputs.vBumpUV).xyz *2.0-1.0);normalW=normalize(mat3x3f(uniforms.normalMatrix[0].xyz,uniforms.normalMatrix[1].xyz,uniforms.normalMatrix[2].xyz)*normalW);
-#elif !defined(DETAIL)
-normalW=perturbNormal(TBN,textureSample(bumpSampler,bumpSamplerSampler,fragmentInputs.vBumpUV+uvOffset).xyz,uniforms.vBumpInfos.y);
-#else
-var bumpNormal: vec3f=textureSample(bumpSampler,bumpSamplerSampler,fragmentInputs.vBumpUV+uvOffset).xyz*2.0-1.0;
-#if DETAIL_NORMALBLENDMETHOD==0 
-detailNormal=vec3f(detailNormal.xy*uniforms.vDetailInfos.z,detailNormal.z);var blendedNormal: vec3f=normalize( vec3f(bumpNormal.xy+detailNormal.xy,bumpNormal.z*detailNormal.z));
-#elif DETAIL_NORMALBLENDMETHOD==1 
-detailNormal=vec3f(detailNormal.xy*uniforms.vDetailInfos.z,detailNormal.z);bumpNormal+= vec3f(0.0,0.0,1.0);detailNormal*= vec3f(-1.0,-1.0,1.0);var blendedNormal: vec3f=bumpNormal*dot(bumpNormal,detailNormal)/bumpNormal.z-detailNormal;
-#endif
-normalW=perturbNormalBase(TBN,blendedNormal,uniforms.vBumpInfos.y);
-#endif
-#elif defined(DETAIL)
-detailNormal=vec3f(detailNormal.xy*uniforms.vDetailInfos.z,detailNormal.z);normalW=perturbNormalBase(TBN,detailNormal,uniforms.vDetailInfos.z);
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name92] = shader92;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/decalFragment.js
-  var name93, shader93;
-  var init_decalFragment = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/decalFragment.js"() {
-      init_shaderStore();
-      name93 = "decalFragment";
-      shader93 = `#ifdef DECAL
-var decalTempColor=decalColor.rgb;var decalTempAlpha=decalColor.a;
-#ifdef GAMMADECAL
-decalTempColor=toLinearSpaceVec3(decalColor.rgb);
-#endif
-#ifdef DECAL_SMOOTHALPHA
-decalTempAlpha=decalColor.a*decalColor.a;
-#endif
-surfaceAlbedo=mix(surfaceAlbedo.rgb,decalTempColor,decalTempAlpha);
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name93] = shader93;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/depthPrePass.js
-  var name94, shader94;
-  var init_depthPrePass = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/depthPrePass.js"() {
-      init_shaderStore();
-      name94 = "depthPrePass";
-      shader94 = `#ifdef DEPTHPREPASS
-fragmentOutputs.color= vec4f(0.,0.,0.,1.0);return fragmentOutputs;
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name94] = shader94;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/lightFragment.js
-  var lightFragment_exports = {};
-  __export(lightFragment_exports, {
-    lightFragmentWGSL: () => lightFragmentWGSL
-  });
-  var name95, shader95, lightFragmentWGSL;
-  var init_lightFragment = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/lightFragment.js"() {
-      init_shaderStore();
-      name95 = "lightFragment";
-      shader95 = `#ifdef LIGHT{X}
-#if defined(SHADOWONLY) || defined(LIGHTMAP) && defined(LIGHTMAPEXCLUDED{X}) && defined(LIGHTMAPNOSPECULAR{X})
-#else
-#ifdef PBR
-#ifdef SPOTLIGHT{X}
-preInfo=computePointAndSpotPreLightingInfo(light{X}.vLightData,viewDirectionW,normalW,input.vPositionW);
-#elif defined(POINTLIGHT{X})
-preInfo=computePointAndSpotPreLightingInfo(light{X}.vLightData,viewDirectionW,normalW,input.vPositionW);
-#elif defined(HEMILIGHT{X})
-preInfo=computeHemisphericPreLightingInfo(light{X}.vLightData,viewDirectionW,normalW);
-#elif defined(DIRLIGHT{X})
-preInfo=computeDirectionalPreLightingInfo(light{X}.vLightData,viewDirectionW,normalW);
-#endif
-preInfo.NdotV=NdotV;
-#ifdef SPOTLIGHT{X}
-#ifdef LIGHT_FALLOFF_GLTF{X}
-preInfo.attenuation=computeDistanceLightFalloff_GLTF(preInfo.lightDistanceSquared,light{X}.vLightFalloff.y);preInfo.attenuation*=computeDirectionalLightFalloff_GLTF(light{X}.vLightDirection.xyz,preInfo.L,light{X}.vLightFalloff.z,light{X}.vLightFalloff.w);
-#elif defined(LIGHT_FALLOFF_PHYSICAL{X})
-preInfo.attenuation=computeDistanceLightFalloff_Physical(preInfo.lightDistanceSquared);preInfo.attenuation*=computeDirectionalLightFalloff_Physical(light{X}.vLightDirection.xyz,preInfo.L,light{X}.vLightDirection.w);
-#elif defined(LIGHT_FALLOFF_STANDARD{X})
-preInfo.attenuation=computeDistanceLightFalloff_Standard(preInfo.lightOffset,light{X}.vLightFalloff.x);preInfo.attenuation*=computeDirectionalLightFalloff_Standard(light{X}.vLightDirection.xyz,preInfo.L,light{X}.vLightDirection.w,light{X}.vLightData.w);
-#else
-preInfo.attenuation=computeDistanceLightFalloff(preInfo.lightOffset,preInfo.lightDistanceSquared,light{X}.vLightFalloff.x,light{X}.vLightFalloff.y);preInfo.attenuation*=computeDirectionalLightFalloff(light{X}.vLightDirection.xyz,preInfo.L,light{X}.vLightDirection.w,light{X}.vLightData.w,light{X}.vLightFalloff.z,light{X}.vLightFalloff.w);
-#endif
-#elif defined(POINTLIGHT{X})
-#ifdef LIGHT_FALLOFF_GLTF{X}
-preInfo.attenuation=computeDistanceLightFalloff_GLTF(preInfo.lightDistanceSquared,light{X}.vLightFalloff.y);
-#elif defined(LIGHT_FALLOFF_PHYSICAL{X})
-preInfo.attenuation=computeDistanceLightFalloff_Physical(preInfo.lightDistanceSquared);
-#elif defined(LIGHT_FALLOFF_STANDARD{X})
-preInfo.attenuation=computeDistanceLightFalloff_Standard(preInfo.lightOffset,light{X}.vLightFalloff.x);
-#else
-preInfo.attenuation=computeDistanceLightFalloff(preInfo.lightOffset,preInfo.lightDistanceSquared,light{X}.vLightFalloff.x,light{X}.vLightFalloff.y);
-#endif
-#else
-preInfo.attenuation=1.0;
-#endif
-#ifdef HEMILIGHT{X}
-preInfo.roughness=roughness;
-#else
-preInfo.roughness=adjustRoughnessFromLightProperties(roughness,light{X}.vLightSpecular.a,preInfo.lightDistance);
-#endif
-#ifdef IRIDESCENCE
-preInfo.iridescenceIntensity=iridescenceIntensity;
-#endif
-#ifdef HEMILIGHT{X}
-info.diffuse=computeHemisphericDiffuseLighting(preInfo,light{X}.vLightDiffuse.rgb,light{X}.vLightGround);
-#elif defined(SS_TRANSLUCENCY)
-info.diffuse=computeDiffuseAndTransmittedLighting(preInfo,light{X}.vLightDiffuse.rgb,subSurfaceOut.transmittance);
-#else
-info.diffuse=computeDiffuseLighting(preInfo,light{X}.vLightDiffuse.rgb);
-#endif
-#ifdef SPECULARTERM
-#ifdef ANISOTROPIC
-info.specular=computeAnisotropicSpecularLighting(preInfo,viewDirectionW,normalW,anisotropicOut.anisotropicTangent,anisotropicOut.anisotropicBitangent,anisotropicOut.anisotropy,clearcoatOut.specularEnvironmentR0,specularEnvironmentR90,AARoughnessFactors.x,light{X}.vLightDiffuse.rgb);
-#else
-info.specular=computeSpecularLighting(preInfo,normalW,clearcoatOut.specularEnvironmentR0,specularEnvironmentR90,AARoughnessFactors.x,light{X}.vLightDiffuse.rgb);
-#endif
-#endif
-#ifdef SHEEN
-#ifdef SHEEN_LINKWITHALBEDO
-preInfo.roughness=sheenOut.sheenIntensity;
-#else
-#ifdef HEMILIGHT{X}
-preInfo.roughness=sheenOut.sheenRoughness;
-#else
-preInfo.roughness=adjustRoughnessFromLightProperties(sheenOut.sheenRoughness,light{X}.vLightSpecular.a,preInfo.lightDistance);
-#endif
-#endif
-info.sheen=computeSheenLighting(preInfo,normalW,sheenOut.sheenColor,specularEnvironmentR90,AARoughnessFactors.x,light{X}.vLightDiffuse.rgb);
-#endif
-#ifdef CLEARCOAT
-#ifdef HEMILIGHT{X}
-preInfo.roughness=clearcoatOut.clearCoatRoughness;
-#else
-preInfo.roughness=adjustRoughnessFromLightProperties(clearcoatOut.clearCoatRoughness,light{X}.vLightSpecular.a,preInfo.lightDistance);
-#endif
-info.clearCoat=computeClearCoatLighting(preInfo,clearcoatOut.clearCoatNormalW,clearcoatOut.clearCoatAARoughnessFactors.x,clearcoatOut.clearCoatIntensity,light{X}.vLightDiffuse.rgb);
-#ifdef CLEARCOAT_TINT
-absorption=computeClearCoatLightingAbsorption(clearcoatOut.clearCoatNdotVRefract,preInfo.L,clearcoatOut.clearCoatNormalW,clearcoatOut.clearCoatColor,clearcoatOut.clearCoatThickness,clearcoatOut.clearCoatIntensity);info.diffuse*=absorption;
-#ifdef SPECULARTERM
-info.specular*=absorption;
-#endif
-#endif
-info.diffuse*=info.clearCoat.w;
-#ifdef SPECULARTERM
-info.specular*=info.clearCoat.w;
-#endif
-#ifdef SHEEN
-info.sheen*=info.clearCoat.w;
-#endif
-#endif
-#else
-#ifdef SPOTLIGHT{X}
-info=computeSpotLighting(viewDirectionW,normalW,light{X}.vLightData,light{X}.vLightDirection,light{X}.vLightDiffuse.rgb,light{X}.vLightSpecular.rgb,light{X}.vLightDiffuse.a,glossiness);
-#elif defined(HEMILIGHT{X})
-info=computeHemisphericLighting(viewDirectionW,normalW,light{X}.vLightData,light{X}.vLightDiffuse.rgb,light{X}.vLightSpecular.rgb,light{X}.vLightGround,glossiness);
-#elif defined(POINTLIGHT{X}) || defined(DIRLIGHT{X})
-info=computeLighting(viewDirectionW,normalW,light{X}.vLightData,light{X}.vLightDiffuse.rgb,light{X}.vLightSpecular.rgb,light{X}.vLightDiffuse.a,glossiness);
-#endif
-#endif
-#ifdef PROJECTEDLIGHTTEXTURE{X}
-info.diffuse*=computeProjectionTextureDiffuseLighting(projectionLightTexture{X},projectionLightTexture{X}Sampler,uniforms.textureProjectionMatrix{X},input.vPositionW);
-#endif
-#endif
-#ifdef SHADOW{X}
-#ifdef SHADOWCSMDEBUG{X} 
-var shadowDebug{X}: vec3f;
-#endif
-#ifdef SHADOWCSM{X}
-#ifdef SHADOWCSMUSESHADOWMAXZ{X}
-var index{X}: i32=-1;
-#else
-var index{X}: i32=SHADOWCSMNUM_CASCADES{X}-1;
-#endif
-var diff{X}: f32=0.;vPositionFromLight{X}[0]=fragmentInputs.vPositionFromLight{X}_0;vPositionFromLight{X}[1]=fragmentInputs.vPositionFromLight{X}_1;vPositionFromLight{X}[2]=fragmentInputs.vPositionFromLight{X}_2;vPositionFromLight{X}[3]=fragmentInputs.vPositionFromLight{X}_3;vDepthMetric{X}[0]=fragmentInputs.vDepthMetric{X}_0;vDepthMetric{X}[1]=fragmentInputs.vDepthMetric{X}_1;vDepthMetric{X}[2]=fragmentInputs.vDepthMetric{X}_2;vDepthMetric{X}[3]=fragmentInputs.vDepthMetric{X}_3;for (var i:i32=0; i<SHADOWCSMNUM_CASCADES{X}; i++) 
-{
-#ifdef SHADOWCSM_RIGHTHANDED{X}
-diff{X}=uniforms.viewFrustumZ{X}[i]+fragmentInputs.vPositionFromCamera{X}.z;
-#else
-diff{X}=uniforms.viewFrustumZ{X}[i]-fragmentInputs.vPositionFromCamera{X}.z;
-#endif
-if (diff{X}>=0.) {index{X}=i;break;}}
-#ifdef SHADOWCSMUSESHADOWMAXZ{X}
-if (index{X}>=0)
-#endif
-{
-#if defined(SHADOWPCF{X})
-#if defined(SHADOWLOWQUALITY{X})
-shadow=computeShadowWithCSMPCF1(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#elif defined(SHADOWMEDIUMQUALITY{X})
-shadow=computeShadowWithCSMPCF3(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.yz,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#else
-shadow=computeShadowWithCSMPCF5(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.yz,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#endif
-#elif defined(SHADOWPCSS{X})
-#if defined(SHADOWLOWQUALITY{X})
-shadow=computeShadowWithCSMPCSS16(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],depthTexture{X},depthTexture{X}Sampler,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.y,light{X}.shadowsInfo.z,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w,uniforms.lightSizeUVCorrection{X}[index{X}],uniforms.depthCorrection{X}[index{X}],uniforms.penumbraDarkness{X});
-#elif defined(SHADOWMEDIUMQUALITY{X})
-shadow=computeShadowWithCSMPCSS32(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],depthTexture{X},depthTexture{X}Sampler,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.y,light{X}.shadowsInfo.z,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w,uniforms.lightSizeUVCorrection{X}[index{X}],uniforms.depthCorrection{X}[index{X}],uniforms.penumbraDarkness{X});
-#else
-shadow=computeShadowWithCSMPCSS64(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],depthTexture{X},depthTexture{X}Sampler,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.y,light{X}.shadowsInfo.z,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w,uniforms.lightSizeUVCorrection{X}[index{X}],uniforms.depthCorrection{X}[index{X}],uniforms.penumbraDarkness{X});
-#endif
-#else
-shadow=computeShadowCSM(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#endif
-#ifdef SHADOWCSMDEBUG{X}
-shadowDebug{X}=vec3f(shadow)*vCascadeColorsMultiplier{X}[index{X}];
-#endif
-#ifndef SHADOWCSMNOBLEND{X}
-var frustumLength:f32=uniforms.frustumLengths{X}[index{X}];var diffRatio:f32=clamp(diff{X}/frustumLength,0.,1.)*uniforms.cascadeBlendFactor{X};if (index{X}<(SHADOWCSMNUM_CASCADES{X}-1) && diffRatio<1.)
-{index{X}+=1;var nextShadow: f32=0.;
-#if defined(SHADOWPCF{X})
-#if defined(SHADOWLOWQUALITY{X})
-nextShadow=computeShadowWithCSMPCF1(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],,shadowTexture{X}Sampler,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#elif defined(SHADOWMEDIUMQUALITY{X})
-nextShadow=computeShadowWithCSMPCF3(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.yz,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#else
-nextShadow=computeShadowWithCSMPCF5(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.yz,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#endif
-#elif defined(SHADOWPCSS{X})
-#if defined(SHADOWLOWQUALITY{X})
-nextShadow=computeShadowWithCSMPCSS16(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],depthTexture{X},depthTexture{X}Sampler,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.y,light{X}.shadowsInfo.z,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w,uniforms.lightSizeUVCorrection{X}[index{X}],uniforms.depthCorrection{X}[index{X}],uniforms.penumbraDarkness{X});
-#elif defined(SHADOWMEDIUMQUALITY{X})
-nextShadow=computeShadowWithCSMPCSS32(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],depthTexture{X},depthTexture{X}Sampler,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.y,light{X}.shadowsInfo.z,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w,uniforms.lightSizeUVCorrection{X}[index{X}],uniforms.depthCorrection{X}[index{X}],uniforms.penumbraDarkness{X});
-#else
-nextShadow=computeShadowWithCSMPCSS64(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],depthTexture{X},depthTexture{X}Sampler,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.y,light{X}.shadowsInfo.z,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w,uniforms.lightSizeUVCorrection{X}[index{X}],uniforms.depthCorrection{X}[index{X}],uniforms.penumbraDarkness{X});
-#endif
-#else
-nextShadow=computeShadowCSM(index{X},vPositionFromLight{X}[index{X}],vDepthMetric{X}[index{X}],shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#endif
-shadow=mix(nextShadow,shadow,diffRatio);
-#ifdef SHADOWCSMDEBUG{X}
-shadowDebug{X}=mix(vec3(nextShadow)*vCascadeColorsMultiplier{X}[index{X}],shadowDebug{X},diffRatio);
-#endif
-}
-#endif
-}
-#elif defined(SHADOWCLOSEESM{X})
-#if defined(SHADOWCUBE{X})
-shadow=computeShadowWithCloseESMCube(input.vPositionW,light{X}.vLightData.xyz,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.x,light{X}.shadowsInfo.z,light{X}.depthValues);
-#else
-shadow=computeShadowWithCloseESM(fragmentInputs.vPositionFromLight{X},fragmentInputs.vDepthMetric{X},shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.x,light{X}.shadowsInfo.z,light{X}.shadowsInfo.w);
-#endif
-#elif defined(SHADOWESM{X})
-#if defined(SHADOWCUBE{X})
-shadow=computeShadowWithESMCube(input.vPositionW,light{X}.vLightData.xyz,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.x,light{X}.shadowsInfo.z,light{X}.depthValues);
-#else
-shadow=computeShadowWithESM(fragmentInputs.vPositionFromLight{X},fragmentInputs.vDepthMetric{X},shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.x,light{X}.shadowsInfo.z,light{X}.shadowsInfo.w);
-#endif
-#elif defined(SHADOWPOISSON{X})
-#if defined(SHADOWCUBE{X})
-shadow=computeShadowWithPoissonSamplingCube(input.vPositionW,light{X}.vLightData.xyz,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.y,light{X}.shadowsInfo.x,light{X}.depthValues);
-#else
-shadow=computeShadowWithPoissonSampling(fragmentInputs.vPositionFromLight{X},fragmentInputs.vDepthMetric{X},shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.y,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#endif
-#elif defined(SHADOWPCF{X})
-#if defined(SHADOWLOWQUALITY{X})
-shadow=computeShadowWithPCF1(fragmentInputs.vPositionFromLight{X},fragmentInputs.vDepthMetric{X},shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#elif defined(SHADOWMEDIUMQUALITY{X})
-shadow=computeShadowWithPCF3(fragmentInputs.vPositionFromLight{X},fragmentInputs.vDepthMetric{X},shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.yz,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#else
-shadow=computeShadowWithPCF5(fragmentInputs.vPositionFromLight{X},fragmentInputs.vDepthMetric{X},shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.yz,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#endif
-#elif defined(SHADOWPCSS{X})
-#if defined(SHADOWLOWQUALITY{X})
-shadow=computeShadowWithPCSS16(fragmentInputs.vPositionFromLight{X},fragmentInputs.vDepthMetric{X},depthTexture{X},depthTexture{X}Sampler,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.y,light{X}.shadowsInfo.z,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#elif defined(SHADOWMEDIUMQUALITY{X})
-shadow=computeShadowWithPCSS32(fragmentInputs.vPositionFromLight{X},fragmentInputs.vDepthMetric{X},depthTexture{X},depthTexture{X}Sampler,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.y,light{X}.shadowsInfo.z,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#else
-shadow=computeShadowWithPCSS64(fragmentInputs.vPositionFromLight{X},fragmentInputs.vDepthMetric{X},depthTexture{X},depthTexture{X}Sampler,shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.y,light{X}.shadowsInfo.z,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#endif
-#else
-#if defined(SHADOWCUBE{X})
-shadow=computeShadowCube(input.vPositionW,light{X}.vLightData.xyz,shadowTexture{X}Sampler,light{X}.shadowsInfo.x,light{X}.depthValues);
-#else
-shadow=computeShadow(fragmentInputs.vPositionFromLight{X},fragmentInputs.vDepthMetric{X},shadowTexture{X},shadowTexture{X}Sampler,light{X}.shadowsInfo.x,light{X}.shadowsInfo.w);
-#endif
-#endif
-#ifdef SHADOWONLY
-#ifndef SHADOWINUSE
-#define SHADOWINUSE
-#endif
-globalShadow+=shadow;shadowLightCount+=1.0;
-#endif
-#else
-shadow=1.;
-#endif
-aggShadow+=shadow;numLights+=1.0;
-#ifndef SHADOWONLY
-#ifdef CUSTOMUSERLIGHTING
-diffuseBase+=computeCustomDiffuseLighting(info,diffuseBase,shadow);
-#ifdef SPECULARTERM
-specularBase+=computeCustomSpecularLighting(info,specularBase,shadow);
-#endif
-#elif defined(LIGHTMAP) && defined(LIGHTMAPEXCLUDED{X})
-diffuseBase+=lightmapColor.rgb*shadow;
-#ifdef SPECULARTERM
-#ifndef LIGHTMAPNOSPECULAR{X}
-specularBase+=info.specular*shadow*lightmapColor.rgb;
-#endif
-#endif
-#ifdef CLEARCOAT
-#ifndef LIGHTMAPNOSPECULAR{X}
-clearCoatBase+=info.clearCoat.rgb*shadow*lightmapColor.rgb;
-#endif
-#endif
-#ifdef SHEEN
-#ifndef LIGHTMAPNOSPECULAR{X}
-sheenBase+=info.sheen.rgb*shadow;
-#endif
-#endif
-#else
-#ifdef SHADOWCSMDEBUG{X}
-diffuseBase+=info.diffuse*shadowDebug{X};
-#else 
-diffuseBase+=info.diffuse*shadow;
-#endif
-#ifdef SPECULARTERM
-specularBase+=info.specular*shadow;
-#endif
-#ifdef CLEARCOAT
-clearCoatBase+=info.clearCoat.rgb*shadow;
-#endif
-#ifdef SHEEN
-sheenBase+=info.sheen.rgb*shadow;
-#endif
-#endif
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name95] = shader95;
-      lightFragmentWGSL = { name: name95, shader: shader95 };
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/oitFragment.js
-  var name96, shader96;
-  var init_oitFragment = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/oitFragment.js"() {
-      init_shaderStore();
-      name96 = "oitFragment";
-      shader96 = `#ifdef ORDER_INDEPENDENT_TRANSPARENCY
-var fragDepth: f32=fragmentInputs.position.z; 
-#ifdef ORDER_INDEPENDENT_TRANSPARENCY_16BITS
-var halfFloat: i32=packHalf2x16( vec2f(fragDepth));var full: vec2f=unpackHalf2x16(halfFloat);fragDepth=full.x;
-#endif
-var fragCoord: vec2i=vec2i(fragmentInputs.position.xy);var lastDepth: vec2f=textureLoad(oitDepthSampler,fragCoord,0).rg;var lastFrontColor: vec4f=textureLoad(oitFrontColorSampler,fragCoord,0);fragmentOutputs.depth=vec2f(-MAX_DEPTH);fragmentOutputs.frontColor=lastFrontColor;fragmentOutputs.backColor= vec4f(0.0);
-#ifdef USE_REVERSE_DEPTHBUFFER
-var furthestDepth: f32=-lastDepth.x;var nearestDepth: f32=lastDepth.y;
-#else
-var nearestDepth: f32=-lastDepth.x;var furthestDepth: f32=lastDepth.y;
-#endif
-var alphaMultiplier: f32=1.0-lastFrontColor.a;
-#ifdef USE_REVERSE_DEPTHBUFFER
-if (fragDepth>nearestDepth || fragDepth<furthestDepth) {
-#else
-if (fragDepth<nearestDepth || fragDepth>furthestDepth) {
-#endif
-return fragmentOutputs;}
-#ifdef USE_REVERSE_DEPTHBUFFER
-if (fragDepth<nearestDepth && fragDepth>furthestDepth) {
-#else
-if (fragDepth>nearestDepth && fragDepth<furthestDepth) {
-#endif
-fragmentOutputs.depth=vec2f(-fragDepth,fragDepth);return fragmentOutputs;}
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name96] = shader96;
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/default.fragment.js
+  // wgsl-stub:../ShadersWGSL/default.fragment.js
   var default_fragment_exports = {};
-  __export(default_fragment_exports, {
-    defaultPixelShaderWGSL: () => defaultPixelShaderWGSL
-  });
-  var name97, shader97, defaultPixelShaderWGSL;
   var init_default_fragment = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/default.fragment.js"() {
-      init_shaderStore();
-      init_defaultUboDeclaration();
-      init_prePassDeclaration();
-      init_oitDeclaration();
-      init_mainUVVaryingDeclaration();
-      init_helperFunctions2();
-      init_lightUboDeclaration();
-      init_lightsFragmentFunctions();
-      init_shadowsFragmentFunctions();
-      init_samplerFragmentDeclaration();
-      init_fresnelFunction();
-      init_reflectionFunction();
-      init_imageProcessingDeclaration();
-      init_imageProcessingFunctions();
-      init_bumpFragmentMainFunctions();
-      init_bumpFragmentFunctions();
-      init_clipPlaneFragmentDeclaration();
-      init_logDepthDeclaration();
-      init_fogFragmentDeclaration();
-      init_clipPlaneFragment();
-      init_bumpFragment();
-      init_decalFragment();
-      init_depthPrePass();
-      init_lightFragment();
-      init_logDepthFragment();
-      init_fogFragment();
-      init_oitFragment();
-      name97 = "defaultPixelShader";
-      shader97 = `#include<defaultUboDeclaration>
-#include<prePassDeclaration>[SCENE_MRT_COUNT]
-#include<oitDeclaration>
-#define CUSTOM_FRAGMENT_BEGIN
-varying vPositionW: vec3f;
-#ifdef NORMAL
-varying vNormalW: vec3f;
-#endif
-#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
-varying vColor: vec4f;
-#endif
-#include<mainUVVaryingDeclaration>[1..7]
-#include<helperFunctions>
-#include<lightUboDeclaration>[0..maxSimultaneousLights]
-#include<lightsFragmentFunctions>
-#include<shadowsFragmentFunctions>
-#include<samplerFragmentDeclaration>(_DEFINENAME_,DIFFUSE,_VARYINGNAME_,Diffuse,_SAMPLERNAME_,diffuse)
-#include<samplerFragmentDeclaration>(_DEFINENAME_,AMBIENT,_VARYINGNAME_,Ambient,_SAMPLERNAME_,ambient)
-#include<samplerFragmentDeclaration>(_DEFINENAME_,OPACITY,_VARYINGNAME_,Opacity,_SAMPLERNAME_,opacity)
-#include<samplerFragmentDeclaration>(_DEFINENAME_,EMISSIVE,_VARYINGNAME_,Emissive,_SAMPLERNAME_,emissive)
-#include<samplerFragmentDeclaration>(_DEFINENAME_,LIGHTMAP,_VARYINGNAME_,Lightmap,_SAMPLERNAME_,lightmap)
-#include<samplerFragmentDeclaration>(_DEFINENAME_,DECAL,_VARYINGNAME_,Decal,_SAMPLERNAME_,decal)
-#ifdef REFRACTION
-#ifdef REFRACTIONMAP_3D
-var refractionCubeSamplerSampler: sampler;var refractionCubeSampler: texture_cube<f32>;
-#else
-var refraction2DSamplerSampler: sampler;var refraction2DSampler: texture_2d<f32>;
-#endif
-#endif
-#if defined(SPECULARTERM)
-#include<samplerFragmentDeclaration>(_DEFINENAME_,SPECULAR,_VARYINGNAME_,Specular,_SAMPLERNAME_,specular)
-#endif
-#include<fresnelFunction>
-#ifdef REFLECTION
-#ifdef REFLECTIONMAP_3D
-var reflectionCubeSamplerSampler: sampler;var reflectionCubeSampler: texture_cube<f32>;
-#else
-var reflection2DSamplerSampler: sampler;var reflection2DSampler: texture_2d<f32>;
-#endif
-#ifdef REFLECTIONMAP_SKYBOX
-varying vPositionUVW: vec3f;
-#else
-#if defined(REFLECTIONMAP_EQUIRECTANGULAR_FIXED) || defined(REFLECTIONMAP_MIRROREDEQUIRECTANGULAR_FIXED)
-varying vDirectionW: vec3f;
-#endif
-#endif
-#include<reflectionFunction>
-#endif
-#include<imageProcessingDeclaration>
-#include<imageProcessingFunctions>
-#include<bumpFragmentMainFunctions>
-#include<bumpFragmentFunctions>
-#include<clipPlaneFragmentDeclaration>
-#include<logDepthDeclaration>
-#include<fogFragmentDeclaration>
-#define CUSTOM_FRAGMENT_DEFINITIONS
-@fragment
-fn main(input: FragmentInputs)->FragmentOutputs {
-#define CUSTOM_FRAGMENT_MAIN_BEGIN
-#include<clipPlaneFragment>
-var viewDirectionW: vec3f=normalize(scene.vEyePosition.xyz-fragmentInputs.vPositionW);var baseColor: vec4f= vec4f(1.,1.,1.,1.);var diffuseColor: vec3f=uniforms.vDiffuseColor.rgb;var alpha: f32=uniforms.vDiffuseColor.a;
-#ifdef NORMAL
-var normalW: vec3f=normalize(fragmentInputs.vNormalW);
-#else
-var normalW: vec3f=normalize(-cross(dpdx(fragmentInputs.vPositionW),dpdy(fragmentInputs.vPositionW)));
-#endif
-#include<bumpFragment>
-#ifdef TWOSIDEDLIGHTING
-normalW=select(-normalW,normalW,fragmentInputs.frontFacing);
-#endif
-#ifdef DIFFUSE
-baseColor=textureSample(diffuseSampler,diffuseSamplerSampler,fragmentInputs.vDiffuseUV+uvOffset);
-#if defined(ALPHATEST) && !defined(ALPHATEST_AFTERALLALPHACOMPUTATIONS)
-if (baseColor.a<uniforms.alphaCutOff) {discard;}
-#endif
-#ifdef ALPHAFROMDIFFUSE
-alpha*=baseColor.a;
-#endif
-#define CUSTOM_FRAGMENT_UPDATE_ALPHA
-baseColor=vec4f(baseColor.rgb*uniforms.vDiffuseInfos.y,baseColor.a);
-#endif
-#if defined(DECAL) && !defined(DECAL_AFTER_DETAIL)
-var decalColor: vec4f=textureSample(decalSampler,decalSamplerSampler,fragmentInputs.vDecalUV+uvOffset);
-#include<decalFragment>(surfaceAlbedo,baseColor,GAMMADECAL,_GAMMADECAL_NOTUSED_)
-#endif
-#include<depthPrePass>
-#if defined(VERTEXCOLOR) || defined(INSTANCESCOLOR) && defined(INSTANCES)
-baseColor=vec4f(baseColor.rgb*fragmentInputs.vColor.rgb,baseColor.a);
-#endif
-#ifdef DETAIL
-baseColor=vec4f(baseColor.rgb*2.0*mix(0.5,detailColor.r,uniforms.vDetailInfos.y),baseColor.a);
-#endif
-#if defined(DECAL) && defined(DECAL_AFTER_DETAIL)
-var decalColor: vec4f=textureSample(decalSampler,decalSamplerSampler,fragmentInputs.vDecalUV+uvOffset);
-#include<decalFragment>(surfaceAlbedo,baseColor,GAMMADECAL,_GAMMADECAL_NOTUSED_)
-#endif
-#define CUSTOM_FRAGMENT_UPDATE_DIFFUSE
-var baseAmbientColor: vec3f= vec3f(1.,1.,1.);
-#ifdef AMBIENT
-baseAmbientColor=textureSample(ambientSampler,ambientSamplerSampler,fragmentInputs.vAmbientUV+uvOffset).rgb*uniforms.vAmbientInfos.y;
-#endif
-#define CUSTOM_FRAGMENT_BEFORE_LIGHTS
-#ifdef SPECULARTERM
-var glossiness: f32=uniforms.vSpecularColor.a;var specularColor: vec3f=uniforms.vSpecularColor.rgb;
-#ifdef SPECULAR
-var specularMapColor: vec4f=textureSample(specularSampler,specularSamplerSampler,fragmentInputs.vSpecularUV+uvOffset);specularColor=specularMapColor.rgb;
-#ifdef GLOSSINESS
-glossiness=glossiness*specularMapColor.a;
-#endif
-#endif
-#else
-var glossiness: f32=0.;
-#endif
-var diffuseBase: vec3f= vec3f(0.,0.,0.);var info: lightingInfo;
-#ifdef SPECULARTERM
-var specularBase: vec3f= vec3f(0.,0.,0.);
-#endif
-var shadow: f32=1.;var aggShadow: f32=0.;var numLights: f32=0.;
-#ifdef LIGHTMAP
-var lightmapColor: vec4f=textureSample(lightmapSampler,lightmapSamplerSampler,fragmentInputs.vLightmapUV+uvOffset);
-#ifdef RGBDLIGHTMAP
-lightmapColor=vec4f(fromRGBD(lightmapColor),lightmapColor.a);
-#endif
-lightmapColor=vec4f(lightmapColor.rgb*vLightmapInfos.y,lightmapColor.a);
-#endif
-#include<lightFragment>[0..maxSimultaneousLights]
-aggShadow=aggShadow/numLights;var refractionColor: vec4f= vec4f(0.,0.,0.,1.);
-#ifdef REFRACTION
-var refractionVector: vec3f=normalize(refract(-viewDirectionW,normalW,uniforms.vRefractionInfos.y));
-#ifdef REFRACTIONMAP_3D
-#ifdef USE_LOCAL_REFRACTIONMAP_CUBIC
-refractionVector=parallaxCorrectNormal(fragmentInputs.vPositionW,refractionVector,uniforms.vRefractionSize,uniforms.vRefractionPosition);
-#endif
-refractionVector.y=refractionVector.y*uniforms.vRefractionInfos.w;var refractionLookup: vec4f=textureSample(refractionCubeSampler,refractionCubeSamplerSampler,refractionVector);if (dot(refractionVector,viewDirectionW)<1.0) {refractionColor=refractionLookup;}
-#else
-var vRefractionUVW: vec3f= (uniforms.refractionMatrix*(scene.view* vec4f(fragmentInputs.vPositionW+refractionVector*uniforms.vRefractionInfos.z,1.0))).xyz;var refractionCoords: vec2f=vRefractionUVW.xy/vRefractionUVW.z;refractionCoords.y=1.0-refractionCoords.y;refractionColor=textureSample(refraction2DSampler,refraction2DSamplerSampler,refractionCoords);
-#endif
-#ifdef RGBDREFRACTION
-refractionColor=vec4f(fromRGBD(refractionColor),refractionColor.a);
-#endif
-#ifdef IS_REFRACTION_LINEAR
-refractionColor=vec4f(toGammaSpaceVec3(refractionColor.rgb),refractionColor.a);
-#endif
-refractionColor=vec4f(refractionColor.rgb*uniforms.vRefractionInfos.x,refractionColor.a);
-#endif
-var reflectionColor: vec4f= vec4f(0.,0.,0.,1.);
-#ifdef REFLECTION
-var vReflectionUVW: vec3f=computeReflectionCoords( vec4f(fragmentInputs.vPositionW,1.0),normalW);
-#ifdef REFLECTIONMAP_OPPOSITEZ
-vReflectionUVW=vec3f(vReflectionUVW.x,vReflectionUVW.y,vReflectionUVW.z*-1.0);
-#endif
-#ifdef REFLECTIONMAP_3D
-#ifdef ROUGHNESS
-var bias: f32=uniforms.vReflectionInfos.y;
-#ifdef SPECULARTERM
-#ifdef SPECULAR
-#ifdef GLOSSINESS
-bias*=(1.0-specularMapColor.a);
-#endif
-#endif
-#endif
-reflectionColor=textureSample(reflectionCubeSampler,reflectionCubeSamplerSampler,vReflectionUVW,bias);
-#else
-reflectionColor=textureSample(reflectionCubeSampler,reflectionCubeSamplerSampler,vReflectionUVW);
-#endif
-#else
-var coords: vec2f=vReflectionUVW.xy;
-#ifdef REFLECTIONMAP_PROJECTION
-coords/=vReflectionUVW.z;
-#endif
-coords.y=1.0-coords.y;reflectionColor=textureSample(reflection2DSampler,reflection2DSamplerSampler,coords);
-#endif
-#ifdef RGBDREFLECTION
-reflectionColor=vec4f(fromRGBD(reflectionColor),reflectionColor.a);
-#endif
-#ifdef IS_REFLECTION_LINEAR
-reflectionColor=vec4f(toGammaSpaceVec3(reflectionColor.rgb),reflectionColor.a);
-#endif
-reflectionColor=vec4f(reflectionColor.rgb*uniforms.vReflectionInfos.x,reflectionColor.a);
-#ifdef REFLECTIONFRESNEL
-var reflectionFresnelTerm: f32=computeFresnelTerm(viewDirectionW,normalW,uniforms.reflectionRightColor.a,uniforms.reflectionLeftColor.a);
-#ifdef REFLECTIONFRESNELFROMSPECULAR
-#ifdef SPECULARTERM
-reflectionColor=vec4f(reflectionColor.rgb*specularColor.rgb*(1.0-reflectionFresnelTerm)+reflectionFresnelTerm*uniforms.reflectionRightColor.rgb,reflectionColor.a);
-#else
-reflectionColor=vec4f(reflectionColor.rgb*uniforms.reflectionLeftColor.rgb*(1.0-reflectionFresnelTerm)+reflectionFresnelTerm*uniforms.reflectionRightColor.rgb,reflectionColor.a);
-#endif
-#else
-reflectionColor=vec4f(reflectionColor.rgb*uniforms.reflectionLeftColor.rgb*(1.0-reflectionFresnelTerm)+reflectionFresnelTerm*uniforms.reflectionRightColor.rgb,reflectionColor.a);
-#endif
-#endif
-#endif
-#ifdef REFRACTIONFRESNEL
-var refractionFresnelTerm: f32=computeFresnelTerm(viewDirectionW,normalW,uniforms.refractionRightColor.a,uniforms.refractionLeftColor.a);refractionColor=vec4f(refractionColor.rgb*uniforms.refractionLeftColor.rgb*(1.0-refractionFresnelTerm)+refractionFresnelTerm*uniforms.refractionRightColor.rgb,refractionColor.a);
-#endif
-#ifdef OPACITY
-var opacityMap: vec4f=textureSample(opacitySampler,opacitySamplerSampler,fragmentInputs.vOpacityUV+uvOffset);
-#ifdef OPACITYRGB
-opacityMap=vec4f(opacityMap.rgb* vec3f(0.3,0.59,0.11),opacityMap.a);alpha*=(opacityMap.x+opacityMap.y+opacityMap.z)* uniforms.vOpacityInfos.y;
-#else
-alpha*=opacityMap.a*uniforms.vOpacityInfos.y;
-#endif
-#endif
-#if defined(VERTEXALPHA) || defined(INSTANCESCOLOR) && defined(INSTANCES)
-alpha*=fragmentInputs.vColor.a;
-#endif
-#ifdef OPACITYFRESNEL
-var opacityFresnelTerm: f32=computeFresnelTerm(viewDirectionW,normalW,uniforms.opacityParts.z,uniforms.opacityParts.w);alpha+=uniforms.opacityParts.x*(1.0-opacityFresnelTerm)+opacityFresnelTerm*uniforms.opacityParts.y;
-#endif
-#ifdef ALPHATEST
-#ifdef ALPHATEST_AFTERALLALPHACOMPUTATIONS
-if (alpha<uniforms.alphaCutOff) {discard;}
-#endif
-#ifndef ALPHABLEND
-alpha=1.0;
-#endif
-#endif
-var emissiveColor: vec3f=uniforms.vEmissiveColor;
-#ifdef EMISSIVE
-emissiveColor+=textureSample(emissiveSampler,emissiveSamplerSampler,fragmentInputs.vEmissiveUV+uvOffset).rgb*uniforms.vEmissiveInfos.y;
-#endif
-#ifdef EMISSIVEFRESNEL
-var emissiveFresnelTerm: f32=computeFresnelTerm(viewDirectionW,normalW,uniforms.emissiveRightColor.a,uniforms.emissiveLeftColor.a);emissiveColor*=uniforms.emissiveLeftColor.rgb*(1.0-emissiveFresnelTerm)+emissiveFresnelTerm*uniforms.emissiveRightColor.rgb;
-#endif
-#ifdef DIFFUSEFRESNEL
-var diffuseFresnelTerm: f32=computeFresnelTerm(viewDirectionW,normalW,uniforms.diffuseRightColor.a,uniforms.diffuseLeftColor.a);diffuseBase*=uniforms.diffuseLeftColor.rgb*(1.0-diffuseFresnelTerm)+diffuseFresnelTerm*uniforms.diffuseRightColor.rgb;
-#endif
-#ifdef EMISSIVEASILLUMINATION
-var finalDiffuse: vec3f=clamp(diffuseBase*diffuseColor+uniforms.vAmbientColor,vec3f(0.0),vec3f(1.0))*baseColor.rgb;
-#else
-#ifdef LINKEMISSIVEWITHDIFFUSE
-var finalDiffuse: vec3f=clamp((diffuseBase+emissiveColor)*diffuseColor+uniforms.vAmbientColor,vec3f(0.0),vec3f(1.0))*baseColor.rgb;
-#else
-var finalDiffuse: vec3f=clamp(diffuseBase*diffuseColor+emissiveColor+uniforms.vAmbientColor,vec3f(0.0),vec3f(1.0))*baseColor.rgb;
-#endif
-#endif
-#ifdef SPECULARTERM
-var finalSpecular: vec3f=specularBase*specularColor;
-#ifdef SPECULAROVERALPHA
-alpha=clamp(alpha+dot(finalSpecular, vec3f(0.3,0.59,0.11)),0.0,1.0);
-#endif
-#else
-var finalSpecular: vec3f= vec3f(0.0);
-#endif
-#ifdef REFLECTIONOVERALPHA
-alpha=clamp(alpha+dot(reflectionColor.rgb, vec3f(0.3,0.59,0.11)),0.0,1.0);
-#endif
-#ifdef EMISSIVEASILLUMINATION
-var color: vec4f= vec4f(clamp(finalDiffuse*baseAmbientColor+finalSpecular+reflectionColor.rgb+emissiveColor+refractionColor.rgb,0.0,1.0),alpha);
-#else
-var color: vec4f= vec4f(finalDiffuse*baseAmbientColor+finalSpecular+reflectionColor.rgb+refractionColor.rgb,alpha);
-#endif
-#ifdef LIGHTMAP
-#ifndef LIGHTMAPEXCLUDED
-#ifdef USELIGHTMAPASSHADOWMAP
-color=vec4f(color.rgb*lightmapColor.rgb,color.a);
-#else
-color=vec4f(color.rgb+lightmapColor.rgb,color.a);
-#endif
-#endif
-#endif
-#define CUSTOM_FRAGMENT_BEFORE_FOG
-color=vec4f(max(color.rgb,vec3f(0.)),color.a);
-#include<logDepthFragment>
-#include<fogFragment>
-#ifdef IMAGEPROCESSINGPOSTPROCESS
-color=vec4f(toLinearSpaceVec3(color.rgb),color.a);
-#else
-#ifdef IMAGEPROCESSING
-color=vec4f(toLinearSpaceVec3(color.rgb),color.a);color=applyImageProcessing(color);
-#endif
-#endif
-color=vec4f(color.rgb,color.a*mesh.visibility);
-#ifdef PREMULTIPLYALPHA
-color=vec4f(color.rgb*color.a, color.a);
-#endif
-#define CUSTOM_FRAGMENT_BEFORE_FRAGCOLOR
-#ifdef PREPASS
-var writeGeometryInfo: f32=select(0.0,1.0,color.a>0.4);var fragData: array<vec4<f32>,SCENE_MRT_COUNT>;fragData[0]=color; 
-#ifdef PREPASS_POSITION
-fragData[PREPASS_POSITION_INDEX]= vec4f(fragmentInputs.vPositionW,writeGeometryInfo);
-#endif
-#ifdef PREPASS_VELOCITY
-var a: vec2f=(fragmentInputs.vCurrentPosition.xy/fragmentInputs.vCurrentPosition.w)*0.5+0.5;var b: vec2f=(fragmentInputs.vPreviousPosition.xy/fragmentInputs.vPreviousPosition.w)*0.5+0.5;var velocity: vec2f=abs(a-b);velocity= vec2f(pow(velocity.x,1.0/3.0),pow(velocity.y,1.0/3.0))*sign(a-b)*0.5+0.5;fragData[PREPASS_VELOCITY_INDEX]= vec4f(velocity,0.0,writeGeometryInfo);
-#endif
-#ifdef PREPASS_IRRADIANCE
-fragData[PREPASS_IRRADIANCE_INDEX]= vec4f(0.0,0.0,0.0,writeGeometryInfo); 
-#endif
-#ifdef PREPASS_DEPTH
-fragData[PREPASS_DEPTH_INDEX]= vec4f(fragmentInputs.vViewPos.z,0.0,0.0,writeGeometryInfo); 
-#endif
-#ifdef PREPASS_NORMAL
-#ifdef PREPASS_NORMAL_WORLDSPACE
-fragData[PREPASS_NORMAL_INDEX]= vec4f(normalW,writeGeometryInfo); 
-#else
-fragData[PREPASS_NORMAL_INDEX]= vec4f(normalize((scene.view* vec4f(normalW,0.0)).rgb),writeGeometryInfo); 
-#endif
-#endif
-#ifdef PREPASS_ALBEDO_SQRT
-fragData[PREPASS_ALBEDO_SQRT_INDEX]= vec4f(0.0,0.0,0.0,writeGeometryInfo); 
-#endif
-#ifdef PREPASS_REFLECTIVITY
-#if defined(SPECULARTERM)
-#if defined(SPECULAR)
-fragData[PREPASS_REFLECTIVITY_INDEX]= vec4f(toLinearSpaceVec4(specularMapColor))*writeGeometryInfo; 
-#else
-fragData[PREPASS_REFLECTIVITY_INDEX]= vec4f(toLinearSpaceVec3(specularColor),1.0)*writeGeometryInfo;
-#endif
-#else
-fragData[PREPASS_REFLECTIVITY_INDEX]= vec4f(0.0,0.0,0.0,1.0)*writeGeometryInfo;
-#endif
-#endif
-#if SCENE_MRT_COUNT>0
-fragmentOutputs.fragData0= fragData[0];
-#endif
-#if SCENE_MRT_COUNT>1
-fragmentOutputs.fragData1= fragData[1];
-#endif
-#if SCENE_MRT_COUNT>2
-fragmentOutputs.fragData2= fragData[2];
-#endif
-#if SCENE_MRT_COUNT>3
-fragmentOutputs.fragData3= fragData[3];
-#endif
-#if SCENE_MRT_COUNT>4
-fragmentOutputs.fragData4= fragData[4];
-#endif
-#if SCENE_MRT_COUNT>5
-fragmentOutputs.fragData5= fragData[5];
-#endif
-#if SCENE_MRT_COUNT>6
-fragmentOutputs.fragData6= fragData[6];
-#endif
-#if SCENE_MRT_COUNT>7
-fragmentOutputs.fragData7= fragData[7];
-#endif
-#endif
-#if !defined(PREPASS) && !defined(ORDER_INDEPENDENT_TRANSPARENCY)
-fragmentOutputs.color=color;
-#endif
-#include<oitFragment>
-#if ORDER_INDEPENDENT_TRANSPARENCY
-if (fragDepth==nearestDepth) {fragmentOutputs.frontColor=vec4f(fragmentOutputs.frontColor.rgb+color.rgb*color.a*alphaMultiplier,1.0-alphaMultiplier*(1.0-color.a));} else {fragmentOutputs.backColor+=color;}
-#endif
-#define CUSTOM_FRAGMENT_MAIN_END
-}
-`;
-      ShaderStore.ShadersStoreWGSL[name97] = shader97;
-      defaultPixelShaderWGSL = { name: name97, shader: shader97 };
+    "wgsl-stub:../ShadersWGSL/default.fragment.js"() {
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/decalVertexDeclaration.js
-  var name98, shader98;
+  var name34, shader34;
   var init_decalVertexDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/decalVertexDeclaration.js"() {
       init_shaderStore();
-      name98 = "decalVertexDeclaration";
-      shader98 = `#ifdef DECAL
+      name34 = "decalVertexDeclaration";
+      shader34 = `#ifdef DECAL
 uniform vec4 vDecalInfos;uniform mat4 decalMatrix;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name98] = shader98;
+      ShaderStore.IncludesShadersStore[name34] = shader34;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/defaultVertexDeclaration.js
-  var name99, shader99;
+  var name35, shader35;
   var init_defaultVertexDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/defaultVertexDeclaration.js"() {
       init_shaderStore();
       init_decalVertexDeclaration();
-      name99 = "defaultVertexDeclaration";
-      shader99 = `uniform mat4 viewProjection;uniform mat4 view;
+      name35 = "defaultVertexDeclaration";
+      shader35 = `uniform mat4 viewProjection;uniform mat4 view;
 #ifdef DIFFUSE
 uniform mat4 diffuseMatrix;uniform vec2 vDiffuseInfos;
 #endif
@@ -4044,33 +1008,33 @@ uniform vec4 vDetailInfos;uniform mat4 detailMatrix;
 #include<decalVertexDeclaration>
 #define ADDITIONAL_VERTEX_DECLARATION
 `;
-      ShaderStore.IncludesShadersStore[name99] = shader99;
+      ShaderStore.IncludesShadersStore[name35] = shader35;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/sceneUboDeclaration.js
-  var name100, shader100;
-  var init_sceneUboDeclaration2 = __esm({
+  var name36, shader36;
+  var init_sceneUboDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/sceneUboDeclaration.js"() {
       init_shaderStore();
-      name100 = "sceneUboDeclaration";
-      shader100 = `layout(std140,column_major) uniform;uniform Scene {mat4 viewProjection;
+      name36 = "sceneUboDeclaration";
+      shader36 = `layout(std140,column_major) uniform;uniform Scene {mat4 viewProjection;
 #ifdef MULTIVIEW
 mat4 viewProjectionR;
 #endif 
 mat4 view;mat4 projection;vec4 vEyePosition;};
 `;
-      ShaderStore.IncludesShadersStore[name100] = shader100;
+      ShaderStore.IncludesShadersStore[name36] = shader36;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/meshUboDeclaration.js
-  var name101, shader101;
-  var init_meshUboDeclaration2 = __esm({
+  var name37, shader37;
+  var init_meshUboDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/meshUboDeclaration.js"() {
       init_shaderStore();
-      name101 = "meshUboDeclaration";
-      shader101 = `#ifdef WEBGL2
+      name37 = "meshUboDeclaration";
+      shader37 = `#ifdef WEBGL2
 uniform mat4 world;uniform float visibility;
 #else
 layout(std140,column_major) uniform;uniform Mesh
@@ -4078,50 +1042,50 @@ layout(std140,column_major) uniform;uniform Mesh
 #endif
 #define WORLD_UBO
 `;
-      ShaderStore.IncludesShadersStore[name101] = shader101;
+      ShaderStore.IncludesShadersStore[name37] = shader37;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/defaultUboDeclaration.js
-  var name102, shader102;
-  var init_defaultUboDeclaration2 = __esm({
+  var name38, shader38;
+  var init_defaultUboDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/defaultUboDeclaration.js"() {
       init_shaderStore();
-      init_sceneUboDeclaration2();
-      init_meshUboDeclaration2();
-      name102 = "defaultUboDeclaration";
-      shader102 = `layout(std140,column_major) uniform;uniform Material
+      init_sceneUboDeclaration();
+      init_meshUboDeclaration();
+      name38 = "defaultUboDeclaration";
+      shader38 = `layout(std140,column_major) uniform;uniform Material
 {vec4 diffuseLeftColor;vec4 diffuseRightColor;vec4 opacityParts;vec4 reflectionLeftColor;vec4 reflectionRightColor;vec4 refractionLeftColor;vec4 refractionRightColor;vec4 emissiveLeftColor;vec4 emissiveRightColor;vec2 vDiffuseInfos;vec2 vAmbientInfos;vec2 vOpacityInfos;vec2 vReflectionInfos;vec3 vReflectionPosition;vec3 vReflectionSize;vec2 vEmissiveInfos;vec2 vLightmapInfos;vec2 vSpecularInfos;vec3 vBumpInfos;mat4 diffuseMatrix;mat4 ambientMatrix;mat4 opacityMatrix;mat4 reflectionMatrix;mat4 emissiveMatrix;mat4 lightmapMatrix;mat4 specularMatrix;mat4 bumpMatrix;vec2 vTangentSpaceParams;float pointSize;float alphaCutOff;mat4 refractionMatrix;vec4 vRefractionInfos;vec3 vRefractionPosition;vec3 vRefractionSize;vec4 vSpecularColor;vec3 vEmissiveColor;vec4 vDiffuseColor;vec3 vAmbientColor;
 #define ADDITIONAL_UBO_DECLARATION
 };
 #include<sceneUboDeclaration>
 #include<meshUboDeclaration>
 `;
-      ShaderStore.IncludesShadersStore[name102] = shader102;
+      ShaderStore.IncludesShadersStore[name38] = shader38;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/uvAttributeDeclaration.js
-  var name103, shader103;
-  var init_uvAttributeDeclaration2 = __esm({
+  var name39, shader39;
+  var init_uvAttributeDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/uvAttributeDeclaration.js"() {
       init_shaderStore();
-      name103 = "uvAttributeDeclaration";
-      shader103 = `#ifdef UV{X}
+      name39 = "uvAttributeDeclaration";
+      shader39 = `#ifdef UV{X}
 attribute vec2 uv{X};
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name103] = shader103;
+      ShaderStore.IncludesShadersStore[name39] = shader39;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/prePassVertexDeclaration.js
-  var name104, shader104;
-  var init_prePassVertexDeclaration2 = __esm({
+  var name40, shader40;
+  var init_prePassVertexDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/prePassVertexDeclaration.js"() {
       init_shaderStore();
-      name104 = "prePassVertexDeclaration";
-      shader104 = `#ifdef PREPASS
+      name40 = "prePassVertexDeclaration";
+      shader40 = `#ifdef PREPASS
 #ifdef PREPASS_DEPTH
 varying vec3 vViewPos;
 #endif
@@ -4130,51 +1094,51 @@ uniform mat4 previousViewProjection;varying vec4 vCurrentPosition;varying vec4 v
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name104] = shader104;
+      ShaderStore.IncludesShadersStore[name40] = shader40;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/mainUVVaryingDeclaration.js
-  var name105, shader105;
-  var init_mainUVVaryingDeclaration2 = __esm({
+  var name41, shader41;
+  var init_mainUVVaryingDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/mainUVVaryingDeclaration.js"() {
       init_shaderStore();
-      name105 = "mainUVVaryingDeclaration";
-      shader105 = `#ifdef MAINUV{X}
+      name41 = "mainUVVaryingDeclaration";
+      shader41 = `#ifdef MAINUV{X}
 varying vec2 vMainUV{X};
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name105] = shader105;
+      ShaderStore.IncludesShadersStore[name41] = shader41;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/samplerVertexDeclaration.js
-  var name106, shader106;
-  var init_samplerVertexDeclaration2 = __esm({
+  var name42, shader42;
+  var init_samplerVertexDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/samplerVertexDeclaration.js"() {
       init_shaderStore();
-      name106 = "samplerVertexDeclaration";
-      shader106 = `#if defined(_DEFINENAME_) && _DEFINENAME_DIRECTUV==0
+      name42 = "samplerVertexDeclaration";
+      shader42 = `#if defined(_DEFINENAME_) && _DEFINENAME_DIRECTUV==0
 varying vec2 v_VARYINGNAME_UV;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name106] = shader106;
+      ShaderStore.IncludesShadersStore[name42] = shader42;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/bumpVertexDeclaration.js
-  var name107, shader107;
-  var init_bumpVertexDeclaration2 = __esm({
+  var name43, shader43;
+  var init_bumpVertexDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/bumpVertexDeclaration.js"() {
       init_shaderStore();
-      name107 = "bumpVertexDeclaration";
-      shader107 = `#if defined(BUMP) || defined(PARALLAX) || defined(CLEARCOAT_BUMP) || defined(ANISOTROPIC)
+      name43 = "bumpVertexDeclaration";
+      shader43 = `#if defined(BUMP) || defined(PARALLAX) || defined(CLEARCOAT_BUMP) || defined(ANISOTROPIC)
 #if defined(TANGENT) && defined(NORMAL) 
 varying mat3 vTBN;
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name107] = shader107;
+      ShaderStore.IncludesShadersStore[name43] = shader43;
     }
   });
 
@@ -4183,12 +1147,12 @@ varying mat3 vTBN;
   __export(lightVxFragmentDeclaration_exports, {
     lightVxFragmentDeclaration: () => lightVxFragmentDeclaration
   });
-  var name108, shader108, lightVxFragmentDeclaration;
-  var init_lightVxFragmentDeclaration2 = __esm({
+  var name44, shader44, lightVxFragmentDeclaration;
+  var init_lightVxFragmentDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/lightVxFragmentDeclaration.js"() {
       init_shaderStore();
-      name108 = "lightVxFragmentDeclaration";
-      shader108 = `#ifdef LIGHT{X}
+      name44 = "lightVxFragmentDeclaration";
+      shader44 = `#ifdef LIGHT{X}
 uniform vec4 vLightData{X};uniform vec4 vLightDiffuse{X};
 #ifdef SPECULARTERM
 uniform vec4 vLightSpecular{X};
@@ -4213,22 +1177,22 @@ uniform vec3 vLightGround{X};
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name108] = shader108;
-      lightVxFragmentDeclaration = { name: name108, shader: shader108 };
+      ShaderStore.IncludesShadersStore[name44] = shader44;
+      lightVxFragmentDeclaration = { name: name44, shader: shader44 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/lightVxUboDeclaration.js
-  var lightVxUboDeclaration_exports2 = {};
-  __export(lightVxUboDeclaration_exports2, {
+  var lightVxUboDeclaration_exports = {};
+  __export(lightVxUboDeclaration_exports, {
     lightVxUboDeclaration: () => lightVxUboDeclaration
   });
-  var name109, shader109, lightVxUboDeclaration;
-  var init_lightVxUboDeclaration2 = __esm({
+  var name45, shader45, lightVxUboDeclaration;
+  var init_lightVxUboDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/lightVxUboDeclaration.js"() {
       init_shaderStore();
-      name109 = "lightVxUboDeclaration";
-      shader109 = `#ifdef LIGHT{X}
+      name45 = "lightVxUboDeclaration";
+      shader45 = `#ifdef LIGHT{X}
 uniform Light{X}
 {vec4 vLightData;vec4 vLightDiffuse;vec4 vLightSpecular;
 #ifdef SPOTLIGHT{X}
@@ -4249,18 +1213,18 @@ varying vec4 vPositionFromLight{X};varying float vDepthMetric{X};uniform mat4 li
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name109] = shader109;
-      lightVxUboDeclaration = { name: name109, shader: shader109 };
+      ShaderStore.IncludesShadersStore[name45] = shader45;
+      lightVxUboDeclaration = { name: name45, shader: shader45 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/morphTargetsVertexGlobalDeclaration.js
-  var name110, shader110;
-  var init_morphTargetsVertexGlobalDeclaration2 = __esm({
+  var name46, shader46;
+  var init_morphTargetsVertexGlobalDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/morphTargetsVertexGlobalDeclaration.js"() {
       init_shaderStore();
-      name110 = "morphTargetsVertexGlobalDeclaration";
-      shader110 = `#ifdef MORPHTARGETS
+      name46 = "morphTargetsVertexGlobalDeclaration";
+      shader46 = `#ifdef MORPHTARGETS
 uniform float morphTargetInfluences[NUM_MORPH_INFLUENCERS];
 #ifdef MORPHTARGETS_TEXTURE 
 uniform float morphTargetTextureIndices[NUM_MORPH_INFLUENCERS];uniform vec3 morphTargetTextureInfo;uniform highp sampler2DArray morphTargets;vec3 readVector3FromRawSampler(int targetIndex,float vertexIndex)
@@ -4269,17 +1233,17 @@ float y=floor(vertexIndex/morphTargetTextureInfo.y);float x=vertexIndex-y*morphT
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name110] = shader110;
+      ShaderStore.IncludesShadersStore[name46] = shader46;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/morphTargetsVertexDeclaration.js
-  var name111, shader111;
-  var init_morphTargetsVertexDeclaration2 = __esm({
+  var name47, shader47;
+  var init_morphTargetsVertexDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/morphTargetsVertexDeclaration.js"() {
       init_shaderStore();
-      name111 = "morphTargetsVertexDeclaration";
-      shader111 = `#ifdef MORPHTARGETS
+      name47 = "morphTargetsVertexDeclaration";
+      shader47 = `#ifdef MORPHTARGETS
 #ifndef MORPHTARGETS_TEXTURE
 attribute vec3 position{X};
 #ifdef MORPHTARGETS_NORMAL
@@ -4296,33 +1260,33 @@ uniform int morphTargetCount;
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name111] = shader111;
+      ShaderStore.IncludesShadersStore[name47] = shader47;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/morphTargetsVertexGlobal.js
-  var name112, shader112;
-  var init_morphTargetsVertexGlobal2 = __esm({
+  var name48, shader48;
+  var init_morphTargetsVertexGlobal = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/morphTargetsVertexGlobal.js"() {
       init_shaderStore();
-      name112 = "morphTargetsVertexGlobal";
-      shader112 = `#ifdef MORPHTARGETS
+      name48 = "morphTargetsVertexGlobal";
+      shader48 = `#ifdef MORPHTARGETS
 #ifdef MORPHTARGETS_TEXTURE
 float vertexID;
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name112] = shader112;
+      ShaderStore.IncludesShadersStore[name48] = shader48;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/morphTargetsVertex.js
-  var name113, shader113;
-  var init_morphTargetsVertex2 = __esm({
+  var name49, shader49;
+  var init_morphTargetsVertex = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/morphTargetsVertex.js"() {
       init_shaderStore();
-      name113 = "morphTargetsVertex";
-      shader113 = `#ifdef MORPHTARGETS
+      name49 = "morphTargetsVertex";
+      shader49 = `#ifdef MORPHTARGETS
 #ifdef MORPHTARGETS_TEXTURE
 #if {X}==0
 for (int i=0; i<NUM_MORPH_INFLUENCERS; i++) {if (i>=morphTargetCount) break;vertexID=float(gl_VertexID)*morphTargetTextureInfo.x;positionUpdated+=(readVector3FromRawSampler(i,vertexID)-position)*morphTargetInfluences[i];vertexID+=1.0;
@@ -4351,17 +1315,17 @@ uvUpdated+=(uv_{X}-uv)*morphTargetInfluences[{X}];
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name113] = shader113;
+      ShaderStore.IncludesShadersStore[name49] = shader49;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/prePassVertex.js
-  var name114, shader114;
-  var init_prePassVertex2 = __esm({
+  var name50, shader50;
+  var init_prePassVertex = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/prePassVertex.js"() {
       init_shaderStore();
-      name114 = "prePassVertex";
-      shader114 = `#ifdef PREPASS_DEPTH
+      name50 = "prePassVertex";
+      shader50 = `#ifdef PREPASS_DEPTH
 vViewPos=(view*worldPos).rgb;
 #endif
 #if defined(PREPASS_VELOCITY) && defined(BONES_VELOCITY_ENABLED)
@@ -4395,34 +1359,34 @@ vPreviousPosition=previousViewProjection*finalPreviousWorld*vec4(positionUpdated
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name114] = shader114;
+      ShaderStore.IncludesShadersStore[name50] = shader50;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/uvVariableDeclaration.js
-  var name115, shader115;
-  var init_uvVariableDeclaration2 = __esm({
+  var name51, shader51;
+  var init_uvVariableDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/uvVariableDeclaration.js"() {
       init_shaderStore();
-      name115 = "uvVariableDeclaration";
-      shader115 = `#if !defined(UV{X}) && defined(MAINUV{X})
+      name51 = "uvVariableDeclaration";
+      shader51 = `#if !defined(UV{X}) && defined(MAINUV{X})
 vec2 uv{X}=vec2(0.,0.);
 #endif
 #ifdef MAINUV{X}
 vMainUV{X}=uv{X};
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name115] = shader115;
+      ShaderStore.IncludesShadersStore[name51] = shader51;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/samplerVertexImplementation.js
-  var name116, shader116;
-  var init_samplerVertexImplementation2 = __esm({
+  var name52, shader52;
+  var init_samplerVertexImplementation = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/samplerVertexImplementation.js"() {
       init_shaderStore();
-      name116 = "samplerVertexImplementation";
-      shader116 = `#if defined(_DEFINENAME_) && _DEFINENAME_DIRECTUV==0
+      name52 = "samplerVertexImplementation";
+      shader52 = `#if defined(_DEFINENAME_) && _DEFINENAME_DIRECTUV==0
 if (v_INFONAME_==0.)
 {v_VARYINGNAME_UV=vec2(_MATRIXNAME_Matrix*vec4(uvUpdated,1.0,0.0));}
 #ifdef UV2
@@ -4447,37 +1411,37 @@ else if (v_INFONAME_==5.)
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name116] = shader116;
+      ShaderStore.IncludesShadersStore[name52] = shader52;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/bumpVertex.js
-  var name117, shader117;
-  var init_bumpVertex2 = __esm({
+  var name53, shader53;
+  var init_bumpVertex = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/bumpVertex.js"() {
       init_shaderStore();
-      name117 = "bumpVertex";
-      shader117 = `#if defined(BUMP) || defined(PARALLAX) || defined(CLEARCOAT_BUMP) || defined(ANISOTROPIC)
+      name53 = "bumpVertex";
+      shader53 = `#if defined(BUMP) || defined(PARALLAX) || defined(CLEARCOAT_BUMP) || defined(ANISOTROPIC)
 #if defined(TANGENT) && defined(NORMAL)
 vec3 tbnNormal=normalize(normalUpdated);vec3 tbnTangent=normalize(tangentUpdated.xyz);vec3 tbnBitangent=cross(tbnNormal,tbnTangent)*tangentUpdated.w;vTBN=mat3(finalWorld)*mat3(tbnTangent,tbnBitangent,tbnNormal);
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name117] = shader117;
+      ShaderStore.IncludesShadersStore[name53] = shader53;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/shadowsVertex.js
-  var shadowsVertex_exports2 = {};
-  __export(shadowsVertex_exports2, {
+  var shadowsVertex_exports = {};
+  __export(shadowsVertex_exports, {
     shadowsVertex: () => shadowsVertex
   });
-  var name118, shader118, shadowsVertex;
-  var init_shadowsVertex2 = __esm({
+  var name54, shader54, shadowsVertex;
+  var init_shadowsVertex = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/shadowsVertex.js"() {
       init_shaderStore();
-      name118 = "shadowsVertex";
-      shader118 = `#ifdef SHADOWS
+      name54 = "shadowsVertex";
+      shader54 = `#ifdef SHADOWS
 #if defined(SHADOWCSM{X})
 vPositionFromCamera{X}=view*worldPos;for (int i=0; i<SHADOWCSMNUM_CASCADES{X}; i++) {vPositionFromLight{X}[i]=lightMatrix{X}[i]*worldPos;
 #ifdef USE_REVERSE_DEPTHBUFFER
@@ -4496,22 +1460,22 @@ vDepthMetric{X}=(vPositionFromLight{X}.z+light{X}.depthValues.x)/light{X}.depthV
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name118] = shader118;
-      shadowsVertex = { name: name118, shader: shader118 };
+      ShaderStore.IncludesShadersStore[name54] = shader54;
+      shadowsVertex = { name: name54, shader: shader54 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/pointCloudVertex.js
-  var name119, shader119;
+  var name55, shader55;
   var init_pointCloudVertex = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/pointCloudVertex.js"() {
       init_shaderStore();
-      name119 = "pointCloudVertex";
-      shader119 = `#if defined(POINTSIZE) && !defined(WEBGPU)
+      name55 = "pointCloudVertex";
+      shader55 = `#if defined(POINTSIZE) && !defined(WEBGPU)
 gl_PointSize=pointSize;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name119] = shader119;
+      ShaderStore.IncludesShadersStore[name55] = shader55;
     }
   });
 
@@ -4520,45 +1484,45 @@ gl_PointSize=pointSize;
   __export(default_vertex_exports2, {
     defaultVertexShader: () => defaultVertexShader
   });
-  var name120, shader120, defaultVertexShader;
+  var name56, shader56, defaultVertexShader;
   var init_default_vertex2 = __esm({
     "../node_modules/@babylonjs/core/Shaders/default.vertex.js"() {
       init_shaderStore();
       init_defaultVertexDeclaration();
-      init_defaultUboDeclaration2();
-      init_uvAttributeDeclaration2();
+      init_defaultUboDeclaration();
+      init_uvAttributeDeclaration();
       init_helperFunctions();
-      init_bonesDeclaration2();
-      init_bakedVertexAnimationDeclaration2();
-      init_instancesDeclaration2();
-      init_prePassVertexDeclaration2();
-      init_mainUVVaryingDeclaration2();
-      init_samplerVertexDeclaration2();
-      init_bumpVertexDeclaration2();
-      init_clipPlaneVertexDeclaration2();
-      init_fogVertexDeclaration2();
-      init_lightVxFragmentDeclaration2();
-      init_lightVxUboDeclaration2();
-      init_morphTargetsVertexGlobalDeclaration2();
-      init_morphTargetsVertexDeclaration2();
-      init_logDepthDeclaration2();
-      init_morphTargetsVertexGlobal2();
-      init_morphTargetsVertex2();
-      init_instancesVertex2();
-      init_bonesVertex2();
-      init_bakedVertexAnimation2();
-      init_prePassVertex2();
-      init_uvVariableDeclaration2();
-      init_samplerVertexImplementation2();
-      init_bumpVertex2();
-      init_clipPlaneVertex2();
-      init_fogVertex2();
-      init_shadowsVertex2();
-      init_vertexColorMixing2();
+      init_bonesDeclaration();
+      init_bakedVertexAnimationDeclaration();
+      init_instancesDeclaration();
+      init_prePassVertexDeclaration();
+      init_mainUVVaryingDeclaration();
+      init_samplerVertexDeclaration();
+      init_bumpVertexDeclaration();
+      init_clipPlaneVertexDeclaration();
+      init_fogVertexDeclaration();
+      init_lightVxFragmentDeclaration();
+      init_lightVxUboDeclaration();
+      init_morphTargetsVertexGlobalDeclaration();
+      init_morphTargetsVertexDeclaration();
+      init_logDepthDeclaration();
+      init_morphTargetsVertexGlobal();
+      init_morphTargetsVertex();
+      init_instancesVertex();
+      init_bonesVertex();
+      init_bakedVertexAnimation();
+      init_prePassVertex();
+      init_uvVariableDeclaration();
+      init_samplerVertexImplementation();
+      init_bumpVertex();
+      init_clipPlaneVertex();
+      init_fogVertex();
+      init_shadowsVertex();
+      init_vertexColorMixing();
       init_pointCloudVertex();
-      init_logDepthVertex2();
-      name120 = "defaultVertexShader";
-      shader120 = `#include<__decl__defaultVertex>
+      init_logDepthVertex();
+      name56 = "defaultVertexShader";
+      shader56 = `#include<__decl__defaultVertex>
 #define CUSTOM_VERTEX_BEGIN
 attribute vec3 position;
 #ifdef NORMAL
@@ -4688,33 +1652,33 @@ vMainUV1=uvUpdated;
 #define CUSTOM_VERTEX_MAIN_END
 }
 `;
-      ShaderStore.ShadersStore[name120] = shader120;
-      defaultVertexShader = { name: name120, shader: shader120 };
+      ShaderStore.ShadersStore[name56] = shader56;
+      defaultVertexShader = { name: name56, shader: shader56 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/decalFragmentDeclaration.js
-  var name121, shader121;
+  var name57, shader57;
   var init_decalFragmentDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/decalFragmentDeclaration.js"() {
       init_shaderStore();
-      name121 = "decalFragmentDeclaration";
-      shader121 = `#ifdef DECAL
+      name57 = "decalFragmentDeclaration";
+      shader57 = `#ifdef DECAL
 uniform vec4 vDecalInfos;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name121] = shader121;
+      ShaderStore.IncludesShadersStore[name57] = shader57;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/defaultFragmentDeclaration.js
-  var name122, shader122;
+  var name58, shader58;
   var init_defaultFragmentDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/defaultFragmentDeclaration.js"() {
       init_shaderStore();
       init_decalFragmentDeclaration();
-      name122 = "defaultFragmentDeclaration";
-      shader122 = `uniform vec4 vEyePosition;uniform vec4 vDiffuseColor;
+      name58 = "defaultFragmentDeclaration";
+      shader58 = `uniform vec4 vEyePosition;uniform vec4 vDiffuseColor;
 #ifdef SPECULARTERM
 uniform vec4 vSpecularColor;
 #endif
@@ -4787,17 +1751,17 @@ uniform vec4 vDetailInfos;
 #include<decalFragmentDeclaration>
 #define ADDITIONAL_FRAGMENT_DECLARATION
 `;
-      ShaderStore.IncludesShadersStore[name122] = shader122;
+      ShaderStore.IncludesShadersStore[name58] = shader58;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/prePassDeclaration.js
-  var name123, shader123;
-  var init_prePassDeclaration2 = __esm({
+  var name59, shader59;
+  var init_prePassDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/prePassDeclaration.js"() {
       init_shaderStore();
-      name123 = "prePassDeclaration";
-      shader123 = `#ifdef PREPASS
+      name59 = "prePassDeclaration";
+      shader59 = `#ifdef PREPASS
 #extension GL_EXT_draw_buffers : require
 layout(location=0) out highp vec4 glFragData[{X}];highp vec4 gl_FragColor;
 #ifdef PREPASS_DEPTH
@@ -4808,17 +1772,17 @@ varying highp vec4 vCurrentPosition;varying highp vec4 vPreviousPosition;
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name123] = shader123;
+      ShaderStore.IncludesShadersStore[name59] = shader59;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/oitDeclaration.js
-  var name124, shader124;
-  var init_oitDeclaration2 = __esm({
+  var name60, shader60;
+  var init_oitDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/oitDeclaration.js"() {
       init_shaderStore();
-      name124 = "oitDeclaration";
-      shader124 = `#ifdef ORDER_INDEPENDENT_TRANSPARENCY
+      name60 = "oitDeclaration";
+      shader60 = `#ifdef ORDER_INDEPENDENT_TRANSPARENCY
 #extension GL_EXT_draw_buffers : require
 layout(location=0) out vec2 depth; 
 layout(location=1) out vec4 frontColor;layout(location=2) out vec4 backColor;
@@ -4826,7 +1790,7 @@ layout(location=1) out vec4 frontColor;layout(location=2) out vec4 backColor;
 highp vec4 gl_FragColor;uniform sampler2D oitDepthSampler;uniform sampler2D oitFrontColorSampler;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name124] = shader124;
+      ShaderStore.IncludesShadersStore[name60] = shader60;
     }
   });
 
@@ -4835,12 +1799,12 @@ highp vec4 gl_FragColor;uniform sampler2D oitDepthSampler;uniform sampler2D oitF
   __export(lightFragmentDeclaration_exports, {
     lightFragmentDeclaration: () => lightFragmentDeclaration
   });
-  var name125, shader125, lightFragmentDeclaration;
+  var name61, shader61, lightFragmentDeclaration;
   var init_lightFragmentDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/lightFragmentDeclaration.js"() {
       init_shaderStore();
-      name125 = "lightFragmentDeclaration";
-      shader125 = `#ifdef LIGHT{X}
+      name61 = "lightFragmentDeclaration";
+      shader61 = `#ifdef LIGHT{X}
 uniform vec4 vLightData{X};uniform vec4 vLightDiffuse{X};
 #ifdef SPECULARTERM
 uniform vec4 vLightSpecular{X};
@@ -4903,22 +1867,22 @@ uniform mat4 textureProjectionMatrix{X};uniform sampler2D projectionLightTexture
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name125] = shader125;
-      lightFragmentDeclaration = { name: name125, shader: shader125 };
+      ShaderStore.IncludesShadersStore[name61] = shader61;
+      lightFragmentDeclaration = { name: name61, shader: shader61 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/lightUboDeclaration.js
-  var lightUboDeclaration_exports2 = {};
-  __export(lightUboDeclaration_exports2, {
+  var lightUboDeclaration_exports = {};
+  __export(lightUboDeclaration_exports, {
     lightUboDeclaration: () => lightUboDeclaration
   });
-  var name126, shader126, lightUboDeclaration;
-  var init_lightUboDeclaration2 = __esm({
+  var name62, shader62, lightUboDeclaration;
+  var init_lightUboDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/lightUboDeclaration.js"() {
       init_shaderStore();
-      name126 = "lightUboDeclaration";
-      shader126 = `#ifdef LIGHT{X}
+      name62 = "lightUboDeclaration";
+      shader62 = `#ifdef LIGHT{X}
 uniform Light{X}
 {vec4 vLightData;vec4 vLightDiffuse;vec4 vLightSpecular;
 #ifdef SPOTLIGHT{X}
@@ -4977,22 +1941,22 @@ uniform mat4 lightMatrix{X};
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name126] = shader126;
-      lightUboDeclaration = { name: name126, shader: shader126 };
+      ShaderStore.IncludesShadersStore[name62] = shader62;
+      lightUboDeclaration = { name: name62, shader: shader62 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/lightsFragmentFunctions.js
-  var lightsFragmentFunctions_exports2 = {};
-  __export(lightsFragmentFunctions_exports2, {
+  var lightsFragmentFunctions_exports = {};
+  __export(lightsFragmentFunctions_exports, {
     lightsFragmentFunctions: () => lightsFragmentFunctions
   });
-  var name127, shader127, lightsFragmentFunctions;
-  var init_lightsFragmentFunctions2 = __esm({
+  var name63, shader63, lightsFragmentFunctions;
+  var init_lightsFragmentFunctions = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/lightsFragmentFunctions.js"() {
       init_shaderStore();
-      name127 = "lightsFragmentFunctions";
-      shader127 = `struct lightingInfo
+      name63 = "lightsFragmentFunctions";
+      shader63 = `struct lightingInfo
 {vec3 diffuse;
 #ifdef SPECULARTERM
 vec3 specular;
@@ -5042,22 +2006,22 @@ vec3 angleW=normalize(viewDirectionW+lightData.xyz);float specComp=max(0.,dot(vN
 return result;}
 #define inline
 vec3 computeProjectionTextureDiffuseLighting(sampler2D projectionLightSampler,mat4 textureProjectionMatrix,vec3 posW){vec4 strq=textureProjectionMatrix*vec4(posW,1.0);strq/=strq.w;vec3 textureColor=texture2D(projectionLightSampler,strq.xy).rgb;return textureColor;}`;
-      ShaderStore.IncludesShadersStore[name127] = shader127;
-      lightsFragmentFunctions = { name: name127, shader: shader127 };
+      ShaderStore.IncludesShadersStore[name63] = shader63;
+      lightsFragmentFunctions = { name: name63, shader: shader63 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/shadowsFragmentFunctions.js
-  var shadowsFragmentFunctions_exports2 = {};
-  __export(shadowsFragmentFunctions_exports2, {
+  var shadowsFragmentFunctions_exports = {};
+  __export(shadowsFragmentFunctions_exports, {
     shadowsFragmentFunctions: () => shadowsFragmentFunctions
   });
-  var name128, shader128, shadowsFragmentFunctions;
-  var init_shadowsFragmentFunctions2 = __esm({
+  var name64, shader64, shadowsFragmentFunctions;
+  var init_shadowsFragmentFunctions = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/shadowsFragmentFunctions.js"() {
       init_shaderStore();
-      name128 = "shadowsFragmentFunctions";
-      shader128 = `#ifdef SHADOWS
+      name64 = "shadowsFragmentFunctions";
+      shader64 = `#ifdef SHADOWS
 #if defined(WEBGL2) || defined(WEBGPU) || defined(NATIVE)
 #define TEXTUREFUNC(s,c,l) texture2DLodEXT(s,c,l)
 #else
@@ -5384,18 +2348,18 @@ float computeShadowWithCSMPCSS64(float layer,vec4 vPositionFromLight,float depth
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name128] = shader128;
-      shadowsFragmentFunctions = { name: name128, shader: shader128 };
+      ShaderStore.IncludesShadersStore[name64] = shader64;
+      shadowsFragmentFunctions = { name: name64, shader: shader64 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/samplerFragmentDeclaration.js
-  var name129, shader129;
-  var init_samplerFragmentDeclaration2 = __esm({
+  var name65, shader65;
+  var init_samplerFragmentDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/samplerFragmentDeclaration.js"() {
       init_shaderStore();
-      name129 = "samplerFragmentDeclaration";
-      shader129 = `#ifdef _DEFINENAME_
+      name65 = "samplerFragmentDeclaration";
+      shader65 = `#ifdef _DEFINENAME_
 #if _DEFINENAME_DIRECTUV==1
 #define v_VARYINGNAME_UV vMainUV1
 #elif _DEFINENAME_DIRECTUV==2
@@ -5414,32 +2378,32 @@ varying vec2 v_VARYINGNAME_UV;
 uniform sampler2D _SAMPLERNAME_Sampler;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name129] = shader129;
+      ShaderStore.IncludesShadersStore[name65] = shader65;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/fresnelFunction.js
-  var name130, shader130;
-  var init_fresnelFunction2 = __esm({
+  var name66, shader66;
+  var init_fresnelFunction = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/fresnelFunction.js"() {
       init_shaderStore();
-      name130 = "fresnelFunction";
-      shader130 = `#ifdef FRESNEL
+      name66 = "fresnelFunction";
+      shader66 = `#ifdef FRESNEL
 float computeFresnelTerm(vec3 viewDirection,vec3 worldNormal,float bias,float power)
 {float fresnelTerm=pow(bias+abs(dot(viewDirection,worldNormal)),power);return clamp(fresnelTerm,0.,1.);}
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name130] = shader130;
+      ShaderStore.IncludesShadersStore[name66] = shader66;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/reflectionFunction.js
-  var name131, shader131;
-  var init_reflectionFunction2 = __esm({
+  var name67, shader67;
+  var init_reflectionFunction = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/reflectionFunction.js"() {
       init_shaderStore();
-      name131 = "reflectionFunction";
-      shader131 = `vec3 computeFixedEquirectangularCoords(vec4 worldPos,vec3 worldNormal,vec3 direction)
+      name67 = "reflectionFunction";
+      shader67 = `vec3 computeFixedEquirectangularCoords(vec4 worldPos,vec3 worldNormal,vec3 direction)
 {float lon=atan(direction.z,direction.x);float lat=acos(direction.y);vec2 sphereCoords=vec2(lon,lat)*RECIPROCAL_PI2*2.0;float s=sphereCoords.x*0.5+0.5;float t=sphereCoords.y;return vec3(s,t,0); }
 vec3 computeMirroredFixedEquirectangularCoords(vec4 worldPos,vec3 worldNormal,vec3 direction)
 {float lon=atan(direction.z,direction.x);float lat=acos(direction.y);vec2 sphereCoords=vec2(lon,lat)*RECIPROCAL_PI2*2.0;float s=sphereCoords.x*0.5+0.5;float t=sphereCoords.y;return vec3(1.0-s,t,0); }
@@ -5502,17 +2466,17 @@ return vec3(0,0,0);
 }
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name131] = shader131;
+      ShaderStore.IncludesShadersStore[name67] = shader67;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/imageProcessingDeclaration.js
-  var name132, shader132;
-  var init_imageProcessingDeclaration2 = __esm({
+  var name68, shader68;
+  var init_imageProcessingDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/imageProcessingDeclaration.js"() {
       init_shaderStore();
-      name132 = "imageProcessingDeclaration";
-      shader132 = `#ifdef EXPOSURE
+      name68 = "imageProcessingDeclaration";
+      shader68 = `#ifdef EXPOSURE
 uniform float exposureLinear;
 #endif
 #ifdef CONTRAST
@@ -5539,17 +2503,17 @@ uniform vec4 colorTransformSettings;
 uniform float ditherIntensity;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name132] = shader132;
+      ShaderStore.IncludesShadersStore[name68] = shader68;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/imageProcessingFunctions.js
-  var name133, shader133;
-  var init_imageProcessingFunctions2 = __esm({
+  var name69, shader69;
+  var init_imageProcessingFunctions = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/imageProcessingFunctions.js"() {
       init_shaderStore();
-      name133 = "imageProcessingFunctions";
-      shader133 = `#if defined(COLORGRADING) && !defined(COLORGRADING3D)
+      name69 = "imageProcessingFunctions";
+      shader69 = `#if defined(COLORGRADING) && !defined(COLORGRADING3D)
 /** 
 * Polyfill for SAMPLE_TEXTURE_3D,which is unsupported in WebGL.
 * sampler3dSetting.x=textureOffset (0.5/textureSize).
@@ -5637,17 +2601,17 @@ float rand=getRand(gl_FragCoord.xy*vInverseScreenSize);float dither=mix(-ditherI
 #endif
 #define CUSTOM_IMAGEPROCESSINGFUNCTIONS_UPDATERESULT_ATEND
 return result;}`;
-      ShaderStore.IncludesShadersStore[name133] = shader133;
+      ShaderStore.IncludesShadersStore[name69] = shader69;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/bumpFragmentMainFunctions.js
-  var name134, shader134;
-  var init_bumpFragmentMainFunctions2 = __esm({
+  var name70, shader70;
+  var init_bumpFragmentMainFunctions = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/bumpFragmentMainFunctions.js"() {
       init_shaderStore();
-      name134 = "bumpFragmentMainFunctions";
-      shader134 = `#if defined(BUMP) || defined(CLEARCOAT_BUMP) || defined(ANISOTROPIC) || defined(DETAIL)
+      name70 = "bumpFragmentMainFunctions";
+      shader70 = `#if defined(BUMP) || defined(CLEARCOAT_BUMP) || defined(ANISOTROPIC) || defined(DETAIL)
 #if defined(TANGENT) && defined(NORMAL) 
 varying mat3 vTBN;
 #endif
@@ -5709,18 +2673,18 @@ mat3 cotangent_frame(vec3 normal,vec3 p,vec2 uv,vec2 tangentSpaceParams)
 {vec3 dp1=dFdx(p);vec3 dp2=dFdy(p);vec2 duv1=dFdx(uv);vec2 duv2=dFdy(uv);vec3 dp2perp=cross(dp2,normal);vec3 dp1perp=cross(normal,dp1);vec3 tangent=dp2perp*duv1.x+dp1perp*duv2.x;vec3 bitangent=dp2perp*duv1.y+dp1perp*duv2.y;tangent*=tangentSpaceParams.x;bitangent*=tangentSpaceParams.y;float det=max(dot(tangent,tangent),dot(bitangent,bitangent));float invmax=det==0.0 ? 0.0 : inversesqrt(det);return mat3(tangent*invmax,bitangent*invmax,normal);}
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name134] = shader134;
+      ShaderStore.IncludesShadersStore[name70] = shader70;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/bumpFragmentFunctions.js
-  var name135, shader135;
-  var init_bumpFragmentFunctions2 = __esm({
+  var name71, shader71;
+  var init_bumpFragmentFunctions = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/bumpFragmentFunctions.js"() {
       init_shaderStore();
-      init_samplerFragmentDeclaration2();
-      name135 = "bumpFragmentFunctions";
-      shader135 = `#if defined(BUMP)
+      init_samplerFragmentDeclaration();
+      name71 = "bumpFragmentFunctions";
+      shader71 = `#if defined(BUMP)
 #include<samplerFragmentDeclaration>(_DEFINENAME_,BUMP,_VARYINGNAME_,Bump,_SAMPLERNAME_,bump)
 #endif
 #if defined(DETAIL)
@@ -5751,17 +2715,17 @@ return -texCoordOffset;
 }
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name135] = shader135;
+      ShaderStore.IncludesShadersStore[name71] = shader71;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/bumpFragment.js
-  var name136, shader136;
-  var init_bumpFragment2 = __esm({
+  var name72, shader72;
+  var init_bumpFragment = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/bumpFragment.js"() {
       init_shaderStore();
-      name136 = "bumpFragment";
-      shader136 = `vec2 uvOffset=vec2(0.0,0.0);
+      name72 = "bumpFragment";
+      shader72 = `vec2 uvOffset=vec2(0.0,0.0);
 #if defined(BUMP) || defined(PARALLAX) || defined(DETAIL)
 #ifdef NORMALXYSCALE
 float normalScale=1.0;
@@ -5814,17 +2778,17 @@ normalW=perturbNormalBase(TBN,blendedNormal,vBumpInfos.y);
 detailNormal.xy*=vDetailInfos.z;normalW=perturbNormalBase(TBN,detailNormal,vDetailInfos.z);
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name136] = shader136;
+      ShaderStore.IncludesShadersStore[name72] = shader72;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/decalFragment.js
-  var name137, shader137;
-  var init_decalFragment2 = __esm({
+  var name73, shader73;
+  var init_decalFragment = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/decalFragment.js"() {
       init_shaderStore();
-      name137 = "decalFragment";
-      shader137 = `#ifdef DECAL
+      name73 = "decalFragment";
+      shader73 = `#ifdef DECAL
 #ifdef GAMMADECAL
 decalColor.rgb=toLinearSpace(decalColor.rgb);
 #endif
@@ -5834,35 +2798,35 @@ decalColor.a*=decalColor.a;
 surfaceAlbedo.rgb=mix(surfaceAlbedo.rgb,decalColor.rgb,decalColor.a);
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name137] = shader137;
+      ShaderStore.IncludesShadersStore[name73] = shader73;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/depthPrePass.js
-  var name138, shader138;
-  var init_depthPrePass2 = __esm({
+  var name74, shader74;
+  var init_depthPrePass = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/depthPrePass.js"() {
       init_shaderStore();
-      name138 = "depthPrePass";
-      shader138 = `#ifdef DEPTHPREPASS
+      name74 = "depthPrePass";
+      shader74 = `#ifdef DEPTHPREPASS
 gl_FragColor=vec4(0.,0.,0.,1.0);return;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name138] = shader138;
+      ShaderStore.IncludesShadersStore[name74] = shader74;
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/lightFragment.js
-  var lightFragment_exports2 = {};
-  __export(lightFragment_exports2, {
+  var lightFragment_exports = {};
+  __export(lightFragment_exports, {
     lightFragment: () => lightFragment
   });
-  var name139, shader139, lightFragment;
-  var init_lightFragment2 = __esm({
+  var name75, shader75, lightFragment;
+  var init_lightFragment = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/lightFragment.js"() {
       init_shaderStore();
-      name139 = "lightFragment";
-      shader139 = `#ifdef LIGHT{X}
+      name75 = "lightFragment";
+      shader75 = `#ifdef LIGHT{X}
 #if defined(SHADOWONLY) || defined(LIGHTMAP) && defined(LIGHTMAPEXCLUDED{X}) && defined(LIGHTMAPNOSPECULAR{X})
 #else
 #ifdef PBR
@@ -6125,18 +3089,18 @@ sheenBase+=info.sheen.rgb*shadow;
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name139] = shader139;
-      lightFragment = { name: name139, shader: shader139 };
+      ShaderStore.IncludesShadersStore[name75] = shader75;
+      lightFragment = { name: name75, shader: shader75 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/oitFragment.js
-  var name140, shader140;
-  var init_oitFragment2 = __esm({
+  var name76, shader76;
+  var init_oitFragment = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/oitFragment.js"() {
       init_shaderStore();
-      name140 = "oitFragment";
-      shader140 = `#ifdef ORDER_INDEPENDENT_TRANSPARENCY
+      name76 = "oitFragment";
+      shader76 = `#ifdef ORDER_INDEPENDENT_TRANSPARENCY
 float fragDepth=gl_FragCoord.z; 
 #ifdef ORDER_INDEPENDENT_TRANSPARENCY_16BITS
 uint halfFloat=packHalf2x16(vec2(fragDepth));vec2 full=unpackHalf2x16(halfFloat);fragDepth=full.x;
@@ -6162,7 +3126,7 @@ if (fragDepth>nearestDepth && fragDepth<furthestDepth) {
 depth.rg=vec2(-fragDepth,fragDepth);return;}
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name140] = shader140;
+      ShaderStore.IncludesShadersStore[name76] = shader76;
     }
   });
 
@@ -6171,40 +3135,40 @@ depth.rg=vec2(-fragDepth,fragDepth);return;}
   __export(default_fragment_exports2, {
     defaultPixelShader: () => defaultPixelShader
   });
-  var name141, shader141, defaultPixelShader;
+  var name77, shader77, defaultPixelShader;
   var init_default_fragment2 = __esm({
     "../node_modules/@babylonjs/core/Shaders/default.fragment.js"() {
       init_shaderStore();
       init_defaultFragmentDeclaration();
-      init_defaultUboDeclaration2();
-      init_prePassDeclaration2();
-      init_oitDeclaration2();
-      init_mainUVVaryingDeclaration2();
+      init_defaultUboDeclaration();
+      init_prePassDeclaration();
+      init_oitDeclaration();
+      init_mainUVVaryingDeclaration();
       init_helperFunctions();
       init_lightFragmentDeclaration();
-      init_lightUboDeclaration2();
-      init_lightsFragmentFunctions2();
-      init_shadowsFragmentFunctions2();
-      init_samplerFragmentDeclaration2();
-      init_fresnelFunction2();
-      init_reflectionFunction2();
-      init_imageProcessingDeclaration2();
-      init_imageProcessingFunctions2();
-      init_bumpFragmentMainFunctions2();
-      init_bumpFragmentFunctions2();
-      init_clipPlaneFragmentDeclaration2();
-      init_logDepthDeclaration2();
-      init_fogFragmentDeclaration2();
-      init_clipPlaneFragment2();
-      init_bumpFragment2();
-      init_decalFragment2();
-      init_depthPrePass2();
-      init_lightFragment2();
-      init_logDepthFragment2();
-      init_fogFragment2();
-      init_oitFragment2();
-      name141 = "defaultPixelShader";
-      shader141 = `#include<__decl__defaultFragment>
+      init_lightUboDeclaration();
+      init_lightsFragmentFunctions();
+      init_shadowsFragmentFunctions();
+      init_samplerFragmentDeclaration();
+      init_fresnelFunction();
+      init_reflectionFunction();
+      init_imageProcessingDeclaration();
+      init_imageProcessingFunctions();
+      init_bumpFragmentMainFunctions();
+      init_bumpFragmentFunctions();
+      init_clipPlaneFragmentDeclaration();
+      init_logDepthDeclaration();
+      init_fogFragmentDeclaration();
+      init_clipPlaneFragment();
+      init_bumpFragment();
+      init_decalFragment();
+      init_depthPrePass();
+      init_lightFragment();
+      init_logDepthFragment();
+      init_fogFragment();
+      init_oitFragment();
+      name77 = "defaultPixelShader";
+      shader77 = `#include<__decl__defaultFragment>
 #if defined(BUMP) || !defined(NORMAL)
 #extension GL_OES_standard_derivatives : enable
 #endif
@@ -6534,8 +3498,8 @@ if (fragDepth==nearestDepth) {frontColor.rgb+=color.rgb*color.a*alphaMultiplier;
 #define CUSTOM_FRAGMENT_MAIN_END
 }
 `;
-      ShaderStore.ShadersStore[name141] = shader141;
-      defaultPixelShader = { name: name141, shader: shader141 };
+      ShaderStore.ShadersStore[name77] = shader77;
+      defaultPixelShader = { name: name77, shader: shader77 };
     }
   });
 
@@ -6544,17 +3508,17 @@ if (fragDepth==nearestDepth) {frontColor.rgb+=color.rgb*color.a*alphaMultiplier;
   __export(packingFunctions_exports, {
     packingFunctions: () => packingFunctions
   });
-  var name142, shader142, packingFunctions;
+  var name78, shader78, packingFunctions;
   var init_packingFunctions = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/packingFunctions.js"() {
       init_shaderStore();
-      name142 = "packingFunctions";
-      shader142 = `vec4 pack(float depth)
+      name78 = "packingFunctions";
+      shader78 = `vec4 pack(float depth)
 {const vec4 bit_shift=vec4(255.0*255.0*255.0,255.0*255.0,255.0,1.0);const vec4 bit_mask=vec4(0.0,1.0/255.0,1.0/255.0,1.0/255.0);vec4 res=fract(depth*bit_shift);res-=res.xxyz*bit_mask;return res;}
 float unpack(vec4 color)
 {const vec4 bit_shift=vec4(1.0/(255.0*255.0*255.0),1.0/(255.0*255.0),1.0/255.0,1.0);return dot(color,bit_shift);}`;
-      ShaderStore.IncludesShadersStore[name142] = shader142;
-      packingFunctions = { name: name142, shader: shader142 };
+      ShaderStore.IncludesShadersStore[name78] = shader78;
+      packingFunctions = { name: name78, shader: shader78 };
     }
   });
 
@@ -6563,15 +3527,15 @@ float unpack(vec4 color)
   __export(depth_fragment_exports, {
     depthPixelShader: () => depthPixelShader
   });
-  var name143, shader143, depthPixelShader;
+  var name79, shader79, depthPixelShader;
   var init_depth_fragment = __esm({
     "../node_modules/@babylonjs/core/Shaders/depth.fragment.js"() {
       init_shaderStore();
-      init_clipPlaneFragmentDeclaration2();
+      init_clipPlaneFragmentDeclaration();
       init_packingFunctions();
-      init_clipPlaneFragment2();
-      name143 = "depthPixelShader";
-      shader143 = `#ifdef ALPHATEST
+      init_clipPlaneFragment();
+      name79 = "depthPixelShader";
+      shader79 = `#ifdef ALPHATEST
 varying vec2 vUV;uniform sampler2D diffuseSampler;
 #endif
 #include<clipPlaneFragmentDeclaration>
@@ -6612,22 +3576,22 @@ gl_FragColor=vec4(vDepthMetric,0.0,0.0,1.0);
 #endif
 #endif
 }`;
-      ShaderStore.ShadersStore[name143] = shader143;
-      depthPixelShader = { name: name143, shader: shader143 };
+      ShaderStore.ShadersStore[name79] = shader79;
+      depthPixelShader = { name: name79, shader: shader79 };
     }
   });
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/pointCloudVertexDeclaration.js
-  var name144, shader144;
+  var name80, shader80;
   var init_pointCloudVertexDeclaration = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/pointCloudVertexDeclaration.js"() {
       init_shaderStore();
-      name144 = "pointCloudVertexDeclaration";
-      shader144 = `#ifdef POINTSIZE
+      name80 = "pointCloudVertexDeclaration";
+      shader80 = `#ifdef POINTSIZE
 uniform float pointSize;
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name144] = shader144;
+      ShaderStore.IncludesShadersStore[name80] = shader80;
     }
   });
 
@@ -6636,26 +3600,26 @@ uniform float pointSize;
   __export(depth_vertex_exports, {
     depthVertexShader: () => depthVertexShader
   });
-  var name145, shader145, depthVertexShader;
+  var name81, shader81, depthVertexShader;
   var init_depth_vertex = __esm({
     "../node_modules/@babylonjs/core/Shaders/depth.vertex.js"() {
       init_shaderStore();
-      init_bonesDeclaration2();
-      init_bakedVertexAnimationDeclaration2();
-      init_morphTargetsVertexGlobalDeclaration2();
-      init_morphTargetsVertexDeclaration2();
-      init_clipPlaneVertexDeclaration2();
-      init_instancesDeclaration2();
+      init_bonesDeclaration();
+      init_bakedVertexAnimationDeclaration();
+      init_morphTargetsVertexGlobalDeclaration();
+      init_morphTargetsVertexDeclaration();
+      init_clipPlaneVertexDeclaration();
+      init_instancesDeclaration();
       init_pointCloudVertexDeclaration();
-      init_morphTargetsVertexGlobal2();
-      init_morphTargetsVertex2();
-      init_instancesVertex2();
-      init_bonesVertex2();
-      init_bakedVertexAnimation2();
-      init_clipPlaneVertex2();
+      init_morphTargetsVertexGlobal();
+      init_morphTargetsVertex();
+      init_instancesVertex();
+      init_bonesVertex();
+      init_bakedVertexAnimation();
+      init_clipPlaneVertex();
       init_pointCloudVertex();
-      name145 = "depthVertexShader";
-      shader145 = `attribute vec3 position;
+      name81 = "depthVertexShader";
+      shader81 = `attribute vec3 position;
 #include<bonesDeclaration>
 #include<bakedVertexAnimationDeclaration>
 #include<morphTargetsVertexGlobalDeclaration>
@@ -6711,249 +3675,113 @@ vUV=vec2(diffuseMatrix*vec4(uv2,1.0,0.0));
 #include<pointCloudVertex>
 }
 `;
-      ShaderStore.ShadersStore[name145] = shader145;
-      depthVertexShader = { name: name145, shader: shader145 };
+      ShaderStore.ShadersStore[name81] = shader81;
+      depthVertexShader = { name: name81, shader: shader81 };
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/depth.vertex.js
+  // wgsl-stub:../ShadersWGSL/depth.vertex.js
   var depth_vertex_exports2 = {};
-  __export(depth_vertex_exports2, {
-    depthVertexShaderWGSL: () => depthVertexShaderWGSL
-  });
-  var name146, shader146, depthVertexShaderWGSL;
   var init_depth_vertex2 = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/depth.vertex.js"() {
-      init_shaderStore();
-      init_bonesDeclaration();
-      init_bakedVertexAnimationDeclaration();
-      init_morphTargetsVertexGlobalDeclaration();
-      init_morphTargetsVertexDeclaration();
-      init_clipPlaneVertexDeclaration();
-      init_instancesDeclaration();
-      init_morphTargetsVertexGlobal();
-      init_morphTargetsVertex();
-      init_instancesVertex();
-      init_bonesVertex();
-      init_bakedVertexAnimation();
-      init_clipPlaneVertex();
-      name146 = "depthVertexShader";
-      shader146 = `attribute position: vec3f;
-#include<bonesDeclaration>
-#include<bakedVertexAnimationDeclaration>
-#include<morphTargetsVertexGlobalDeclaration>
-#include<morphTargetsVertexDeclaration>[0..maxSimultaneousMorphTargets]
-#include<clipPlaneVertexDeclaration>
-#include<instancesDeclaration>
-uniform viewProjection: mat4x4f;uniform depthValues: vec2f;
-#if defined(ALPHATEST) || defined(NEED_UV)
-varying vUV: vec2f;uniform diffuseMatrix: mat4x4f;
-#ifdef UV1
-attribute uv: vec2f;
-#endif
-#ifdef UV2
-attribute uv2: vec2f;
-#endif
-#endif
-#ifdef STORE_CAMERASPACE_Z
-uniform view: mat4x4f;varying vViewPos: vec4f;
-#endif
-varying vDepthMetric: f32;
-#define CUSTOM_VERTEX_DEFINITIONS
-@vertex
-fn main(input : VertexInputs)->FragmentInputs {var positionUpdated: vec3f=input.position;
-#ifdef UV1
-var uvUpdated: vec2f=input.uv;
-#endif
-#include<morphTargetsVertexGlobal>
-#include<morphTargetsVertex>[0..maxSimultaneousMorphTargets]
-#include<instancesVertex>
-#include<bonesVertex>
-#include<bakedVertexAnimation>
-var worldPos: vec4f=finalWorld* vec4f(positionUpdated,1.0);
-#include<clipPlaneVertex>
-vertexOutputs.position=uniforms.viewProjection*worldPos;
-#ifdef STORE_CAMERASPACE_Z
-vertexOutputs.vViewPos=uniforms.view*worldPos;
-#else
-#ifdef USE_REVERSE_DEPTHBUFFER
-vertexOutputs.vDepthMetric=((-vertexOutputs.position.z+uniforms.depthValues.x)/(uniforms.depthValues.y));
-#else
-vertexOutputs.vDepthMetric=((vertexOutputs.position.z+uniforms.depthValues.x)/(uniforms.depthValues.y));
-#endif
-#endif
-#if defined(ALPHATEST) || defined(BASIC_RENDER)
-#ifdef UV1
-vertexOutputs.vUV= (uniforms.diffuseMatrix* vec4f(uvUpdated,1.0,0.0)).xy;
-#endif
-#ifdef UV2
-vertexOutputs.vUV= (uniforms.diffuseMatrix* vec4f(input.uv2,1.0,0.0)).xy;
-#endif
-#endif
-}
-`;
-      ShaderStore.ShadersStoreWGSL[name146] = shader146;
-      depthVertexShaderWGSL = { name: name146, shader: shader146 };
+    "wgsl-stub:../ShadersWGSL/depth.vertex.js"() {
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/packingFunctions.js
-  var packingFunctions_exports2 = {};
-  __export(packingFunctions_exports2, {
-    packingFunctionsWGSL: () => packingFunctionsWGSL
-  });
-  var name147, shader147, packingFunctionsWGSL;
-  var init_packingFunctions2 = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/packingFunctions.js"() {
-      init_shaderStore();
-      name147 = "packingFunctions";
-      shader147 = `fn pack(depth: f32)->vec4f
-{const bit_shift: vec4f= vec4f(255.0*255.0*255.0,255.0*255.0,255.0,1.0);const bit_mask: vec4f= vec4f(0.0,1.0/255.0,1.0/255.0,1.0/255.0);var res: vec4f=fract(depth*bit_shift);res-=res.xxyz*bit_mask;return res;}
-fn unpack(color: vec4f)->f32
-{const bit_shift: vec4f= vec4f(1.0/(255.0*255.0*255.0),1.0/(255.0*255.0),1.0/255.0,1.0);return dot(color,bit_shift);}`;
-      ShaderStore.IncludesShadersStoreWGSL[name147] = shader147;
-      packingFunctionsWGSL = { name: name147, shader: shader147 };
-    }
-  });
-
-  // ../node_modules/@babylonjs/core/ShadersWGSL/depth.fragment.js
+  // wgsl-stub:../ShadersWGSL/depth.fragment.js
   var depth_fragment_exports2 = {};
-  __export(depth_fragment_exports2, {
-    depthPixelShaderWGSL: () => depthPixelShaderWGSL
-  });
-  var name148, shader148, depthPixelShaderWGSL;
   var init_depth_fragment2 = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/depth.fragment.js"() {
-      init_shaderStore();
-      init_clipPlaneFragmentDeclaration();
-      init_packingFunctions2();
-      init_clipPlaneFragment();
-      name148 = "depthPixelShader";
-      shader148 = `#ifdef ALPHATEST
-varying vUV: vec2f;var diffuseSamplerSampler: sampler;var diffuseSampler: texture_2d<f32>;
-#endif
-#include<clipPlaneFragmentDeclaration>
-varying vDepthMetric: f32;
-#ifdef PACKED
-#include<packingFunctions>
-#endif
-#ifdef STORE_CAMERASPACE_Z
-varying vViewPos: vec4f;
-#endif
-#define CUSTOM_FRAGMENT_DEFINITIONS
-@fragment
-fn main(input: FragmentInputs)->FragmentOutputs {
-#include<clipPlaneFragment>
-#ifdef ALPHATEST
-if (textureSample(diffuseSampler,diffuseSamplerSampler,input.vUV).a<0.4) {discard;}
-#endif
-#ifdef STORE_CAMERASPACE_Z
-#ifdef PACKED
-fragmentOutputs.color=pack(input.vViewPos.z);
-#else
-fragmentOutputs.color= vec4f(input.vViewPos.z,0.0,0.0,1.0);
-#endif
-#else
-#ifdef NONLINEARDEPTH
-#ifdef PACKED
-fragmentOutputs.color=pack(input.position.z);
-#else
-fragmentOutputs.color= vec4f(input.position.z,0.0,0.0,0.0);
-#endif
-#else
-#ifdef PACKED
-fragmentOutputs.color=pack(input.vDepthMetric);
-#else
-fragmentOutputs.color= vec4f(input.vDepthMetric,0.0,0.0,1.0);
-#endif
-#endif
-#endif
-}`;
-      ShaderStore.ShadersStoreWGSL[name148] = shader148;
-      depthPixelShaderWGSL = { name: name148, shader: shader148 };
+    "wgsl-stub:../ShadersWGSL/depth.fragment.js"() {
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/shadowMapVertexMetric.js
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/bonesDeclaration.js
+  var bonesDeclaration_exports2 = {};
+  var init_bonesDeclaration2 = __esm({
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/bonesDeclaration.js"() {
+    }
+  });
+
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/bonesVertex.js
+  var bonesVertex_exports2 = {};
+  var init_bonesVertex2 = __esm({
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/bonesVertex.js"() {
+    }
+  });
+
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/lightFragment.js
+  var lightFragment_exports2 = {};
+  var init_lightFragment2 = __esm({
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/lightFragment.js"() {
+    }
+  });
+
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/lightUboDeclaration.js
+  var lightUboDeclaration_exports2 = {};
+  var init_lightUboDeclaration2 = __esm({
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/lightUboDeclaration.js"() {
+    }
+  });
+
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/lightVxUboDeclaration.js
+  var lightVxUboDeclaration_exports2 = {};
+  var init_lightVxUboDeclaration2 = __esm({
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/lightVxUboDeclaration.js"() {
+    }
+  });
+
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/helperFunctions.js
+  var helperFunctions_exports2 = {};
+  var init_helperFunctions2 = __esm({
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/helperFunctions.js"() {
+    }
+  });
+
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/lightsFragmentFunctions.js
+  var lightsFragmentFunctions_exports2 = {};
+  var init_lightsFragmentFunctions2 = __esm({
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/lightsFragmentFunctions.js"() {
+    }
+  });
+
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/shadowsFragmentFunctions.js
+  var shadowsFragmentFunctions_exports2 = {};
+  var init_shadowsFragmentFunctions2 = __esm({
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/shadowsFragmentFunctions.js"() {
+    }
+  });
+
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/shadowsVertex.js
+  var shadowsVertex_exports2 = {};
+  var init_shadowsVertex2 = __esm({
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/shadowsVertex.js"() {
+    }
+  });
+
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/fogFragmentDeclaration.js
+  var fogFragmentDeclaration_exports2 = {};
+  var init_fogFragmentDeclaration2 = __esm({
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/fogFragmentDeclaration.js"() {
+    }
+  });
+
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/shadowMapVertexMetric.js
   var shadowMapVertexMetric_exports = {};
-  __export(shadowMapVertexMetric_exports, {
-    shadowMapVertexMetricWGSL: () => shadowMapVertexMetricWGSL
-  });
-  var name150, shader150, shadowMapVertexMetricWGSL;
   var init_shadowMapVertexMetric = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/shadowMapVertexMetric.js"() {
-      init_shaderStore();
-      name150 = "shadowMapVertexMetric";
-      shader150 = `#if SM_USEDISTANCE==1
-vertexOutputs.vPositionWSM=worldPos.xyz;
-#endif
-#if SM_DEPTHTEXTURE==1
-#ifdef IS_NDC_HALF_ZRANGE
-#define BIASFACTOR 0.5
-#else
-#define BIASFACTOR 1.0
-#endif
-#ifdef USE_REVERSE_DEPTHBUFFER
-vertexOutputs.position.z-=uniforms.biasAndScaleSM.x*vertexOutputs.position.w*BIASFACTOR;
-#else
-vertexOutputs.position.z+=uniforms.biasAndScaleSM.x*vertexOutputs.position.w*BIASFACTOR;
-#endif
-#endif
-#if defined(SM_DEPTHCLAMP) && SM_DEPTHCLAMP==1
-vertexOutputs.zSM=vertexOutputs.position.z;vertexOutputs.position.z=0.0;
-#elif SM_USEDISTANCE==0
-#ifdef USE_REVERSE_DEPTHBUFFER
-vertexOutputs.vDepthMetricSM=(-vertexOutputs.position.z+uniforms.depthValuesSM.x)/uniforms.depthValuesSM.y+uniforms.biasAndScaleSM.x;
-#else
-vertexOutputs.vDepthMetricSM=(vertexOutputs.position.z+uniforms.depthValuesSM.x)/uniforms.depthValuesSM.y+uniforms.biasAndScaleSM.x;
-#endif
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name150] = shader150;
-      shadowMapVertexMetricWGSL = { name: name150, shader: shader150 };
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/shadowMapVertexMetric.js"() {
     }
   });
 
-  // ../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/shadowMapFragment.js
-  var shadowMapFragment_exports = {};
-  __export(shadowMapFragment_exports, {
-    shadowMapFragmentWGSL: () => shadowMapFragmentWGSL
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/packingFunctions.js
+  var packingFunctions_exports2 = {};
+  var init_packingFunctions2 = __esm({
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/packingFunctions.js"() {
+    }
   });
-  var name151, shader151, shadowMapFragmentWGSL;
+
+  // wgsl-stub:../../../../ShadersWGSL/ShadersInclude/shadowMapFragment.js
+  var shadowMapFragment_exports = {};
   var init_shadowMapFragment = __esm({
-    "../node_modules/@babylonjs/core/ShadersWGSL/ShadersInclude/shadowMapFragment.js"() {
-      init_shaderStore();
-      name151 = "shadowMapFragment";
-      shader151 = `var depthSM: f32=fragmentInputs.vDepthMetricSM;
-#if defined(SM_DEPTHCLAMP) && SM_DEPTHCLAMP==1
-#if SM_USEDISTANCE==1
-depthSM=(length(fragmentInputs.vPositionWSM-uniforms.lightDataSM)+uniforms.depthValuesSM.x)/uniforms.depthValuesSM.y+uniforms.biasAndScaleSM.x;
-#else
-#ifdef USE_REVERSE_DEPTHBUFFER
-depthSM=(-fragmentInputs.zSM+uniforms.depthValuesSM.x)/uniforms.depthValuesSM.y+uniforms.biasAndScaleSM.x;
-#else
-depthSM=(fragmentInputs.zSM+uniforms.depthValuesSM.x)/uniforms.depthValuesSM.y+uniforms.biasAndScaleSM.x;
-#endif
-#endif
-#ifdef USE_REVERSE_DEPTHBUFFER
-fragmentOutputs.fragDepth=clamp(1.0-depthSM,0.0,1.0);
-#else
-fragmentOutputs.fragDepth=clamp(depthSM,0.0,1.0); 
-#endif
-#elif SM_USEDISTANCE==1
-depthSM=(length(fragmentInputs.vPositionWSM-uniforms.lightDataSM)+uniforms.depthValuesSM.x)/uniforms.depthValuesSM.y+uniforms.biasAndScaleSM.x;
-#endif
-#if SM_ESM==1
-depthSM=clamp(exp(-min(87.,uniforms.biasAndScaleSM.z*depthSM)),0.,1.);
-#endif
-#if SM_FLOAT==1
-fragmentOutputs.color= vec4f(depthSM,1.0,1.0,1.0);
-#else
-fragmentOutputs.color=pack(depthSM);
-#endif
-`;
-      ShaderStore.IncludesShadersStoreWGSL[name151] = shader151;
-      shadowMapFragmentWGSL = { name: name151, shader: shader151 };
+    "wgsl-stub:../../../../ShadersWGSL/ShadersInclude/shadowMapFragment.js"() {
     }
   });
 
@@ -6962,12 +3790,12 @@ fragmentOutputs.color=pack(depthSM);
   __export(shadowMapVertexMetric_exports2, {
     shadowMapVertexMetric: () => shadowMapVertexMetric
   });
-  var name152, shader152, shadowMapVertexMetric;
+  var name83, shader83, shadowMapVertexMetric;
   var init_shadowMapVertexMetric2 = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/shadowMapVertexMetric.js"() {
       init_shaderStore();
-      name152 = "shadowMapVertexMetric";
-      shader152 = `#if SM_USEDISTANCE==1
+      name83 = "shadowMapVertexMetric";
+      shader83 = `#if SM_USEDISTANCE==1
 vPositionWSM=worldPos.xyz;
 #endif
 #if SM_DEPTHTEXTURE==1
@@ -6992,8 +3820,8 @@ vDepthMetricSM=(gl_Position.z+depthValuesSM.x)/depthValuesSM.y+biasAndScaleSM.x;
 #endif
 #endif
 `;
-      ShaderStore.IncludesShadersStore[name152] = shader152;
-      shadowMapVertexMetric = { name: name152, shader: shader152 };
+      ShaderStore.IncludesShadersStore[name83] = shader83;
+      shadowMapVertexMetric = { name: name83, shader: shader83 };
     }
   });
 
@@ -7002,12 +3830,12 @@ vDepthMetricSM=(gl_Position.z+depthValuesSM.x)/depthValuesSM.y+biasAndScaleSM.x;
   __export(shadowMapFragment_exports2, {
     shadowMapFragment: () => shadowMapFragment
   });
-  var name153, shader153, shadowMapFragment;
+  var name84, shader84, shadowMapFragment;
   var init_shadowMapFragment2 = __esm({
     "../node_modules/@babylonjs/core/Shaders/ShadersInclude/shadowMapFragment.js"() {
       init_shaderStore();
-      name153 = "shadowMapFragment";
-      shader153 = `float depthSM=vDepthMetricSM;
+      name84 = "shadowMapFragment";
+      shader84 = `float depthSM=vDepthMetricSM;
 #if defined(SM_DEPTHCLAMP) && SM_DEPTHCLAMP==1
 #if SM_USEDISTANCE==1
 depthSM=(length(vPositionWSM-lightDataSM)+depthValuesSM.x)/depthValuesSM.y+biasAndScaleSM.x;
@@ -7035,8 +3863,8 @@ gl_FragColor=vec4(depthSM,1.0,1.0,1.0);
 gl_FragColor=pack(depthSM);
 #endif
 return;`;
-      ShaderStore.IncludesShadersStore[name153] = shader153;
-      shadowMapFragment = { name: name153, shader: shader153 };
+      ShaderStore.IncludesShadersStore[name84] = shader84;
+      shadowMapFragment = { name: name84, shader: shader84 };
     }
   });
 
@@ -7871,12 +4699,12 @@ return;`;
 
   // ../node_modules/@babylonjs/core/Misc/devTools.js
   var warnedMap = {};
-  function _WarnImport(name154, warnOnce = false) {
-    if (warnOnce && warnedMap[name154]) {
+  function _WarnImport(name85, warnOnce = false) {
+    if (warnOnce && warnedMap[name85]) {
       return;
     }
-    warnedMap[name154] = true;
-    return `${name154} needs to be imported before as it contains a side-effect required by your code.`;
+    warnedMap[name85] = true;
+    return `${name85} needs to be imported before as it contains a side-effect required by your code.`;
   }
 
   // ../node_modules/@babylonjs/core/Misc/webRequest.js
@@ -8020,16 +4848,16 @@ return;`;
      * @param name The name of the header whose value is to be set
      * @param value The value to set as the body of the header
      */
-    setRequestHeader(name154, value) {
-      this._xhr.setRequestHeader(name154, value);
+    setRequestHeader(name85, value) {
+      this._xhr.setRequestHeader(name85, value);
     }
     /**
      * Get the string containing the text of a particular header's value.
      * @param name The name of the header
      * @returns The string containing the text of the given header name
      */
-    getResponseHeader(name154) {
-      return this._xhr.getResponseHeader(name154);
+    getResponseHeader(name85) {
+      return this._xhr.getResponseHeader(name85);
     }
   };
   WebRequest.CustomRequestHeaders = {};
@@ -8937,8 +5765,8 @@ return;`;
     _fillEffectInformation(effect, uniformBuffersNames, uniformsNames, uniforms, samplerList, samplers, attributesNames, attributes) {
       const engine = this.engine;
       if (engine.supportsUniformBuffers) {
-        for (const name154 in uniformBuffersNames) {
-          effect.bindUniformBlock(name154, uniformBuffersNames[name154]);
+        for (const name85 in uniformBuffersNames) {
+          effect.bindUniformBlock(name85, uniformBuffersNames[name85]);
         }
       }
       const effectAvailableUniforms = this.engine.getUniforms(this, uniformsNames);
@@ -8954,8 +5782,8 @@ return;`;
           index--;
         }
       }
-      samplerList.forEach((name154, index2) => {
-        samplers[name154] = index2;
+      samplerList.forEach((name85, index2) => {
+        samplers[name85] = index2;
       });
       for (const attr of engine.getAttributes(this, attributesNames)) {
         attributes.push(attr);
@@ -9607,8 +6435,8 @@ return;`;
     return _compileRawShader(_ConcatenateShader(source, defines, shaderVersion), type, gl, _contextWasLost);
   }
   function _compileRawShader(source, type, gl, _contextWasLost) {
-    const shader154 = gl.createShader(type === "vertex" ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER);
-    if (!shader154) {
+    const shader85 = gl.createShader(type === "vertex" ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER);
+    if (!shader85) {
       let error = gl.NO_ERROR;
       let tempError = gl.NO_ERROR;
       while ((tempError = gl.getError()) !== gl.NO_ERROR) {
@@ -9616,9 +6444,9 @@ return;`;
       }
       throw new Error(`Something went wrong while creating a gl ${type} shader object. gl error=${error}, gl isContextLost=${gl.isContextLost()}, _contextWasLost=${_contextWasLost}`);
     }
-    gl.shaderSource(shader154, source);
-    gl.compileShader(shader154);
-    return shader154;
+    gl.shaderSource(shader85, source);
+    gl.compileShader(shader85);
+    return shader85;
   }
   function _setProgram(program, gl) {
     gl.useProgram(program);
@@ -9638,18 +6466,18 @@ return;`;
 
   // ../node_modules/@babylonjs/core/Materials/effect.functions.js
   init_shaderStore();
-  function getCachedPipeline(name154, context) {
+  function getCachedPipeline(name85, context) {
     const stateObject = getStateObject(context);
-    return stateObject.cachedPipelines[name154];
+    return stateObject.cachedPipelines[name85];
   }
   function resetCachedPipeline(pipeline) {
-    const name154 = pipeline._name;
+    const name85 = pipeline._name;
     const context = pipeline.context;
-    if (name154 && context) {
+    if (name85 && context) {
       const stateObject = getStateObject(context);
-      const cachedPipeline = stateObject.cachedPipelines[name154];
+      const cachedPipeline = stateObject.cachedPipelines[name85];
       cachedPipeline?.dispose();
-      delete stateObject.cachedPipelines[name154];
+      delete stateObject.cachedPipelines[name85];
     }
   }
   function _processShaderCode(processorOptions, baseName, processFinalCode, onFinalCodeReady, shaderLanguage, engine, effectContext) {
@@ -9715,37 +6543,37 @@ return;`;
       shadersLoaded();
     }, shaderLanguage);
   }
-  function _loadShader(shader154, key, optionalKey, callback, shaderLanguage, _loadFileInjection) {
+  function _loadShader(shader85, key, optionalKey, callback, shaderLanguage, _loadFileInjection) {
     if (typeof HTMLElement !== "undefined") {
-      if (shader154 instanceof HTMLElement) {
-        const shaderCode = GetDOMTextContent(shader154);
+      if (shader85 instanceof HTMLElement) {
+        const shaderCode = GetDOMTextContent(shader85);
         callback(shaderCode);
         return;
       }
     }
-    if (shader154.substr(0, 7) === "source:") {
-      callback(shader154.substr(7));
+    if (shader85.substr(0, 7) === "source:") {
+      callback(shader85.substr(7));
       return;
     }
-    if (shader154.substr(0, 7) === "base64:") {
-      const shaderBinary = window.atob(shader154.substr(7));
+    if (shader85.substr(0, 7) === "base64:") {
+      const shaderBinary = window.atob(shader85.substr(7));
       callback(shaderBinary);
       return;
     }
     const shaderStore = ShaderStore.GetShadersStore(shaderLanguage);
-    if (shaderStore[shader154 + key + "Shader"]) {
-      callback(shaderStore[shader154 + key + "Shader"]);
+    if (shaderStore[shader85 + key + "Shader"]) {
+      callback(shaderStore[shader85 + key + "Shader"]);
       return;
     }
-    if (optionalKey && shaderStore[shader154 + optionalKey + "Shader"]) {
-      callback(shaderStore[shader154 + optionalKey + "Shader"]);
+    if (optionalKey && shaderStore[shader85 + optionalKey + "Shader"]) {
+      callback(shaderStore[shader85 + optionalKey + "Shader"]);
       return;
     }
     let shaderUrl;
-    if (shader154[0] === "." || shader154[0] === "/" || shader154.indexOf("http") > -1) {
-      shaderUrl = shader154;
+    if (shader85[0] === "." || shader85[0] === "/" || shader85.indexOf("http") > -1) {
+      shaderUrl = shader85;
     } else {
-      shaderUrl = ShaderStore.GetShadersRepository(shaderLanguage) + shader154;
+      shaderUrl = ShaderStore.GetShadersRepository(shaderLanguage) + shader85;
     }
     _loadFileInjection = _loadFileInjection || _loadFile;
     if (!_loadFileInjection) {
@@ -10004,8 +6832,8 @@ return;`;
      * @param name of the attribute to look up.
      * @returns the attribute location.
      */
-    getAttributeLocationByName(name154) {
-      return this._attributeLocationByName[name154];
+    getAttributeLocationByName(name85) {
+      return this._attributeLocationByName[name85];
     }
     /**
      * The number of attributes.
@@ -10204,8 +7032,8 @@ return;`;
       this._pipelineContext._fillEffectInformation(this, this._uniformBuffersNames, this._uniformsNames, this._uniforms, this._samplerList, this._samplers, this._attributesNames, this._attributes);
       if (this._attributesNames) {
         for (let i = 0; i < this._attributesNames.length; i++) {
-          const name154 = this._attributesNames[i];
-          this._attributeLocationByName[name154] = this._attributes[i];
+          const name85 = this._attributesNames[i];
+          this._attributeLocationByName[name85] = this._attributes[i];
         }
       }
       this._engine.bindSamplers(this);
@@ -10394,13 +7222,13 @@ return;`;
      * @param buffer Buffer to bind.
      * @param name Name of the uniform variable to bind to.
      */
-    bindUniformBuffer(buffer, name154) {
-      const bufferName = this._uniformBuffersNames[name154];
+    bindUniformBuffer(buffer, name85) {
+      const bufferName = this._uniformBuffersNames[name85];
       if (bufferName === void 0 || _Effect._BaseCache[bufferName] === buffer && this._engine._features.useUBOBindingCache) {
         return;
       }
       _Effect._BaseCache[bufferName] = buffer;
-      this._engine.bindUniformBufferBase(buffer, bufferName, name154);
+      this._engine.bindUniformBufferBase(buffer, bufferName, name85);
     }
     /**
      * Binds block to a uniform.
@@ -10850,12 +7678,12 @@ return;`;
      * @param vertexShader optional vertex shader content
      * @param shaderLanguage the language the shader is written in (default: GLSL)
      */
-    static RegisterShader(name154, pixelShader, vertexShader, shaderLanguage = 0) {
+    static RegisterShader(name85, pixelShader, vertexShader, shaderLanguage = 0) {
       if (pixelShader) {
-        ShaderStore.GetShadersStore(shaderLanguage)[`${name154}PixelShader`] = pixelShader;
+        ShaderStore.GetShadersStore(shaderLanguage)[`${name85}PixelShader`] = pixelShader;
       }
       if (vertexShader) {
-        ShaderStore.GetShadersStore(shaderLanguage)[`${name154}VertexShader`] = vertexShader;
+        ShaderStore.GetShadersStore(shaderLanguage)[`${name85}VertexShader`] = vertexShader;
       }
     }
     /**
@@ -14631,19 +11459,19 @@ return;`;
      * @returns the name of the class, will be "object" for a custom data type not using the @className decorator
      */
     static GetClassName(object, isType = false) {
-      let name154 = null;
+      let name85 = null;
       if (!isType && object.getClassName) {
-        name154 = object.getClassName();
+        name85 = object.getClassName();
       } else {
         if (object instanceof Object) {
           const classObj = isType ? object : Object.getPrototypeOf(object);
-          name154 = classObj.constructor["__bjsclassName__"];
+          name85 = classObj.constructor["__bjsclassName__"];
         }
-        if (!name154) {
-          name154 = typeof object;
+        if (!name85) {
+          name85 = typeof object;
         }
       }
-      return name154;
+      return name85;
     }
     /**
      * Gets the first element of an array satisfying a given predicate
@@ -14868,8 +11696,8 @@ return;`;
   }
   var observedArrayFunctions = ["push", "splice", "pop", "shift", "unshift"];
   function _ObserveArray(array, callback) {
-    const unObserveFunctions = observedArrayFunctions.map((name154) => {
-      return _observeArrayfunction(array, name154, callback);
+    const unObserveFunctions = observedArrayFunctions.map((name85) => {
+      return _observeArrayfunction(array, name85, callback);
     });
     return () => {
       unObserveFunctions.forEach((unObserveFunction) => {
@@ -24589,12 +21417,12 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param options defines optional options to transmit to constructors
      * @returns the new constructor or null
      */
-    static Construct(type, name154, scene, options) {
+    static Construct(type, name85, scene, options) {
       const constructorFunc = this._NodeConstructors[type];
       if (!constructorFunc) {
         return null;
       }
-      return constructorFunc(name154, scene, options);
+      return constructorFunc(name85, scene, options);
     }
     /**
      * Gets or sets the accessibility tag to describe the node for accessibility purpose.
@@ -24732,7 +21560,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param scene the scene this node will be added to
      * @param isPure indicates this Node is just a Node, and not a derived class like Mesh or Camera
      */
-    constructor(name154, scene = null, isPure = true) {
+    constructor(name85, scene = null, isPure = true) {
       this._isDirty = false;
       this._nodeDataStorage = new _InternalNodeDataInfo();
       this.state = "";
@@ -24761,8 +21589,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       this.onDisposeObservable = new Observable();
       this._onDisposeObserver = null;
       this._behaviors = new Array();
-      this.name = name154;
-      this.id = name154;
+      this.name = name85;
+      this.id = name85;
       this._scene = scene || EngineStore.LastCreatedScene;
       this.uniqueId = this._scene.getUniqueId();
       this._initCache();
@@ -24835,9 +21663,9 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @see https://doc.babylonjs.com/features/featuresDeepDive/behaviors
      * @returns null if behavior was not found else the requested behavior
      */
-    getBehaviorByName(name154) {
+    getBehaviorByName(name85) {
       for (const behavior of this._behaviors) {
-        if (behavior.name === name154) {
+        if (behavior.name === name85) {
           return behavior;
         }
       }
@@ -25067,10 +21895,10 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param name defines the name of the animation to look for
      * @returns null if not found else the requested animation
      */
-    getAnimationByName(name154) {
+    getAnimationByName(name85) {
       for (let i = 0; i < this.animations.length; i++) {
         const animation = this.animations[i];
-        if (animation.name === name154) {
+        if (animation.name === name85) {
           return animation;
         }
       }
@@ -25082,12 +21910,12 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param from defines the starting key
      * @param to defines the end key
      */
-    createAnimationRange(name154, from, to) {
-      if (!this._ranges[name154]) {
-        this._ranges[name154] = _Node._AnimationRangeFactory(name154, from, to);
+    createAnimationRange(name85, from, to) {
+      if (!this._ranges[name85]) {
+        this._ranges[name85] = _Node._AnimationRangeFactory(name85, from, to);
         for (let i = 0, nAnimations = this.animations.length; i < nAnimations; i++) {
           if (this.animations[i]) {
-            this.animations[i].createRange(name154, from, to);
+            this.animations[i].createRange(name85, from, to);
           }
         }
       }
@@ -25097,21 +21925,21 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param name defines the name of the range to delete
      * @param deleteFrames defines if animation frames from the range must be deleted as well
      */
-    deleteAnimationRange(name154, deleteFrames = true) {
+    deleteAnimationRange(name85, deleteFrames = true) {
       for (let i = 0, nAnimations = this.animations.length; i < nAnimations; i++) {
         if (this.animations[i]) {
-          this.animations[i].deleteRange(name154, deleteFrames);
+          this.animations[i].deleteRange(name85, deleteFrames);
         }
       }
-      this._ranges[name154] = null;
+      this._ranges[name85] = null;
     }
     /**
      * Get an animation range by name
      * @param name defines the name of the animation range to look for
      * @returns null if not found else the requested animation range
      */
-    getAnimationRange(name154) {
-      return this._ranges[name154] || null;
+    getAnimationRange(name85) {
+      return this._ranges[name85] || null;
     }
     /**
      * Clone the current node
@@ -25120,8 +21948,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param doNotCloneChildren Do not clone children hierarchy
      * @returns the new transform node
      */
-    clone(name154, newParent, doNotCloneChildren) {
-      const result = SerializationHelper.Clone(() => new _Node(name154, this.getScene()), this);
+    clone(name85, newParent, doNotCloneChildren) {
+      const result = SerializationHelper.Clone(() => new _Node(name85, this.getScene()), this);
       if (newParent) {
         result.parent = newParent;
       }
@@ -25129,7 +21957,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
         const directDescendants = this.getDescendants(true);
         for (let index = 0; index < directDescendants.length; index++) {
           const child = directDescendants[index];
-          child.clone(name154 + "." + child.name, result);
+          child.clone(name85 + "." + child.name, result);
         }
       }
       return result;
@@ -25140,9 +21968,9 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      */
     getAnimationRanges() {
       const animationRanges = [];
-      let name154;
-      for (name154 in this._ranges) {
-        animationRanges.push(this._ranges[name154]);
+      let name85;
+      for (name85 in this._ranges) {
+        animationRanges.push(this._ranges[name85]);
       }
       return animationRanges;
     }
@@ -25154,8 +21982,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param onAnimationEnd defines a function to be executed when the animation ended (undefined by default)
      * @returns the object created for this animation. If range does not exist, it will return null
      */
-    beginAnimation(name154, loop, speedRatio, onAnimationEnd) {
-      const range = this.getAnimationRange(name154);
+    beginAnimation(name85, loop, speedRatio, onAnimationEnd) {
+      const range = this.getAnimationRange(name85);
       if (!range) {
         return null;
       }
@@ -25167,13 +21995,13 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      */
     serializeAnimationRanges() {
       const serializationRanges = [];
-      for (const name154 in this._ranges) {
-        const localRange = this._ranges[name154];
+      for (const name85 in this._ranges) {
+        const localRange = this._ranges[name85];
         if (!localRange) {
           continue;
         }
         const range = {};
-        range.name = name154;
+        range.name = name85;
         range.from = localRange.from;
         range.to = localRange.to;
         serializationRanges.push(range);
@@ -25781,8 +22609,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param scene Defines the scene the camera belongs too
      * @param setActiveOnSceneIfNoneActive Defines if the camera should be set as active after creation if no other camera have been defined in the scene
      */
-    constructor(name154, position, scene, setActiveOnSceneIfNoneActive = true) {
-      super(name154, scene, false);
+    constructor(name85, position, scene, setActiveOnSceneIfNoneActive = true) {
+      super(name85, scene, false);
       this._position = Vector3.Zero();
       this._upVector = Vector3.Up();
       this.oblique = null;
@@ -25828,7 +22656,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
         this.getScene().activeCamera = this;
       }
       this.position = position;
-      this.renderPassId = this.getScene().getEngine().createRenderPassId(`Camera ${name154}`);
+      this.renderPassId = this.getScene().getEngine().createRenderPassId(`Camera ${name85}`);
     }
     /**
      * Store current camera state (fov, position, etc..)
@@ -26453,12 +23281,12 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
     /**
      * @internal
      */
-    setCameraRigParameter(name154, value) {
+    setCameraRigParameter(name85, value) {
       if (!this._cameraRigParams) {
         this._cameraRigParams = {};
       }
-      this._cameraRigParams[name154] = value;
-      if (name154 === "interaxialDistance") {
+      this._cameraRigParams[name85] = value;
+      if (name85 === "interaxialDistance") {
         this._cameraRigParams.stereoHalfAngle = Tools.ToRadians(value / 0.0637);
       }
     }
@@ -26467,7 +23295,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @internal
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    createRigCamera(name154, cameraIndex) {
+    createRigCamera(name85, cameraIndex) {
       return null;
     }
     /**
@@ -26513,9 +23341,9 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param newParent The cloned camera's new parent (none by default)
      * @returns the cloned camera
      */
-    clone(name154, newParent = null) {
-      const camera = SerializationHelper.Clone(_Camera.GetConstructorFromName(this.getClassName(), name154, this.getScene(), this.interaxialDistance, this.isStereoscopicSideBySide), this);
-      camera.name = name154;
+    clone(name85, newParent = null) {
+      const camera = SerializationHelper.Clone(_Camera.GetConstructorFromName(this.getClassName(), name85, this.getScene(), this.interaxialDistance, this.isStereoscopicSideBySide), this);
+      camera.name = name85;
       camera.parent = newParent;
       this.onClonedObservable.notifyObservers(camera);
       return camera;
@@ -26555,8 +23383,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a factory method to construct the camera
      */
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    static GetConstructorFromName(type, name154, scene, interaxial_distance = 0, isStereoscopicSideBySide = true) {
-      const constructorFunc = Node2.Construct(type, name154, scene, {
+    static GetConstructorFromName(type, name85, scene, interaxial_distance = 0, isStereoscopicSideBySide = true) {
+      const constructorFunc = Node2.Construct(type, name85, scene, {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         interaxial_distance,
         isStereoscopicSideBySide
@@ -26564,7 +23392,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       if (constructorFunc) {
         return constructorFunc;
       }
-      return () => _Camera._CreateDefaultParsedCamera(name154, scene);
+      return () => _Camera._CreateDefaultParsedCamera(name85, scene);
     }
     /**
      * Compute the world  matrix of the camera.
@@ -26636,7 +23464,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       return handednessMultiplier;
     }
   };
-  Camera._CreateDefaultParsedCamera = (name154, scene) => {
+  Camera._CreateDefaultParsedCamera = (name85, scene) => {
     throw _WarnImport("UniversalCamera");
   };
   Camera.PERSPECTIVE_CAMERA = 0;
@@ -33100,11 +29928,11 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * Disable the instance attribute corresponding to the name in parameter
      * @param name defines the name of the attribute to disable
      */
-    disableInstanceAttributeByName(name154) {
+    disableInstanceAttributeByName(name85) {
       if (!this._currentEffect) {
         return;
       }
-      const attributeLocation = this._currentEffect.getAttributeLocationByName(name154);
+      const attributeLocation = this._currentEffect.getAttributeLocationByName(name85);
       this.disableInstanceAttribute(attributeLocation);
     }
     /**
@@ -33275,9 +30103,9 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       if (globalDefines) {
         fullDefines += globalDefines;
       }
-      const name154 = vertex + "+" + fragment + "@" + fullDefines;
-      if (this._compiledEffects[name154]) {
-        const compiledEffect = this._compiledEffects[name154];
+      const name85 = vertex + "+" + fragment + "@" + fullDefines;
+      if (this._compiledEffects[name85]) {
+        const compiledEffect = this._compiledEffects[name85];
         if (onCompiled && compiledEffect.isReady()) {
           onCompiled(compiledEffect);
         }
@@ -33287,15 +30115,15 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       if (this._gl) {
         getStateObject(this._gl);
       }
-      const effect = new Effect(baseName, attributesNamesOrOptions, uniformsNamesOrEngine, samplers, this, defines, fallbacks, onCompiled, onError, indexParameters, name154, attributesNamesOrOptions.shaderLanguage ?? shaderLanguage);
-      this._compiledEffects[name154] = effect;
+      const effect = new Effect(baseName, attributesNamesOrOptions, uniformsNamesOrEngine, samplers, this, defines, fallbacks, onCompiled, onError, indexParameters, name85, attributesNamesOrOptions.shaderLanguage ?? shaderLanguage);
+      this._compiledEffects[name85] = effect;
       return effect;
     }
     /**
      * @internal
      */
-    _getShaderSource(shader154) {
-      return this._gl.getShaderSource(shader154);
+    _getShaderSource(shader85) {
+      return this._gl.getShaderSource(shader85);
     }
     /**
      * Directly creates a webGL program
@@ -34540,7 +31368,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
     /**
      * @internal
      */
-    _bindTexture(channel, texture, name154) {
+    _bindTexture(channel, texture, name85) {
       if (channel === void 0) {
         return;
       }
@@ -34572,7 +31400,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param texture The texture to apply
      * @param name The name of the uniform in the effect
      */
-    setTexture(channel, uniform, texture, name154) {
+    setTexture(channel, uniform, texture, name85) {
       if (channel === void 0) {
         return;
       }
@@ -34600,7 +31428,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       }
       return this._gl.REPEAT;
     }
-    _setTexture(channel, texture, isPartOfTextureArray = false, depthStencilTexture = false, name154 = "") {
+    _setTexture(channel, texture, isPartOfTextureArray = false, depthStencilTexture = false, name85 = "") {
       if (!texture) {
         if (this._boundTexturesCache[channel] != null) {
           this._activeChannel = channel;
@@ -34683,7 +31511,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param textures defines the array of textures to bind
      * @param name name of the channel
      */
-    setTextureArray(channel, uniform, textures, name154) {
+    setTextureArray(channel, uniform, textures, name85) {
       if (channel === void 0 || !uniform) {
         return;
       }
@@ -34750,8 +31578,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      */
     releaseEffects() {
       const keys = Object.keys(this._compiledEffects);
-      for (const name154 of keys) {
-        const effect = this._compiledEffects[name154];
+      for (const name85 of keys) {
+        const effect = this._compiledEffects[name85];
         effect.dispose();
       }
       this._compiledEffects = {};
@@ -35845,9 +32673,9 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
   AbstractEngine.prototype.getCurrentRenderPassName = function() {
     return this._renderPassNames[this.currentRenderPassId];
   };
-  AbstractEngine.prototype.createRenderPassId = function(name154) {
+  AbstractEngine.prototype.createRenderPassId = function(name85) {
     const id = ++AbstractEngine._RenderPassIdCounter;
-    this._renderPassNames[id] = name154 ?? "NONAME";
+    this._renderPassNames[id] = name85 ?? "NONAME";
     return id;
   };
   AbstractEngine.prototype.releaseRenderPassId = function(id) {
@@ -37219,8 +34047,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       }
       this._infiniteDistance = value;
     }
-    constructor(name154, scene = null, isPure = true) {
-      super(name154, scene, false);
+    constructor(name85, scene = null, isPure = true) {
+      super(name85, scene, false);
       this._forward = new Vector3(0, 0, 1);
       this._up = new Vector3(0, 1, 0);
       this._right = new Vector3(1, 0, 0);
@@ -38272,10 +35100,10 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param doNotCloneChildren Do not clone children hierarchy
      * @returns the new transform node
      */
-    clone(name154, newParent, doNotCloneChildren) {
-      const result = SerializationHelper.Clone(() => new _TransformNode(name154, this.getScene()), this);
-      result.name = name154;
-      result.id = name154;
+    clone(name85, newParent, doNotCloneChildren) {
+      const result = SerializationHelper.Clone(() => new _TransformNode(name85, this.getScene()), this);
+      result.name = name85;
+      result.id = name85;
       if (newParent) {
         result.parent = newParent;
       }
@@ -38284,7 +35112,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
         for (let index = 0; index < directDescendants.length; index++) {
           const child = directDescendants[index];
           if (child.clone) {
-            child.clone(name154 + "." + child.name, result);
+            child.clone(name85 + "." + child.name, result);
           }
         }
       }
@@ -38633,7 +35461,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
   ThinEngine.prototype.bindUniformBuffer = function(buffer) {
     this._gl.bindBuffer(this._gl.UNIFORM_BUFFER, buffer ? buffer.underlyingResource : null);
   };
-  ThinEngine.prototype.bindUniformBufferBase = function(buffer, location2, name154) {
+  ThinEngine.prototype.bindUniformBufferBase = function(buffer, location2, name85) {
     this._gl.bindBufferBase(this._gl.UNIFORM_BUFFER, location2, buffer ? buffer.underlyingResource : null);
   };
   ThinEngine.prototype.bindUniformBlock = function(pipelineContext, blockName, index) {
@@ -38661,12 +35489,12 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param name to assign to the buffer (debugging purpose)
      * @param forceNoUniformBuffer define that this object must not rely on UBO objects
      */
-    constructor(engine, data, dynamic, name154, forceNoUniformBuffer = false) {
+    constructor(engine, data, dynamic, name85, forceNoUniformBuffer = false) {
       this._valueCache = {};
       this._engine = engine;
       this._noUBO = !engine.supportsUniformBuffers || forceNoUniformBuffer;
       this._dynamic = dynamic;
-      this._name = name154 ?? "no-name";
+      this._name = name85 ?? "no-name";
       this._data = data || [];
       this._uniformLocations = {};
       this._uniformSizes = {};
@@ -38802,20 +35630,20 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param size Data size, or data directly.
      * @param arraySize The number of elements in the array, 0 if not an array.
      */
-    addUniform(name154, size, arraySize = 0) {
+    addUniform(name85, size, arraySize = 0) {
       if (this._noUBO) {
         return;
       }
-      if (this._uniformLocations[name154] !== void 0) {
+      if (this._uniformLocations[name85] !== void 0) {
         return;
       }
       let data;
       if (arraySize > 0) {
         if (size instanceof Array) {
-          throw "addUniform should not be use with Array in UBO: " + name154;
+          throw "addUniform should not be use with Array in UBO: " + name85;
         }
         this._fillAlignment(4);
-        this._uniformArraySizes[name154] = { strideSize: size, arraySize };
+        this._uniformArraySizes[name85] = { strideSize: size, arraySize };
         if (size == 16) {
           size = size * arraySize;
         } else {
@@ -38840,8 +35668,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
         }
         this._fillAlignment(size);
       }
-      this._uniformSizes[name154] = size;
-      this._uniformLocations[name154] = this._uniformLocationPointer;
+      this._uniformSizes[name85] = size;
+      this._uniformLocations[name85] = this._uniformLocationPointer;
       this._uniformLocationPointer += size;
       for (let i = 0; i < size; i++) {
         this._data.push(data[i]);
@@ -38853,8 +35681,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param name Name of the uniform, as used in the uniform block in the shader.
      * @param mat A 4x4 matrix.
      */
-    addMatrix(name154, mat) {
-      this.addUniform(name154, Array.prototype.slice.call(mat.asArray()));
+    addMatrix(name85, mat) {
+      this.addUniform(name85, Array.prototype.slice.call(mat.asArray()));
     }
     /**
      * Adds a vec2 to the uniform buffer.
@@ -38862,9 +35690,9 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param x Define the x component value of the vec2
      * @param y Define the y component value of the vec2
      */
-    addFloat2(name154, x, y) {
+    addFloat2(name85, x, y) {
       const temp = [x, y];
-      this.addUniform(name154, temp);
+      this.addUniform(name85, temp);
     }
     /**
      * Adds a vec3 to the uniform buffer.
@@ -38873,18 +35701,18 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param y Define the y component value of the vec3
      * @param z Define the z component value of the vec3
      */
-    addFloat3(name154, x, y, z) {
+    addFloat3(name85, x, y, z) {
       const temp = [x, y, z];
-      this.addUniform(name154, temp);
+      this.addUniform(name85, temp);
     }
     /**
      * Adds a vec3 to the uniform buffer.
      * @param name Name of the uniform, as used in the uniform block in the shader.
      * @param color Define the vec3 from a Color
      */
-    addColor3(name154, color) {
+    addColor3(name85, color) {
       const temp = [color.r, color.g, color.b];
-      this.addUniform(name154, temp);
+      this.addUniform(name85, temp);
     }
     /**
      * Adds a vec4 to the uniform buffer.
@@ -38892,32 +35720,32 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param color Define the rgb components from a Color
      * @param alpha Define the a component of the vec4
      */
-    addColor4(name154, color, alpha) {
+    addColor4(name85, color, alpha) {
       const temp = [color.r, color.g, color.b, alpha];
-      this.addUniform(name154, temp);
+      this.addUniform(name85, temp);
     }
     /**
      * Adds a vec3 to the uniform buffer.
      * @param name Name of the uniform, as used in the uniform block in the shader.
      * @param vector Define the vec3 components from a Vector
      */
-    addVector3(name154, vector) {
+    addVector3(name85, vector) {
       const temp = [vector.x, vector.y, vector.z];
-      this.addUniform(name154, temp);
+      this.addUniform(name85, temp);
     }
     /**
      * Adds a Matrix 3x3 to the uniform buffer.
      * @param name Name of the uniform, as used in the uniform block in the shader.
      */
-    addMatrix3x3(name154) {
-      this.addUniform(name154, 12);
+    addMatrix3x3(name85) {
+      this.addUniform(name85, 12);
     }
     /**
      * Adds a Matrix 2x2 to the uniform buffer.
      * @param name Name of the uniform, as used in the uniform block in the shader.
      */
-    addMatrix2x2(name154) {
-      this.addUniform(name154, 8);
+    addMatrix2x2(name85) {
+      this.addUniform(name85, 8);
     }
     /**
      * Effectively creates the WebGL Uniform Buffer, once layout is completed with `addUniform`.
@@ -38941,8 +35769,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
     _getNames() {
       const names = [];
       let i = 0;
-      for (const name154 in this._uniformLocations) {
-        names.push(name154);
+      for (const name85 in this._uniformLocations) {
+        names.push(name85);
         if (++i === 10) {
           break;
         }
@@ -39145,246 +35973,246 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
         }
       }
     }
-    _cacheMatrix(name154, matrix) {
+    _cacheMatrix(name85, matrix) {
       this._checkNewFrame();
-      const cache = this._valueCache[name154];
+      const cache = this._valueCache[name85];
       const flag = matrix.updateFlag;
       if (cache !== void 0 && cache === flag) {
         return false;
       }
-      this._valueCache[name154] = flag;
+      this._valueCache[name85] = flag;
       return true;
     }
     // Update methods
-    _updateMatrix3x3ForUniform(name154, matrix) {
+    _updateMatrix3x3ForUniform(name85, matrix) {
       for (let i = 0; i < 3; i++) {
         _UniformBuffer._TempBuffer[i * 4] = matrix[i * 3];
         _UniformBuffer._TempBuffer[i * 4 + 1] = matrix[i * 3 + 1];
         _UniformBuffer._TempBuffer[i * 4 + 2] = matrix[i * 3 + 2];
         _UniformBuffer._TempBuffer[i * 4 + 3] = 0;
       }
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 12);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 12);
     }
-    _updateMatrix3x3ForEffect(name154, matrix) {
-      this._currentEffect.setMatrix3x3(name154, matrix);
+    _updateMatrix3x3ForEffect(name85, matrix) {
+      this._currentEffect.setMatrix3x3(name85, matrix);
     }
-    _updateMatrix2x2ForEffect(name154, matrix) {
-      this._currentEffect.setMatrix2x2(name154, matrix);
+    _updateMatrix2x2ForEffect(name85, matrix) {
+      this._currentEffect.setMatrix2x2(name85, matrix);
     }
-    _updateMatrix2x2ForUniform(name154, matrix) {
+    _updateMatrix2x2ForUniform(name85, matrix) {
       for (let i = 0; i < 2; i++) {
         _UniformBuffer._TempBuffer[i * 4] = matrix[i * 2];
         _UniformBuffer._TempBuffer[i * 4 + 1] = matrix[i * 2 + 1];
         _UniformBuffer._TempBuffer[i * 4 + 2] = 0;
         _UniformBuffer._TempBuffer[i * 4 + 3] = 0;
       }
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 8);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 8);
     }
-    _updateFloatForEffect(name154, x) {
-      this._currentEffect.setFloat(name154, x);
+    _updateFloatForEffect(name85, x) {
+      this._currentEffect.setFloat(name85, x);
     }
-    _updateFloatForUniform(name154, x) {
+    _updateFloatForUniform(name85, x) {
       _UniformBuffer._TempBuffer[0] = x;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 1);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 1);
     }
-    _updateFloat2ForEffect(name154, x, y, suffix = "") {
-      this._currentEffect.setFloat2(name154 + suffix, x, y);
+    _updateFloat2ForEffect(name85, x, y, suffix = "") {
+      this._currentEffect.setFloat2(name85 + suffix, x, y);
     }
-    _updateFloat2ForUniform(name154, x, y) {
+    _updateFloat2ForUniform(name85, x, y) {
       _UniformBuffer._TempBuffer[0] = x;
       _UniformBuffer._TempBuffer[1] = y;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 2);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 2);
     }
-    _updateFloat3ForEffect(name154, x, y, z, suffix = "") {
-      this._currentEffect.setFloat3(name154 + suffix, x, y, z);
+    _updateFloat3ForEffect(name85, x, y, z, suffix = "") {
+      this._currentEffect.setFloat3(name85 + suffix, x, y, z);
     }
-    _updateFloat3ForUniform(name154, x, y, z) {
+    _updateFloat3ForUniform(name85, x, y, z) {
       _UniformBuffer._TempBuffer[0] = x;
       _UniformBuffer._TempBuffer[1] = y;
       _UniformBuffer._TempBuffer[2] = z;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 3);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 3);
     }
-    _updateFloat4ForEffect(name154, x, y, z, w, suffix = "") {
-      this._currentEffect.setFloat4(name154 + suffix, x, y, z, w);
+    _updateFloat4ForEffect(name85, x, y, z, w, suffix = "") {
+      this._currentEffect.setFloat4(name85 + suffix, x, y, z, w);
     }
-    _updateFloat4ForUniform(name154, x, y, z, w) {
+    _updateFloat4ForUniform(name85, x, y, z, w) {
       _UniformBuffer._TempBuffer[0] = x;
       _UniformBuffer._TempBuffer[1] = y;
       _UniformBuffer._TempBuffer[2] = z;
       _UniformBuffer._TempBuffer[3] = w;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 4);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 4);
     }
-    _updateFloatArrayForEffect(name154, array) {
-      this._currentEffect.setFloatArray(name154, array);
+    _updateFloatArrayForEffect(name85, array) {
+      this._currentEffect.setFloatArray(name85, array);
     }
-    _updateFloatArrayForUniform(name154, array) {
-      this.updateUniformArray(name154, array, array.length);
+    _updateFloatArrayForUniform(name85, array) {
+      this.updateUniformArray(name85, array, array.length);
     }
-    _updateArrayForEffect(name154, array) {
-      this._currentEffect.setArray(name154, array);
+    _updateArrayForEffect(name85, array) {
+      this._currentEffect.setArray(name85, array);
     }
-    _updateArrayForUniform(name154, array) {
-      this.updateUniformArray(name154, array, array.length);
+    _updateArrayForUniform(name85, array) {
+      this.updateUniformArray(name85, array, array.length);
     }
-    _updateIntArrayForEffect(name154, array) {
-      this._currentEffect.setIntArray(name154, array);
+    _updateIntArrayForEffect(name85, array) {
+      this._currentEffect.setIntArray(name85, array);
     }
-    _updateIntArrayForUniform(name154, array) {
+    _updateIntArrayForUniform(name85, array) {
       _UniformBuffer._TempBufferInt32View.set(array);
-      this.updateUniformArray(name154, _UniformBuffer._TempBuffer, array.length);
+      this.updateUniformArray(name85, _UniformBuffer._TempBuffer, array.length);
     }
-    _updateUIntArrayForEffect(name154, array) {
-      this._currentEffect.setUIntArray(name154, array);
+    _updateUIntArrayForEffect(name85, array) {
+      this._currentEffect.setUIntArray(name85, array);
     }
-    _updateUIntArrayForUniform(name154, array) {
+    _updateUIntArrayForUniform(name85, array) {
       _UniformBuffer._TempBufferUInt32View.set(array);
-      this.updateUniformArray(name154, _UniformBuffer._TempBuffer, array.length);
+      this.updateUniformArray(name85, _UniformBuffer._TempBuffer, array.length);
     }
-    _updateMatrixForEffect(name154, mat) {
-      this._currentEffect.setMatrix(name154, mat);
+    _updateMatrixForEffect(name85, mat) {
+      this._currentEffect.setMatrix(name85, mat);
     }
-    _updateMatrixForUniform(name154, mat) {
-      if (this._cacheMatrix(name154, mat)) {
-        this.updateUniform(name154, mat.asArray(), 16);
+    _updateMatrixForUniform(name85, mat) {
+      if (this._cacheMatrix(name85, mat)) {
+        this.updateUniform(name85, mat.asArray(), 16);
       }
     }
-    _updateMatricesForEffect(name154, mat) {
-      this._currentEffect.setMatrices(name154, mat);
+    _updateMatricesForEffect(name85, mat) {
+      this._currentEffect.setMatrices(name85, mat);
     }
-    _updateMatricesForUniform(name154, mat) {
-      this.updateUniform(name154, mat, mat.length);
+    _updateMatricesForUniform(name85, mat) {
+      this.updateUniform(name85, mat, mat.length);
     }
-    _updateVector3ForEffect(name154, vector) {
-      this._currentEffect.setVector3(name154, vector);
+    _updateVector3ForEffect(name85, vector) {
+      this._currentEffect.setVector3(name85, vector);
     }
-    _updateVector3ForUniform(name154, vector) {
+    _updateVector3ForUniform(name85, vector) {
       _UniformBuffer._TempBuffer[0] = vector.x;
       _UniformBuffer._TempBuffer[1] = vector.y;
       _UniformBuffer._TempBuffer[2] = vector.z;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 3);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 3);
     }
-    _updateVector4ForEffect(name154, vector) {
-      this._currentEffect.setVector4(name154, vector);
+    _updateVector4ForEffect(name85, vector) {
+      this._currentEffect.setVector4(name85, vector);
     }
-    _updateVector4ForUniform(name154, vector) {
+    _updateVector4ForUniform(name85, vector) {
       _UniformBuffer._TempBuffer[0] = vector.x;
       _UniformBuffer._TempBuffer[1] = vector.y;
       _UniformBuffer._TempBuffer[2] = vector.z;
       _UniformBuffer._TempBuffer[3] = vector.w;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 4);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 4);
     }
-    _updateColor3ForEffect(name154, color, suffix = "") {
-      this._currentEffect.setColor3(name154 + suffix, color);
+    _updateColor3ForEffect(name85, color, suffix = "") {
+      this._currentEffect.setColor3(name85 + suffix, color);
     }
-    _updateColor3ForUniform(name154, color) {
+    _updateColor3ForUniform(name85, color) {
       _UniformBuffer._TempBuffer[0] = color.r;
       _UniformBuffer._TempBuffer[1] = color.g;
       _UniformBuffer._TempBuffer[2] = color.b;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 3);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 3);
     }
-    _updateColor4ForEffect(name154, color, alpha, suffix = "") {
-      this._currentEffect.setColor4(name154 + suffix, color, alpha);
+    _updateColor4ForEffect(name85, color, alpha, suffix = "") {
+      this._currentEffect.setColor4(name85 + suffix, color, alpha);
     }
-    _updateDirectColor4ForEffect(name154, color, suffix = "") {
-      this._currentEffect.setDirectColor4(name154 + suffix, color);
+    _updateDirectColor4ForEffect(name85, color, suffix = "") {
+      this._currentEffect.setDirectColor4(name85 + suffix, color);
     }
-    _updateColor4ForUniform(name154, color, alpha) {
+    _updateColor4ForUniform(name85, color, alpha) {
       _UniformBuffer._TempBuffer[0] = color.r;
       _UniformBuffer._TempBuffer[1] = color.g;
       _UniformBuffer._TempBuffer[2] = color.b;
       _UniformBuffer._TempBuffer[3] = alpha;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 4);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 4);
     }
-    _updateDirectColor4ForUniform(name154, color) {
+    _updateDirectColor4ForUniform(name85, color) {
       _UniformBuffer._TempBuffer[0] = color.r;
       _UniformBuffer._TempBuffer[1] = color.g;
       _UniformBuffer._TempBuffer[2] = color.b;
       _UniformBuffer._TempBuffer[3] = color.a;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 4);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 4);
     }
-    _updateIntForEffect(name154, x, suffix = "") {
-      this._currentEffect.setInt(name154 + suffix, x);
+    _updateIntForEffect(name85, x, suffix = "") {
+      this._currentEffect.setInt(name85 + suffix, x);
     }
-    _updateIntForUniform(name154, x) {
+    _updateIntForUniform(name85, x) {
       _UniformBuffer._TempBufferInt32View[0] = x;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 1);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 1);
     }
-    _updateInt2ForEffect(name154, x, y, suffix = "") {
-      this._currentEffect.setInt2(name154 + suffix, x, y);
+    _updateInt2ForEffect(name85, x, y, suffix = "") {
+      this._currentEffect.setInt2(name85 + suffix, x, y);
     }
-    _updateInt2ForUniform(name154, x, y) {
+    _updateInt2ForUniform(name85, x, y) {
       _UniformBuffer._TempBufferInt32View[0] = x;
       _UniformBuffer._TempBufferInt32View[1] = y;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 2);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 2);
     }
-    _updateInt3ForEffect(name154, x, y, z, suffix = "") {
-      this._currentEffect.setInt3(name154 + suffix, x, y, z);
+    _updateInt3ForEffect(name85, x, y, z, suffix = "") {
+      this._currentEffect.setInt3(name85 + suffix, x, y, z);
     }
-    _updateInt3ForUniform(name154, x, y, z) {
+    _updateInt3ForUniform(name85, x, y, z) {
       _UniformBuffer._TempBufferInt32View[0] = x;
       _UniformBuffer._TempBufferInt32View[1] = y;
       _UniformBuffer._TempBufferInt32View[2] = z;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 3);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 3);
     }
-    _updateInt4ForEffect(name154, x, y, z, w, suffix = "") {
-      this._currentEffect.setInt4(name154 + suffix, x, y, z, w);
+    _updateInt4ForEffect(name85, x, y, z, w, suffix = "") {
+      this._currentEffect.setInt4(name85 + suffix, x, y, z, w);
     }
-    _updateInt4ForUniform(name154, x, y, z, w) {
+    _updateInt4ForUniform(name85, x, y, z, w) {
       _UniformBuffer._TempBufferInt32View[0] = x;
       _UniformBuffer._TempBufferInt32View[1] = y;
       _UniformBuffer._TempBufferInt32View[2] = z;
       _UniformBuffer._TempBufferInt32View[3] = w;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 4);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 4);
     }
-    _updateUIntForEffect(name154, x, suffix = "") {
-      this._currentEffect.setUInt(name154 + suffix, x);
+    _updateUIntForEffect(name85, x, suffix = "") {
+      this._currentEffect.setUInt(name85 + suffix, x);
     }
-    _updateUIntForUniform(name154, x) {
+    _updateUIntForUniform(name85, x) {
       _UniformBuffer._TempBufferUInt32View[0] = x;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 1);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 1);
     }
-    _updateUInt2ForEffect(name154, x, y, suffix = "") {
-      this._currentEffect.setUInt2(name154 + suffix, x, y);
+    _updateUInt2ForEffect(name85, x, y, suffix = "") {
+      this._currentEffect.setUInt2(name85 + suffix, x, y);
     }
-    _updateUInt2ForUniform(name154, x, y) {
+    _updateUInt2ForUniform(name85, x, y) {
       _UniformBuffer._TempBufferUInt32View[0] = x;
       _UniformBuffer._TempBufferUInt32View[1] = y;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 2);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 2);
     }
-    _updateUInt3ForEffect(name154, x, y, z, suffix = "") {
-      this._currentEffect.setUInt3(name154 + suffix, x, y, z);
+    _updateUInt3ForEffect(name85, x, y, z, suffix = "") {
+      this._currentEffect.setUInt3(name85 + suffix, x, y, z);
     }
-    _updateUInt3ForUniform(name154, x, y, z) {
+    _updateUInt3ForUniform(name85, x, y, z) {
       _UniformBuffer._TempBufferUInt32View[0] = x;
       _UniformBuffer._TempBufferUInt32View[1] = y;
       _UniformBuffer._TempBufferUInt32View[2] = z;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 3);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 3);
     }
-    _updateUInt4ForEffect(name154, x, y, z, w, suffix = "") {
-      this._currentEffect.setUInt4(name154 + suffix, x, y, z, w);
+    _updateUInt4ForEffect(name85, x, y, z, w, suffix = "") {
+      this._currentEffect.setUInt4(name85 + suffix, x, y, z, w);
     }
-    _updateUInt4ForUniform(name154, x, y, z, w) {
+    _updateUInt4ForUniform(name85, x, y, z, w) {
       _UniformBuffer._TempBufferUInt32View[0] = x;
       _UniformBuffer._TempBufferUInt32View[1] = y;
       _UniformBuffer._TempBufferUInt32View[2] = z;
       _UniformBuffer._TempBufferUInt32View[3] = w;
-      this.updateUniform(name154, _UniformBuffer._TempBuffer, 4);
+      this.updateUniform(name85, _UniformBuffer._TempBuffer, 4);
     }
     /**
      * Sets a sampler uniform on the effect.
      * @param name Define the name of the sampler.
      * @param texture Define the texture to set in the sampler
      */
-    setTexture(name154, texture) {
-      this._currentEffect.setTexture(name154, texture);
+    setTexture(name85, texture) {
+      this._currentEffect.setTexture(name85, texture);
     }
     /**
      * Sets a sampler uniform on the effect.
      * @param name Define the name of the sampler.
      * @param texture Define the (internal) texture to set in the sampler
      */
-    bindTexture(name154, texture) {
-      this._currentEffect._bindTexture(name154, texture);
+    bindTexture(name85, texture) {
+      this._currentEffect._bindTexture(name85, texture);
     }
     /**
      * Directly updates the value of the uniform in the cache AND on the GPU.
@@ -39400,9 +36228,9 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param effect Define the effect to associate the buffer to
      * @param name Name of the uniform block in the shader.
      */
-    bindToEffect(effect, name154) {
+    bindToEffect(effect, name85) {
       this._currentEffect = effect;
-      this._currentEffectName = name154;
+      this._currentEffectName = name85;
     }
     /**
      * Binds the current (GPU) buffer to the effect
@@ -40073,8 +36901,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param name defines the name of the mesh
      * @param scene defines the hosting scene
      */
-    constructor(name154, scene = null) {
-      super(name154, scene, false);
+    constructor(name85, scene = null) {
+      super(name85, scene, false);
       this._internalAbstractMeshDataInfo = new _InternalAbstractMeshDataInfo();
       this._waitingMaterialId = null;
       this.cullingStrategy = _AbstractMesh.CULLINGSTRATEGY_BOUNDINGSPHERE_ONLY;
@@ -40135,7 +36963,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       scene = this.getScene();
       scene.addMesh(this);
       this._resyncLightSources();
-      this._uniformBuffer = new UniformBuffer(this.getScene().getEngine(), void 0, void 0, name154, !this.getScene().getEngine().isWebGPU);
+      this._uniformBuffer = new UniformBuffer(this.getScene().getEngine(), void 0, void 0, name85, !this.getScene().getEngine().isWebGPU);
       this._buildUniformLayout();
       switch (scene.performancePriority) {
         case 2:
@@ -41030,7 +37858,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns the new mesh
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    clone(name154, newParent, doNotCloneChildren) {
+    clone(name85, newParent, doNotCloneChildren) {
       return null;
     }
     /**
@@ -42729,7 +39557,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param scene defines the scene to reference
      * @param doNotAdd specifies if the material should be added to the scene
      */
-    constructor(name154, scene, doNotAdd) {
+    constructor(name85, scene, doNotAdd) {
       this.shadowDepthWrapper = null;
       this.allowShaderHotSwapping = true;
       this._shaderLanguage = 0;
@@ -42785,7 +39613,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       this._callbackPluginEventFillRenderTargetTextures = () => void 0;
       this._forceAlphaTest = false;
       this._transparencyMode = null;
-      this.name = name154;
+      this.name = name85;
       const setScene = scene || EngineStore.LastCreatedScene;
       if (!setScene) {
         return;
@@ -42799,12 +39627,12 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       this._dirtyCallbacks[16] = this._markAllSubMeshesAsMiscDirty.bind(this);
       this._dirtyCallbacks[32] = this._markAllSubMeshesAsPrePassDirty.bind(this);
       this._dirtyCallbacks[63] = this._markAllSubMeshesAsAllDirty.bind(this);
-      this.id = name154 || Tools.RandomId();
+      this.id = name85 || Tools.RandomId();
       this.uniqueId = this._scene.getUniqueId();
       this._materialContext = this._scene.getEngine().createMaterialContext();
       this._drawWrapper = new DrawWrapper(this._scene.getEngine(), false);
       this._drawWrapper.materialContext = this._materialContext;
-      this._uniformBuffer = new UniformBuffer(this._scene.getEngine(), void 0, void 0, name154);
+      this._uniformBuffer = new UniformBuffer(this._scene.getEngine(), void 0, void 0, name85);
       this._useUBO = this.getScene().getEngine().supportsUniformBuffers;
       if (!doNotAdd) {
         this._scene.addMaterial(this);
@@ -43192,7 +40020,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns the cloned material
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    clone(name154) {
+    clone(name85) {
       return null;
     }
     _clonePlugins(targetMaterial, rootUrl) {
@@ -43773,8 +40601,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param name Define the name in the scene
      * @param scene Define the scene the material belongs to
      */
-    constructor(name154, scene) {
-      super(name154, scene, true);
+    constructor(name85, scene) {
+      super(name85, scene, true);
       this._waitingSubMaterialsUniqueIds = [];
       this.getScene().addMultiMaterial(this);
       this.subMaterials = [];
@@ -43872,13 +40700,13 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param cloneChildren Define if submaterial will be cloned or shared with the parent instance
      * @returns the cloned material
      */
-    clone(name154, cloneChildren) {
-      const newMultiMaterial = new _MultiMaterial(name154, this.getScene());
+    clone(name85, cloneChildren) {
+      const newMultiMaterial = new _MultiMaterial(name85, this.getScene());
       for (let index = 0; index < this.subMaterials.length; index++) {
         let subMaterial = null;
         const current = this.subMaterials[index];
         if (cloneChildren && current) {
-          subMaterial = current.clone(name154 + "-" + current.name);
+          subMaterial = current.clone(name85 + "-" + current.name);
         } else {
           subMaterial = this.subMaterials[index];
         }
@@ -44385,14 +41213,14 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       this._creationDataStorage = source._creationDataStorage;
       if (source._ranges) {
         const ranges = source._ranges;
-        for (const name154 in ranges) {
-          if (!Object.prototype.hasOwnProperty.call(ranges, name154)) {
+        for (const name85 in ranges) {
+          if (!Object.prototype.hasOwnProperty.call(ranges, name85)) {
             continue;
           }
-          if (!ranges[name154]) {
+          if (!ranges[name85]) {
             continue;
           }
-          this.createAnimationRange(name154, ranges[name154].from, ranges[name154].to);
+          this.createAnimationRange(name85, ranges[name85].from, ranges[name85].to);
         }
       }
       if (source.metadata && source.metadata.clone) {
@@ -44457,8 +41285,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      *                  This will make creation of children, recursive.
      * @param clonePhysicsImpostor When cloning, include cloning mesh physics impostor, default True.
      */
-    constructor(name154, scene = null, parent = null, source = null, doNotCloneChildren, clonePhysicsImpostor = true) {
-      super(name154, scene);
+    constructor(name85, scene = null, parent = null, source = null, doNotCloneChildren, clonePhysicsImpostor = true) {
+      super(name85, scene);
       this._internalMeshDataInfo = new _InternalMeshDataInfo();
       this.delayLoadState = 0;
       this.instances = [];
@@ -46228,8 +43056,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param clonePhysicsImpostor allows/denies the cloning in the same time of the original mesh `body` used by the physics engine, if any (default `true`)
      * @returns a new mesh
      */
-    clone(name154 = "", newParent = null, doNotCloneChildren, clonePhysicsImpostor = true) {
-      return new _Mesh(name154, this.getScene(), newParent, this, doNotCloneChildren, clonePhysicsImpostor);
+    clone(name85 = "", newParent = null, doNotCloneChildren, clonePhysicsImpostor = true) {
+      return new _Mesh(name85, this.getScene(), newParent, this, doNotCloneChildren, clonePhysicsImpostor);
     }
     /**
      * Releases resources associated with this mesh.
@@ -46781,7 +43609,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @internal
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention
-    static _instancedMeshFactory(name154, mesh) {
+    static _instancedMeshFactory(name85, mesh) {
       throw _WarnImport("InstancedMesh");
     }
     /**
@@ -46797,8 +43625,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param name defines the name of the new instance
      * @returns a new InstancedMesh
      */
-    createInstance(name154) {
-      return _Mesh._instancedMeshFactory(name154, this);
+    createInstance(name85) {
+      return _Mesh._instancedMeshFactory(name85, this);
     }
     /**
      * Synchronises all the mesh instance submeshes to the current mesh submeshes, if any.
@@ -47750,7 +44578,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateRibbon(name154, pathArray, closeArray, closePath, offset, scene, updatable, sideOrientation, instance) {
+    static CreateRibbon(name85, pathArray, closeArray, closePath, offset, scene, updatable, sideOrientation, instance) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47764,7 +44592,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateDisc(name154, radius, tessellation, scene, updatable, sideOrientation) {
+    static CreateDisc(name85, radius, tessellation, scene, updatable, sideOrientation) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47777,7 +44605,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateBox(name154, size, scene, updatable, sideOrientation) {
+    static CreateBox(name85, size, scene, updatable, sideOrientation) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47791,7 +44619,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateSphere(name154, segments, diameter, scene, updatable, sideOrientation) {
+    static CreateSphere(name85, segments, diameter, scene, updatable, sideOrientation) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47803,7 +44631,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateHemisphere(name154, segments, diameter, scene) {
+    static CreateHemisphere(name85, segments, diameter, scene) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47820,7 +44648,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateCylinder(name154, height, diameterTop, diameterBottom, tessellation, subdivisions, scene, updatable, sideOrientation) {
+    static CreateCylinder(name85, height, diameterTop, diameterBottom, tessellation, subdivisions, scene, updatable, sideOrientation) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     // Torus  (Code from SharpDX.org)
@@ -47836,7 +44664,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateTorus(name154, diameter, thickness, tessellation, scene, updatable, sideOrientation) {
+    static CreateTorus(name85, diameter, thickness, tessellation, scene, updatable, sideOrientation) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47854,7 +44682,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateTorusKnot(name154, radius, tube, radialSegments, tubularSegments, p, q, scene, updatable, sideOrientation) {
+    static CreateTorusKnot(name85, radius, tube, radialSegments, tubularSegments, p, q, scene, updatable, sideOrientation) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47867,7 +44695,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateLines(name154, points, scene, updatable, instance) {
+    static CreateLines(name85, points, scene, updatable, instance) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47883,7 +44711,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateDashedLines(name154, points, dashSize, gapSize, dashNb, scene, updatable, instance) {
+    static CreateDashedLines(name85, points, dashSize, gapSize, dashNb, scene, updatable, instance) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47904,7 +44732,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreatePolygon(name154, shape, scene, holes, updatable, sideOrientation, earcutInjection) {
+    static CreatePolygon(name85, shape, scene, holes, updatable, sideOrientation, earcutInjection) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47921,7 +44749,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static ExtrudePolygon(name154, shape, depth, scene, holes, updatable, sideOrientation, earcutInjection) {
+    static ExtrudePolygon(name85, shape, depth, scene, holes, updatable, sideOrientation, earcutInjection) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47942,7 +44770,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static ExtrudeShape(name154, shape, path, scale, rotation, cap, scene, updatable, sideOrientation, instance) {
+    static ExtrudeShape(name85, shape, path, scale, rotation, cap, scene, updatable, sideOrientation, instance) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47966,7 +44794,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static ExtrudeShapeCustom(name154, shape, path, scaleFunction, rotationFunction, ribbonCloseArray, ribbonClosePath, cap, scene, updatable, sideOrientation, instance) {
+    static ExtrudeShapeCustom(name85, shape, path, scaleFunction, rotationFunction, ribbonCloseArray, ribbonClosePath, cap, scene, updatable, sideOrientation, instance) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47982,7 +44810,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateLathe(name154, shape, radius, tessellation, scene, updatable, sideOrientation) {
+    static CreateLathe(name85, shape, radius, tessellation, scene, updatable, sideOrientation) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -47995,7 +44823,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreatePlane(name154, size, scene, updatable, sideOrientation) {
+    static CreatePlane(name85, size, scene, updatable, sideOrientation) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -48009,7 +44837,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateGround(name154, width, height, subdivisions, scene, updatable) {
+    static CreateGround(name85, width, height, subdivisions, scene, updatable) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -48026,7 +44854,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateTiledGround(name154, xmin, zmin, xmax, zmax, subdivisions, precision, scene, updatable) {
+    static CreateTiledGround(name85, xmin, zmin, xmax, zmax, subdivisions, precision, scene, updatable) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -48046,7 +44874,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateGroundFromHeightMap(name154, url, width, height, subdivisions, minHeight, maxHeight, scene, updatable, onReady, alphaFilter) {
+    static CreateGroundFromHeightMap(name85, url, width, height, subdivisions, minHeight, maxHeight, scene, updatable, onReady, alphaFilter) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -48068,7 +44896,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateTube(name154, path, radius, tessellation, radiusFunction, cap, scene, updatable, sideOrientation, instance) {
+    static CreateTube(name85, path, radius, tessellation, radiusFunction, cap, scene, updatable, sideOrientation, instance) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -48091,7 +44919,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreatePolyhedron(name154, options, scene) {
+    static CreatePolyhedron(name85, options, scene) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -48110,7 +44938,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateIcoSphere(name154, options, scene) {
+    static CreateIcoSphere(name85, options, scene) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -48126,7 +44954,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @returns a new Mesh
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateDecal(name154, sourceMesh, position, normal, size, angle) {
+    static CreateDecal(name85, sourceMesh, position, normal, size, angle) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /** Creates a Capsule Mesh
@@ -48137,7 +44965,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @see https://doc.babylonjs.com/how_to/capsule_shape
      * @deprecated Please use MeshBuilder instead
      */
-    static CreateCapsule(name154, options, scene) {
+    static CreateCapsule(name85, options, scene) {
       throw new Error("Import MeshBuilder to populate this function");
     }
     /**
@@ -49384,7 +46212,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
     /**
      * @internal
      */
-    static _CreateVideoTexture(name154, src, scene, generateMipMaps = false, invertY = false, samplingMode = _Texture.TRILINEAR_SAMPLINGMODE, settings = {}, onError, format = 5) {
+    static _CreateVideoTexture(name85, src, scene, generateMipMaps = false, invertY = false, samplingMode = _Texture.TRILINEAR_SAMPLINGMODE, settings = {}, onError, format = 5) {
       throw _WarnImport("VideoTexture");
     }
     /**
@@ -49999,8 +46827,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param forcedExtension defines the extension to use to pick the right loader
      * @returns the created texture
      */
-    static CreateFromBase64String(data, name154, scene, noMipmapOrOptions, invertY, samplingMode = _Texture.TRILINEAR_SAMPLINGMODE, onLoad = null, onError = null, format = 5, creationFlags, forcedExtension) {
-      return new _Texture("data:" + name154, scene, noMipmapOrOptions, invertY, samplingMode, onLoad, onError, data, false, format, void 0, void 0, creationFlags, forcedExtension);
+    static CreateFromBase64String(data, name85, scene, noMipmapOrOptions, invertY, samplingMode = _Texture.TRILINEAR_SAMPLINGMODE, onLoad = null, onError = null, format = 5, creationFlags, forcedExtension) {
+      return new _Texture("data:" + name85, scene, noMipmapOrOptions, invertY, samplingMode, onLoad, onError, data, false, format, void 0, void 0, creationFlags, forcedExtension);
     }
     /**
      * Creates a texture from its data: representation. (data: will be added in case only the payload has been passed in)
@@ -50018,11 +46846,11 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param forcedExtension defines the extension to use to pick the right loader
      * @returns the created texture
      */
-    static LoadFromDataString(name154, buffer, scene, deleteBuffer = false, noMipmapOrOptions, invertY = true, samplingMode = _Texture.TRILINEAR_SAMPLINGMODE, onLoad = null, onError = null, format = 5, creationFlags, forcedExtension) {
-      if (name154.substr(0, 5) !== "data:") {
-        name154 = "data:" + name154;
+    static LoadFromDataString(name85, buffer, scene, deleteBuffer = false, noMipmapOrOptions, invertY = true, samplingMode = _Texture.TRILINEAR_SAMPLINGMODE, onLoad = null, onError = null, format = 5, creationFlags, forcedExtension) {
+      if (name85.substr(0, 5) !== "data:") {
+        name85 = "data:" + name85;
       }
-      return new _Texture(name154, scene, noMipmapOrOptions, invertY, samplingMode, onLoad, onError, buffer, deleteBuffer, format, void 0, void 0, creationFlags, forcedExtension);
+      return new _Texture(name85, scene, noMipmapOrOptions, invertY, samplingMode, onLoad, onError, buffer, deleteBuffer, format, void 0, void 0, creationFlags, forcedExtension);
     }
   };
   Texture.SerializeBuffers = true;
@@ -50032,10 +46860,10 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
   Texture._CubeTextureParser = (jsonTexture, scene, rootUrl) => {
     throw _WarnImport("CubeTexture");
   };
-  Texture._CreateMirror = (name154, renderTargetSize, scene, generateMipMaps) => {
+  Texture._CreateMirror = (name85, renderTargetSize, scene, generateMipMaps) => {
     throw _WarnImport("MirrorTexture");
   };
-  Texture._CreateRenderTargetTexture = (name154, renderTargetSize, scene, generateMipMaps, creationFlags) => {
+  Texture._CreateRenderTargetTexture = (name85, renderTargetSize, scene, generateMipMaps, creationFlags) => {
     throw _WarnImport("RenderTargetTexture");
   };
   Texture.NEAREST_SAMPLINGMODE = 1;
@@ -51425,8 +48253,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
 
   // ../node_modules/@babylonjs/core/Misc/HighDynamicRange/cubemapToSphericalPolynomial.js
   var FileFaceOrientation = class {
-    constructor(name154, worldAxisForNormal, worldAxisForFileX, worldAxisForFileY) {
-      this.name = name154;
+    constructor(name85, worldAxisForNormal, worldAxisForFileX, worldAxisForFileY) {
+      this.name = name85;
       this.worldAxisForNormal = worldAxisForNormal;
       this.worldAxisForFileX = worldAxisForFileX;
       this.worldAxisForFileY = worldAxisForFileY;
@@ -53237,7 +50065,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
   };
 
   // ../node_modules/@babylonjs/core/Engines/Extensions/engine.renderTargetTexture.js
-  ThinEngine.prototype.setDepthStencilTexture = function(channel, uniform, texture, name154) {
+  ThinEngine.prototype.setDepthStencilTexture = function(channel, uniform, texture, name85) {
     if (channel === void 0) {
       return;
     }
@@ -53245,9 +50073,9 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       this._boundUniforms[channel] = uniform;
     }
     if (!texture || !texture.depthStencilTexture) {
-      this._setTexture(channel, null, void 0, void 0, name154);
+      this._setTexture(channel, null, void 0, void 0, name85);
     } else {
-      this._setTexture(channel, texture, false, true, name154);
+      this._setTexture(channel, texture, false, true, name85);
     }
   };
 
@@ -53693,7 +50521,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       return this._renderTarget?._depthStencilTexture ?? null;
     }
     /** @internal */
-    constructor(name154, size, scene, generateMipMaps = false, doNotChangeAspectRatio = true, type = 0, isCube = false, samplingMode = Texture.TRILINEAR_SAMPLINGMODE, generateDepthBuffer = true, generateStencilBuffer = false, isMulti = false, format = 5, delayAllocation = false, samples, creationFlags, noColorAttachment = false, useSRGBBuffer = false) {
+    constructor(name85, size, scene, generateMipMaps = false, doNotChangeAspectRatio = true, type = 0, isCube = false, samplingMode = Texture.TRILINEAR_SAMPLINGMODE, generateDepthBuffer = true, generateStencilBuffer = false, isMulti = false, format = 5, delayAllocation = false, samples, creationFlags, noColorAttachment = false, useSRGBBuffer = false) {
       let colorAttachment = void 0;
       let gammaSpace = true;
       if (typeof generateMipMaps === "object") {
@@ -53751,7 +50579,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       this._gammaSpace = gammaSpace;
       this._coordinatesMode = Texture.PROJECTION_MODE;
       this.renderList = [];
-      this.name = name154;
+      this.name = name85;
       this.isRenderTarget = true;
       this._initialSizeParameter = size;
       this._renderPassIds = [];
@@ -54506,13 +51334,13 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
   RenderTargetTexture.REFRESHRATE_RENDER_ONCE = 0;
   RenderTargetTexture.REFRESHRATE_RENDER_ONEVERYFRAME = 1;
   RenderTargetTexture.REFRESHRATE_RENDER_ONEVERYTWOFRAMES = 2;
-  Texture._CreateRenderTargetTexture = (name154, renderTargetSize, scene, generateMipMaps, creationFlags) => {
-    return new RenderTargetTexture(name154, renderTargetSize, scene, generateMipMaps);
+  Texture._CreateRenderTargetTexture = (name85, renderTargetSize, scene, generateMipMaps, creationFlags) => {
+    return new RenderTargetTexture(name85, renderTargetSize, scene, generateMipMaps);
   };
 
   // ../node_modules/@babylonjs/core/PostProcesses/postProcess.js
   init_postprocess_vertex();
-  AbstractEngine.prototype.setTextureFromPostProcess = function(channel, postProcess, name154) {
+  AbstractEngine.prototype.setTextureFromPostProcess = function(channel, postProcess, name85) {
     let postProcessInput = null;
     if (postProcess) {
       if (postProcess._forcedOutputTexture) {
@@ -54521,10 +51349,10 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
         postProcessInput = postProcess._textures.data[postProcess._currentRenderTextureInd];
       }
     }
-    this._bindTexture(channel, postProcessInput?.texture ?? null, name154);
+    this._bindTexture(channel, postProcessInput?.texture ?? null, name85);
   };
-  AbstractEngine.prototype.setTextureFromPostProcessOutput = function(channel, postProcess, name154) {
-    this._bindTexture(channel, postProcess?._outputTexture?.texture ?? null, name154);
+  AbstractEngine.prototype.setTextureFromPostProcessOutput = function(channel, postProcess, name85) {
+    this._bindTexture(channel, postProcess?._outputTexture?.texture ?? null, name85);
   };
   Effect.prototype.setTextureFromPostProcess = function(channel, postProcess) {
     this._engine.setTextureFromPostProcess(this._samplers[channel], postProcess, channel);
@@ -54661,7 +51489,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       return this._texelSize;
     }
     /** @internal */
-    constructor(name154, fragmentUrl, parameters, samplers, _size, camera, samplingMode = 1, engine, reusable, defines = null, textureType = 0, vertexUrl = "postprocess", indexParameters, blockCompilation = false, textureFormat = 5, shaderLanguage, extraInitializations) {
+    constructor(name85, fragmentUrl, parameters, samplers, _size, camera, samplingMode = 1, engine, reusable, defines = null, textureType = 0, vertexUrl = "postprocess", indexParameters, blockCompilation = false, textureFormat = 5, shaderLanguage, extraInitializations) {
       this._parentContainer = null;
       this.width = -1;
       this.height = -1;
@@ -54694,7 +51522,7 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
       this.onBeforeRenderObservable = new Observable();
       this.onAfterRenderObservable = new Observable();
       this._onInitShadersDone = null;
-      this.name = name154;
+      this.name = name85;
       let size = 1;
       let uniformBuffers = null;
       if (parameters && !Array.isArray(parameters)) {
@@ -55304,8 +52132,8 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
      * @param textureType The type of texture to be used when performing the post processing.
      * @param blockCompilation If compilation of the shader should not be done in the constructor. The updateEffect method can be used to compile the shader at a later time. (default: false)
      */
-    constructor(name154, options, camera = null, samplingMode, engine, reusable, textureType = 0, blockCompilation = false) {
-      super(name154, "pass", null, null, options, camera, samplingMode, engine, reusable, void 0, textureType, void 0, null, blockCompilation);
+    constructor(name85, options, camera = null, samplingMode, engine, reusable, textureType = 0, blockCompilation = false) {
+      super(name85, "pass", null, null, options, camera, samplingMode, engine, reusable, void 0, textureType, void 0, null, blockCompilation);
     }
     async _initShaderSourceAsync(useWebGPU) {
       if (useWebGPU) {
@@ -55332,17 +52160,17 @@ ${this.m[12]}, ${this.m[13]}, ${this.m[14]}, ${this.m[15]}}`;
 
   // ../node_modules/@babylonjs/core/Shaders/lod.fragment.js
   init_shaderStore();
-  var name5 = "lodPixelShader";
-  var shader5 = `#extension GL_EXT_shader_texture_lod : enable
+  var name3 = "lodPixelShader";
+  var shader3 = `#extension GL_EXT_shader_texture_lod : enable
 precision highp float;const float GammaEncodePowerApprox=1.0/2.2;varying vec2 vUV;uniform sampler2D textureSampler;uniform float lod;uniform vec2 texSize;uniform bool gamma;void main(void)
 {gl_FragColor=textureLod(textureSampler,vUV,lod);if (!gamma) {gl_FragColor.rgb=pow(gl_FragColor.rgb,vec3(GammaEncodePowerApprox));}}
 `;
-  ShaderStore.ShadersStore[name5] = shader5;
+  ShaderStore.ShadersStore[name3] = shader3;
 
   // ../node_modules/@babylonjs/core/Shaders/lodCube.fragment.js
   init_shaderStore();
-  var name6 = "lodCubePixelShader";
-  var shader6 = `precision highp float;const float GammaEncodePowerApprox=1.0/2.2;varying vec2 vUV;uniform samplerCube textureSampler;uniform float lod;uniform bool gamma;void main(void)
+  var name4 = "lodCubePixelShader";
+  var shader4 = `precision highp float;const float GammaEncodePowerApprox=1.0/2.2;varying vec2 vUV;uniform samplerCube textureSampler;uniform float lod;uniform bool gamma;void main(void)
 {vec2 uv=vUV*2.0-1.0;
 #ifdef POSITIVEX
 gl_FragColor=textureCube(textureSampler,vec3(1.001,uv.y,uv.x),lod);
@@ -55364,7 +52192,7 @@ gl_FragColor=textureCube(textureSampler,vec3(uv,-1.001),lod);
 #endif
 if (!gamma) {gl_FragColor.rgb=pow(gl_FragColor.rgb,vec3(GammaEncodePowerApprox));}}
 `;
-  ShaderStore.ShadersStore[name6] = shader6;
+  ShaderStore.ShadersStore[name4] = shader4;
 
   // ../node_modules/@babylonjs/core/Misc/textureTools.js
   var floatView;
@@ -56626,15 +53454,15 @@ if (!gamma) {gl_FragColor.rgb=pow(gl_FragColor.rgb,vec3(GammaEncodePowerApprox))
 
   // ../node_modules/@babylonjs/core/Shaders/hdrFiltering.vertex.js
   init_shaderStore();
-  var name7 = "hdrFilteringVertexShader";
-  var shader7 = `attribute vec2 position;varying vec3 direction;uniform vec3 up;uniform vec3 right;uniform vec3 front;
+  var name5 = "hdrFilteringVertexShader";
+  var shader5 = `attribute vec2 position;varying vec3 direction;uniform vec3 up;uniform vec3 right;uniform vec3 front;
 #define CUSTOM_VERTEX_DEFINITIONS
 void main(void) {
 #define CUSTOM_VERTEX_MAIN_BEGIN
 mat3 view=mat3(up,right,front);direction=view*vec3(position,1.0);gl_Position=vec4(position,0.0,1.0);
 #define CUSTOM_VERTEX_MAIN_END
 }`;
-  ShaderStore.ShadersStore[name7] = shader7;
+  ShaderStore.ShadersStore[name5] = shader5;
 
   // ../node_modules/@babylonjs/core/Shaders/hdrFiltering.fragment.js
   init_shaderStore();
@@ -56642,17 +53470,17 @@ mat3 view=mat3(up,right,front);direction=view*vec3(position,1.0);gl_Position=vec
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/importanceSampling.js
   init_shaderStore();
-  var name9 = "importanceSampling";
-  var shader9 = `vec3 hemisphereCosSample(vec2 u) {float phi=2.*PI*u.x;float cosTheta2=1.-u.y;float cosTheta=sqrt(cosTheta2);float sinTheta=sqrt(1.-cosTheta2);return vec3(sinTheta*cos(phi),sinTheta*sin(phi),cosTheta);}
+  var name7 = "importanceSampling";
+  var shader7 = `vec3 hemisphereCosSample(vec2 u) {float phi=2.*PI*u.x;float cosTheta2=1.-u.y;float cosTheta=sqrt(cosTheta2);float sinTheta=sqrt(1.-cosTheta2);return vec3(sinTheta*cos(phi),sinTheta*sin(phi),cosTheta);}
 vec3 hemisphereImportanceSampleDggx(vec2 u,float a) {float phi=2.*PI*u.x;float cosTheta2=(1.-u.y)/(1.+(a+1.)*((a-1.)*u.y));float cosTheta=sqrt(cosTheta2);float sinTheta=sqrt(1.-cosTheta2);return vec3(sinTheta*cos(phi),sinTheta*sin(phi),cosTheta);}
 vec3 hemisphereImportanceSampleDCharlie(vec2 u,float a) { 
 float phi=2.*PI*u.x;float sinTheta=pow(u.y,a/(2.*a+1.));float cosTheta=sqrt(1.-sinTheta*sinTheta);return vec3(sinTheta*cos(phi),sinTheta*sin(phi),cosTheta);}`;
-  ShaderStore.IncludesShadersStore[name9] = shader9;
+  ShaderStore.IncludesShadersStore[name7] = shader7;
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/pbrBRDFFunctions.js
   init_shaderStore();
-  var name10 = "pbrBRDFFunctions";
-  var shader10 = `#define FRESNEL_MAXIMUM_ON_ROUGH 0.25
+  var name8 = "pbrBRDFFunctions";
+  var shader8 = `#define FRESNEL_MAXIMUM_ON_ROUGH 0.25
 #ifdef MS_BRDF_ENERGY_CONSERVATION
 vec3 getEnergyConservationFactor(const vec3 specularEnvironmentR0,const vec3 environmentBrdf) {return 1.0+specularEnvironmentR0*(1.0/environmentBrdf.y-1.0);}
 #endif
@@ -56783,12 +53611,12 @@ vec3 transmittanceBRDF_Burley(const vec3 tintColor,const vec3 diffusionDistance,
 float computeWrappedDiffuseNdotL(float NdotL,float w) {float t=1.0+w;float invt2=1.0/square(t);return saturate((NdotL+w)*invt2);}
 #endif
 `;
-  ShaderStore.IncludesShadersStore[name10] = shader10;
+  ShaderStore.IncludesShadersStore[name8] = shader8;
 
   // ../node_modules/@babylonjs/core/Shaders/ShadersInclude/hdrFilteringFunctions.js
   init_shaderStore();
-  var name11 = "hdrFilteringFunctions";
-  var shader11 = `#ifdef NUM_SAMPLES
+  var name9 = "hdrFilteringFunctions";
+  var shader9 = `#ifdef NUM_SAMPLES
 #if NUM_SAMPLES>0
 #if defined(WEBGL2) || defined(WEBGPU) || defined(NATIVE)
 float radicalInverse_VdC(uint bits) 
@@ -56842,16 +53670,16 @@ result=result/weight;return result;}}
 #endif
 #endif
 `;
-  ShaderStore.IncludesShadersStore[name11] = shader11;
+  ShaderStore.IncludesShadersStore[name9] = shader9;
 
   // ../node_modules/@babylonjs/core/Shaders/hdrFiltering.fragment.js
-  var name12 = "hdrFilteringPixelShader";
-  var shader12 = `#include<helperFunctions>
+  var name10 = "hdrFilteringPixelShader";
+  var shader10 = `#include<helperFunctions>
 #include<importanceSampling>
 #include<pbrBRDFFunctions>
 #include<hdrFilteringFunctions>
 uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInfo;uniform float hdrScale;varying vec3 direction;void main() {vec3 color=radiance(alphaG,inputTexture,direction,vFilteringInfo);gl_FragColor=vec4(color*hdrScale,1.0);}`;
-  ShaderStore.ShadersStore[name12] = shader12;
+  ShaderStore.ShadersStore[name10] = shader10;
 
   // ../node_modules/@babylonjs/core/Materials/Textures/Filtering/hdrFiltering.js
   var HDRFiltering = class {
@@ -57669,8 +54497,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param from The starting frame of the animation
      * @param to The ending frame of the animation
      */
-    constructor(name154, from, to) {
-      this.name = name154;
+    constructor(name85, from, to) {
+      this.name = name85;
       this.from = from;
       this.to = to;
     }
@@ -57699,7 +54527,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     /**
      * @internal Internal use
      */
-    static _PrepareAnimation(name154, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction) {
+    static _PrepareAnimation(name85, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction) {
       let dataType = void 0;
       if (!isNaN(parseFloat(from)) && isFinite(from)) {
         dataType = _Animation.ANIMATIONTYPE_FLOAT;
@@ -57719,7 +54547,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       if (dataType == void 0) {
         return null;
       }
-      const animation = new _Animation(name154, targetProperty, framePerSecond, dataType, loopMode);
+      const animation = new _Animation(name85, targetProperty, framePerSecond, dataType, loopMode);
       const keys = [
         { frame: 0, value: from },
         { frame: totalFrame, value: to }
@@ -57758,8 +54586,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param scene defines the hosting scene
      * @returns the animatable created for this animation
      */
-    static CreateAndStartAnimation(name154, target, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction, onAnimationEnd, scene) {
-      const animation = _Animation._PrepareAnimation(name154, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction);
+    static CreateAndStartAnimation(name85, target, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction, onAnimationEnd, scene) {
+      const animation = _Animation._PrepareAnimation(name85, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction);
       if (!animation) {
         return null;
       }
@@ -57787,8 +54615,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @returns the list of animatables created for all nodes
      * @example https://www.babylonjs-playground.com/#MH0VLI
      */
-    static CreateAndStartHierarchyAnimation(name154, node, directDescendantsOnly, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction, onAnimationEnd) {
-      const animation = _Animation._PrepareAnimation(name154, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction);
+    static CreateAndStartHierarchyAnimation(name85, node, directDescendantsOnly, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction, onAnimationEnd) {
+      const animation = _Animation._PrepareAnimation(name85, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction);
       if (!animation) {
         return null;
       }
@@ -57809,8 +54637,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param onAnimationEnd Callback to run once the animation is complete
      * @returns Nullable animation
      */
-    static CreateMergeAndStartAnimation(name154, node, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction, onAnimationEnd) {
-      const animation = _Animation._PrepareAnimation(name154, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction);
+    static CreateMergeAndStartAnimation(name85, node, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction, onAnimationEnd) {
+      const animation = _Animation._PrepareAnimation(name85, targetProperty, framePerSecond, totalFrame, from, to, loopMode, easingFunction);
       if (!animation) {
         return null;
       }
@@ -58009,8 +54837,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param loopMode The loop mode of the animation
      * @param enableBlending Specifies if blending should be enabled
      */
-    constructor(name154, targetProperty, framePerSecond, dataType, loopMode, enableBlending) {
-      this.name = name154;
+    constructor(name85, targetProperty, framePerSecond, dataType, loopMode, enableBlending) {
+      this.name = name85;
       this.targetProperty = targetProperty;
       this.framePerSecond = framePerSecond;
       this.dataType = dataType;
@@ -58040,12 +54868,12 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       if (fullDetails) {
         ret += ", Ranges: {";
         let first = true;
-        for (const name154 in this._ranges) {
+        for (const name85 in this._ranges) {
           if (first) {
             ret += ", ";
             first = false;
           }
-          ret += name154;
+          ret += name85;
         }
         ret += "}";
       }
@@ -58084,9 +54912,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param from Starting frame of the animation range
      * @param to Ending frame of the animation
      */
-    createRange(name154, from, to) {
-      if (!this._ranges[name154]) {
-        this._ranges[name154] = new AnimationRange(name154, from, to);
+    createRange(name85, from, to) {
+      if (!this._ranges[name85]) {
+        this._ranges[name85] = new AnimationRange(name85, from, to);
       }
     }
     /**
@@ -58094,8 +54922,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name Name of the animation range to delete
      * @param deleteFrames Specifies if the key frames for the range should also be deleted (true) or not (false)
      */
-    deleteRange(name154, deleteFrames = true) {
-      const range = this._ranges[name154];
+    deleteRange(name85, deleteFrames = true) {
+      const range = this._ranges[name85];
       if (!range) {
         return;
       }
@@ -58108,15 +54936,15 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
           }
         }
       }
-      this._ranges[name154] = null;
+      this._ranges[name85] = null;
     }
     /**
      * Gets the animation range by name, or null if not defined
      * @param name Name of the animation range
      * @returns Nullable animation range
      */
-    getRange(name154) {
-      return this._ranges[name154];
+    getRange(name85) {
+      return this._ranges[name85];
     }
     /**
      * Gets the key frames from the animation
@@ -58501,12 +55329,12 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       }
       if (this._ranges) {
         clone._ranges = {};
-        for (const name154 in this._ranges) {
-          const range = this._ranges[name154];
+        for (const name85 in this._ranges) {
+          const range = this._ranges[name85];
           if (!range) {
             continue;
           }
-          clone._ranges[name154] = range.clone();
+          clone._ranges[name85] = range.clone();
         }
       }
       return clone;
@@ -58608,13 +55436,13 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
         serializationObject.keys.push(key);
       }
       serializationObject.ranges = [];
-      for (const name154 in this._ranges) {
-        const source = this._ranges[name154];
+      for (const name85 in this._ranges) {
+        const source = this._ranges[name85];
         if (!source) {
           continue;
         }
         const range = {};
-        range.name = name154;
+        range.name = name85;
         range.from = source.from;
         range.to = source.to;
         serializationObject.ranges.push(range);
@@ -58770,7 +55598,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param url defines the url to load from
      * @returns a promise that will resolve to the new animation or an array of animations
      */
-    static ParseFromFileAsync(name154, url) {
+    static ParseFromFileAsync(name85, url) {
       return new Promise((resolve, reject) => {
         const request = new WebRequest();
         request.addEventListener("readystatechange", () => {
@@ -58788,8 +55616,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
                 resolve(output);
               } else {
                 const output = this.Parse(serializationObject);
-                if (name154) {
-                  output.name = name154;
+                if (name85) {
+                  output.name = name85;
                 }
                 resolve(output);
               }
@@ -58858,7 +55686,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
   Animation.ANIMATIONLOOPMODE_RELATIVE_FROM_CURRENT = 5;
   Animation.CreateFromSnippetAsync = Animation.ParseFromSnippetAsync;
   RegisterClass("BABYLON.Animation", Animation);
-  Node2._AnimationRangeFactory = (name154, from, to) => new AnimationRange(name154, from, to);
+  Node2._AnimationRangeFactory = (name85, from, to) => new AnimationRange(name85, from, to);
 
   // ../node_modules/@babylonjs/core/Animations/animationGroup.js
   var TargetedAnimation = class {
@@ -59185,8 +56013,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param weight Defines the weight to use for animations in the group (-1.0 by default, meaning "no weight")
      * @param playOrder Defines the order of play of the animation group (default is 0)
      */
-    constructor(name154, scene = null, weight = -1, playOrder = 0) {
-      this.name = name154;
+    constructor(name85, scene = null, weight = -1, playOrder = 0) {
+      this.name = name85;
       this._targetedAnimations = new Array();
       this._animatables = new Array();
       this._from = Number.MAX_VALUE;
@@ -59697,8 +56525,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param dontCloneAnimations defines whether or not the animations should be cloned before clipping the keys. Default is false, so animations will be cloned
      * @returns a new animation group stripped from all the keys outside the given range
      */
-    static ClipKeys(sourceAnimationGroup, fromKey, toKey, name154, dontCloneAnimations) {
-      const animationGroup = sourceAnimationGroup.clone(name154 || sourceAnimationGroup.name);
+    static ClipKeys(sourceAnimationGroup, fromKey, toKey, name85, dontCloneAnimations) {
+      const animationGroup = sourceAnimationGroup.clone(name85 || sourceAnimationGroup.name);
       return _AnimationGroup.ClipKeysInPlace(animationGroup, fromKey, toKey, dontCloneAnimations);
     }
     /**
@@ -59721,8 +56549,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param dontCloneAnimations defines whether or not the animations should be cloned before clipping the frames. Default is false, so animations will be cloned
      * @returns a new animation group stripped from all the frames outside the given range
      */
-    static ClipFrames(sourceAnimationGroup, fromFrame, toFrame, name154, dontCloneAnimations) {
-      const animationGroup = sourceAnimationGroup.clone(name154 || sourceAnimationGroup.name);
+    static ClipFrames(sourceAnimationGroup, fromFrame, toFrame, name85, dontCloneAnimations) {
+      const animationGroup = sourceAnimationGroup.clone(name85 || sourceAnimationGroup.name);
       return _AnimationGroup.ClipFramesInPlace(animationGroup, fromFrame, toFrame, dontCloneAnimations);
     }
     /**
@@ -59981,8 +56809,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name The friendly name of the light
      * @param scene The scene the light belongs too
      */
-    constructor(name154, scene) {
-      super(name154, scene, false);
+    constructor(name85, scene) {
+      super(name85, scene, false);
       this.diffuse = new Color3(1, 1, 1);
       this.specular = new Color3(1, 1, 1);
       this.falloffType = _Light.FALLOFF_DEFAULT;
@@ -60002,7 +56830,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       this._includedOnlyMeshesIds = new Array();
       this._isLight = true;
       this.getScene().addLight(this);
-      this._uniformBuffer = new UniformBuffer(this.getScene().getEngine(), void 0, void 0, name154);
+      this._uniformBuffer = new UniformBuffer(this.getScene().getEngine(), void 0, void 0, name85);
       this._buildUniformLayout();
       this.includedOnlyMeshes = [];
       this.excludedMeshes = [];
@@ -60191,14 +57019,14 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param newParent The parent of this light, if it has one
      * @returns the new created light
      */
-    clone(name154, newParent = null) {
-      const constructor = _Light.GetConstructorFromName(this.getTypeID(), name154, this.getScene());
+    clone(name85, newParent = null) {
+      const constructor = _Light.GetConstructorFromName(this.getTypeID(), name85, this.getScene());
       if (!constructor) {
         return null;
       }
       const clonedLight = SerializationHelper.Clone(constructor, this);
-      if (name154) {
-        clonedLight.name = name154;
+      if (name85) {
+        clonedLight.name = name85;
       }
       if (newParent) {
         clonedLight.parent = newParent;
@@ -60243,8 +57071,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param scene The scene the new light will belong to
      * @returns the constructor function
      */
-    static GetConstructorFromName(type, name154, scene) {
-      const constructorFunc = Node2.Construct("Light_Type_" + type, name154, scene);
+    static GetConstructorFromName(type, name85, scene) {
+      const constructorFunc = Node2.Construct("Light_Type_" + type, name85, scene);
       if (constructorFunc) {
         return constructorFunc;
       }
@@ -60665,17 +57493,17 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name Defines the name of the parser
      * @param parser Defines the parser to add
      */
-    static AddParser(name154, parser) {
-      this._BabylonFileParsers[name154] = parser;
+    static AddParser(name85, parser) {
+      this._BabylonFileParsers[name85] = parser;
     }
     /**
      * Gets a general parser from the list of available ones
      * @param name Defines the name of the parser
      * @returns the requested parser or null
      */
-    static GetParser(name154) {
-      if (this._BabylonFileParsers[name154]) {
-        return this._BabylonFileParsers[name154];
+    static GetParser(name85) {
+      if (this._BabylonFileParsers[name85]) {
+        return this._BabylonFileParsers[name85];
       }
       return null;
     }
@@ -60684,17 +57512,17 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name Defines the name of the parser
      * @param parser Defines the parser to add
      */
-    static AddIndividualParser(name154, parser) {
-      this._IndividualBabylonFileParsers[name154] = parser;
+    static AddIndividualParser(name85, parser) {
+      this._IndividualBabylonFileParsers[name85] = parser;
     }
     /**
      * Gets an individual parser from the list of available ones
      * @param name Defines the name of the parser
      * @returns the requested parser or null
      */
-    static GetIndividualParser(name154) {
-      if (this._IndividualBabylonFileParsers[name154]) {
-        return this._IndividualBabylonFileParsers[name154];
+    static GetIndividualParser(name85) {
+      if (this._IndividualBabylonFileParsers[name85]) {
+        return this._IndividualBabylonFileParsers[name85];
       }
       return null;
     }
@@ -64722,9 +61550,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name of the component to retrieve
      * @returns the component or null if not present
      */
-    _getComponent(name154) {
+    _getComponent(name85) {
       for (const component of this._components) {
-        if (component.name === name154) {
+        if (component.name === name85) {
           return component;
         }
       }
@@ -65529,8 +62357,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name name of the uniform buffer (optional, for debugging purpose only)
      * @returns a new ubo
      */
-    createSceneUniformBuffer(name154) {
-      const sceneUbo = new UniformBuffer(this._engine, void 0, false, name154 ?? "scene");
+    createSceneUniformBuffer(name85) {
+      const sceneUbo = new UniformBuffer(this._engine, void 0, false, name85 ?? "scene");
       sceneUbo.addUniform("viewProjection", 16);
       sceneUbo.addUniform("view", 16);
       sceneUbo.addUniform("projection", 16);
@@ -66004,8 +62832,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the camera's name
      * @returns the new active camera or null if none found.
      */
-    setActiveCameraByName(name154) {
-      const camera = this.getCameraByName(name154);
+    setActiveCameraByName(name85) {
+      const camera = this.getCameraByName(name85);
       if (camera) {
         this.activeCamera = camera;
         return camera;
@@ -66017,9 +62845,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the material's name
      * @returns the animation group or null if none found.
      */
-    getAnimationGroupByName(name154) {
+    getAnimationGroupByName(name85) {
       for (let index = 0; index < this.animationGroups.length; index++) {
-        if (this.animationGroups[index].name === name154) {
+        if (this.animationGroups[index].name === name85) {
           return this.animationGroups[index];
         }
       }
@@ -66066,8 +62894,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param allowMultiMaterials determines whether multimaterials should be considered
      * @returns the material or null if none found.
      */
-    getMaterialByName(name154, allowMultiMaterials = false) {
-      return this._getMaterial(allowMultiMaterials, (m) => m.name === name154);
+    getMaterialByName(name85, allowMultiMaterials = false) {
+      return this._getMaterial(allowMultiMaterials, (m) => m.name === name85);
     }
     /**
      * Gets a last added material using a given id
@@ -66108,9 +62936,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the texture's name
      * @returns the texture or null if none found.
      */
-    getTextureByName(name154) {
+    getTextureByName(name85) {
       for (let index = 0; index < this.textures.length; index++) {
-        if (this.textures[index].name === name154) {
+        if (this.textures[index].name === name85) {
           return this.textures[index];
         }
       }
@@ -66147,9 +62975,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the camera's name
      * @returns the camera or null if none found.
      */
-    getCameraByName(name154) {
+    getCameraByName(name85) {
       for (let index = 0; index < this.cameras.length; index++) {
-        if (this.cameras[index].name === name154) {
+        if (this.cameras[index].name === name85) {
           return this.cameras[index];
         }
       }
@@ -66176,11 +63004,11 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the bone's name
      * @returns the bone or null if not found
      */
-    getBoneByName(name154) {
+    getBoneByName(name85) {
       for (let skeletonIndex = 0; skeletonIndex < this.skeletons.length; skeletonIndex++) {
         const skeleton = this.skeletons[skeletonIndex];
         for (let boneIndex = 0; boneIndex < skeleton.bones.length; boneIndex++) {
-          if (skeleton.bones[boneIndex].name === name154) {
+          if (skeleton.bones[boneIndex].name === name85) {
             return skeleton.bones[boneIndex];
           }
         }
@@ -66192,9 +63020,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the light's name
      * @returns the light or null if none found.
      */
-    getLightByName(name154) {
+    getLightByName(name85) {
       for (let index = 0; index < this.lights.length; index++) {
-        if (this.lights[index].name === name154) {
+        if (this.lights[index].name === name85) {
           return this.lights[index];
         }
       }
@@ -66482,24 +63310,24 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name to search for
      * @returns the found node or null if not found at all.
      */
-    getNodeByName(name154) {
-      const mesh = this.getMeshByName(name154);
+    getNodeByName(name85) {
+      const mesh = this.getMeshByName(name85);
       if (mesh) {
         return mesh;
       }
-      const transformNode = this.getTransformNodeByName(name154);
+      const transformNode = this.getTransformNodeByName(name85);
       if (transformNode) {
         return transformNode;
       }
-      const light = this.getLightByName(name154);
+      const light = this.getLightByName(name85);
       if (light) {
         return light;
       }
-      const camera = this.getCameraByName(name154);
+      const camera = this.getCameraByName(name85);
       if (camera) {
         return camera;
       }
-      const bone = this.getBoneByName(name154);
+      const bone = this.getBoneByName(name85);
       if (bone) {
         return bone;
       }
@@ -66510,9 +63338,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name to search for
      * @returns the found mesh or null if not found at all.
      */
-    getMeshByName(name154) {
+    getMeshByName(name85) {
       for (let index = 0; index < this.meshes.length; index++) {
-        if (this.meshes[index].name === name154) {
+        if (this.meshes[index].name === name85) {
           return this.meshes[index];
         }
       }
@@ -66523,9 +63351,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name to search for
      * @returns the found transform node or null if not found at all.
      */
-    getTransformNodeByName(name154) {
+    getTransformNodeByName(name85) {
       for (let index = 0; index < this.transformNodes.length; index++) {
-        if (this.transformNodes[index].name === name154) {
+        if (this.transformNodes[index].name === name85) {
           return this.transformNodes[index];
         }
       }
@@ -66575,9 +63403,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name to search for
      * @returns the found skeleton or null if not found at all.
      */
-    getSkeletonByName(name154) {
+    getSkeletonByName(name85) {
       for (let index = 0; index < this.skeletons.length; index++) {
-        if (this.skeletons[index].name === name154) {
+        if (this.skeletons[index].name === name85) {
           return this.skeletons[index];
         }
       }
@@ -66618,12 +63446,12 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name to search for
      * @returns the found morph target or null if not found at all.
      */
-    getMorphTargetByName(name154) {
+    getMorphTargetByName(name85) {
       for (let managerIndex = 0; managerIndex < this.morphTargetManagers.length; ++managerIndex) {
         const morphTargetManager = this.morphTargetManagers[managerIndex];
         for (let index = 0; index < morphTargetManager.numTargets; ++index) {
           const target = morphTargetManager.getTarget(index);
-          if (target.name === name154) {
+          if (target.name === name85) {
             return target;
           }
         }
@@ -66635,10 +63463,10 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name to search for
      * @returns the found post process or null if not found at all.
      */
-    getPostProcessByName(name154) {
+    getPostProcessByName(name85) {
       for (let postProcessIndex = 0; postProcessIndex < this.postProcesses.length; ++postProcessIndex) {
         const postProcess = this.postProcesses[postProcessIndex];
-        if (postProcess.name === name154) {
+        if (postProcess.name === name85) {
           return postProcess;
         }
       }
@@ -68274,7 +65102,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     }
     return errorMessage;
   }
-  function loadData(fileInfo, scene, onSuccess, onProgress, onError, onDispose, pluginExtension, name154, pluginOptions) {
+  function loadData(fileInfo, scene, onSuccess, onProgress, onError, onDispose, pluginExtension, name85, pluginOptions) {
     const directLoad = getDirectLoad(fileInfo.url);
     if (fileInfo.rawData && !pluginExtension) {
       throw "When using ArrayBufferView to load data the file extension must be provided.";
@@ -68336,7 +65164,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       if (!plugin.loadFile && fileInfo.rawData) {
         throw "Plugin does not support loading ArrayBufferView.";
       }
-      request = plugin.loadFile ? plugin.loadFile(scene, fileInfo.rawData || fileInfo.file || fileInfo.url, fileInfo.rootUrl, dataCallback, onProgress, useArrayBuffer, errorCallback, name154) : scene._loadFile(fileInfo.file || fileInfo.url, dataCallback, onProgress, true, useArrayBuffer, errorCallback);
+      request = plugin.loadFile ? plugin.loadFile(scene, fileInfo.rawData || fileInfo.file || fileInfo.url, fileInfo.rootUrl, dataCallback, onProgress, useArrayBuffer, errorCallback, name85) : scene._loadFile(fileInfo.file || fileInfo.url, dataCallback, onProgress, true, useArrayBuffer, errorCallback);
     };
     const engine = scene.getEngine();
     let canUseOfflineSupport = engine.enableOfflineSupport;
@@ -68359,24 +65187,24 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
   }
   function getFileInfo(rootUrl, sceneSource) {
     let url;
-    let name154;
+    let name85;
     let file = null;
     let rawData = null;
     if (!sceneSource) {
       url = rootUrl;
-      name154 = Tools.GetFilename(rootUrl);
+      name85 = Tools.GetFilename(rootUrl);
       rootUrl = Tools.GetFolderPath(rootUrl);
     } else if (isFile(sceneSource)) {
       url = `file:${sceneSource.name}`;
-      name154 = sceneSource.name;
+      name85 = sceneSource.name;
       file = sceneSource;
     } else if (ArrayBuffer.isView(sceneSource)) {
       url = "";
-      name154 = RandomGUID();
+      name85 = RandomGUID();
       rawData = sceneSource;
     } else if (sceneSource.startsWith("data:")) {
       url = sceneSource;
-      name154 = "";
+      name85 = "";
     } else if (rootUrl) {
       const filename = sceneSource;
       if (filename.substr(0, 1) === "/") {
@@ -68384,16 +65212,16 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
         return null;
       }
       url = rootUrl + filename;
-      name154 = filename;
+      name85 = filename;
     } else {
       url = sceneSource;
-      name154 = Tools.GetFilename(sceneSource);
+      name85 = Tools.GetFilename(sceneSource);
       rootUrl = Tools.GetFolderPath(sceneSource);
     }
     return {
       url,
       rootUrl,
-      name: name154,
+      name: name85,
       file,
       rawData
     };
@@ -68415,7 +65243,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       });
     }
   }
-  function importMesh(meshNames, rootUrl, sceneFilename = "", scene = EngineStore.LastCreatedScene, onSuccess = null, onProgress = null, onError = null, pluginExtension = null, name154 = "", pluginOptions = {}) {
+  function importMesh(meshNames, rootUrl, sceneFilename = "", scene = EngineStore.LastCreatedScene, onSuccess = null, onProgress = null, onError = null, pluginExtension = null, name85 = "", pluginOptions = {}) {
     if (!scene) {
       Logger.Error("No scene available to import mesh to");
       return null;
@@ -68479,9 +65307,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
           errorHandler(error.message, error);
         });
       }
-    }, progressHandler, errorHandler, disposeHandler, pluginExtension, name154, pluginOptions);
+    }, progressHandler, errorHandler, disposeHandler, pluginExtension, name85, pluginOptions);
   }
-  function importMeshAsyncCore(meshNames, rootUrl, sceneFilename, scene, onProgress, pluginExtension, name154, pluginOptions) {
+  function importMeshAsyncCore(meshNames, rootUrl, sceneFilename, scene, onProgress, pluginExtension, name85, pluginOptions) {
     return new Promise((resolve, reject) => {
       importMesh(meshNames, rootUrl, sceneFilename, scene, (meshes, particleSystems, skeletons, animationGroups, transformNodes, geometries, lights, spriteManagers) => {
         resolve({
@@ -68496,26 +65324,26 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
         });
       }, onProgress, (scene2, message, exception) => {
         reject(exception || new Error(message));
-      }, pluginExtension, name154, pluginOptions);
+      }, pluginExtension, name85, pluginOptions);
     });
   }
-  function loadScene(rootUrl, sceneFilename = "", engine = EngineStore.LastCreatedEngine, onSuccess = null, onProgress = null, onError = null, pluginExtension = null, name154 = "", pluginOptions = {}) {
+  function loadScene(rootUrl, sceneFilename = "", engine = EngineStore.LastCreatedEngine, onSuccess = null, onProgress = null, onError = null, pluginExtension = null, name85 = "", pluginOptions = {}) {
     if (!engine) {
       Tools.Error("No engine available");
       return null;
     }
-    return append(rootUrl, sceneFilename, new Scene(engine), onSuccess, onProgress, onError, pluginExtension, name154, pluginOptions);
+    return append(rootUrl, sceneFilename, new Scene(engine), onSuccess, onProgress, onError, pluginExtension, name85, pluginOptions);
   }
-  function loadSceneAsyncCore(rootUrl, sceneFilename, engine, onProgress, pluginExtension, name154, pluginOptions) {
+  function loadSceneAsyncCore(rootUrl, sceneFilename, engine, onProgress, pluginExtension, name85, pluginOptions) {
     return new Promise((resolve, reject) => {
       loadScene(rootUrl, sceneFilename, engine, (scene) => {
         resolve(scene);
       }, onProgress, (scene, message, exception) => {
         reject(exception || new Error(message));
-      }, pluginExtension, name154, pluginOptions);
+      }, pluginExtension, name85, pluginOptions);
     });
   }
-  function append(rootUrl, sceneFilename = "", scene = EngineStore.LastCreatedScene, onSuccess = null, onProgress = null, onError = null, pluginExtension = null, name154 = "", pluginOptions = {}) {
+  function append(rootUrl, sceneFilename = "", scene = EngineStore.LastCreatedScene, onSuccess = null, onProgress = null, onError = null, pluginExtension = null, name85 = "", pluginOptions = {}) {
     if (!scene) {
       Logger.Error("No scene available to append to");
       return null;
@@ -68580,18 +65408,18 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
           errorHandler(error.message, error);
         });
       }
-    }, progressHandler, errorHandler, disposeHandler, pluginExtension, name154, pluginOptions);
+    }, progressHandler, errorHandler, disposeHandler, pluginExtension, name85, pluginOptions);
   }
-  function appendSceneAsyncCore(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name154, pluginOptions) {
+  function appendSceneAsyncCore(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name85, pluginOptions) {
     return new Promise((resolve, reject) => {
       append(rootUrl, sceneFilename, scene, (scene2) => {
         resolve(scene2);
       }, onProgress, (scene2, message, exception) => {
         reject(exception || new Error(message));
-      }, pluginExtension, name154, pluginOptions);
+      }, pluginExtension, name85, pluginOptions);
     });
   }
-  function loadAssetContainer(rootUrl, sceneFilename = "", scene = EngineStore.LastCreatedScene, onSuccess = null, onProgress = null, onError = null, pluginExtension = null, name154 = "", pluginOptions = {}) {
+  function loadAssetContainer(rootUrl, sceneFilename = "", scene = EngineStore.LastCreatedScene, onSuccess = null, onProgress = null, onError = null, pluginExtension = null, name85 = "", pluginOptions = {}) {
     if (!scene) {
       Logger.Error("No scene available to load asset container to");
       return null;
@@ -68653,18 +65481,18 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       } else {
         errorHandler("LoadAssetContainer is not supported by this plugin. Plugin did not provide a loadAssetContainer or loadAssetContainerAsync method.");
       }
-    }, progressHandler, errorHandler, disposeHandler, pluginExtension, name154, pluginOptions);
+    }, progressHandler, errorHandler, disposeHandler, pluginExtension, name85, pluginOptions);
   }
-  function loadAssetContainerAsyncCore(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name154, pluginOptions) {
+  function loadAssetContainerAsyncCore(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name85, pluginOptions) {
     return new Promise((resolve, reject) => {
       loadAssetContainer(rootUrl, sceneFilename, scene, (assets) => {
         resolve(assets);
       }, onProgress, (scene2, message, exception) => {
         reject(exception || new Error(message));
-      }, pluginExtension, name154, pluginOptions);
+      }, pluginExtension, name85, pluginOptions);
     });
   }
-  function importAnimations(rootUrl, sceneFilename = "", scene = EngineStore.LastCreatedScene, overwriteAnimations = true, animationGroupLoadingMode = 0, targetConverter = null, onSuccess = null, onProgress = null, onError = null, pluginExtension = null, name154 = "", pluginOptions = {}) {
+  function importAnimations(rootUrl, sceneFilename = "", scene = EngineStore.LastCreatedScene, overwriteAnimations = true, animationGroupLoadingMode = 0, targetConverter = null, onSuccess = null, onProgress = null, onError = null, pluginExtension = null, name85 = "", pluginOptions = {}) {
     if (!scene) {
       Logger.Error("No scene available to load animations to");
       return;
@@ -68717,15 +65545,15 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
         onSuccess(scene);
       }
     };
-    loadAssetContainer(rootUrl, sceneFilename, scene, onAssetContainerLoaded, onProgress, onError, pluginExtension, name154, pluginOptions);
+    loadAssetContainer(rootUrl, sceneFilename, scene, onAssetContainerLoaded, onProgress, onError, pluginExtension, name85, pluginOptions);
   }
-  function importAnimationsAsyncCore(rootUrl, sceneFilename, scene, overwriteAnimations, animationGroupLoadingMode, targetConverter, onProgress, pluginExtension, name154, pluginOptions) {
+  function importAnimationsAsyncCore(rootUrl, sceneFilename, scene, overwriteAnimations, animationGroupLoadingMode, targetConverter, onProgress, pluginExtension, name85, pluginOptions) {
     return new Promise((resolve, reject) => {
       importAnimations(rootUrl, sceneFilename, scene, overwriteAnimations, animationGroupLoadingMode, targetConverter, (scene2) => {
         resolve(scene2);
       }, onProgress, (scene2, message, exception) => {
         reject(exception || new Error(message));
-      }, pluginExtension, name154, pluginOptions);
+      }, pluginExtension, name85, pluginOptions);
     });
   }
   var SceneLoader = class {
@@ -68812,8 +65640,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name of the file, if the data is binary
      * @returns The loaded plugin
      */
-    static ImportMesh(meshNames, rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name154) {
-      return importMesh(meshNames, rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name154);
+    static ImportMesh(meshNames, rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name85) {
+      return importMesh(meshNames, rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name85);
     }
     /**
      * Import meshes into a scene
@@ -68826,8 +65654,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name of the file
      * @returns The loaded list of imported meshes, particle systems, skeletons, and animation groups
      */
-    static ImportMeshAsync(meshNames, rootUrl, sceneFilename, scene, onProgress, pluginExtension, name154) {
-      return importMeshAsyncCore(meshNames, rootUrl, sceneFilename, scene, onProgress, pluginExtension, name154);
+    static ImportMeshAsync(meshNames, rootUrl, sceneFilename, scene, onProgress, pluginExtension, name85) {
+      return importMeshAsyncCore(meshNames, rootUrl, sceneFilename, scene, onProgress, pluginExtension, name85);
     }
     /**
      * Load a scene
@@ -68841,8 +65669,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the filename, if the data is binary
      * @returns The loaded plugin
      */
-    static Load(rootUrl, sceneFilename, engine, onSuccess, onProgress, onError, pluginExtension, name154) {
-      return loadScene(rootUrl, sceneFilename, engine, onSuccess, onProgress, onError, pluginExtension, name154);
+    static Load(rootUrl, sceneFilename, engine, onSuccess, onProgress, onError, pluginExtension, name85) {
+      return loadScene(rootUrl, sceneFilename, engine, onSuccess, onProgress, onError, pluginExtension, name85);
     }
     /**
      * Load a scene
@@ -68854,8 +65682,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the filename, if the data is binary
      * @returns The loaded scene
      */
-    static LoadAsync(rootUrl, sceneFilename, engine, onProgress, pluginExtension, name154) {
-      return loadSceneAsyncCore(rootUrl, sceneFilename, engine, onProgress, pluginExtension, name154);
+    static LoadAsync(rootUrl, sceneFilename, engine, onProgress, pluginExtension, name85) {
+      return loadSceneAsyncCore(rootUrl, sceneFilename, engine, onProgress, pluginExtension, name85);
     }
     /**
      * Append a scene
@@ -68869,8 +65697,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name of the file, if the data is binary
      * @returns The loaded plugin
      */
-    static Append(rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name154) {
-      return append(rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name154);
+    static Append(rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name85) {
+      return append(rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name85);
     }
     /**
      * Append a scene
@@ -68882,8 +65710,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name of the file, if the data is binary
      * @returns The given scene
      */
-    static AppendAsync(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name154) {
-      return appendSceneAsyncCore(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name154);
+    static AppendAsync(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name85) {
+      return appendSceneAsyncCore(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name85);
     }
     /**
      * Load a scene into an asset container
@@ -68897,8 +65725,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the filename, if the data is binary
      * @returns The loaded plugin
      */
-    static LoadAssetContainer(rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name154) {
-      return loadAssetContainer(rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name154);
+    static LoadAssetContainer(rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name85) {
+      return loadAssetContainer(rootUrl, sceneFilename, scene, onSuccess, onProgress, onError, pluginExtension, name85);
     }
     /**
      * Load a scene into an asset container
@@ -68910,8 +65738,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the filename, if the data is binary
      * @returns The loaded asset container
      */
-    static LoadAssetContainerAsync(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name154) {
-      return loadAssetContainerAsyncCore(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name154);
+    static LoadAssetContainerAsync(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name85) {
+      return loadAssetContainerAsyncCore(rootUrl, sceneFilename, scene, onProgress, pluginExtension, name85);
     }
     /**
      * Import animations from a file into a scene
@@ -68927,8 +65755,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param pluginExtension the extension used to determine the plugin
      * @param name defines the filename, if the data is binary
      */
-    static ImportAnimations(rootUrl, sceneFilename, scene, overwriteAnimations, animationGroupLoadingMode, targetConverter, onSuccess, onProgress, onError, pluginExtension, name154) {
-      importAnimations(rootUrl, sceneFilename, scene, overwriteAnimations, animationGroupLoadingMode, targetConverter, onSuccess, onProgress, onError, pluginExtension, name154);
+    static ImportAnimations(rootUrl, sceneFilename, scene, overwriteAnimations, animationGroupLoadingMode, targetConverter, onSuccess, onProgress, onError, pluginExtension, name85) {
+      importAnimations(rootUrl, sceneFilename, scene, overwriteAnimations, animationGroupLoadingMode, targetConverter, onSuccess, onProgress, onError, pluginExtension, name85);
     }
     /**
      * Import animations from a file into a scene
@@ -68945,8 +65773,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the filename, if the data is binary
      * @returns the updated scene with imported animations
      */
-    static ImportAnimationsAsync(rootUrl, sceneFilename, scene, overwriteAnimations, animationGroupLoadingMode, targetConverter, onSuccess, onProgress, onError, pluginExtension, name154) {
-      return importAnimationsAsyncCore(rootUrl, sceneFilename, scene, overwriteAnimations, animationGroupLoadingMode, targetConverter, onProgress, pluginExtension, name154);
+    static ImportAnimationsAsync(rootUrl, sceneFilename, scene, overwriteAnimations, animationGroupLoadingMode, targetConverter, onSuccess, onProgress, onError, pluginExtension, name85) {
+      return importAnimationsAsyncCore(rootUrl, sceneFilename, scene, overwriteAnimations, animationGroupLoadingMode, targetConverter, onProgress, pluginExtension, name85);
     }
   };
   SceneLoader.NO_LOGGING = 0;
@@ -68956,8 +65784,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
   SceneLoader.OnPluginActivatedObservable = onPluginActivatedObservable;
 
   // ../node_modules/@babylonjs/core/Meshes/instancedMesh.js
-  Mesh._instancedMeshFactory = (name154, mesh) => {
-    const instance = new InstancedMesh(name154, mesh);
+  Mesh._instancedMeshFactory = (name85, mesh) => {
+    const instance = new InstancedMesh(name85, mesh);
     if (mesh.instancedBuffers) {
       instance.instancedBuffers = {};
       for (const key in mesh.instancedBuffers) {
@@ -68972,8 +65800,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name of the instance
      * @param source the mesh to create the instance from
      */
-    constructor(name154, source) {
-      super(name154, source.getScene());
+    constructor(name85, source) {
+      super(name85, source.getScene());
       this._indexInSourceMeshInstanceArray = -1;
       this._distanceToCamera = 0;
       source.addInstance(this);
@@ -69094,8 +65922,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name of the new instance
      * @returns a new InstancedMesh
      */
-    createInstance(name154) {
-      return this._sourceMesh.createInstance(name154);
+    createInstance(name85) {
+      return this._sourceMesh.createInstance(name85);
     }
     /**
      * Is this node ready to be used/rendered
@@ -69374,8 +66202,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param newSourceMesh if set this mesh will be used as the source mesh instead of ths instance's one
      * @returns the clone
      */
-    clone(name154, newParent = null, doNotCloneChildren, newSourceMesh) {
-      const result = (newSourceMesh || this._sourceMesh).createInstance(name154);
+    clone(name85, newParent = null, doNotCloneChildren, newSourceMesh) {
+      const result = (newSourceMesh || this._sourceMesh).createInstance(name85);
       DeepCopier.DeepCopy(this, result, [
         "name",
         "subMeshes",
@@ -70317,17 +67145,17 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       const _targetConverter = targetConverter ? targetConverter : (target) => {
         let node = null;
         const targetProperty = target.animations.length ? target.animations[0].targetProperty : "";
-        const name154 = target.name.split(".").join("").split("_primitive")[0];
+        const name85 = target.name.split(".").join("").split("_primitive")[0];
         switch (targetProperty) {
           case "position":
           case "rotationQuaternion":
-            node = scene.getTransformNodeByName(target.name) || scene.getTransformNodeByName(name154);
+            node = scene.getTransformNodeByName(target.name) || scene.getTransformNodeByName(name85);
             break;
           case "influence":
-            node = scene.getMorphTargetByName(target.name) || scene.getMorphTargetByName(name154);
+            node = scene.getMorphTargetByName(target.name) || scene.getMorphTargetByName(name85);
             break;
           default:
-            node = scene.getNodeByName(target.name) || scene.getNodeByName(name154);
+            node = scene.getNodeByName(target.name) || scene.getNodeByName(name85);
         }
         return node;
       };
@@ -71432,10 +68260,10 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the property name to store this manager
      * @returns a JSON representation of this manager
      */
-    serialize(name154) {
+    serialize(name85) {
       const root = {
         children: new Array(),
-        name: name154,
+        name: name85,
         type: 3,
         properties: new Array()
         // Empty for root but required
@@ -71480,11 +68308,11 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       } else {
         object.actionManager = actionManager;
       }
-      const instantiate = (name154, params) => {
-        const internalClassType = GetClass("BABYLON." + name154);
+      const instantiate = (name85, params) => {
+        const internalClassType = GetClass("BABYLON." + name85);
         return internalClassType && new internalClassType(...params);
       };
-      const parseParameter = (name154, value, target, propertyPath) => {
+      const parseParameter = (name85, value, target, propertyPath) => {
         if (propertyPath === null) {
           const floatValue = parseFloat(value);
           if (value === "true" || value === "false") {
@@ -71544,9 +68372,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
         } else {
           for (let i = 0; i < parsedAction.properties.length; i++) {
             let value = parsedAction.properties[i].value;
-            const name154 = parsedAction.properties[i].name;
+            const name85 = parsedAction.properties[i].name;
             const targetType = parsedAction.properties[i].targetType;
-            if (name154 === "target") {
+            if (name85 === "target") {
               if (targetType === "SceneProperties") {
                 value = target = scene;
               } else if (targetType === "MaterialProperties") {
@@ -71554,17 +68382,17 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
               } else {
                 value = target = scene.getNodeByName(value);
               }
-            } else if (name154 === "parent") {
+            } else if (name85 === "parent") {
               value = scene.getNodeByName(value);
-            } else if (name154 === "sound") {
+            } else if (name85 === "sound") {
               if (scene.getSoundByName) {
                 value = scene.getSoundByName(value);
               }
-            } else if (name154 !== "propertyPath") {
-              if (parsedAction.type === 2 && name154 === "operator") {
+            } else if (name85 !== "propertyPath") {
+              if (parsedAction.type === 2 && name85 === "operator") {
                 value = ValueCondition[value];
               } else {
-                value = parseParameter(name154, value, target, name154 === "value" ? propertyPath : null);
+                value = parseParameter(name85, value, target, name85 === "value" ? propertyPath : null);
               }
             } else {
               propertyPath = value;
@@ -71721,9 +68549,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param bindMatrix defines the bind matrix (default: localMatrix)
      * @param index defines index of the bone in the hierarchy (default: null)
      */
-    constructor(name154, skeleton, parentBone = null, localMatrix = null, restMatrix = null, bindMatrix = null, index = null) {
-      super(name154, skeleton.getScene(), false);
-      this.name = name154;
+    constructor(name85, skeleton, parentBone = null, localMatrix = null, restMatrix = null, bindMatrix = null, index = null) {
+      super(name85, skeleton.getScene(), false);
+      this.name = name85;
       this.children = [];
       this.animations = [];
       this._index = null;
@@ -72881,8 +69709,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param id defines the skeleton Id
      * @param scene defines the hosting scene
      */
-    constructor(name154, id, scene) {
-      this.name = name154;
+    constructor(name85, id, scene) {
+      this.name = name85;
       this.id = id;
       this.bones = [];
       this.needInitialSkinMatrix = false;
@@ -72974,12 +69802,12 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       if (fullDetails) {
         ret += ", Ranges: {";
         let first = true;
-        for (const name154 in this._ranges) {
+        for (const name85 in this._ranges) {
           if (first) {
             ret += ", ";
             first = false;
           }
-          ret += name154;
+          ret += name85;
         }
         ret += "}";
       }
@@ -72990,9 +69818,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines bone's name to search for
      * @returns the indice of the bone. Returns -1 if not found
      */
-    getBoneIndexByName(name154) {
+    getBoneIndexByName(name85) {
       for (let boneIndex = 0, cache = this.bones.length; boneIndex < cache; boneIndex++) {
-        if (this.bones[boneIndex].name === name154) {
+        if (this.bones[boneIndex].name === name85) {
           return boneIndex;
         }
       }
@@ -73004,12 +69832,12 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param from defines the start key
      * @param to defines the end key
      */
-    createAnimationRange(name154, from, to) {
-      if (!this._ranges[name154]) {
-        this._ranges[name154] = new AnimationRange(name154, from, to);
+    createAnimationRange(name85, from, to) {
+      if (!this._ranges[name85]) {
+        this._ranges[name85] = new AnimationRange(name85, from, to);
         for (let i = 0, nBones = this.bones.length; i < nBones; i++) {
           if (this.bones[i].animations[0]) {
-            this.bones[i].animations[0].createRange(name154, from, to);
+            this.bones[i].animations[0].createRange(name85, from, to);
           }
         }
       }
@@ -73019,21 +69847,21 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name of the range
      * @param deleteFrames defines if frames must be removed as well
      */
-    deleteAnimationRange(name154, deleteFrames = true) {
+    deleteAnimationRange(name85, deleteFrames = true) {
       for (let i = 0, nBones = this.bones.length; i < nBones; i++) {
         if (this.bones[i].animations[0]) {
-          this.bones[i].animations[0].deleteRange(name154, deleteFrames);
+          this.bones[i].animations[0].deleteRange(name85, deleteFrames);
         }
       }
-      this._ranges[name154] = null;
+      this._ranges[name85] = null;
     }
     /**
      * Gets a specific animation range
      * @param name defines the name of the range to look for
      * @returns the requested animation range or null if not found
      */
-    getAnimationRange(name154) {
-      return this._ranges[name154] || null;
+    getAnimationRange(name85) {
+      return this._ranges[name85] || null;
     }
     /**
      * Gets the list of all animation ranges defined on this skeleton
@@ -73041,9 +69869,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      */
     getAnimationRanges() {
       const animationRanges = [];
-      let name154;
-      for (name154 in this._ranges) {
-        animationRanges.push(this._ranges[name154]);
+      let name85;
+      for (name85 in this._ranges) {
+        animationRanges.push(this._ranges[name85]);
       }
       return animationRanges;
     }
@@ -73055,8 +69883,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param rescaleAsRequired defines if rescaling must be applied if required
      * @returns true if operation was successful
      */
-    copyAnimationRange(source, name154, rescaleAsRequired = false) {
-      if (this._ranges[name154] || !source.getAnimationRange(name154)) {
+    copyAnimationRange(source, name85, rescaleAsRequired = false) {
+      if (this._ranges[name85] || !source.getAnimationRange(name85)) {
         return false;
       }
       let ret = true;
@@ -73077,15 +69905,15 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
         const boneName = this.bones[i].name;
         const sourceBone = boneDict[boneName];
         if (sourceBone) {
-          ret = ret && this.bones[i].copyAnimationRange(sourceBone, name154, frameOffset, rescaleAsRequired, skelDimensionsRatio);
+          ret = ret && this.bones[i].copyAnimationRange(sourceBone, name85, frameOffset, rescaleAsRequired, skelDimensionsRatio);
         } else {
           Logger.Warn("copyAnimationRange: not same rig, missing source bone " + boneName);
           ret = false;
         }
       }
-      const range = source.getAnimationRange(name154);
+      const range = source.getAnimationRange(name85);
       if (range) {
-        this._ranges[name154] = new AnimationRange(name154, range.from + frameOffset, range.to + frameOffset);
+        this._ranges[name85] = new AnimationRange(name85, range.from + frameOffset, range.to + frameOffset);
       }
       return ret;
     }
@@ -73119,8 +69947,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param onAnimationEnd defines a callback which will be called when animation will end
      * @returns a new animatable
      */
-    beginAnimation(name154, loop, speedRatio, onAnimationEnd) {
-      const range = this.getAnimationRange(name154);
+    beginAnimation(name85, loop, speedRatio, onAnimationEnd) {
+      const range = this.getAnimationRange(name85);
       if (!range) {
         return null;
       }
@@ -73305,8 +70133,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param id defines the id of the new skeleton
      * @returns the new skeleton
      */
-    clone(name154, id) {
-      const result = new _Skeleton(name154, id || name154, this._scene);
+    clone(name85, id) {
+      const result = new _Skeleton(name85, id || name85, this._scene);
       result.needInitialSkinMatrix = this.needInitialSkinMatrix;
       for (let index = 0; index < this.bones.length; index++) {
         const source = this.bones[index];
@@ -73404,13 +70232,13 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
           serializedBone.animation = bone.animations[0].serialize();
         }
         serializationObject.ranges = [];
-        for (const name154 in this._ranges) {
-          const source = this._ranges[name154];
+        for (const name85 in this._ranges) {
+          const source = this._ranges[name85];
           if (!source) {
             continue;
           }
           const range = {};
-          range.name = name154;
+          range.name = name85;
           range.from = source.from;
           range.to = source.to;
           serializationObject.ranges.push(range);
@@ -73568,8 +70396,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param influence defines the influence to use
      * @param scene defines the scene the morphtarget belongs to
      */
-    constructor(name154, influence = 0, scene = null) {
-      this.name = name154;
+    constructor(name85, influence = 0, scene = null) {
+      this.name = name85;
       this.animations = [];
       this._positions = null;
       this._normals = null;
@@ -73773,11 +70601,11 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param influence defines the influence to attach to the target
      * @returns a new MorphTarget
      */
-    static FromMesh(mesh, name154, influence) {
-      if (!name154) {
-        name154 = mesh.name;
+    static FromMesh(mesh, name85, influence) {
+      if (!name85) {
+        name85 = mesh.name;
       }
-      const result = new _MorphTarget(name154, influence, mesh.getScene());
+      const result = new _MorphTarget(name85, influence, mesh.getScene());
       result.setPositions(mesh.getVerticesData(VertexBuffer.PositionKind));
       if (mesh.isVerticesDataPresent(VertexBuffer.NormalKind)) {
         result.setNormals(mesh.getVerticesData(VertexBuffer.NormalKind));
@@ -74012,9 +70840,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name to check
      * @returns the requested target
      */
-    getTargetByName(name154) {
+    getTargetByName(name85) {
       for (const target of this._targets) {
-        if (target.name === name154) {
+        if (target.name === name85) {
           return target;
         }
       }
@@ -75768,7 +72596,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
         impostorJoint.mainImpostor.unregisterAfterPhysicsStep(impostorJoint.joint.jointData.forceApplicationCallback);
       }
     }
-    _addMaterial(name154, friction, restitution) {
+    _addMaterial(name85, friction, restitution) {
       let index;
       let mat;
       for (index = 0; index < this._physicsMaterials.length; index++) {
@@ -75777,7 +72605,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
           return mat;
         }
       }
-      const currentMat = new this.BJSCANNON.Material(name154);
+      const currentMat = new this.BJSCANNON.Material(name85);
       currentMat.friction = friction;
       currentMat.restitution = restitution;
       this._physicsMaterials.push(currentMat);
@@ -76755,7 +73583,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     }
     return vertexData;
   }
-  function CreateRibbon(name154, options, scene = null) {
+  function CreateRibbon(name85, options, scene = null) {
     const pathArray = options.pathArray;
     const closeArray = options.closeArray;
     const closePath = options.closePath;
@@ -76850,7 +73678,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       }
       return instance;
     } else {
-      const ribbon = new Mesh(name154, scene);
+      const ribbon = new Mesh(name85, scene);
       ribbon._originalBuilderSideOrientation = sideOrientation;
       ribbon._creationDataStorage = new _CreationDataStorage();
       const vertexData = CreateRibbonVertexData(options);
@@ -76864,8 +73692,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     }
   }
   VertexData.CreateRibbon = CreateRibbonVertexData;
-  Mesh.CreateRibbon = (name154, pathArray, closeArray = false, closePath, offset, scene, updatable = false, sideOrientation, instance) => {
-    return CreateRibbon(name154, {
+  Mesh.CreateRibbon = (name85, pathArray, closeArray = false, closePath, offset, scene, updatable = false, sideOrientation, instance) => {
+    return CreateRibbon(name85, {
       pathArray,
       closeArray,
       closePath,
@@ -76877,7 +73705,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/shapeBuilder.js
-  function ExtrudeShape(name154, options, scene = null) {
+  function ExtrudeShape(name85, options, scene = null) {
     const path = options.path;
     const shape = options.shape;
     const scale = options.scale || 1;
@@ -76889,9 +73717,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     const invertUV = options.invertUV || false;
     const closeShape = options.closeShape || false;
     const closePath = options.closePath || false;
-    return _ExtrudeShapeGeneric(name154, shape, path, scale, rotation, null, null, closePath, closeShape, cap, false, scene, updatable ? true : false, sideOrientation, instance, invertUV, options.frontUVs || null, options.backUVs || null, options.firstNormal || null, options.adjustFrame ? true : false);
+    return _ExtrudeShapeGeneric(name85, shape, path, scale, rotation, null, null, closePath, closeShape, cap, false, scene, updatable ? true : false, sideOrientation, instance, invertUV, options.frontUVs || null, options.backUVs || null, options.firstNormal || null, options.adjustFrame ? true : false);
   }
-  function ExtrudeShapeCustom(name154, options, scene = null) {
+  function ExtrudeShapeCustom(name85, options, scene = null) {
     const path = options.path;
     const shape = options.shape;
     const scaleFunction = options.scaleFunction || (() => {
@@ -76909,9 +73737,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     const sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     const instance = options.instance;
     const invertUV = options.invertUV || false;
-    return _ExtrudeShapeGeneric(name154, shape, path, null, null, scaleFunction, rotationFunction, ribbonCloseArray, ribbonClosePath, cap, true, scene, updatable ? true : false, sideOrientation, instance || null, invertUV, options.frontUVs || null, options.backUVs || null, firstNormal, adjustFrame);
+    return _ExtrudeShapeGeneric(name85, shape, path, null, null, scaleFunction, rotationFunction, ribbonCloseArray, ribbonClosePath, cap, true, scene, updatable ? true : false, sideOrientation, instance || null, invertUV, options.frontUVs || null, options.backUVs || null, firstNormal, adjustFrame);
   }
-  function _ExtrudeShapeGeneric(name154, shape, curve, scale, rotation, scaleFunction, rotateFunction, rbCA, rbCP, cap, custom, scene, updtbl, side, instance, invertUV, frontUVs, backUVs, firstNormal, adjustFrame) {
+  function _ExtrudeShapeGeneric(name85, shape, curve, scale, rotation, scaleFunction, rotateFunction, rbCA, rbCP, cap, custom, scene, updtbl, side, instance, invertUV, frontUVs, backUVs, firstNormal, adjustFrame) {
     const extrusionPathArray = (shape2, curve2, path3D2, shapePaths, scale2, rotation2, scaleFunction2, rotateFunction2, cap2, custom2, adjustFrame2) => {
       const tangents = path3D2.getTangents();
       const normals = path3D2.getNormals();
@@ -77019,7 +73847,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     const newShapePaths = new Array();
     cap = cap < 0 || cap > 3 ? 0 : cap;
     pathArray = extrusionPathArray(shape, curve, path3D, newShapePaths, scale, rotation, scaleFunction, rotateFunction, cap, custom, adjustFrame);
-    const extrudedGeneric = CreateRibbon(name154, {
+    const extrudedGeneric = CreateRibbon(name85, {
       pathArray,
       closeArray: rbCA,
       closePath: rbCP,
@@ -77034,7 +73862,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     extrudedGeneric._creationDataStorage.cap = cap;
     return extrudedGeneric;
   }
-  Mesh.ExtrudeShape = (name154, shape, path, scale, rotation, cap, scene = null, updatable, sideOrientation, instance) => {
+  Mesh.ExtrudeShape = (name85, shape, path, scale, rotation, cap, scene = null, updatable, sideOrientation, instance) => {
     const options = {
       shape,
       path,
@@ -77045,9 +73873,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       instance,
       updatable
     };
-    return ExtrudeShape(name154, options, scene);
+    return ExtrudeShape(name85, options, scene);
   };
-  Mesh.ExtrudeShapeCustom = (name154, shape, path, scaleFunction, rotationFunction, ribbonCloseArray, ribbonClosePath, cap, scene, updatable, sideOrientation, instance) => {
+  Mesh.ExtrudeShapeCustom = (name85, shape, path, scaleFunction, rotationFunction, ribbonCloseArray, ribbonClosePath, cap, scene, updatable, sideOrientation, instance) => {
     const options = {
       shape,
       path,
@@ -77060,7 +73888,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       instance,
       updatable
     };
-    return ExtrudeShapeCustom(name154, options, scene);
+    return ExtrudeShapeCustom(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Materials/effectFallbacks.js
@@ -77164,8 +73992,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
 
   // ../node_modules/@babylonjs/core/Materials/pushMaterial.js
   var PushMaterial = class extends Material {
-    constructor(name154, scene, storeEffectOnSubMeshes = true) {
-      super(name154, scene);
+    constructor(name85, scene, storeEffectOnSubMeshes = true) {
+      super(name85, scene);
       this._normalMatrix = new Matrix();
       this._storeEffectOnSubMeshes = storeEffectOnSubMeshes;
     }
@@ -77247,8 +74075,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param options Define the options used to create the shader
      * @param storeEffectOnSubMeshes true to store effect on submeshes, false to store the effect directly in the material class.
      */
-    constructor(name154, scene, shaderPath, options = {}, storeEffectOnSubMeshes = true) {
-      super(name154, scene, storeEffectOnSubMeshes);
+    constructor(name85, scene, shaderPath, options = {}, storeEffectOnSubMeshes = true) {
+      super(name85, scene, storeEffectOnSubMeshes);
       this._textures = {};
       this._textureArrays = {};
       this._externalTextures = {};
@@ -77355,11 +74183,11 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param texture Define the texture to bind to this sampler
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setTexture(name154, texture) {
-      if (this._options.samplers.indexOf(name154) === -1) {
-        this._options.samplers.push(name154);
+    setTexture(name85, texture) {
+      if (this._options.samplers.indexOf(name85) === -1) {
+        this._options.samplers.push(name85);
       }
-      this._textures[name154] = texture;
+      this._textures[name85] = texture;
       return this;
     }
     /**
@@ -77368,12 +74196,12 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param textures Define the list of textures to bind to this sampler
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setTextureArray(name154, textures) {
-      if (this._options.samplers.indexOf(name154) === -1) {
-        this._options.samplers.push(name154);
+    setTextureArray(name85, textures) {
+      if (this._options.samplers.indexOf(name85) === -1) {
+        this._options.samplers.push(name85);
       }
-      this._checkUniform(name154);
-      this._textureArrays[name154] = textures;
+      this._checkUniform(name85);
+      this._textureArrays[name85] = textures;
       return this;
     }
     /**
@@ -77382,11 +74210,11 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param texture Define the texture to bind to this sampler
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setExternalTexture(name154, texture) {
-      if (this._options.externalTextures.indexOf(name154) === -1) {
-        this._options.externalTextures.push(name154);
+    setExternalTexture(name85, texture) {
+      if (this._options.externalTextures.indexOf(name85) === -1) {
+        this._options.externalTextures.push(name85);
       }
-      this._externalTextures[name154] = texture;
+      this._externalTextures[name85] = texture;
       return this;
     }
     /**
@@ -77395,9 +74223,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setFloat(name154, value) {
-      this._checkUniform(name154);
-      this._floats[name154] = value;
+    setFloat(name85, value) {
+      this._checkUniform(name85);
+      this._floats[name85] = value;
       return this;
     }
     /**
@@ -77406,9 +74234,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setInt(name154, value) {
-      this._checkUniform(name154);
-      this._ints[name154] = value;
+    setInt(name85, value) {
+      this._checkUniform(name85);
+      this._ints[name85] = value;
       return this;
     }
     /**
@@ -77417,9 +74245,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setUInt(name154, value) {
-      this._checkUniform(name154);
-      this._uints[name154] = value;
+    setUInt(name85, value) {
+      this._checkUniform(name85);
+      this._uints[name85] = value;
       return this;
     }
     /**
@@ -77428,9 +74256,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setFloats(name154, value) {
-      this._checkUniform(name154);
-      this._floatsArrays[name154] = value;
+    setFloats(name85, value) {
+      this._checkUniform(name85);
+      this._floatsArrays[name85] = value;
       return this;
     }
     /**
@@ -77439,9 +74267,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setColor3(name154, value) {
-      this._checkUniform(name154);
-      this._colors3[name154] = value;
+    setColor3(name85, value) {
+      this._checkUniform(name85);
+      this._colors3[name85] = value;
       return this;
     }
     /**
@@ -77450,9 +74278,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setColor3Array(name154, value) {
-      this._checkUniform(name154);
-      this._colors3Arrays[name154] = value.reduce((arr, color) => {
+    setColor3Array(name85, value) {
+      this._checkUniform(name85);
+      this._colors3Arrays[name85] = value.reduce((arr, color) => {
         color.toArray(arr, arr.length);
         return arr;
       }, []);
@@ -77464,9 +74292,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setColor4(name154, value) {
-      this._checkUniform(name154);
-      this._colors4[name154] = value;
+    setColor4(name85, value) {
+      this._checkUniform(name85);
+      this._colors4[name85] = value;
       return this;
     }
     /**
@@ -77475,9 +74303,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setColor4Array(name154, value) {
-      this._checkUniform(name154);
-      this._colors4Arrays[name154] = value.reduce((arr, color) => {
+    setColor4Array(name85, value) {
+      this._checkUniform(name85);
+      this._colors4Arrays[name85] = value.reduce((arr, color) => {
         color.toArray(arr, arr.length);
         return arr;
       }, []);
@@ -77489,9 +74317,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setVector2(name154, value) {
-      this._checkUniform(name154);
-      this._vectors2[name154] = value;
+    setVector2(name85, value) {
+      this._checkUniform(name85);
+      this._vectors2[name85] = value;
       return this;
     }
     /**
@@ -77500,9 +74328,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setVector3(name154, value) {
-      this._checkUniform(name154);
-      this._vectors3[name154] = value;
+    setVector3(name85, value) {
+      this._checkUniform(name85);
+      this._vectors3[name85] = value;
       return this;
     }
     /**
@@ -77511,9 +74339,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setVector4(name154, value) {
-      this._checkUniform(name154);
-      this._vectors4[name154] = value;
+    setVector4(name85, value) {
+      this._checkUniform(name85);
+      this._vectors4[name85] = value;
       return this;
     }
     /**
@@ -77522,9 +74350,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setQuaternion(name154, value) {
-      this._checkUniform(name154);
-      this._quaternions[name154] = value;
+    setQuaternion(name85, value) {
+      this._checkUniform(name85);
+      this._quaternions[name85] = value;
       return this;
     }
     /**
@@ -77533,9 +74361,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setQuaternionArray(name154, value) {
-      this._checkUniform(name154);
-      this._quaternionsArrays[name154] = value.reduce((arr, quaternion) => {
+    setQuaternionArray(name85, value) {
+      this._checkUniform(name85);
+      this._quaternionsArrays[name85] = value.reduce((arr, quaternion) => {
         quaternion.toArray(arr, arr.length);
         return arr;
       }, []);
@@ -77547,9 +74375,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setMatrix(name154, value) {
-      this._checkUniform(name154);
-      this._matrices[name154] = value;
+    setMatrix(name85, value) {
+      this._checkUniform(name85);
+      this._matrices[name85] = value;
       return this;
     }
     /**
@@ -77558,14 +74386,14 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setMatrices(name154, value) {
-      this._checkUniform(name154);
+    setMatrices(name85, value) {
+      this._checkUniform(name85);
       const float32Array = new Float32Array(value.length * 16);
       for (let index = 0; index < value.length; index++) {
         const matrix = value[index];
         matrix.copyToArray(float32Array, index * 16);
       }
-      this._matrixArrays[name154] = float32Array;
+      this._matrixArrays[name85] = float32Array;
       return this;
     }
     /**
@@ -77574,9 +74402,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setMatrix3x3(name154, value) {
-      this._checkUniform(name154);
-      this._matrices3x3[name154] = value;
+    setMatrix3x3(name85, value) {
+      this._checkUniform(name85);
+      this._matrices3x3[name85] = value;
       return this;
     }
     /**
@@ -77585,9 +74413,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setMatrix2x2(name154, value) {
-      this._checkUniform(name154);
-      this._matrices2x2[name154] = value;
+    setMatrix2x2(name85, value) {
+      this._checkUniform(name85);
+      this._matrices2x2[name85] = value;
       return this;
     }
     /**
@@ -77596,9 +74424,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setArray2(name154, value) {
-      this._checkUniform(name154);
-      this._vectors2Arrays[name154] = value;
+    setArray2(name85, value) {
+      this._checkUniform(name85);
+      this._vectors2Arrays[name85] = value;
       return this;
     }
     /**
@@ -77607,9 +74435,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setArray3(name154, value) {
-      this._checkUniform(name154);
-      this._vectors3Arrays[name154] = value;
+    setArray3(name85, value) {
+      this._checkUniform(name85);
+      this._vectors3Arrays[name85] = value;
       return this;
     }
     /**
@@ -77618,9 +74446,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param value Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setArray4(name154, value) {
-      this._checkUniform(name154);
-      this._vectors4Arrays[name154] = value;
+    setArray4(name85, value) {
+      this._checkUniform(name85);
+      this._vectors4Arrays[name85] = value;
       return this;
     }
     /**
@@ -77629,11 +74457,11 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param buffer Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setUniformBuffer(name154, buffer) {
-      if (this._options.uniformBuffers.indexOf(name154) === -1) {
-        this._options.uniformBuffers.push(name154);
+    setUniformBuffer(name85, buffer) {
+      if (this._options.uniformBuffers.indexOf(name85) === -1) {
+        this._options.uniformBuffers.push(name85);
       }
-      this._uniformBuffers[name154] = buffer;
+      this._uniformBuffers[name85] = buffer;
       return this;
     }
     /**
@@ -77642,11 +74470,11 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param sampler Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setTextureSampler(name154, sampler) {
-      if (this._options.samplerObjects.indexOf(name154) === -1) {
-        this._options.samplerObjects.push(name154);
+    setTextureSampler(name85, sampler) {
+      if (this._options.samplerObjects.indexOf(name85) === -1) {
+        this._options.samplerObjects.push(name85);
       }
-      this._textureSamplers[name154] = sampler;
+      this._textureSamplers[name85] = sampler;
       return this;
     }
     /**
@@ -77655,11 +74483,11 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param buffer Define the value to give to the uniform
      * @returns the material itself allowing "fluent" like uniform updates
      */
-    setStorageBuffer(name154, buffer) {
-      if (this._options.storageBuffers.indexOf(name154) === -1) {
-        this._options.storageBuffers.push(name154);
+    setStorageBuffer(name85, buffer) {
+      if (this._options.storageBuffers.indexOf(name85) === -1) {
+        this._options.storageBuffers.push(name85);
       }
-      this._storageBuffers[name154] = buffer;
+      this._storageBuffers[name85] = buffer;
       return this;
     }
     /**
@@ -77842,8 +74670,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
         }
         PrepareAttributesForBakedVertexAnimation(attribs, mesh, defines);
       }
-      for (const name154 in this._textures) {
-        if (!this._textures[name154].isReady()) {
+      for (const name85 in this._textures) {
+        if (!this._textures[name85].isReady()) {
           return false;
         }
       }
@@ -78013,97 +74841,97 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
         if (mesh) {
           BindFogParameters(scene, mesh, effect);
         }
-        let name154;
-        for (name154 in this._textures) {
-          effect.setTexture(name154, this._textures[name154]);
+        let name85;
+        for (name85 in this._textures) {
+          effect.setTexture(name85, this._textures[name85]);
         }
-        for (name154 in this._textureArrays) {
-          effect.setTextureArray(name154, this._textureArrays[name154]);
+        for (name85 in this._textureArrays) {
+          effect.setTextureArray(name85, this._textureArrays[name85]);
         }
-        for (name154 in this._ints) {
-          effect.setInt(name154, this._ints[name154]);
+        for (name85 in this._ints) {
+          effect.setInt(name85, this._ints[name85]);
         }
-        for (name154 in this._uints) {
-          effect.setUInt(name154, this._uints[name154]);
+        for (name85 in this._uints) {
+          effect.setUInt(name85, this._uints[name85]);
         }
-        for (name154 in this._floats) {
-          effect.setFloat(name154, this._floats[name154]);
+        for (name85 in this._floats) {
+          effect.setFloat(name85, this._floats[name85]);
         }
-        for (name154 in this._floatsArrays) {
-          effect.setArray(name154, this._floatsArrays[name154]);
+        for (name85 in this._floatsArrays) {
+          effect.setArray(name85, this._floatsArrays[name85]);
         }
-        for (name154 in this._colors3) {
-          effect.setColor3(name154, this._colors3[name154]);
+        for (name85 in this._colors3) {
+          effect.setColor3(name85, this._colors3[name85]);
         }
-        for (name154 in this._colors3Arrays) {
-          effect.setArray3(name154, this._colors3Arrays[name154]);
+        for (name85 in this._colors3Arrays) {
+          effect.setArray3(name85, this._colors3Arrays[name85]);
         }
-        for (name154 in this._colors4) {
-          const color = this._colors4[name154];
-          effect.setFloat4(name154, color.r, color.g, color.b, color.a);
+        for (name85 in this._colors4) {
+          const color = this._colors4[name85];
+          effect.setFloat4(name85, color.r, color.g, color.b, color.a);
         }
-        for (name154 in this._colors4Arrays) {
-          effect.setArray4(name154, this._colors4Arrays[name154]);
+        for (name85 in this._colors4Arrays) {
+          effect.setArray4(name85, this._colors4Arrays[name85]);
         }
-        for (name154 in this._vectors2) {
-          effect.setVector2(name154, this._vectors2[name154]);
+        for (name85 in this._vectors2) {
+          effect.setVector2(name85, this._vectors2[name85]);
         }
-        for (name154 in this._vectors3) {
-          effect.setVector3(name154, this._vectors3[name154]);
+        for (name85 in this._vectors3) {
+          effect.setVector3(name85, this._vectors3[name85]);
         }
-        for (name154 in this._vectors4) {
-          effect.setVector4(name154, this._vectors4[name154]);
+        for (name85 in this._vectors4) {
+          effect.setVector4(name85, this._vectors4[name85]);
         }
-        for (name154 in this._quaternions) {
-          effect.setQuaternion(name154, this._quaternions[name154]);
+        for (name85 in this._quaternions) {
+          effect.setQuaternion(name85, this._quaternions[name85]);
         }
-        for (name154 in this._matrices) {
-          effect.setMatrix(name154, this._matrices[name154]);
+        for (name85 in this._matrices) {
+          effect.setMatrix(name85, this._matrices[name85]);
         }
-        for (name154 in this._matrixArrays) {
-          effect.setMatrices(name154, this._matrixArrays[name154]);
+        for (name85 in this._matrixArrays) {
+          effect.setMatrices(name85, this._matrixArrays[name85]);
         }
-        for (name154 in this._matrices3x3) {
-          effect.setMatrix3x3(name154, this._matrices3x3[name154]);
+        for (name85 in this._matrices3x3) {
+          effect.setMatrix3x3(name85, this._matrices3x3[name85]);
         }
-        for (name154 in this._matrices2x2) {
-          effect.setMatrix2x2(name154, this._matrices2x2[name154]);
+        for (name85 in this._matrices2x2) {
+          effect.setMatrix2x2(name85, this._matrices2x2[name85]);
         }
-        for (name154 in this._vectors2Arrays) {
-          effect.setArray2(name154, this._vectors2Arrays[name154]);
+        for (name85 in this._vectors2Arrays) {
+          effect.setArray2(name85, this._vectors2Arrays[name85]);
         }
-        for (name154 in this._vectors3Arrays) {
-          effect.setArray3(name154, this._vectors3Arrays[name154]);
+        for (name85 in this._vectors3Arrays) {
+          effect.setArray3(name85, this._vectors3Arrays[name85]);
         }
-        for (name154 in this._vectors4Arrays) {
-          effect.setArray4(name154, this._vectors4Arrays[name154]);
+        for (name85 in this._vectors4Arrays) {
+          effect.setArray4(name85, this._vectors4Arrays[name85]);
         }
-        for (name154 in this._quaternionsArrays) {
-          effect.setArray4(name154, this._quaternionsArrays[name154]);
+        for (name85 in this._quaternionsArrays) {
+          effect.setArray4(name85, this._quaternionsArrays[name85]);
         }
-        for (name154 in this._uniformBuffers) {
-          const buffer = this._uniformBuffers[name154].getBuffer();
+        for (name85 in this._uniformBuffers) {
+          const buffer = this._uniformBuffers[name85].getBuffer();
           if (buffer) {
-            effect.bindUniformBuffer(buffer, name154);
+            effect.bindUniformBuffer(buffer, name85);
           }
         }
         const engineWebGPU = scene.getEngine();
         const setExternalTexture = engineWebGPU.setExternalTexture;
         if (setExternalTexture) {
-          for (name154 in this._externalTextures) {
-            setExternalTexture.call(engineWebGPU, name154, this._externalTextures[name154]);
+          for (name85 in this._externalTextures) {
+            setExternalTexture.call(engineWebGPU, name85, this._externalTextures[name85]);
           }
         }
         const setTextureSampler = engineWebGPU.setTextureSampler;
         if (setTextureSampler) {
-          for (name154 in this._textureSamplers) {
-            setTextureSampler.call(engineWebGPU, name154, this._textureSamplers[name154]);
+          for (name85 in this._textureSamplers) {
+            setTextureSampler.call(engineWebGPU, name85, this._textureSamplers[name85]);
           }
         }
         const setStorageBuffer = engineWebGPU.setStorageBuffer;
         if (setStorageBuffer) {
-          for (name154 in this._storageBuffers) {
-            setStorageBuffer.call(engineWebGPU, name154, this._storageBuffers[name154]);
+          for (name85 in this._storageBuffers) {
+            setStorageBuffer.call(engineWebGPU, name85, this._storageBuffers[name85]);
           }
         }
       }
@@ -78126,11 +74954,11 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      */
     getActiveTextures() {
       const activeTextures = super.getActiveTextures();
-      for (const name154 in this._textures) {
-        activeTextures.push(this._textures[name154]);
+      for (const name85 in this._textures) {
+        activeTextures.push(this._textures[name85]);
       }
-      for (const name154 in this._textureArrays) {
-        const array = this._textureArrays[name154];
+      for (const name85 in this._textureArrays) {
+        const array = this._textureArrays[name85];
         for (let index = 0; index < array.length; index++) {
           activeTextures.push(array[index]);
         }
@@ -78146,13 +74974,13 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       if (super.hasTexture(texture)) {
         return true;
       }
-      for (const name154 in this._textures) {
-        if (this._textures[name154] === texture) {
+      for (const name85 in this._textures) {
+        if (this._textures[name85] === texture) {
           return true;
         }
       }
-      for (const name154 in this._textureArrays) {
-        const array = this._textureArrays[name154];
+      for (const name85 in this._textureArrays) {
+        const array = this._textureArrays[name85];
         for (let index = 0; index < array.length; index++) {
           if (array[index] === texture) {
             return true;
@@ -78166,10 +74994,10 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the new name for the duplicated material
      * @returns the cloned material
      */
-    clone(name154) {
-      const result = SerializationHelper.Clone(() => new _ShaderMaterial(name154, this.getScene(), this._shaderPath, this._options, this._storeEffectOnSubMeshes), this);
-      result.name = name154;
-      result.id = name154;
+    clone(name85) {
+      const result = SerializationHelper.Clone(() => new _ShaderMaterial(name85, this.getScene(), this._shaderPath, this._options, this._storeEffectOnSubMeshes), this);
+      result.name = name85;
+      result.id = name85;
       if (typeof result._shaderPath === "object") {
         result._shaderPath = { ...result._shaderPath };
       }
@@ -78269,12 +75097,12 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      */
     dispose(forceDisposeEffect, forceDisposeTextures, notBoundToMesh) {
       if (forceDisposeTextures) {
-        let name154;
-        for (name154 in this._textures) {
-          this._textures[name154].dispose();
+        let name85;
+        for (name85 in this._textures) {
+          this._textures[name85].dispose();
         }
-        for (name154 in this._textureArrays) {
-          const array = this._textureArrays[name154];
+        for (name85 in this._textureArrays) {
+          const array = this._textureArrays[name85];
           for (let index = 0; index < array.length; index++) {
             array[index].dispose();
           }
@@ -78294,99 +75122,99 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       serializationObject.options = this._options;
       serializationObject.shaderPath = this._shaderPath;
       serializationObject.storeEffectOnSubMeshes = this._storeEffectOnSubMeshes;
-      let name154;
+      let name85;
       serializationObject.stencil = this.stencil.serialize();
       serializationObject.textures = {};
-      for (name154 in this._textures) {
-        serializationObject.textures[name154] = this._textures[name154].serialize();
+      for (name85 in this._textures) {
+        serializationObject.textures[name85] = this._textures[name85].serialize();
       }
       serializationObject.textureArrays = {};
-      for (name154 in this._textureArrays) {
-        serializationObject.textureArrays[name154] = [];
-        const array = this._textureArrays[name154];
+      for (name85 in this._textureArrays) {
+        serializationObject.textureArrays[name85] = [];
+        const array = this._textureArrays[name85];
         for (let index = 0; index < array.length; index++) {
-          serializationObject.textureArrays[name154].push(array[index].serialize());
+          serializationObject.textureArrays[name85].push(array[index].serialize());
         }
       }
       serializationObject.ints = {};
-      for (name154 in this._ints) {
-        serializationObject.ints[name154] = this._ints[name154];
+      for (name85 in this._ints) {
+        serializationObject.ints[name85] = this._ints[name85];
       }
       serializationObject.uints = {};
-      for (name154 in this._uints) {
-        serializationObject.uints[name154] = this._uints[name154];
+      for (name85 in this._uints) {
+        serializationObject.uints[name85] = this._uints[name85];
       }
       serializationObject.floats = {};
-      for (name154 in this._floats) {
-        serializationObject.floats[name154] = this._floats[name154];
+      for (name85 in this._floats) {
+        serializationObject.floats[name85] = this._floats[name85];
       }
       serializationObject.floatsArrays = {};
-      for (name154 in this._floatsArrays) {
-        serializationObject.floatsArrays[name154] = this._floatsArrays[name154];
+      for (name85 in this._floatsArrays) {
+        serializationObject.floatsArrays[name85] = this._floatsArrays[name85];
       }
       serializationObject.colors3 = {};
-      for (name154 in this._colors3) {
-        serializationObject.colors3[name154] = this._colors3[name154].asArray();
+      for (name85 in this._colors3) {
+        serializationObject.colors3[name85] = this._colors3[name85].asArray();
       }
       serializationObject.colors3Arrays = {};
-      for (name154 in this._colors3Arrays) {
-        serializationObject.colors3Arrays[name154] = this._colors3Arrays[name154];
+      for (name85 in this._colors3Arrays) {
+        serializationObject.colors3Arrays[name85] = this._colors3Arrays[name85];
       }
       serializationObject.colors4 = {};
-      for (name154 in this._colors4) {
-        serializationObject.colors4[name154] = this._colors4[name154].asArray();
+      for (name85 in this._colors4) {
+        serializationObject.colors4[name85] = this._colors4[name85].asArray();
       }
       serializationObject.colors4Arrays = {};
-      for (name154 in this._colors4Arrays) {
-        serializationObject.colors4Arrays[name154] = this._colors4Arrays[name154];
+      for (name85 in this._colors4Arrays) {
+        serializationObject.colors4Arrays[name85] = this._colors4Arrays[name85];
       }
       serializationObject.vectors2 = {};
-      for (name154 in this._vectors2) {
-        serializationObject.vectors2[name154] = this._vectors2[name154].asArray();
+      for (name85 in this._vectors2) {
+        serializationObject.vectors2[name85] = this._vectors2[name85].asArray();
       }
       serializationObject.vectors3 = {};
-      for (name154 in this._vectors3) {
-        serializationObject.vectors3[name154] = this._vectors3[name154].asArray();
+      for (name85 in this._vectors3) {
+        serializationObject.vectors3[name85] = this._vectors3[name85].asArray();
       }
       serializationObject.vectors4 = {};
-      for (name154 in this._vectors4) {
-        serializationObject.vectors4[name154] = this._vectors4[name154].asArray();
+      for (name85 in this._vectors4) {
+        serializationObject.vectors4[name85] = this._vectors4[name85].asArray();
       }
       serializationObject.quaternions = {};
-      for (name154 in this._quaternions) {
-        serializationObject.quaternions[name154] = this._quaternions[name154].asArray();
+      for (name85 in this._quaternions) {
+        serializationObject.quaternions[name85] = this._quaternions[name85].asArray();
       }
       serializationObject.matrices = {};
-      for (name154 in this._matrices) {
-        serializationObject.matrices[name154] = this._matrices[name154].asArray();
+      for (name85 in this._matrices) {
+        serializationObject.matrices[name85] = this._matrices[name85].asArray();
       }
       serializationObject.matrixArray = {};
-      for (name154 in this._matrixArrays) {
-        serializationObject.matrixArray[name154] = this._matrixArrays[name154];
+      for (name85 in this._matrixArrays) {
+        serializationObject.matrixArray[name85] = this._matrixArrays[name85];
       }
       serializationObject.matrices3x3 = {};
-      for (name154 in this._matrices3x3) {
-        serializationObject.matrices3x3[name154] = this._matrices3x3[name154];
+      for (name85 in this._matrices3x3) {
+        serializationObject.matrices3x3[name85] = this._matrices3x3[name85];
       }
       serializationObject.matrices2x2 = {};
-      for (name154 in this._matrices2x2) {
-        serializationObject.matrices2x2[name154] = this._matrices2x2[name154];
+      for (name85 in this._matrices2x2) {
+        serializationObject.matrices2x2[name85] = this._matrices2x2[name85];
       }
       serializationObject.vectors2Arrays = {};
-      for (name154 in this._vectors2Arrays) {
-        serializationObject.vectors2Arrays[name154] = this._vectors2Arrays[name154];
+      for (name85 in this._vectors2Arrays) {
+        serializationObject.vectors2Arrays[name85] = this._vectors2Arrays[name85];
       }
       serializationObject.vectors3Arrays = {};
-      for (name154 in this._vectors3Arrays) {
-        serializationObject.vectors3Arrays[name154] = this._vectors3Arrays[name154];
+      for (name85 in this._vectors3Arrays) {
+        serializationObject.vectors3Arrays[name85] = this._vectors3Arrays[name85];
       }
       serializationObject.vectors4Arrays = {};
-      for (name154 in this._vectors4Arrays) {
-        serializationObject.vectors4Arrays[name154] = this._vectors4Arrays[name154];
+      for (name85 in this._vectors4Arrays) {
+        serializationObject.vectors4Arrays[name85] = this._vectors4Arrays[name85];
       }
       serializationObject.quaternionsArrays = {};
-      for (name154 in this._quaternionsArrays) {
-        serializationObject.quaternionsArrays[name154] = this._quaternionsArrays[name154];
+      for (name85 in this._quaternionsArrays) {
+        serializationObject.quaternionsArrays[name85] = this._quaternionsArrays[name85];
       }
       return serializationObject;
     }
@@ -78399,38 +75227,38 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      */
     static Parse(source, scene, rootUrl) {
       const material = SerializationHelper.Parse(() => new _ShaderMaterial(source.name, scene, source.shaderPath, source.options, source.storeEffectOnSubMeshes), source, scene, rootUrl);
-      let name154;
+      let name85;
       if (source.stencil) {
         material.stencil.parse(source.stencil, scene, rootUrl);
       }
-      for (name154 in source.textures) {
-        material.setTexture(name154, Texture.Parse(source.textures[name154], scene, rootUrl));
+      for (name85 in source.textures) {
+        material.setTexture(name85, Texture.Parse(source.textures[name85], scene, rootUrl));
       }
-      for (name154 in source.textureArrays) {
-        const array = source.textureArrays[name154];
+      for (name85 in source.textureArrays) {
+        const array = source.textureArrays[name85];
         const textureArray = [];
         for (let index = 0; index < array.length; index++) {
           textureArray.push(Texture.Parse(array[index], scene, rootUrl));
         }
-        material.setTextureArray(name154, textureArray);
+        material.setTextureArray(name85, textureArray);
       }
-      for (name154 in source.ints) {
-        material.setInt(name154, source.ints[name154]);
+      for (name85 in source.ints) {
+        material.setInt(name85, source.ints[name85]);
       }
-      for (name154 in source.uints) {
-        material.setUInt(name154, source.uints[name154]);
+      for (name85 in source.uints) {
+        material.setUInt(name85, source.uints[name85]);
       }
-      for (name154 in source.floats) {
-        material.setFloat(name154, source.floats[name154]);
+      for (name85 in source.floats) {
+        material.setFloat(name85, source.floats[name85]);
       }
-      for (name154 in source.floatsArrays) {
-        material.setFloats(name154, source.floatsArrays[name154]);
+      for (name85 in source.floatsArrays) {
+        material.setFloats(name85, source.floatsArrays[name85]);
       }
-      for (name154 in source.colors3) {
-        material.setColor3(name154, Color3.FromArray(source.colors3[name154]));
+      for (name85 in source.colors3) {
+        material.setColor3(name85, Color3.FromArray(source.colors3[name85]));
       }
-      for (name154 in source.colors3Arrays) {
-        const colors = source.colors3Arrays[name154].reduce((arr, num, i) => {
+      for (name85 in source.colors3Arrays) {
+        const colors = source.colors3Arrays[name85].reduce((arr, num, i) => {
           if (i % 3 === 0) {
             arr.push([num]);
           } else {
@@ -78438,13 +75266,13 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
           }
           return arr;
         }, []).map((color) => Color3.FromArray(color));
-        material.setColor3Array(name154, colors);
+        material.setColor3Array(name85, colors);
       }
-      for (name154 in source.colors4) {
-        material.setColor4(name154, Color4.FromArray(source.colors4[name154]));
+      for (name85 in source.colors4) {
+        material.setColor4(name85, Color4.FromArray(source.colors4[name85]));
       }
-      for (name154 in source.colors4Arrays) {
-        const colors = source.colors4Arrays[name154].reduce((arr, num, i) => {
+      for (name85 in source.colors4Arrays) {
+        const colors = source.colors4Arrays[name85].reduce((arr, num, i) => {
           if (i % 4 === 0) {
             arr.push([num]);
           } else {
@@ -78452,43 +75280,43 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
           }
           return arr;
         }, []).map((color) => Color4.FromArray(color));
-        material.setColor4Array(name154, colors);
+        material.setColor4Array(name85, colors);
       }
-      for (name154 in source.vectors2) {
-        material.setVector2(name154, Vector2.FromArray(source.vectors2[name154]));
+      for (name85 in source.vectors2) {
+        material.setVector2(name85, Vector2.FromArray(source.vectors2[name85]));
       }
-      for (name154 in source.vectors3) {
-        material.setVector3(name154, Vector3.FromArray(source.vectors3[name154]));
+      for (name85 in source.vectors3) {
+        material.setVector3(name85, Vector3.FromArray(source.vectors3[name85]));
       }
-      for (name154 in source.vectors4) {
-        material.setVector4(name154, Vector4.FromArray(source.vectors4[name154]));
+      for (name85 in source.vectors4) {
+        material.setVector4(name85, Vector4.FromArray(source.vectors4[name85]));
       }
-      for (name154 in source.quaternions) {
-        material.setQuaternion(name154, Quaternion.FromArray(source.quaternions[name154]));
+      for (name85 in source.quaternions) {
+        material.setQuaternion(name85, Quaternion.FromArray(source.quaternions[name85]));
       }
-      for (name154 in source.matrices) {
-        material.setMatrix(name154, Matrix.FromArray(source.matrices[name154]));
+      for (name85 in source.matrices) {
+        material.setMatrix(name85, Matrix.FromArray(source.matrices[name85]));
       }
-      for (name154 in source.matrixArray) {
-        material._matrixArrays[name154] = new Float32Array(source.matrixArray[name154]);
+      for (name85 in source.matrixArray) {
+        material._matrixArrays[name85] = new Float32Array(source.matrixArray[name85]);
       }
-      for (name154 in source.matrices3x3) {
-        material.setMatrix3x3(name154, source.matrices3x3[name154]);
+      for (name85 in source.matrices3x3) {
+        material.setMatrix3x3(name85, source.matrices3x3[name85]);
       }
-      for (name154 in source.matrices2x2) {
-        material.setMatrix2x2(name154, source.matrices2x2[name154]);
+      for (name85 in source.matrices2x2) {
+        material.setMatrix2x2(name85, source.matrices2x2[name85]);
       }
-      for (name154 in source.vectors2Arrays) {
-        material.setArray2(name154, source.vectors2Arrays[name154]);
+      for (name85 in source.vectors2Arrays) {
+        material.setArray2(name85, source.vectors2Arrays[name85]);
       }
-      for (name154 in source.vectors3Arrays) {
-        material.setArray3(name154, source.vectors3Arrays[name154]);
+      for (name85 in source.vectors3Arrays) {
+        material.setArray3(name85, source.vectors3Arrays[name85]);
       }
-      for (name154 in source.vectors4Arrays) {
-        material.setArray4(name154, source.vectors4Arrays[name154]);
+      for (name85 in source.vectors4Arrays) {
+        material.setArray4(name85, source.vectors4Arrays[name85]);
       }
-      for (name154 in source.quaternionsArrays) {
-        material.setArray4(name154, source.quaternionsArrays[name154]);
+      for (name85 in source.quaternionsArrays) {
+        material.setArray4(name85, source.quaternionsArrays[name85]);
       }
       return material;
     }
@@ -78500,7 +75328,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param rootUrl defines the root URL to use to load textures and relative dependencies
      * @returns a promise that will resolve to the new ShaderMaterial
      */
-    static ParseFromFileAsync(name154, url, scene, rootUrl = "") {
+    static ParseFromFileAsync(name85, url, scene, rootUrl = "") {
       return new Promise((resolve, reject) => {
         const request = new WebRequest();
         request.addEventListener("readystatechange", () => {
@@ -78508,8 +75336,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
             if (request.status == 200) {
               const serializationObject = JSON.parse(request.responseText);
               const output = this.Parse(serializationObject, scene || EngineStore.LastCreatedScene, rootUrl);
-              if (name154) {
-                output.name = name154;
+              if (name85) {
+                output.name = name85;
               }
               resolve(output);
             } else {
@@ -78558,8 +75386,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     return LinesMesh.Parse(parsedMesh, scene);
   };
   var LinesMesh = class _LinesMesh extends Mesh {
-    _isShaderMaterial(shader154) {
-      return shader154.getClassName() === "ShaderMaterial";
+    _isShaderMaterial(shader85) {
+      return shader85.getClassName() === "ShaderMaterial";
     }
     /**
      * Creates a new LinesMesh
@@ -78574,8 +75402,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param useVertexAlpha defines if this LinesMesh supports vertex alpha
      * @param material material to use to draw the line. If not provided, will create a new one
      */
-    constructor(name154, scene = null, parent = null, source = null, doNotCloneChildren, useVertexColor, useVertexAlpha, material) {
-      super(name154, scene, parent, source, doNotCloneChildren);
+    constructor(name85, scene = null, parent = null, source = null, doNotCloneChildren, useVertexColor, useVertexAlpha, material) {
+      super(name85, scene, parent, source, doNotCloneChildren);
       this.useVertexColor = useVertexColor;
       this.useVertexAlpha = useVertexAlpha;
       this.color = new Color3(1, 1, 1);
@@ -78720,8 +75548,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param doNotCloneChildren if set to true, none of the mesh children are cloned (false by default)
      * @returns the new mesh
      */
-    clone(name154, newParent = null, doNotCloneChildren) {
-      return new _LinesMesh(name154, this.getScene(), newParent, this, doNotCloneChildren);
+    clone(name85, newParent = null, doNotCloneChildren) {
+      return new _LinesMesh(name85, this.getScene(), newParent, this, doNotCloneChildren);
     }
     /**
      * Creates a new InstancedLinesMesh object from the mesh model.
@@ -78729,8 +75557,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name of the new instance
      * @returns a new InstancedLinesMesh
      */
-    createInstance(name154) {
-      const instance = new InstancedLinesMesh(name154, this);
+    createInstance(name85) {
+      const instance = new InstancedLinesMesh(name85, this);
       if (this.instancedBuffers) {
         instance.instancedBuffers = {};
         for (const key in this.instancedBuffers) {
@@ -78763,8 +75591,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
   };
   LinesMesh.ForceGLSL = false;
   var InstancedLinesMesh = class extends InstancedMesh {
-    constructor(name154, source) {
-      super(name154, source);
+    constructor(name85, source) {
+      super(name85, source);
       this.intersectionThreshold = source.intersectionThreshold;
     }
     /**
@@ -78846,7 +75674,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vertexData.indices = indices;
     return vertexData;
   }
-  function CreateLineSystem(name154, options, scene = null) {
+  function CreateLineSystem(name85, options, scene = null) {
     const instance = options.instance;
     const lines = options.lines;
     const colors = options.colors;
@@ -78884,17 +75712,17 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       return instance;
     }
     const useVertexColor = colors ? true : false;
-    const lineSystem = new LinesMesh(name154, scene, null, void 0, void 0, useVertexColor, options.useVertexAlpha, options.material);
+    const lineSystem = new LinesMesh(name85, scene, null, void 0, void 0, useVertexColor, options.useVertexAlpha, options.material);
     const vertexData = CreateLineSystemVertexData(options);
     vertexData.applyToMesh(lineSystem, options.updatable);
     return lineSystem;
   }
-  function CreateLines(name154, options, scene = null) {
+  function CreateLines(name85, options, scene = null) {
     const colors = options.colors ? [options.colors] : null;
-    const lines = CreateLineSystem(name154, { lines: [options.points], updatable: options.updatable, instance: options.instance, colors, useVertexAlpha: options.useVertexAlpha, material: options.material }, scene);
+    const lines = CreateLineSystem(name85, { lines: [options.points], updatable: options.updatable, instance: options.instance, colors, useVertexAlpha: options.useVertexAlpha, material: options.material }, scene);
     return lines;
   }
-  function CreateDashedLines(name154, options, scene = null) {
+  function CreateDashedLines(name85, options, scene = null) {
     const points = options.points;
     const instance = options.instance;
     const gapSize = options.gapSize || 1;
@@ -78949,7 +75777,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       instance.updateMeshPositions(positionFunction, false);
       return instance;
     }
-    const dashedLines = new LinesMesh(name154, scene, null, void 0, void 0, void 0, options.useVertexAlpha, options.material);
+    const dashedLines = new LinesMesh(name85, scene, null, void 0, void 0, void 0, options.useVertexAlpha, options.material);
     const vertexData = CreateDashedLinesVertexData(options);
     vertexData.applyToMesh(dashedLines, options.updatable);
     dashedLines._creationDataStorage = new _CreationDataStorage();
@@ -78959,15 +75787,15 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
   }
   VertexData.CreateLineSystem = CreateLineSystemVertexData;
   VertexData.CreateDashedLines = CreateDashedLinesVertexData;
-  Mesh.CreateLines = (name154, points, scene = null, updatable = false, instance = null) => {
+  Mesh.CreateLines = (name85, points, scene = null, updatable = false, instance = null) => {
     const options = {
       points,
       updatable,
       instance
     };
-    return CreateLines(name154, options, scene);
+    return CreateLines(name85, options, scene);
   };
-  Mesh.CreateDashedLines = (name154, points, dashSize, gapSize, dashNb, scene = null, updatable, instance) => {
+  Mesh.CreateDashedLines = (name85, points, dashSize, gapSize, dashNb, scene = null, updatable, instance) => {
     const options = {
       points,
       dashSize,
@@ -78976,7 +75804,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       updatable,
       instance
     };
-    return CreateDashedLines(name154, options, scene);
+    return CreateDashedLines(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Physics/v1/Plugins/ammoJSPlugin.js
@@ -80352,8 +77180,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param useFloat defines if HDR data (float data) should be used to store colors (false by default)
      * @param linearSpace defines if the probe should be generated in linear space or not (false by default)
      */
-    constructor(name154, size, scene, generateMipMaps = true, useFloat = false, linearSpace = false) {
-      this.name = name154;
+    constructor(name85, size, scene, generateMipMaps = true, useFloat = false, linearSpace = false) {
+      this.name = name85;
       this._viewMatrix = Matrix.Identity();
       this._target = Vector3.Zero();
       this._add = Vector3.Zero();
@@ -80365,7 +77193,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       if (scene.getEngine().supportsUniformBuffers) {
         this._sceneUBOs = [];
         for (let i = 0; i < 6; ++i) {
-          this._sceneUBOs.push(scene.createSceneUniformBuffer(`Scene for Reflection Probe (name "${name154}") face #${i}`));
+          this._sceneUBOs.push(scene.createSceneUniformBuffer(`Scene for Reflection Probe (name "${name85}") face #${i}`));
         }
       }
       if (!this._scene.reflectionProbes) {
@@ -80381,7 +77209,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
           textureType = 1;
         }
       }
-      this._renderTargetTexture = new RenderTargetTexture(name154, size, scene, generateMipMaps, true, textureType, true);
+      this._renderTargetTexture = new RenderTargetTexture(name85, size, scene, generateMipMaps, true, textureType, true);
       this._renderTargetTexture.gammaSpace = !linearSpace;
       this._renderTargetTexture.invertZ = scene.useRightHandedSystem;
       const useReverseDepthBuffer = scene.getEngine().useReverseDepthBuffer;
@@ -80429,7 +77257,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       let currentApplyByPostProcess;
       this._renderTargetTexture.onBeforeBindObservable.add(() => {
         this._currentSceneUBO = scene.getSceneUniformBuffer();
-        scene.getEngine()._debugPushGroup?.(`reflection probe generation for ${name154}`, 1);
+        scene.getEngine()._debugPushGroup?.(`reflection probe generation for ${name85}`, 1);
         currentApplyByPostProcess = this._scene.imageProcessingConfiguration.applyByPostProcess;
         if (linearSpace) {
           scene.imageProcessingConfiguration.applyByPostProcess = true;
@@ -80709,9 +77537,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name defines the name
      * @param manager defines the manager
      */
-    constructor(name154, manager) {
+    constructor(name85, manager) {
       super();
-      this.name = name154;
+      this.name = name85;
       this.animations = new Array();
       this.isPickable = false;
       this.useAlphaForPicking = false;
@@ -82307,8 +79135,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param fromPacked set to false; do not alter
      * @param spriteJSON null otherwise a JSON object defining sprite sheet data; do not alter
      */
-    constructor(name154, imgUrl, capacity, cellSize, scene, epsilon = 0.01, samplingMode = Texture.TRILINEAR_SAMPLINGMODE, fromPacked = false, spriteJSON = null) {
-      this.name = name154;
+    constructor(name85, imgUrl, capacity, cellSize, scene, epsilon = 0.01, samplingMode = Texture.TRILINEAR_SAMPLINGMODE, fromPacked = false, spriteJSON = null) {
+      this.name = name85;
       this.sprites = [];
       this.renderingGroupId = 0;
       this.layerMask = 268435455;
@@ -82383,8 +79211,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
               if (typeof Object.keys(_f)[0] !== "string") {
                 throw new Error("Invalid JSON Format.  Check the frame values and make sure the name is the first parameter.");
               }
-              const name154 = _f[Object.keys(_f)[0]];
-              frametemp[name154] = _f;
+              const name85 = _f[Object.keys(_f)[0]];
+              frametemp[name85] = _f;
             }
             celldata.frames = frametemp;
           }
@@ -82693,7 +79521,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param rootUrl defines the root URL to use to load textures and relative dependencies
      * @returns a promise that will resolve to the new sprite manager
      */
-    static ParseFromFileAsync(name154, url, scene, rootUrl = "") {
+    static ParseFromFileAsync(name85, url, scene, rootUrl = "") {
       return new Promise((resolve, reject) => {
         const request = new WebRequest();
         request.addEventListener("readystatechange", () => {
@@ -82701,8 +79529,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
             if (request.status == 200) {
               const serializationObject = JSON.parse(request.responseText);
               const output = _SpriteManager.Parse(serializationObject, scene || EngineStore.LastCreatedScene, rootUrl);
-              if (name154) {
-                output.name = name154;
+              if (name85) {
+                output.name = name85;
               }
               resolve(output);
             } else {
@@ -83736,9 +80564,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
         this._keys.push(key);
       }
       if (this._externalProperties) {
-        for (const name154 in this._externalProperties) {
-          if (this._keys.indexOf(name154) === -1) {
-            this._keys.push(name154);
+        for (const name85 in this._externalProperties) {
+          if (this._keys.indexOf(name85) === -1) {
+            this._keys.push(name85);
           }
         }
       }
@@ -84223,9 +81051,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param name name of the plugin
      * @returns the plugin if found, else null
      */
-    getPlugin(name154) {
+    getPlugin(name85) {
       for (let i = 0; i < this._plugins.length; ++i) {
-        if (this._plugins[i].name === name154) {
+        if (this._plugins[i].name === name85) {
           return this._plugins[i];
         }
       }
@@ -84533,12 +81361,12 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param enable true to enable the plugin (it is handy if the plugin does not handle properties to switch its current activation)
      * @param resolveIncludes Indicates that any #include directive in the plugin code must be replaced by the corresponding code (default: false)
      */
-    constructor(material, name154, priority, defines, addToPluginList = true, enable = false, resolveIncludes = false) {
+    constructor(material, name85, priority, defines, addToPluginList = true, enable = false, resolveIncludes = false) {
       this.priority = 500;
       this.resolveIncludes = false;
       this.registerForExtraEvents = false;
       this._material = material;
-      this.name = name154;
+      this.name = name85;
       this.priority = priority;
       this.resolveIncludes = resolveIncludes;
       if (!material.pluginManager) {
@@ -85230,8 +82058,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param scene Define the scene the material belong to
      * @param forceGLSL Use the GLSL code generation for the shader (even on WebGPU). Default is false
      */
-    constructor(name154, scene, forceGLSL = false) {
-      super(name154, scene);
+    constructor(name85, scene, forceGLSL = false) {
+      super(name85, scene);
       this._diffuseTexture = null;
       this._ambientTexture = null;
       this._opacityTexture = null;
@@ -86215,10 +83043,10 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param rootUrl defines the root URL to use to load textures
      * @returns the cloned material
      */
-    clone(name154, cloneTexturesOnlyOnce = true, rootUrl = "") {
-      const result = SerializationHelper.Clone(() => new _StandardMaterial(name154, this.getScene()), this, { cloneTexturesOnlyOnce });
-      result.name = name154;
-      result.id = name154;
+    clone(name85, cloneTexturesOnlyOnce = true, rootUrl = "") {
+      const result = SerializationHelper.Clone(() => new _StandardMaterial(name85, this.getScene()), this, { cloneTexturesOnlyOnce });
+      result.name = name85;
+      result.id = name85;
       this.stencil.copyTo(result.stencil);
       this._clonePlugins(result, rootUrl);
       return result;
@@ -86574,8 +83402,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
   };
 
   // ../node_modules/@babylonjs/core/Cameras/targetCamera.js
-  Node2.AddNodeConstructor("TargetCamera", (name154, scene) => {
-    return () => new TargetCamera(name154, Vector3.Zero(), scene);
+  Node2.AddNodeConstructor("TargetCamera", (name85, scene) => {
+    return () => new TargetCamera(name85, Vector3.Zero(), scene);
   });
   var TargetCamera = class _TargetCamera extends Camera {
     /**
@@ -86587,8 +83415,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param scene Defines the scene the camera belongs to
      * @param setActiveOnSceneIfNoneActive Defines whether the camera should be marked as active if not other active cameras have been defined
      */
-    constructor(name154, position, scene, setActiveOnSceneIfNoneActive = true) {
-      super(name154, position, scene, setActiveOnSceneIfNoneActive);
+    constructor(name85, position, scene, setActiveOnSceneIfNoneActive = true) {
+      super(name85, position, scene, setActiveOnSceneIfNoneActive);
       this._tmpUpVector = Vector3.Zero();
       this._tmpTargetVector = Vector3.Zero();
       this.cameraDirection = new Vector3(0, 0, 0);
@@ -86943,9 +83771,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @internal
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    createRigCamera(name154, cameraIndex) {
+    createRigCamera(name85, cameraIndex) {
       if (this.cameraRigMode !== Camera.RIG_MODE_NONE) {
-        const rigCamera = new _TargetCamera(name154, this.position.clone(), this.getScene());
+        const rigCamera = new _TargetCamera(name85, this.position.clone(), this.getScene());
         rigCamera.isRigCamera = true;
         rigCamera.rigParent = this;
         if (this.cameraRigMode === Camera.RIG_MODE_VR) {
@@ -88407,8 +85235,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param scene Define the scene the camera belongs to
      * @param setActiveOnSceneIfNoneActive Defines whether the camera should be marked as active if not other active cameras have been defined
      */
-    constructor(name154, position, scene, setActiveOnSceneIfNoneActive = true) {
-      super(name154, position, scene, setActiveOnSceneIfNoneActive);
+    constructor(name85, position, scene, setActiveOnSceneIfNoneActive = true) {
+      super(name85, position, scene, setActiveOnSceneIfNoneActive);
       this.ellipsoid = new Vector3(0.5, 1, 0.5);
       this.ellipsoidOffset = new Vector3(0, 0, 0);
       this.checkCollisions = false;
@@ -88549,8 +85377,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
   RegisterClass("BABYLON.FreeCamera", FreeCamera);
 
   // ../node_modules/@babylonjs/core/Lights/hemisphericLight.js
-  Node2.AddNodeConstructor("Light_Type_3", (name154, scene) => {
-    return () => new HemisphericLight(name154, Vector3.Zero(), scene);
+  Node2.AddNodeConstructor("Light_Type_3", (name85, scene) => {
+    return () => new HemisphericLight(name85, Vector3.Zero(), scene);
   });
   var HemisphericLight = class extends Light {
     /**
@@ -88562,8 +85390,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param direction The direction of the light reflection
      * @param scene The scene the light belongs to
      */
-    constructor(name154, direction, scene) {
-      super(name154, scene);
+    constructor(name85, direction, scene) {
+      super(name85, scene);
       this.groundColor = new Color3(0, 0, 0);
       this.direction = direction || Vector3.Up();
     }
@@ -88692,8 +85520,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vertexData.uvs = uvs;
     return vertexData;
   }
-  function CreateDisc(name154, options = {}, scene = null) {
-    const disc = new Mesh(name154, scene);
+  function CreateDisc(name85, options = {}, scene = null) {
+    const disc = new Mesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     disc._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreateDiscVertexData(options);
@@ -88701,14 +85529,14 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     return disc;
   }
   VertexData.CreateDisc = CreateDiscVertexData;
-  Mesh.CreateDisc = (name154, radius, tessellation, scene = null, updatable, sideOrientation) => {
+  Mesh.CreateDisc = (name85, radius, tessellation, scene = null, updatable, sideOrientation) => {
     const options = {
       radius,
       tessellation,
       sideOrientation,
       updatable
     };
-    return CreateDisc(name154, options, scene);
+    return CreateDisc(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/groundMesh.js
@@ -88716,8 +85544,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     return GroundMesh.Parse(parsedMesh, scene);
   };
   var GroundMesh = class _GroundMesh extends Mesh {
-    constructor(name154, scene) {
-      super(name154, scene);
+    constructor(name85, scene) {
+      super(name85, scene);
       this.generateOctree = false;
     }
     /**
@@ -89141,8 +85969,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vertexData.uvs = uvs;
     return vertexData;
   }
-  function CreateGround(name154, options = {}, scene) {
-    const ground = new GroundMesh(name154, scene);
+  function CreateGround(name85, options = {}, scene) {
+    const ground = new GroundMesh(name85, scene);
     ground._setReady(false);
     ground._subdivisionsX = options.subdivisionsX || options.subdivisions || 1;
     ground._subdivisionsY = options.subdivisionsY || options.subdivisions || 1;
@@ -89157,13 +85985,13 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     ground._setReady(true);
     return ground;
   }
-  function CreateTiledGround(name154, options, scene = null) {
-    const tiledGround = new Mesh(name154, scene);
+  function CreateTiledGround(name85, options, scene = null) {
+    const tiledGround = new Mesh(name85, scene);
     const vertexData = CreateTiledGroundVertexData(options);
     vertexData.applyToMesh(tiledGround, options.updatable);
     return tiledGround;
   }
-  function CreateGroundFromHeightMap(name154, url, options = {}, scene = null) {
+  function CreateGroundFromHeightMap(name85, url, options = {}, scene = null) {
     const width = options.width || 10;
     const height = options.height || 10;
     const subdivisions = options.subdivisions || 1 | 0;
@@ -89174,7 +86002,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     const updatable = options.updatable;
     const onReady = options.onReady;
     scene = scene || EngineStore.LastCreatedScene;
-    const ground = new GroundMesh(name154, scene);
+    const ground = new GroundMesh(name85, scene);
     ground._subdivisionsX = subdivisions;
     ground._subdivisionsY = subdivisions;
     ground._width = width;
@@ -89228,16 +86056,16 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
   VertexData.CreateGround = CreateGroundVertexData;
   VertexData.CreateTiledGround = CreateTiledGroundVertexData;
   VertexData.CreateGroundFromHeightMap = CreateGroundFromHeightMapVertexData;
-  Mesh.CreateGround = (name154, width, height, subdivisions, scene, updatable) => {
+  Mesh.CreateGround = (name85, width, height, subdivisions, scene, updatable) => {
     const options = {
       width,
       height,
       subdivisions,
       updatable
     };
-    return CreateGround(name154, options, scene);
+    return CreateGround(name85, options, scene);
   };
-  Mesh.CreateTiledGround = (name154, xmin, zmin, xmax, zmax, subdivisions, precision, scene, updatable) => {
+  Mesh.CreateTiledGround = (name85, xmin, zmin, xmax, zmax, subdivisions, precision, scene, updatable) => {
     const options = {
       xmin,
       zmin,
@@ -89247,9 +86075,9 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       precision,
       updatable
     };
-    return CreateTiledGround(name154, options, scene);
+    return CreateTiledGround(name85, options, scene);
   };
-  Mesh.CreateGroundFromHeightMap = (name154, url, width, height, subdivisions, minHeight, maxHeight, scene, updatable, onReady, alphaFilter) => {
+  Mesh.CreateGroundFromHeightMap = (name85, url, width, height, subdivisions, minHeight, maxHeight, scene, updatable, onReady, alphaFilter) => {
     const options = {
       width,
       height,
@@ -89260,7 +86088,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       onReady,
       alphaFilter
     };
-    return CreateGroundFromHeightMap(name154, url, options, scene);
+    return CreateGroundFromHeightMap(name85, url, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/boxBuilder.js
@@ -89548,8 +86376,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     }
     return vertexData;
   }
-  function CreateBox(name154, options = {}, scene = null) {
-    const box = new Mesh(name154, scene);
+  function CreateBox(name85, options = {}, scene = null) {
+    const box = new Mesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     box._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreateBoxVertexData(options);
@@ -89557,13 +86385,13 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     return box;
   }
   VertexData.CreateBox = CreateBoxVertexData;
-  Mesh.CreateBox = (name154, size, scene = null, updatable, sideOrientation) => {
+  Mesh.CreateBox = (name85, size, scene = null, updatable, sideOrientation) => {
     const options = {
       size,
       sideOrientation,
       updatable
     };
-    return CreateBox(name154, options, scene);
+    return CreateBox(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/tiledPlaneBuilder.js
@@ -89919,8 +86747,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vertexData.colors = totalColors;
     return vertexData;
   }
-  function CreateTiledPlane(name154, options, scene = null) {
-    const plane = new Mesh(name154, scene);
+  function CreateTiledPlane(name85, options, scene = null) {
+    const plane = new Mesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     plane._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreateTiledPlaneVertexData(options);
@@ -90065,8 +86893,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     }
     return vertexData;
   }
-  function CreateTiledBox(name154, options, scene = null) {
-    const box = new Mesh(name154, scene);
+  function CreateTiledBox(name85, options, scene = null) {
+    const box = new Mesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     box._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreateTiledBoxVertexData(options);
@@ -90141,8 +86969,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vertexData.uvs = uvs;
     return vertexData;
   }
-  function CreateSphere(name154, options = {}, scene = null) {
-    const sphere = new Mesh(name154, scene);
+  function CreateSphere(name85, options = {}, scene = null) {
+    const sphere = new Mesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     sphere._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreateSphereVertexData(options);
@@ -90150,7 +86978,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     return sphere;
   }
   VertexData.CreateSphere = CreateSphereVertexData;
-  Mesh.CreateSphere = (name154, segments, diameter, scene, updatable, sideOrientation) => {
+  Mesh.CreateSphere = (name85, segments, diameter, scene, updatable, sideOrientation) => {
     const options = {
       segments,
       diameterX: diameter,
@@ -90159,7 +86987,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       sideOrientation,
       updatable
     };
-    return CreateSphere(name154, options, scene);
+    return CreateSphere(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/cylinderBuilder.js
@@ -90384,8 +87212,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     }
     return vertexData;
   }
-  function CreateCylinder(name154, options = {}, scene) {
-    const cylinder = new Mesh(name154, scene);
+  function CreateCylinder(name85, options = {}, scene) {
+    const cylinder = new Mesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     cylinder._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreateCylinderVertexData(options);
@@ -90393,7 +87221,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     return cylinder;
   }
   VertexData.CreateCylinder = CreateCylinderVertexData;
-  Mesh.CreateCylinder = (name154, height, diameterTop, diameterBottom, tessellation, subdivisions, scene, updatable, sideOrientation) => {
+  Mesh.CreateCylinder = (name85, height, diameterTop, diameterBottom, tessellation, subdivisions, scene, updatable, sideOrientation) => {
     if (scene === void 0 || !(scene instanceof Scene)) {
       if (scene !== void 0) {
         sideOrientation = updatable || Mesh.DEFAULTSIDE;
@@ -90411,7 +87239,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       sideOrientation,
       updatable
     };
-    return CreateCylinder(name154, options, scene);
+    return CreateCylinder(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/torusBuilder.js
@@ -90460,8 +87288,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vertexData.uvs = uvs;
     return vertexData;
   }
-  function CreateTorus(name154, options = {}, scene) {
-    const torus = new Mesh(name154, scene);
+  function CreateTorus(name85, options = {}, scene) {
+    const torus = new Mesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     torus._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreateTorusVertexData(options);
@@ -90469,7 +87297,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     return torus;
   }
   VertexData.CreateTorus = CreateTorusVertexData;
-  Mesh.CreateTorus = (name154, diameter, thickness, tessellation, scene, updatable, sideOrientation) => {
+  Mesh.CreateTorus = (name85, diameter, thickness, tessellation, scene, updatable, sideOrientation) => {
     const options = {
       diameter,
       thickness,
@@ -90477,7 +87305,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       sideOrientation,
       updatable
     };
-    return CreateTorus(name154, options, scene);
+    return CreateTorus(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/torusKnotBuilder.js
@@ -90552,8 +87380,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vertexData.uvs = uvs;
     return vertexData;
   }
-  function CreateTorusKnot(name154, options = {}, scene) {
-    const torusKnot = new Mesh(name154, scene);
+  function CreateTorusKnot(name85, options = {}, scene) {
+    const torusKnot = new Mesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     torusKnot._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreateTorusKnotVertexData(options);
@@ -90561,7 +87389,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     return torusKnot;
   }
   VertexData.CreateTorusKnot = CreateTorusKnotVertexData;
-  Mesh.CreateTorusKnot = (name154, radius, tube, radialSegments, tubularSegments, p, q, scene, updatable, sideOrientation) => {
+  Mesh.CreateTorusKnot = (name85, radius, tube, radialSegments, tubularSegments, p, q, scene, updatable, sideOrientation) => {
     const options = {
       radius,
       tube,
@@ -90572,7 +87400,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       sideOrientation,
       updatable
     };
-    return CreateTorusKnot(name154, options, scene);
+    return CreateTorusKnot(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/polygonMesh.js
@@ -90631,14 +87459,14 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param scene scene to add to when creating the mesh
      * @param earcutInjection can be used to inject your own earcut reference
      */
-    constructor(name154, contours, scene, earcutInjection = earcut) {
+    constructor(name85, contours, scene, earcutInjection = earcut) {
       this._points = new PolygonPoints();
       this._outlinepoints = new PolygonPoints();
       this._holes = new Array();
       this._epoints = new Array();
       this._eholes = new Array();
       this.bjsEarcut = earcutInjection;
-      this._name = name154;
+      this._name = name85;
       this._scene = scene || EngineStore.LastCreatedScene;
       let points;
       if (contours instanceof Path2) {
@@ -90906,7 +87734,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     }
     return vertexData;
   }
-  function CreatePolygon(name154, options, scene = null, earcutInjection = earcut) {
+  function CreatePolygon(name85, options, scene = null, earcutInjection = earcut) {
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     const shape = options.shape;
     const holes = options.holes || [];
@@ -90921,7 +87749,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     if (contours[0].equalsWithEpsilon(contours[contours.length - 1], epsilon)) {
       contours.pop();
     }
-    const polygonTriangulation = new PolygonMeshBuilder(name154, contours, scene || EngineStore.LastCreatedScene, earcutInjection);
+    const polygonTriangulation = new PolygonMeshBuilder(name85, contours, scene || EngineStore.LastCreatedScene, earcutInjection);
     for (let hNb = 0; hNb < holes.length; hNb++) {
       hole = [];
       for (let hPoint = 0; hPoint < holes[hNb].length; hPoint++) {
@@ -90935,20 +87763,20 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vertexData.applyToMesh(polygon, options.updatable);
     return polygon;
   }
-  function ExtrudePolygon(name154, options, scene = null, earcutInjection = earcut) {
-    return CreatePolygon(name154, options, scene, earcutInjection);
+  function ExtrudePolygon(name85, options, scene = null, earcutInjection = earcut) {
+    return CreatePolygon(name85, options, scene, earcutInjection);
   }
   VertexData.CreatePolygon = CreatePolygonVertexData;
-  Mesh.CreatePolygon = (name154, shape, scene, holes, updatable, sideOrientation, earcutInjection = earcut) => {
+  Mesh.CreatePolygon = (name85, shape, scene, holes, updatable, sideOrientation, earcutInjection = earcut) => {
     const options = {
       shape,
       holes,
       updatable,
       sideOrientation
     };
-    return CreatePolygon(name154, options, scene, earcutInjection);
+    return CreatePolygon(name85, options, scene, earcutInjection);
   };
-  Mesh.ExtrudePolygon = (name154, shape, depth, scene, holes, updatable, sideOrientation, earcutInjection = earcut) => {
+  Mesh.ExtrudePolygon = (name85, shape, depth, scene, holes, updatable, sideOrientation, earcutInjection = earcut) => {
     const options = {
       shape,
       holes,
@@ -90956,11 +87784,11 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       updatable,
       sideOrientation
     };
-    return ExtrudePolygon(name154, options, scene, earcutInjection);
+    return ExtrudePolygon(name85, options, scene, earcutInjection);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/latheBuilder.js
-  function CreateLathe(name154, options, scene = null) {
+  function CreateLathe(name85, options, scene = null) {
     const arc = options.arc ? options.arc <= 0 || options.arc > 1 ? 1 : options.arc : 1;
     const closed = options.closed === void 0 ? true : options.closed;
     const shape = options.shape;
@@ -90994,10 +87822,10 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       }
       paths.push(path);
     }
-    const lathe = CreateRibbon(name154, { pathArray: paths, closeArray: closed, sideOrientation, updatable, invertUV, frontUVs: options.frontUVs, backUVs: options.backUVs }, scene);
+    const lathe = CreateRibbon(name85, { pathArray: paths, closeArray: closed, sideOrientation, updatable, invertUV, frontUVs: options.frontUVs, backUVs: options.backUVs }, scene);
     return lathe;
   }
-  Mesh.CreateLathe = (name154, shape, radius, tessellation, scene, updatable, sideOrientation) => {
+  Mesh.CreateLathe = (name85, shape, radius, tessellation, scene, updatable, sideOrientation) => {
     const options = {
       shape,
       radius,
@@ -91005,7 +87833,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       sideOrientation,
       updatable
     };
-    return CreateLathe(name154, options, scene);
+    return CreateLathe(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/planeBuilder.js
@@ -91045,8 +87873,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vertexData.uvs = uvs;
     return vertexData;
   }
-  function CreatePlane(name154, options = {}, scene = null) {
-    const plane = new Mesh(name154, scene);
+  function CreatePlane(name85, options = {}, scene = null) {
+    const plane = new Mesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     plane._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreatePlaneVertexData(options);
@@ -91058,7 +87886,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     return plane;
   }
   VertexData.CreatePlane = CreatePlaneVertexData;
-  Mesh.CreatePlane = (name154, size, scene, updatable, sideOrientation) => {
+  Mesh.CreatePlane = (name85, size, scene, updatable, sideOrientation) => {
     const options = {
       size,
       width: size,
@@ -91066,11 +87894,11 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       sideOrientation,
       updatable
     };
-    return CreatePlane(name154, options, scene);
+    return CreatePlane(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/tubeBuilder.js
-  function CreateTube(name154, options, scene = null) {
+  function CreateTube(name85, options, scene = null) {
     const path = options.path;
     let instance = options.instance;
     let radius = 1;
@@ -91161,7 +87989,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     const newPathArray = new Array();
     cap = cap < 0 || cap > 3 ? 0 : cap;
     pathArray = tubePathArray(path, path3D, newPathArray, radius, tessellation, radiusFunction, cap, options.arc);
-    const tube = CreateRibbon(name154, {
+    const tube = CreateRibbon(name85, {
       pathArray,
       closePath: true,
       closeArray: false,
@@ -91179,7 +88007,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     tube._creationDataStorage.radius = radius;
     return tube;
   }
-  Mesh.CreateTube = (name154, path, radius, tessellation, radiusFunction, cap, scene, updatable, sideOrientation, instance) => {
+  Mesh.CreateTube = (name85, path, radius, tessellation, radiusFunction, cap, scene, updatable, sideOrientation, instance) => {
     const options = {
       path,
       radius,
@@ -91191,7 +88019,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       sideOrientation,
       instance
     };
-    return CreateTube(name154, options, scene);
+    return CreateTube(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/polyhedronBuilder.js
@@ -91697,8 +88525,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     }
     return vertexData;
   }
-  function CreatePolyhedron(name154, options = {}, scene = null) {
-    const polyhedron = new Mesh(name154, scene);
+  function CreatePolyhedron(name85, options = {}, scene = null) {
+    const polyhedron = new Mesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     polyhedron._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreatePolyhedronVertexData(options);
@@ -91706,8 +88534,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     return polyhedron;
   }
   VertexData.CreatePolyhedron = CreatePolyhedronVertexData;
-  Mesh.CreatePolyhedron = (name154, options, scene) => {
-    return CreatePolyhedron(name154, options, scene);
+  Mesh.CreatePolyhedron = (name85, options, scene) => {
+    return CreatePolyhedron(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/icoSphereBuilder.js
@@ -91996,8 +88824,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vertexData.uvs = uvs;
     return vertexData;
   }
-  function CreateIcoSphere(name154, options = {}, scene = null) {
-    const sphere = new Mesh(name154, scene);
+  function CreateIcoSphere(name85, options = {}, scene = null) {
+    const sphere = new Mesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     sphere._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreateIcoSphereVertexData(options);
@@ -92005,8 +88833,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     return sphere;
   }
   VertexData.CreateIcoSphere = CreateIcoSphereVertexData;
-  Mesh.CreateIcoSphere = (name154, options, scene) => {
-    return CreateIcoSphere(name154, options, scene);
+  Mesh.CreateIcoSphere = (name85, options, scene) => {
+    return CreateIcoSphere(name85, options, scene);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/decalBuilder.js
@@ -92032,7 +88860,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       return new _DecalVertex(this.position.clone(), this.normal.clone(), this.uv.clone(), this.vertexIdx, this.vertexIdxForBones, this.localPositionOverride?.slice(), this.localNormalOverride?.slice(), this.matrixIndicesOverride?.slice(), this.matrixWeightsOverride?.slice());
     }
   };
-  function CreateDecal(name154, sourceMesh, options) {
+  function CreateDecal(name85, sourceMesh, options) {
     const hasSkeleton = !!sourceMesh.skeleton;
     const useLocalComputation = options.localMode || hasSkeleton;
     const indices = sourceMesh.getIndices();
@@ -92393,7 +89221,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       vertexData.matricesIndicesExtra = null;
     if (vertexData.matricesWeightsExtra?.length === 0)
       vertexData.matricesWeightsExtra = null;
-    const decal = new Mesh(name154, sourceMesh.getScene());
+    const decal = new Mesh(name85, sourceMesh.getScene());
     vertexData.applyToMesh(decal);
     if (useLocalComputation) {
       decal.skeleton = sourceMesh.skeleton;
@@ -92406,14 +89234,14 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     decal.refreshBoundingInfo(true, true);
     return decal;
   }
-  Mesh.CreateDecal = (name154, sourceMesh, position, normal, size, angle) => {
+  Mesh.CreateDecal = (name85, sourceMesh, position, normal, size, angle) => {
     const options = {
       position,
       normal,
       size,
       angle
     };
-    return CreateDecal(name154, sourceMesh, options);
+    return CreateDecal(name85, sourceMesh, options);
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/capsuleBuilder.js
@@ -92559,7 +89387,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vDat.indices = indices;
     return vDat;
   }
-  function CreateCapsule(name154, options = {
+  function CreateCapsule(name85, options = {
     orientation: Vector3.Up(),
     subdivisions: 2,
     tessellation: 16,
@@ -92568,13 +89396,13 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     capSubdivisions: 6,
     updatable: false
   }, scene = null) {
-    const capsule = new Mesh(name154, scene);
+    const capsule = new Mesh(name85, scene);
     const vertexData = CreateCapsuleVertexData(options);
     vertexData.applyToMesh(capsule, options.updatable);
     return capsule;
   }
-  Mesh.CreateCapsule = (name154, options, scene) => {
-    return CreateCapsule(name154, options, scene);
+  Mesh.CreateCapsule = (name85, options, scene) => {
+    return CreateCapsule(name85, options, scene);
   };
   VertexData.CreateCapsule = CreateCapsuleVertexData;
 
@@ -93144,8 +89972,8 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     }
   };
   var PolyhedronData = class {
-    constructor(name154, category, vertex, face) {
-      this.name = name154;
+    constructor(name85, category, vertex, face) {
+      this.name = name85;
       this.category = category;
       this.vertex = vertex;
       this.face = face;
@@ -93387,7 +90215,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
   };
 
   // ../node_modules/@babylonjs/core/Meshes/Builders/geodesicBuilder.js
-  function CreateGeodesic(name154, options, scene = null) {
+  function CreateGeodesic(name85, options, scene = null) {
     let m = options.m || 1;
     if (m !== Math.floor(m)) {
       m = Math.floor(m);
@@ -93421,7 +90249,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       frontUVs: options.frontUVs,
       backUVs: options.backUVs
     };
-    const geodesic = CreatePolyhedron(name154, geoOptions, scene);
+    const geodesic = CreatePolyhedron(name85, geoOptions, scene);
     return geodesic;
   }
 
@@ -93697,7 +90525,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     vertexData.uvs = uvs;
     return vertexData;
   }
-  function CreateGoldberg(name154, options, scene = null) {
+  function CreateGoldberg(name85, options, scene = null) {
     const size = options.size;
     const sizeX = options.sizeX || size || 1;
     const sizeY = options.sizeY || size || 1;
@@ -93722,7 +90550,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     primTri.build(m, n);
     const geodesicData = GeodesicData.BuildGeodesicData(primTri);
     const goldbergData = geodesicData.toGoldbergPolyhedronData();
-    const goldberg = new GoldbergMesh(name154, scene);
+    const goldberg = new GoldbergMesh(name85, scene);
     options.sideOrientation = Mesh._GetDefaultSideOrientation(options.sideOrientation);
     goldberg._originalBuilderSideOrientation = options.sideOrientation;
     const vertexData = CreateGoldbergVertexData(options, goldbergData);
@@ -93895,7 +90723,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
     }
     return shapePaths;
   }
-  function CreateText(name154, text, fontData, options = {
+  function CreateText(name85, text, fontData, options = {
     size: 50,
     resolution: 8,
     depth: 1
@@ -93945,7 +90773,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
             holeVectors.push(holePoints);
           }
         }
-        const mesh = ExtrudePolygon(name154, {
+        const mesh = ExtrudePolygon(name85, {
           shape: shapeVectors,
           holes: holeVectors.length ? holeVectors : void 0,
           depth: options.depth || 1,
@@ -93963,7 +90791,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
       newMesh.position.x += -(bbox.minimumWorld.x + bbox.maximumWorld.x) / 2;
       newMesh.position.y += -(bbox.minimumWorld.y + bbox.maximumWorld.y) / 2;
       newMesh.position.z += -(bbox.minimumWorld.z + bbox.maximumWorld.z) / 2 + bbox.extendSize.z;
-      newMesh.name = name154;
+      newMesh.name = name85;
       const pivot = new TransformNode("pivot", scene);
       pivot.rotation.x = -Math.PI / 2;
       newMesh.parent = pivot;
@@ -94035,7 +90863,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
      * @param storeCameraSpaceZ Defines whether the depth stored is the Z coordinate in camera space. If true, storeNonLinearDepth has no effect. (Default: false)
      * @param name Name of the render target (default: DepthRenderer)
      */
-    constructor(scene, type = 1, camera = null, storeNonLinearDepth = false, samplingMode = Texture.TRILINEAR_SAMPLINGMODE, storeCameraSpaceZ = false, name154) {
+    constructor(scene, type = 1, camera = null, storeNonLinearDepth = false, samplingMode = Texture.TRILINEAR_SAMPLINGMODE, storeCameraSpaceZ = false, name85) {
       this._shaderLanguage = 0;
       this.enabled = true;
       this.forceDepthWriteTransparentMeshes = false;
@@ -94064,7 +90892,7 @@ uniform float alphaG;uniform samplerCube inputTexture;uniform vec2 vFilteringInf
         }
       }
       const format = this.isPacked || !engine._features.supportExtendedTextureFormats ? 5 : 6;
-      this._depthMap = new RenderTargetTexture(name154 ?? "DepthRenderer", { width: engine.getRenderWidth(), height: engine.getRenderHeight() }, this._scene, false, true, type, false, samplingMode, void 0, void 0, void 0, format);
+      this._depthMap = new RenderTargetTexture(name85 ?? "DepthRenderer", { width: engine.getRenderWidth(), height: engine.getRenderHeight() }, this._scene, false, true, type, false, samplingMode, void 0, void 0, void 0, format);
       this._depthMap.wrapU = Texture.CLAMP_ADDRESSMODE;
       this._depthMap.wrapV = Texture.CLAMP_ADDRESSMODE;
       this._depthMap.refreshRate = 1;
@@ -94624,25 +91452,25 @@ ${this.compilationString}`;
     /**
      * @internal
      */
-    _excludeVariableName(name154) {
-      this.sharedData.variableNames[name154] = 0;
+    _excludeVariableName(name85) {
+      this.sharedData.variableNames[name85] = 0;
     }
     /**
      * @internal
      */
-    _emit2DSampler(name154, define = "", force = false) {
-      if (this.samplers.indexOf(name154) < 0 || force) {
+    _emit2DSampler(name85, define = "", force = false) {
+      if (this.samplers.indexOf(name85) < 0 || force) {
         if (define) {
           this._samplerDeclaration += `#if ${define}
 `;
         }
         if (this.shaderLanguage === 1) {
-          this._samplerDeclaration += `var ${name154 + `Sampler`}: sampler;
+          this._samplerDeclaration += `var ${name85 + `Sampler`}: sampler;
 `;
-          this._samplerDeclaration += `var ${name154}: texture_2d<f32>;
+          this._samplerDeclaration += `var ${name85}: texture_2d<f32>;
 `;
         } else {
-          this._samplerDeclaration += `uniform sampler2D ${name154};
+          this._samplerDeclaration += `uniform sampler2D ${name85};
 `;
         }
         if (define) {
@@ -94650,26 +91478,26 @@ ${this.compilationString}`;
 `;
         }
         if (!force) {
-          this.samplers.push(name154);
+          this.samplers.push(name85);
         }
       }
     }
     /**
      * @internal
      */
-    _emitCubeSampler(name154, define = "", force = false) {
-      if (this.samplers.indexOf(name154) < 0 || force) {
+    _emitCubeSampler(name85, define = "", force = false) {
+      if (this.samplers.indexOf(name85) < 0 || force) {
         if (define) {
           this._samplerDeclaration += `#if ${define}
 `;
         }
         if (this.shaderLanguage === 1) {
-          this._samplerDeclaration += `var ${name154 + `Sampler`}: sampler;
+          this._samplerDeclaration += `var ${name85 + `Sampler`}: sampler;
 `;
-          this._samplerDeclaration += `var ${name154}: texture_cube<f32>;
+          this._samplerDeclaration += `var ${name85}: texture_cube<f32>;
 `;
         } else {
-          this._samplerDeclaration += `uniform samplerCube ${name154};
+          this._samplerDeclaration += `uniform samplerCube ${name85};
 `;
         }
         if (define) {
@@ -94677,18 +91505,18 @@ ${this.compilationString}`;
 `;
         }
         if (!force) {
-          this.samplers.push(name154);
+          this.samplers.push(name85);
         }
       }
     }
     /**
      * @internal
      */
-    _emit2DArraySampler(name154) {
-      if (this.samplers.indexOf(name154) < 0) {
-        this._samplerDeclaration += `uniform sampler2DArray ${name154};
+    _emit2DArraySampler(name85) {
+      if (this.samplers.indexOf(name85) < 0) {
+        this._samplerDeclaration += `uniform sampler2DArray ${name85};
 `;
-        this.samplers.push(name154);
+        this.samplers.push(name85);
       }
     }
     /**
@@ -94739,8 +91567,8 @@ ${this.compilationString}`;
     /**
      * @internal
      */
-    _emitExtension(name154, extension, define = "") {
-      if (this.extensions[name154]) {
+    _emitExtension(name85, extension, define = "") {
+      if (this.extensions[name85]) {
         return;
       }
       if (define) {
@@ -94748,20 +91576,20 @@ ${this.compilationString}`;
 ${extension}
 #endif`;
       }
-      this.extensions[name154] = extension;
+      this.extensions[name85] = extension;
     }
     /**
      * @internal
      */
-    _emitFunction(name154, code, comments) {
-      if (this.functions[name154]) {
+    _emitFunction(name85, code, comments) {
+      if (this.functions[name85]) {
         return;
       }
       if (this.sharedData.emitComments) {
         code = comments + `
 ` + code;
       }
-      this.functions[name154] = code;
+      this.functions[name85] = code;
     }
     /**
      * @internal
@@ -94841,21 +91669,21 @@ ${extension}
     /**
      * @internal
      */
-    _registerTempVariable(name154) {
-      if (this.sharedData.temps.indexOf(name154) !== -1) {
+    _registerTempVariable(name85) {
+      if (this.sharedData.temps.indexOf(name85) !== -1) {
         return false;
       }
-      this.sharedData.temps.push(name154);
+      this.sharedData.temps.push(name85);
       return true;
     }
     /**
      * @internal
      */
-    _emitVaryingFromString(name154, type, define = "", notDefine = false) {
-      if (this.sharedData.varyings.indexOf(name154) !== -1) {
+    _emitVaryingFromString(name85, type, define = "", notDefine = false) {
+      if (this.sharedData.varyings.indexOf(name85) !== -1) {
         return false;
       }
-      this.sharedData.varyings.push(name154);
+      this.sharedData.varyings.push(name85);
       if (define) {
         if (define.startsWith("defined(")) {
           this.sharedData.varyingDeclaration += `#if ${define}
@@ -94867,10 +91695,10 @@ ${extension}
       }
       const shaderType = this._getShaderType(type);
       if (this.shaderLanguage === 1) {
-        this.sharedData.varyingDeclaration += `varying ${name154}: ${shaderType};
+        this.sharedData.varyingDeclaration += `varying ${name85}: ${shaderType};
 `;
       } else {
-        this.sharedData.varyingDeclaration += `varying ${shaderType} ${name154};
+        this.sharedData.varyingDeclaration += `varying ${shaderType} ${name85};
 `;
       }
       if (define) {
@@ -94882,20 +91710,20 @@ ${extension}
     /**
      * @internal
      */
-    _getVaryingName(name154) {
+    _getVaryingName(name85) {
       if (this.shaderLanguage === 1) {
-        return (this.target !== NodeMaterialBlockTargets.Fragment ? "vertexOutputs." : "fragmentInputs.") + name154;
+        return (this.target !== NodeMaterialBlockTargets.Fragment ? "vertexOutputs." : "fragmentInputs.") + name85;
       }
-      return name154;
+      return name85;
     }
     /**
      * @internal
      */
-    _emitUniformFromString(name154, type, define = "", notDefine = false) {
-      if (this.uniforms.indexOf(name154) !== -1) {
+    _emitUniformFromString(name85, type, define = "", notDefine = false) {
+      if (this.uniforms.indexOf(name85) !== -1) {
         return;
       }
-      this.uniforms.push(name154);
+      this.uniforms.push(name85);
       if (define) {
         if (define.startsWith("defined(")) {
           this._uniformDeclaration += `#if ${define}
@@ -94907,10 +91735,10 @@ ${extension}
       }
       const shaderType = this._getShaderType(type);
       if (this.shaderLanguage === 1) {
-        this._uniformDeclaration += `uniform ${name154}: ${shaderType};
+        this._uniformDeclaration += `uniform ${name85}: ${shaderType};
 `;
       } else {
-        this._uniformDeclaration += `uniform ${shaderType} ${name154};
+        this._uniformDeclaration += `uniform ${shaderType} ${name85};
 `;
       }
       if (define) {
@@ -94945,11 +91773,11 @@ ${extension}
     /**
      * @internal
      */
-    _declareLocalVar(name154, type, isConst) {
+    _declareLocalVar(name85, type, isConst) {
       if (this.shaderLanguage === 1) {
-        return `${isConst ? "const" : "var"} ${name154}: ${this._getShaderType(type)}`;
+        return `${isConst ? "const" : "var"} ${name85}: ${this._getShaderType(type)}`;
       } else {
-        return `${this._getShaderType(type)} ${name154}`;
+        return `${this._getShaderType(type)} ${name85}`;
       }
     }
     /**
@@ -95494,7 +92322,7 @@ ${extension}
      * @param ownerBlock defines the block hosting this connection point
      * @param direction defines the direction of the connection point
      */
-    constructor(name154, ownerBlock, direction) {
+    constructor(name85, ownerBlock, direction) {
       this._connectedPointBackingField = null;
       this._endpoints = new Array();
       this._typeConnectionSourceBackingField = null;
@@ -95515,7 +92343,7 @@ ${extension}
       this._prioritizeVertex = false;
       this._target = NodeMaterialBlockTargets.VertexAndFragment;
       this._ownerBlock = ownerBlock;
-      this.name = name154;
+      this.name = name85;
       this._direction = direction;
     }
     /**
@@ -95762,8 +92590,8 @@ ${extension}
      * @param name defines the name of the input to look for
      * @returns the input or null if not found
      */
-    getInputByName(name154) {
-      const filter = this._inputs.filter((e) => e.name === name154);
+    getInputByName(name85) {
+      const filter = this._inputs.filter((e) => e.name === name85);
       if (filter.length) {
         return filter[0];
       }
@@ -95774,8 +92602,8 @@ ${extension}
      * @param name defines the name of the output to look for
      * @returns the output or null if not found
      */
-    getOutputByName(name154) {
-      const filter = this._outputs.filter((e) => e.name === name154);
+    getOutputByName(name85) {
+      const filter = this._outputs.filter((e) => e.name === name85);
       if (filter.length) {
         return filter[0];
       }
@@ -95787,7 +92615,7 @@ ${extension}
      * @param target defines the target of that block (Vertex by default)
      * @param isFinalMerger defines a boolean indicating that this block is an end block (e.g. it is generating a system value). Default is false
      */
-    constructor(name154, target = NodeMaterialBlockTargets.Vertex, isFinalMerger = false) {
+    constructor(name85, target = NodeMaterialBlockTargets.Vertex, isFinalMerger = false) {
       this._isFinalMerger = false;
       this._isInput = false;
       this._isTeleportOut = false;
@@ -95809,7 +92637,7 @@ ${extension}
       this._isInput = this.getClassName() === "InputBlock";
       this._isTeleportOut = this.getClassName() === "NodeMaterialTeleportOutBlock";
       this._isTeleportIn = this.getClassName() === "NodeMaterialTeleportInBlock";
-      this._name = name154;
+      this._name = name85;
       this.uniqueId = UniqueIdGenerator.UniqueId;
     }
     /** @internal */
@@ -95870,9 +92698,9 @@ ${extension}
      * @param point an already created connection point. If not provided, create a new one
      * @returns the current block
      */
-    registerInput(name154, type, isOptional = false, target, point) {
+    registerInput(name85, type, isOptional = false, target, point) {
       point = point ?? new NodeMaterialConnectionPoint(
-        name154,
+        name85,
         this,
         0
         /* NodeMaterialConnectionPointDirection.Input */
@@ -95893,9 +92721,9 @@ ${extension}
      * @param point an already created connection point. If not provided, create a new one
      * @returns the current block
      */
-    registerOutput(name154, type, target, point) {
+    registerOutput(name85, type, target, point) {
       point = point ?? new NodeMaterialConnectionPoint(
-        name154,
+        name85,
         this,
         1
         /* NodeMaterialConnectionPointDirection.Output */
@@ -96226,11 +93054,11 @@ ${extension}
       }
       return false;
     }
-    _inputRename(name154) {
-      return name154;
+    _inputRename(name85) {
+      return name85;
     }
-    _outputRename(name154) {
-      return name154;
+    _outputRename(name85) {
+      return name85;
     }
     _dumpPropertiesCode() {
       const variableName = this._codeVariableName;
@@ -96405,8 +93233,8 @@ ${variableName}.target = ${this.target};
      * Creates a new TransformBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.complementW = 1;
       this.complementZ = 0;
       this.target = NodeMaterialBlockTargets.Vertex;
@@ -96557,8 +93385,8 @@ ${variableName}.target = ${this.target};
      * Creates a new VertexOutputBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Vertex, true);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Vertex, true);
       this.registerInput("vector", NodeMaterialBlockConnectionPointTypes.Vector4);
     }
     /**
@@ -96644,8 +93472,8 @@ ${variableName}.target = ${this.target};
      * Create a new FragmentOutputBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Fragment, true);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Fragment, true);
       this.convertToGammaSpace = false;
       this.convertToLinearSpace = false;
       this.useLogarithmicDepth = false;
@@ -96957,8 +93785,8 @@ ${variableName}.target = ${this.target};
      * @param target defines the target of that block (Vertex by default)
      * @param type defines the type of the input (can be set to NodeMaterialBlockConnectionPointTypes.AutoDetect)
      */
-    constructor(name154, target = NodeMaterialBlockTargets.Vertex, type = NodeMaterialBlockConnectionPointTypes.AutoDetect) {
-      super(name154, target, false);
+    constructor(name85, target = NodeMaterialBlockTargets.Vertex, type = NodeMaterialBlockConnectionPointTypes.AutoDetect) {
+      super(name85, target, false);
       this._mode = 3;
       this._animationType = AnimatedInputBlockTypes.None;
       this._prefix = "";
@@ -97584,8 +94412,8 @@ ${variableName}.target = ${this.target};
      * Create a new CurrentScreenBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.VertexAndFragment);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.VertexAndFragment);
       this._samplerName = "textureSampler";
       this.convertToGammaSpace = false;
       this.convertToLinearSpace = false;
@@ -97807,8 +94635,8 @@ ${variableName}.target = ${this.target};
      * Create a new ParticleTextureBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Fragment);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Fragment);
       this._samplerName = "diffuseSampler";
       this.convertToGammaSpace = false;
       this.convertToLinearSpace = false;
@@ -97964,8 +94792,8 @@ ${variableName}.target = ${this.target};
      * Create a new ParticleRampGradientBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Fragment);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Fragment);
       this._isUnique = true;
       this.registerInput("color", NodeMaterialBlockConnectionPointTypes.Color4, false, NodeMaterialBlockTargets.Fragment);
       this.registerOutput("rampColor", NodeMaterialBlockConnectionPointTypes.Color4, NodeMaterialBlockTargets.Fragment);
@@ -98034,8 +94862,8 @@ ${variableName}.target = ${this.target};
      * Create a new ParticleBlendMultiplyBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Fragment);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Fragment);
       this._isUnique = true;
       this.registerInput("color", NodeMaterialBlockConnectionPointTypes.Color4, false, NodeMaterialBlockTargets.Fragment);
       this.registerInput("alphaTexture", NodeMaterialBlockConnectionPointTypes.Float, false, NodeMaterialBlockTargets.Fragment);
@@ -98105,8 +94933,8 @@ ${variableName}.target = ${this.target};
      * Create a new VectorMergerBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.xSwizzle = "x";
       this.ySwizzle = "y";
       this.zSwizzle = "z";
@@ -98217,20 +95045,20 @@ ${variableName}.target = ${this.target};
     get xyz() {
       return this.xyzOut;
     }
-    _inputRename(name154) {
-      if (name154 === "xyzw ") {
+    _inputRename(name85) {
+      if (name85 === "xyzw ") {
         return "xyzwIn";
       }
-      if (name154 === "xyz ") {
+      if (name85 === "xyz ") {
         return "xyzIn";
       }
-      if (name154 === "xy ") {
+      if (name85 === "xy ") {
         return "xyIn";
       }
-      if (name154 === "zw ") {
+      if (name85 === "zw ") {
         return "zwIn";
       }
-      return name154;
+      return name85;
     }
     _buildSwizzle(len) {
       const swizzle = this.xSwizzle + this.ySwizzle + this.zSwizzle + this.wSwizzle;
@@ -98372,8 +95200,8 @@ ${variableName}.target = ${this.target};
      * Creates a new RemapBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.sourceRange = new Vector2(-1, 1);
       this.targetRange = new Vector2(0, 1);
       this.registerInput("input", NodeMaterialBlockConnectionPointTypes.AutoDetect);
@@ -98475,8 +95303,8 @@ ${variableName}.target = ${this.target};
 
   // ../node_modules/@babylonjs/core/Materials/Node/Blocks/baseMathBlock.js
   var BaseMathBlock = class extends NodeMaterialBlock {
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("left", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerInput("right", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerOutput("output", NodeMaterialBlockConnectionPointTypes.BasedOnInput);
@@ -98547,8 +95375,8 @@ ${variableName}.target = ${this.target};
      * Creates a new MultiplyBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154);
+    constructor(name85) {
+      super(name85);
     }
     /**
      * Gets the current class name
@@ -98877,7 +95705,7 @@ ${variableName}.target = ${this.target};
      * Particles are often small sprites used to simulate hard-to-reproduce phenomena like fire, smoke, water, or abstract visual effects like magic glitter and faery dust.
      * @param name The name of the particle system
      */
-    constructor(name154) {
+    constructor(name85) {
       this.animations = [];
       this.renderingGroupId = 0;
       this.emitter = Vector3.Zero();
@@ -98949,8 +95777,8 @@ ${variableName}.target = ${this.target};
       this._billboardMode = 7;
       this._isBillboardBased = true;
       this._imageProcessingConfigurationDefines = new ImageProcessingConfigurationDefines();
-      this.id = name154;
-      this.name = name154;
+      this.id = name85;
+      this.name = name85;
     }
     /**
      * Creates a Point Emitter for the particle system (emits directly from the emitter position)
@@ -99041,8 +95869,8 @@ ${variableName}.target = ${this.target};
      * Create a new ColorSplitterBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("rgba", NodeMaterialBlockConnectionPointTypes.Color4, true);
       this.registerInput("rgb ", NodeMaterialBlockConnectionPointTypes.Color3, true);
       this.registerOutput("rgb", NodeMaterialBlockConnectionPointTypes.Color3);
@@ -99101,17 +95929,17 @@ ${variableName}.target = ${this.target};
     get a() {
       return this._outputs[4];
     }
-    _inputRename(name154) {
-      if (name154 === "rgb ") {
+    _inputRename(name85) {
+      if (name85 === "rgb ") {
         return "rgbIn";
       }
-      return name154;
+      return name85;
     }
-    _outputRename(name154) {
-      if (name154 === "rgb") {
+    _outputRename(name85) {
+      if (name85 === "rgb") {
         return "rgbOut";
       }
-      return name154;
+      return name85;
     }
     _buildBlock(state) {
       super._buildBlock(state);
@@ -99193,15 +96021,15 @@ ${variableName}.target = ${this.target};
 
   // ../node_modules/@babylonjs/core/Shaders/procedural.vertex.js
   init_shaderStore();
-  var name149 = "proceduralVertexShader";
-  var shader149 = `attribute vec2 position;varying vec2 vPosition;varying vec2 vUV;const vec2 madd=vec2(0.5,0.5);
+  var name82 = "proceduralVertexShader";
+  var shader82 = `attribute vec2 position;varying vec2 vPosition;varying vec2 vUV;const vec2 madd=vec2(0.5,0.5);
 #define CUSTOM_VERTEX_DEFINITIONS
 void main(void) {
 #define CUSTOM_VERTEX_MAIN_BEGIN
 vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
 #define CUSTOM_VERTEX_MAIN_END
 }`;
-  ShaderStore.ShadersStore[name149] = shader149;
+  ShaderStore.ShadersStore[name82] = shader82;
 
   // ../node_modules/@babylonjs/core/Materials/Textures/Procedurals/proceduralTexture.js
   var ProceduralTexture = class _ProceduralTexture extends Texture {
@@ -99222,7 +96050,7 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param isCube Define if the texture is a cube texture or not (this will render each faces of the cube)
      * @param textureType The FBO internal texture type
      */
-    constructor(name154, size, fragment, scene, fallbackTexture = null, generateMipMaps = true, isCube = false, textureType = 0) {
+    constructor(name85, size, fragment, scene, fallbackTexture = null, generateMipMaps = true, isCube = false, textureType = 0) {
       super(null, scene, !generateMipMaps);
       this.isEnabled = true;
       this.autoClear = true;
@@ -99264,7 +96092,7 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
       }
       scene.proceduralTextures.push(this);
       this._fullEngine = scene.getEngine();
-      this.name = name154;
+      this.name = name85;
       this.isRenderTarget = true;
       this._size = size;
       this._textureType = textureType;
@@ -99511,11 +96339,11 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param texture Define the texture to bind to this sampler
      * @returns the texture itself allowing "fluent" like uniform updates
      */
-    setTexture(name154, texture) {
-      if (this._samplers.indexOf(name154) === -1) {
-        this._samplers.push(name154);
+    setTexture(name85, texture) {
+      if (this._samplers.indexOf(name85) === -1) {
+        this._samplers.push(name85);
       }
-      this._textures[name154] = texture;
+      this._textures[name85] = texture;
       return this;
     }
     /**
@@ -99524,9 +96352,9 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param value Define the value to give to the uniform
      * @returns the texture itself allowing "fluent" like uniform updates
      */
-    setFloat(name154, value) {
-      this._checkUniform(name154);
-      this._floats[name154] = value;
+    setFloat(name85, value) {
+      this._checkUniform(name85);
+      this._floats[name85] = value;
       return this;
     }
     /**
@@ -99535,9 +96363,9 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param value Define the value to give to the uniform
      * @returns the texture itself allowing "fluent" like uniform updates
      */
-    setInt(name154, value) {
-      this._checkUniform(name154);
-      this._ints[name154] = value;
+    setInt(name85, value) {
+      this._checkUniform(name85);
+      this._ints[name85] = value;
       return this;
     }
     /**
@@ -99546,9 +96374,9 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param value Define the value to give to the uniform
      * @returns the texture itself allowing "fluent" like uniform updates
      */
-    setFloats(name154, value) {
-      this._checkUniform(name154);
-      this._floatsArrays[name154] = value;
+    setFloats(name85, value) {
+      this._checkUniform(name85);
+      this._floatsArrays[name85] = value;
       return this;
     }
     /**
@@ -99557,9 +96385,9 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param value Define the value to give to the uniform
      * @returns the texture itself allowing "fluent" like uniform updates
      */
-    setColor3(name154, value) {
-      this._checkUniform(name154);
-      this._colors3[name154] = value;
+    setColor3(name85, value) {
+      this._checkUniform(name85);
+      this._colors3[name85] = value;
       return this;
     }
     /**
@@ -99568,9 +96396,9 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param value Define the value to give to the uniform
      * @returns the texture itself allowing "fluent" like uniform updates
      */
-    setColor4(name154, value) {
-      this._checkUniform(name154);
-      this._colors4[name154] = value;
+    setColor4(name85, value) {
+      this._checkUniform(name85);
+      this._colors4[name85] = value;
       return this;
     }
     /**
@@ -99579,9 +96407,9 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param value Define the value to give to the uniform
      * @returns the texture itself allowing "fluent" like uniform updates
      */
-    setVector2(name154, value) {
-      this._checkUniform(name154);
-      this._vectors2[name154] = value;
+    setVector2(name85, value) {
+      this._checkUniform(name85);
+      this._vectors2[name85] = value;
       return this;
     }
     /**
@@ -99590,9 +96418,9 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param value Define the value to give to the uniform
      * @returns the texture itself allowing "fluent" like uniform updates
      */
-    setVector3(name154, value) {
-      this._checkUniform(name154);
-      this._vectors3[name154] = value;
+    setVector3(name85, value) {
+      this._checkUniform(name85);
+      this._vectors3[name85] = value;
       return this;
     }
     /**
@@ -99601,9 +96429,9 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param value Define the value to give to the uniform
      * @returns the texture itself allowing "fluent" like uniform updates
      */
-    setVector4(name154, value) {
-      this._checkUniform(name154);
-      this._vectors4[name154] = value;
+    setVector4(name85, value) {
+      this._checkUniform(name85);
+      this._vectors4[name85] = value;
       return this;
     }
     /**
@@ -99612,9 +96440,9 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param value Define the value to give to the uniform
      * @returns the texture itself allowing "fluent" like uniform updates
      */
-    setMatrix(name154, value) {
-      this._checkUniform(name154);
-      this._matrices[name154] = value;
+    setMatrix(name85, value) {
+      this._checkUniform(name85);
+      this._matrices[name85] = value;
       return this;
     }
     /**
@@ -99632,36 +96460,36 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
       this.onBeforeGenerationObservable.notifyObservers(this);
       engine.setState(false);
       if (!this.nodeMaterialSource) {
-        for (const name154 in this._textures) {
-          this._drawWrapper.effect.setTexture(name154, this._textures[name154]);
+        for (const name85 in this._textures) {
+          this._drawWrapper.effect.setTexture(name85, this._textures[name85]);
         }
-        for (const name154 in this._ints) {
-          this._drawWrapper.effect.setInt(name154, this._ints[name154]);
+        for (const name85 in this._ints) {
+          this._drawWrapper.effect.setInt(name85, this._ints[name85]);
         }
-        for (const name154 in this._floats) {
-          this._drawWrapper.effect.setFloat(name154, this._floats[name154]);
+        for (const name85 in this._floats) {
+          this._drawWrapper.effect.setFloat(name85, this._floats[name85]);
         }
-        for (const name154 in this._floatsArrays) {
-          this._drawWrapper.effect.setArray(name154, this._floatsArrays[name154]);
+        for (const name85 in this._floatsArrays) {
+          this._drawWrapper.effect.setArray(name85, this._floatsArrays[name85]);
         }
-        for (const name154 in this._colors3) {
-          this._drawWrapper.effect.setColor3(name154, this._colors3[name154]);
+        for (const name85 in this._colors3) {
+          this._drawWrapper.effect.setColor3(name85, this._colors3[name85]);
         }
-        for (const name154 in this._colors4) {
-          const color = this._colors4[name154];
-          this._drawWrapper.effect.setFloat4(name154, color.r, color.g, color.b, color.a);
+        for (const name85 in this._colors4) {
+          const color = this._colors4[name85];
+          this._drawWrapper.effect.setFloat4(name85, color.r, color.g, color.b, color.a);
         }
-        for (const name154 in this._vectors2) {
-          this._drawWrapper.effect.setVector2(name154, this._vectors2[name154]);
+        for (const name85 in this._vectors2) {
+          this._drawWrapper.effect.setVector2(name85, this._vectors2[name85]);
         }
-        for (const name154 in this._vectors3) {
-          this._drawWrapper.effect.setVector3(name154, this._vectors3[name154]);
+        for (const name85 in this._vectors3) {
+          this._drawWrapper.effect.setVector3(name85, this._vectors3[name85]);
         }
-        for (const name154 in this._vectors4) {
-          this._drawWrapper.effect.setVector4(name154, this._vectors4[name154]);
+        for (const name85 in this._vectors4) {
+          this._drawWrapper.effect.setVector4(name85, this._vectors4[name85]);
         }
-        for (const name154 in this._matrices) {
-          this._drawWrapper.effect.setMatrix(name154, this._matrices[name154]);
+        for (const name85 in this._matrices) {
+          this._drawWrapper.effect.setMatrix(name85, this._matrices[name85]);
         }
       }
       if (!this._texture || !this._rtWrapper) {
@@ -99793,8 +96621,8 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * Creates a new TrigonometryBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.operation = TrigonometryBlockOperations.Cos;
       this.registerInput("input", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerOutput("output", NodeMaterialBlockConnectionPointTypes.BasedOnInput);
@@ -99982,14 +96810,14 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param value defines the value to set
      * @param markAsUnprocessedIfDirty Flag to indicate to the cache that this value needs processing
      */
-    setValue(name154, value, markAsUnprocessedIfDirty = false) {
-      if (this[name154] === void 0) {
-        this._keys.push(name154);
+    setValue(name85, value, markAsUnprocessedIfDirty = false) {
+      if (this[name85] === void 0) {
+        this._keys.push(name85);
       }
-      if (markAsUnprocessedIfDirty && this[name154] !== value) {
+      if (markAsUnprocessedIfDirty && this[name85] !== value) {
         this.markAsUnprocessed();
       }
-      this[name154] = value;
+      this[name85] = value;
     }
   };
   var NodeMaterial = class _NodeMaterial extends PushMaterial {
@@ -100064,8 +96892,8 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param scene defines the hosting scene
      * @param options defines creation option
      */
-    constructor(name154, scene, options = {}) {
-      super(name154, scene || EngineStore.LastCreatedScene);
+    constructor(name85, scene, options = {}) {
+      super(name85, scene || EngineStore.LastCreatedScene);
       this._buildId = _NodeMaterial._BuildIdGenerator++;
       this._buildWasSuccessful = false;
       this._cachedWorldViewMatrix = new Matrix();
@@ -100127,14 +96955,14 @@ vPosition=position;vUV=position*madd+madd;gl_Position=vec4(position,0.0,1.0);
      * @param name defines the name of the block to retrieve
      * @returns the required block or null if not found
      */
-    getBlockByName(name154) {
+    getBlockByName(name85) {
       let result = null;
       for (const block of this.attachedBlocks) {
-        if (block.name === name154) {
+        if (block.name === name85) {
           if (!result) {
             result = block;
           } else {
-            Tools.Warn("More than one block was found with the name `" + name154 + "`");
+            Tools.Warn("More than one block was found with the name `" + name85 + "`");
             return result;
           }
         }
@@ -101489,11 +98317,11 @@ ${this._fragmentCompilationState.compilationString}`;
      * @param shareEffect defines if the clone material should share the same effect (default is false)
      * @returns the cloned material
      */
-    clone(name154, shareEffect = false) {
+    clone(name85, shareEffect = false) {
       const serializationObject = this.serialize();
-      const clone = SerializationHelper.Clone(() => new _NodeMaterial(name154, this.getScene(), this.options), this);
-      clone.id = name154;
-      clone.name = name154;
+      const clone = SerializationHelper.Clone(() => new _NodeMaterial(name85, this.getScene(), this.options), this);
+      clone.id = name85;
+      clone.name = name85;
       clone.parseSerializedObject(serializationObject);
       clone._buildId = this._buildId;
       clone.build(false, !shareEffect);
@@ -101545,8 +98373,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * @param urlRewriter defines a function used to rewrite urls
      * @returns a promise that will resolve to the new node material
      */
-    static async ParseFromFileAsync(name154, url, scene, rootUrl = "", skipBuild = false, targetMaterial, urlRewriter) {
-      const material = targetMaterial ?? new _NodeMaterial(name154, scene);
+    static async ParseFromFileAsync(name85, url, scene, rootUrl = "", skipBuild = false, targetMaterial, urlRewriter) {
+      const material = targetMaterial ?? new _NodeMaterial(name85, scene);
       const data = await scene._loadFileAsync(url);
       const serializationObject = JSON.parse(data);
       material.parseSerializedObject(serializationObject, rootUrl, void 0, urlRewriter);
@@ -101615,8 +98443,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * @param scene defines the hosting scene
      * @returns a new NodeMaterial
      */
-    static CreateDefault(name154, scene) {
-      const newMaterial = new _NodeMaterial(name154, scene);
+    static CreateDefault(name85, scene) {
+      const newMaterial = new _NodeMaterial(name85, scene);
       newMaterial.setToDefault();
       newMaterial.build();
       return newMaterial;
@@ -101650,8 +98478,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new InstancesBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Vertex);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Vertex);
       this.registerInput("world0", NodeMaterialBlockConnectionPointTypes.Vector4);
       this.registerInput("world1", NodeMaterialBlockConnectionPointTypes.Vector4);
       this.registerInput("world2", NodeMaterialBlockConnectionPointTypes.Vector4);
@@ -101820,8 +98648,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new AddBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154);
+    constructor(name85) {
+      super(name85);
     }
     /**
      * Gets the current class name
@@ -101846,8 +98674,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new DivideBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154);
+    constructor(name85) {
+      super(name85);
     }
     /**
      * Gets the current class name
@@ -101872,8 +98700,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new SubtractBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154);
+    constructor(name85) {
+      super(name85);
     }
     /**
      * Gets the current class name
@@ -101898,8 +98726,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new ClampBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.minimum = 0;
       this.maximum = 1;
       this.registerInput("value", NodeMaterialBlockConnectionPointTypes.AutoDetect);
@@ -101974,8 +98802,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Create a new VectorSplitterBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("xyzw", NodeMaterialBlockConnectionPointTypes.Vector4, true);
       this.registerInput("xyz ", NodeMaterialBlockConnectionPointTypes.Vector3, true);
       this.registerInput("xy ", NodeMaterialBlockConnectionPointTypes.Vector2, true);
@@ -102055,24 +98883,24 @@ ${this._fragmentCompilationState.compilationString}`;
     get w() {
       return this._outputs[6];
     }
-    _inputRename(name154) {
-      switch (name154) {
+    _inputRename(name85) {
+      switch (name85) {
         case "xy ":
           return "xyIn";
         case "xyz ":
           return "xyzIn";
         default:
-          return name154;
+          return name85;
       }
     }
-    _outputRename(name154) {
-      switch (name154) {
+    _outputRename(name85) {
+      switch (name85) {
         case "xy":
           return "xyOut";
         case "xyz":
           return "xyzOut";
         default:
-          return name154;
+          return name85;
       }
     }
     _buildBlock(state) {
@@ -102130,8 +98958,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new BonesBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Vertex);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Vertex);
       this.registerInput("matricesIndices", NodeMaterialBlockConnectionPointTypes.Vector4);
       this.registerInput("matricesWeights", NodeMaterialBlockConnectionPointTypes.Vector4);
       this.registerInput("matricesIndicesExtra", NodeMaterialBlockConnectionPointTypes.Vector4, true);
@@ -102153,9 +98981,9 @@ ${this._fragmentCompilationState.compilationString}`;
     async _initShaderSourceAsync(shaderLanguage) {
       this._codeIsReady = false;
       if (shaderLanguage === 1) {
-        await Promise.all([Promise.resolve().then(() => (init_bonesDeclaration(), bonesDeclaration_exports)), Promise.resolve().then(() => (init_bonesVertex(), bonesVertex_exports))]);
-      } else {
         await Promise.all([Promise.resolve().then(() => (init_bonesDeclaration2(), bonesDeclaration_exports2)), Promise.resolve().then(() => (init_bonesVertex2(), bonesVertex_exports2))]);
+      } else {
+        await Promise.all([Promise.resolve().then(() => (init_bonesDeclaration(), bonesDeclaration_exports)), Promise.resolve().then(() => (init_bonesVertex(), bonesVertex_exports))]);
       }
       this._codeIsReady = true;
       this.onCodeIsReadyObservable.notifyObservers(this);
@@ -102308,8 +99136,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Create a new LightBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.VertexAndFragment);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.VertexAndFragment);
       this._lightId = 0;
       this.generateOnlyFragmentCode = false;
       this._isUnique = true;
@@ -102405,25 +99233,25 @@ ${this._fragmentCompilationState.compilationString}`;
       this._codeIsReady = false;
       if (shaderLanguage === 1) {
         await Promise.all([
-          Promise.resolve().then(() => (init_lightFragment(), lightFragment_exports)),
-          Promise.resolve().then(() => (init_lightUboDeclaration(), lightUboDeclaration_exports)),
-          Promise.resolve().then(() => (init_lightVxUboDeclaration(), lightVxUboDeclaration_exports)),
+          Promise.resolve().then(() => (init_lightFragment2(), lightFragment_exports2)),
+          Promise.resolve().then(() => (init_lightUboDeclaration2(), lightUboDeclaration_exports2)),
+          Promise.resolve().then(() => (init_lightVxUboDeclaration2(), lightVxUboDeclaration_exports2)),
           Promise.resolve().then(() => (init_helperFunctions2(), helperFunctions_exports2)),
-          Promise.resolve().then(() => (init_lightsFragmentFunctions(), lightsFragmentFunctions_exports)),
-          Promise.resolve().then(() => (init_shadowsFragmentFunctions(), shadowsFragmentFunctions_exports)),
-          Promise.resolve().then(() => (init_shadowsVertex(), shadowsVertex_exports))
+          Promise.resolve().then(() => (init_lightsFragmentFunctions2(), lightsFragmentFunctions_exports2)),
+          Promise.resolve().then(() => (init_shadowsFragmentFunctions2(), shadowsFragmentFunctions_exports2)),
+          Promise.resolve().then(() => (init_shadowsVertex2(), shadowsVertex_exports2))
         ]);
       } else {
         await Promise.all([
           Promise.resolve().then(() => (init_lightFragmentDeclaration(), lightFragmentDeclaration_exports)),
-          Promise.resolve().then(() => (init_lightFragment2(), lightFragment_exports2)),
-          Promise.resolve().then(() => (init_lightUboDeclaration2(), lightUboDeclaration_exports2)),
-          Promise.resolve().then(() => (init_lightVxUboDeclaration2(), lightVxUboDeclaration_exports2)),
-          Promise.resolve().then(() => (init_lightVxFragmentDeclaration2(), lightVxFragmentDeclaration_exports)),
+          Promise.resolve().then(() => (init_lightFragment(), lightFragment_exports)),
+          Promise.resolve().then(() => (init_lightUboDeclaration(), lightUboDeclaration_exports)),
+          Promise.resolve().then(() => (init_lightVxUboDeclaration(), lightVxUboDeclaration_exports)),
+          Promise.resolve().then(() => (init_lightVxFragmentDeclaration(), lightVxFragmentDeclaration_exports)),
           Promise.resolve().then(() => (init_helperFunctions(), helperFunctions_exports)),
-          Promise.resolve().then(() => (init_lightsFragmentFunctions2(), lightsFragmentFunctions_exports2)),
-          Promise.resolve().then(() => (init_shadowsFragmentFunctions2(), shadowsFragmentFunctions_exports2)),
-          Promise.resolve().then(() => (init_shadowsVertex2(), shadowsVertex_exports2))
+          Promise.resolve().then(() => (init_lightsFragmentFunctions(), lightsFragmentFunctions_exports)),
+          Promise.resolve().then(() => (init_shadowsFragmentFunctions(), shadowsFragmentFunctions_exports)),
+          Promise.resolve().then(() => (init_shadowsVertex(), shadowsVertex_exports))
         ]);
       }
       this._codeIsReady = true;
@@ -102655,8 +99483,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new PowBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("value", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerInput("power", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerOutput("output", NodeMaterialBlockConnectionPointTypes.BasedOnInput);
@@ -102708,8 +99536,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * @param _blockType
      * @param _blockName
      */
-    constructor(name154, ownerBlock, direction, _blockType, _blockName) {
-      super(name154, ownerBlock, direction);
+    constructor(name85, ownerBlock, direction, _blockType, _blockName) {
+      super(name85, ownerBlock, direction);
       this._blockType = _blockType;
       this._blockName = _blockName;
       this.needDualDirectionValidation = true;
@@ -102767,8 +99595,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new ImageSourceBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.VertexAndFragment);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.VertexAndFragment);
       this.registerOutput("source", NodeMaterialBlockConnectionPointTypes.Object, NodeMaterialBlockTargets.VertexAndFragment, new NodeMaterialConnectionPointCustomObject("source", this, 1, _ImageSourceBlock, "ImageSourceBlock"));
     }
     bind(effect) {
@@ -102873,8 +99701,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new CustomBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154);
+    constructor(name85) {
+      super(name85);
     }
     /**
      * Gets the current class name
@@ -102979,12 +99807,12 @@ ${this._fragmentCompilationState.compilationString}`;
         this._linkConnectionTypes(this._findInputByName(connection.input1)[1], this._findInputByName(connection.input2)[1]);
       });
     }
-    _findInputByName(name154) {
-      if (!name154) {
+    _findInputByName(name85) {
+      if (!name85) {
         return null;
       }
       for (let i = 0; i < this._inputs.length; i++) {
-        if (this._inputs[i].name === name154) {
+        if (this._inputs[i].name === name85) {
           return [this._inputs[i], i];
         }
       }
@@ -102999,8 +99827,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new ScaleBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("input", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerInput("factor", NodeMaterialBlockConnectionPointTypes.Float);
       this.registerOutput("output", NodeMaterialBlockConnectionPointTypes.BasedOnInput);
@@ -103047,8 +99875,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new LerpBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("left", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerInput("right", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerInput("gradient", NodeMaterialBlockConnectionPointTypes.AutoDetect);
@@ -103105,8 +99933,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new StepBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("value", NodeMaterialBlockConnectionPointTypes.Float);
       this.registerInput("edge", NodeMaterialBlockConnectionPointTypes.Float);
       this.registerOutput("output", NodeMaterialBlockConnectionPointTypes.Float);
@@ -103152,8 +99980,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new ViewDirectionBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("worldPosition", NodeMaterialBlockConnectionPointTypes.Vector4);
       this.registerInput("cameraPosition", NodeMaterialBlockConnectionPointTypes.Vector3);
       this.registerOutput("output", NodeMaterialBlockConnectionPointTypes.Vector3);
@@ -103209,8 +100037,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new DotBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("left", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerInput("right", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerOutput("output", NodeMaterialBlockConnectionPointTypes.Float);
@@ -103273,8 +100101,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new ConditionalBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.condition = ConditionalBlockConditions.LessThan;
       this.registerInput("a", NodeMaterialBlockConnectionPointTypes.Float);
       this.registerInput("b", NodeMaterialBlockConnectionPointTypes.Float);
@@ -103399,8 +100227,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new OneMinusBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("input", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerOutput("output", NodeMaterialBlockConnectionPointTypes.BasedOnInput);
       this._outputs[0]._typeConnectionSource = this._inputs[0];
@@ -103442,8 +100270,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new MaxBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("left", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerInput("right", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerOutput("output", NodeMaterialBlockConnectionPointTypes.BasedOnInput);
@@ -103491,8 +100319,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Creates a new DistanceBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("left", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerInput("right", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerOutput("output", NodeMaterialBlockConnectionPointTypes.Float);
@@ -103543,8 +100371,8 @@ ${this._fragmentCompilationState.compilationString}`;
      * Create a new FogBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.VertexAndFragment, false);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.VertexAndFragment, false);
       this.registerInput("worldPosition", NodeMaterialBlockConnectionPointTypes.Vector4, false, NodeMaterialBlockTargets.Vertex);
       this.registerInput("view", NodeMaterialBlockConnectionPointTypes.Matrix, false, NodeMaterialBlockTargets.Vertex);
       this.registerInput("input", NodeMaterialBlockConnectionPointTypes.AutoDetect, false, NodeMaterialBlockTargets.Fragment);
@@ -103596,9 +100424,9 @@ ${this._fragmentCompilationState.compilationString}`;
     async _initShaderSourceAsync(shaderLanguage) {
       this._codeIsReady = false;
       if (shaderLanguage === 1) {
-        await Promise.resolve().then(() => (init_fogFragmentDeclaration(), fogFragmentDeclaration_exports));
-      } else {
         await Promise.resolve().then(() => (init_fogFragmentDeclaration2(), fogFragmentDeclaration_exports2));
+      } else {
+        await Promise.resolve().then(() => (init_fogFragmentDeclaration(), fogFragmentDeclaration_exports));
       }
       this._codeIsReady = true;
       this.onCodeIsReadyObservable.notifyObservers(this);
@@ -103694,8 +100522,8 @@ ${state._declareOutput(output)} =  ${color.associatedVariableName}.rgb;
      * Creates a new NegateBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Neutral);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Neutral);
       this.registerInput("value", NodeMaterialBlockConnectionPointTypes.AutoDetect);
       this.registerOutput("output", NodeMaterialBlockConnectionPointTypes.BasedOnInput);
       this._outputs[0]._typeConnectionSource = this._inputs[0];
@@ -103735,8 +100563,8 @@ ${state._declareOutput(output)} =  ${color.associatedVariableName}.rgb;
      * Create a new ShadowMapBlock
      * @param name defines the block name
      */
-    constructor(name154) {
-      super(name154, NodeMaterialBlockTargets.Fragment);
+    constructor(name85) {
+      super(name85, NodeMaterialBlockTargets.Fragment);
       this.registerInput("worldPosition", NodeMaterialBlockConnectionPointTypes.Vector4, false);
       this.registerInput("viewProjection", NodeMaterialBlockConnectionPointTypes.Matrix, false);
       this.registerInput("worldNormal", NodeMaterialBlockConnectionPointTypes.AutoDetect, true);
@@ -103867,8 +100695,8 @@ ${state._declareOutput(output)} =  ${color.associatedVariableName}.rgb;
   RegisterClass("BABYLON.ShadowMapBlock", ShadowMapBlock);
 
   // src/shaders/mapRenderMaterial.mjs
-  function mapRender(name154, scene) {
-    var nodeMaterial = new NodeMaterial(name154, scene);
+  function mapRender(name85, scene) {
+    var nodeMaterial = new NodeMaterial(name85, scene);
     nodeMaterial.mode = NodeMaterialModes.Material;
     var position = new InputBlock("position");
     position.visibleInInspector = false;
@@ -103949,8 +100777,8 @@ ${state._declareOutput(output)} =  ${color.associatedVariableName}.rgb;
   }
 
   // src/shaders/mapRenderFlipMaterial.mjs
-  function flip(name154, scene) {
-    var nodeMaterial = new NodeMaterial(name154, scene);
+  function flip(name85, scene) {
+    var nodeMaterial = new NodeMaterial(name85, scene);
     nodeMaterial.mode = NodeMaterialModes.Material;
     var position = new InputBlock("position");
     position.visibleInInspector = false;
@@ -104287,11 +101115,11 @@ ${state._declareOutput(output)} =  ${color.associatedVariableName}.rgb;
   function screen(a, b) {
     return 1 - (1 - a) * (1 - b);
   }
-  function setupSkybox(name154, scene) {
+  function setupSkybox(name85, scene) {
     return new Promise((resolve, reject) => {
-      name154 = name154 || "default";
-      skyboxName = name154;
-      console.log(name154);
+      name85 = name85 || "default";
+      skyboxName = name85;
+      console.log(name85);
       var existing = scene.getMeshByName("skyBox");
       if (existing) existing.dispose();
       var skybox = MeshBuilder.CreateBox("skyBox", { size: 100 }, scene);
@@ -104301,7 +101129,7 @@ ${state._declareOutput(output)} =  ${color.associatedVariableName}.rgb;
       skyboxMaterial.backFaceCulling = false;
       skyboxMaterial.fogEnabled = false;
       var tex = new CubeTexture(
-        "../img/skyboxes/" + name154 + "/skybox",
+        "../img/skyboxes/" + name85 + "/skybox",
         scene,
         ["_px.jpg", "_py.jpg", "_pz.jpg", "_nx.jpg", "_ny.jpg", "_nz.jpg"],
         false,
