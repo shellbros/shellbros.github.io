@@ -28,7 +28,7 @@ build in. Anything you edit outside the whitelist is destroyed on the next build
 Whitelist (`app/scripts/sync.py`, `WHITELIST`):
 
 ```
-.git   .gitignore   app/   readme.md   functions/   _headers
+.git   .gitignore   app/   readme.md   functions/   _headers   CLAUDE.md
 ```
 
 Edit source in `../ShellShockers/game/` instead. `app/checker.js`, the Cloudflare
@@ -105,6 +105,52 @@ Only assets going through `Loader` get re-pinned at runtime. Plain `<img src>`,
 `<link rel=stylesheet>`, `<script src>`, `import()` and `fetch()` URLs use whatever
 sha is baked into `index.html`. See gotcha 1.
 
+## Vue 3 (migrated 2026-09-01)
+
+Vue **3.5.41**, runtime-only. Consequences:
+
+- **Two bundles now, not one:** `js/shellshock.js` (game) and `js/home.js` (Vue
+  home/UI). `build.sh`'s freshness guard checks both.
+- **Templates are precompiled** by `game/precompile-templates.mjs` (esbuild plugin
+  in `build.mjs`). Reverting it requires reverting the runtime-only Vue choice too,
+  or the app renders nothing.
+- **`@vue/compiler-dom` must be installed** in `../ShellShockers` — declared in
+  `package.json`, but a missing local install fails the compile with
+  `ERR_MODULE_NOT_FOUND`. Fix: `npm install` there.
+- **`?build=1` selects the production Vue.** `makeShellHome.sh` appends it to the
+  curl and the PHP keys off it. Without it every build shipped the 415 KB dev
+  build instead of the 108 KB prod one.
+- **The CDN URL count dropped from ~178 to ~20.** Assets resolve at runtime via
+  `window.JSCDN` now, so the built `index.html` no longer carries them. That is
+  why the output guard's floor is 12, not 150.
+
+## standalone-shellbros.html
+
+Generated every build by `app/scripts/makeStandalone.js`. It is `index.html` made
+safe to run with **no origin** — `blob:`, `about:blank`, `file://` — by un-pinning
+CDN URLs to `@main`, absolutising relative refs, and baking the socket host into
+`dynamicContentRoot`. The generator verifies its own output and fails the build if
+anything relative or commit-pinned survives.
+
+**This is the copy to hand out for embeds**, because every URL in it resolves to
+this one repo. The mathlete equivalent spans two.
+
+## Where socket hosts are decided
+
+`../ShellShockers/game/src/client/servers.js` defines `wssHost()`, in priority
+order: `window.overrideWssBase` (a proxy `app/checker.js` probed) → `dynamicContentRoot`
+(`?portalTest=`, localhost, and the standalone bake) → `location.host` → `WSS_FALLBACK_HOST`.
+
+GitHub Pages is skipped at the `location.host` step because it serves no
+WebSockets. `blob:`/`about:blank` have no host at all. Protocol comes from the
+resolved host, not the page — only `localhost` speaks plain `ws`.
+
+## Known broken, deliberately
+
+`data/*.json` 404s everywhere: `makeShellHome.sh` rsyncs with `--exclude 'data/'`,
+so the house-promo, news, YouTube and Twitch feeds never reach this repo. Empty
+panels on the live sites. Long-standing, not a Vue 3 regression.
+
 ## Guards in `build.sh`
 
 Both known failure modes were silent — success reported, two commits made, shipped.
@@ -114,17 +160,35 @@ So the pipeline validates its **output**, not just its inputs.
 |---|---|---|
 | Branch | before sync | Upstream on the wrong branch (wrong CDN base / wrong rewriter) |
 | Freshness | before sync | A stale bundle when the upstream compile didn't run |
-| **Output** | after rewrite, before commit | Foreign CDN repos in `index.html`, or a rewrite that didn't run (floor of 150 URLs; healthy ≈ 178) |
+| **Output** | after rewrite, before commit | Foreign CDN repos in `index.html`, or a rewrite that didn't run (floor of 12 URLs; healthy ≈ 20) |
 
 The output guard is the one that matters — it's cause-agnostic, so it catches classes
 of failure the input guards don't anticipate. Details in `app/scripts/README.md`.
+
+## Purging
+
+`app/scripts/purge.py` targets the **unpinned** `app/build.json`, which is exactly
+what this repo's `checker.js` and `index.html` read. That is correct here — do not
+change it to `@main` to match mathlete, whose `checker.js` reads a different URL.
+
+**A purge can be silently rate-limited.** jsDelivr returns `"status": "finished"`
+with `"throttled": true` when the same path is re-purged in quick succession, and
+`purge.py` prints a tick either way. "Purged successfully" is never proof the edge
+refetched. Confirm by reading the file back:
+
+```bash
+curl -s https://cdn.jsdelivr.net/gh/shellbros/shellbros.github.io/app/build.json
+```
+
+If it is stale and the purge reported finished, you were throttled. Wait rather
+than re-purging, which extends the throttle.
 
 ## Known gotchas
 
 1. **`update-build.py` never rewrites `index.html` in this repo.** Its regex
    (`app/scripts/update-build.py:67`) matches `shellbros/mathlete@…` — a leftover from
    the sibling `mathlete` repo. Nothing matches here, so it prints "No CDN URLs found"
-   and only `build.json` is updated. Result: ~178 asset URLs (CSS, Vue, images, data
+   and only `build.json` is updated. Result: the remaining asset URLs (CSS, Vue, images, data
    JSON) stay pinned to the **previous** build's sha. `js/shellshock.js` is unaffected
    because it loads via `Loader.loadJS`. Fix: match `shellbros/shellbros\.github\.io@`.
 2. **`sync.py:49` calls `makeShellhome.sh`** (lowercase `h`); the real file is
