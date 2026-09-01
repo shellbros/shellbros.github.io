@@ -25,7 +25,6 @@ const path = require('path');
 
 const REPO_ROOT = path.resolve(__dirname, '../..');
 const SRC = path.join(REPO_ROOT, 'index.html');
-const OUT = path.join(REPO_ROOT, 'standalone.html');
 
 if (!fs.existsSync(SRC)) {
 	console.error('makeStandalone: index.html not found at ' + SRC);
@@ -46,12 +45,39 @@ if (!baseMatch) {
 }
 const BASE = baseMatch[1].endsWith('/') ? baseMatch[1] : baseMatch[1] + '/';
 
+// Name the file after the CDN repo it bootstraps from, so the two shells'
+// standalone files are distinguishable without opening them.
+const repoMatch = BASE.match(/gh\/([A-Za-z0-9._-]+)\/([A-Za-z0-9._-]+)@/);
+if (!repoMatch) {
+	console.error('makeStandalone: could not read the CDN repo out of ' + BASE);
+	process.exit(1);
+}
+const SLUG = repoMatch[2].replace(/\.github\.io$/, '');
+const OUT = path.join(REPO_ROOT, `standalone-${SLUG}.html`);
+
 const RELATIVE = /(src|href)="(?!https?:|\/\/|data:|blob:|#|mailto:)(\.\/)?([A-Za-z0-9_][A-Za-z0-9_./-]*\.(?:js|css|json|webp|png|svg|ico|jpg|jpeg|gif|mp3|mp4|webm|wasm))(\?[^"]*)?"/g;
 let absolutised = 0;
 html = html.replace(RELATIVE, (m, attr, dot, file, query) => {
 	absolutised++;
 	return `${attr}="${BASE}${file}${query || ''}"`;
 });
+
+// 3. Bake the socket host in.
+//
+// This file exists for contexts with no origin, where location.host is empty and
+// wssHost() would otherwise wait on checker.js probing a proxy -- an async race
+// against the game's own connect, and a needless round trip when the answer is
+// already known. dynamicContentRoot is step 2 in wssHost(), ahead of
+// location.host, and checker.js never touches it (it nulls overrideWssBase on
+// every run, so baking THAT would be clobbered). servers.js only reassigns
+// dynamicContentRoot for ?portalTest= or localhost, neither of which applies here.
+const PROXY = `${SLUG}.pages.dev`;
+const rootDecl = /var\s+dynamicContentRoot\s*=\s*''\s*;/;
+if (!rootDecl.test(html)) {
+	console.error("makeStandalone: could not find `var dynamicContentRoot = '';` to bake the socket host into");
+	process.exit(1);
+}
+html = html.replace(rootDecl, `var dynamicContentRoot = '${PROXY}';`);
 
 fs.writeFileSync(OUT, html, 'utf8');
 
@@ -68,4 +94,4 @@ if (leftoverRelative.length || leftoverPinned.length) {
 }
 
 const cdnCount = (html.match(/cdn\.jsdelivr\.net\/gh\//g) || []).length;
-console.log(`standalone.html written (${cdnCount} CDN URLs, ${pinned} un-pinned, ${absolutised} absolutised)`);
+console.log(`${path.basename(OUT)} written from ${repoMatch[1]}/${repoMatch[2]} (${cdnCount} CDN URLs, ${pinned} un-pinned, ${absolutised} absolutised, sockets -> ${PROXY})`);
