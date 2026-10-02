@@ -1,0 +1,148 @@
+/* ------------------------------------------------------------- Gift links -- */
+
+// Icon-only buttons: a glyph where a text button has a label. Used by the store
+// cards and by the gift links panel, so it lives here rather than beside either.
+//
+// Two things were measured rather than assumed. min-width, not max-width: .btn_sm
+// sets min-width: 7em and min-width always beats max-width, so a max-width here
+// does nothing whatever. And font-size must be inherited: the glyph otherwise
+// renders at the container's size rather than the button's .7em, so `line-height: 1em`
+// resolves against the larger size and the button comes out taller than the text
+// button beside it - 15.39px against 12.66px when this was measured.
+//
+// Doubled selector so it beats .btn_sm's min-width on specificity rather than on
+// source order, which an import reshuffle would quietly break.
+.ss_button.ss_button-icon {
+	min-width: 2.3em;
+	padding-left: var(--ss-space-sm);
+	padding-right: var(--ss-space-sm);
+
+	// Centred here rather than in the templates: the store's More info button carries
+	// `f_row align-items-center` and the Gift button does not, so without this the two
+	// square up differently.
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	i {
+		font-size: inherit;
+		line-height: 1em;
+	}
+}
+
+// The panel listing a player's open gift links, laid out like the profile stats
+// table: a grid so every column lines up, with the alternating row colour carried
+// by each row's child divs rather than the row itself (see `.stat`).
+.gift-link-list {
+
+	.gift-link-list-grid {
+		display: grid;
+		row-gap: var(--ss-space-micro);
+		margin-top: var(--ss-space-md);
+	}
+
+	.gift-link-list-row {
+		display: grid;
+		// Every track a fixed size bar the first. Each row is its own grid, so an `auto`
+		// track resolves against that row's own content - the header, which has no actions
+		// cell, then gave its 1fr more room than the data rows and the columns did not line
+		// up under their headings. Fixed tracks resolve identically in every row.
+		grid-template-columns: 1fr 4em 11em 6em;
+		align-items: center;
+
+		> div {
+			display: flex;
+			align-items: center;
+			min-height: 2.4em;
+			padding: var(--ss-space-micro) var(--ss-space-sm);
+		}
+
+		> div:first-child {
+			border-radius: var(--border-radius) 0 0 var(--border-radius);
+		}
+
+		> div:last-child {
+			border-radius: 0 var(--border-radius) var(--border-radius) 0;
+			justify-content: flex-end;
+			gap: var(--ss-space-sm);
+		}
+	}
+
+	// nth-of-type, not nth-child: the header is a <header> and the rows are <div>, so
+	// this counts the rows on their own. With nth-child the header took a stripe of its
+	// own - its empty actions cell showing as a stub past the end of the row - and
+	// pushed the first real row onto the wrong colour.
+	div.gift-link-list-row:nth-of-type(odd) > div {
+		background-color: var(--ss-blue3);
+	}
+
+	div.gift-link-list-row:nth-of-type(even) > div {
+		background-color: var(--ss-blue2);
+	}
+
+	// Confirming a cancel takes the whole row rather than squeezing the message in
+	// beside the columns, which shoved every other row's alignment sideways.
+	.gift-link-list-row.is-confirming > div {
+		grid-column: 1 / -1;
+		justify-content: space-between;
+		border-radius: var(--border-radius);
+		gap: var(--ss-space-md);
+		flex-wrap: wrap;
+
+		// The message takes the slack and wraps; the buttons keep their size rather than
+		// being squeezed by a long sentence. line-height is explicit because the inherited
+		// one is shorter than the text, so the two wrapped lines printed over each other.
+		> span:first-child {
+			flex: 1 1 14em;
+			text-align: left;
+			line-height: 1.3em;
+		}
+
+		> span:last-child {
+			flex: 0 0 auto;
+		}
+	}
+
+	.gift-link-list-head > div {
+		min-height: 0;
+		font-weight: 700;
+		opacity: .75;
+	}
+
+	.gift-link-list-expiry {
+		font-style: italic;
+	}
+
+	// Styled here rather than left to the popup: only `.popup_lg h1` carries the white
+	// text and shadow, so an h2 heading renders as unstyled grey on blue. That is exactly
+	// the "Gift Link text very illegible" item from this card's first QA round, and an h2
+	// is the right level for a section under the panel's h1.
+	.gift-link-list-received-title {
+		margin: var(--ss-space-lg) 0 0;
+		color: var(--ss-white);
+		text-shadow: var(--ss-box-shadow-2);
+	}
+
+	// Its own tracks: the links table's are Item | Price | Expires | buttons, and "From
+	// Secret Admirer" squeezed into a 4em price column wrapped onto two lines and pushed
+	// the row out of shape. Same sizes otherwise, so the two tables still read as a pair.
+	.gift-link-list-received .gift-link-list-row {
+		grid-template-columns: 1fr 11em 9em 2em;
+	}
+
+	// Only rows whose item still resolves in the catalogue are clickable; the rest stay
+	// inert rather than opening an empty equip screen, so they must not invite a click.
+	.gift-link-list-row.is-openable {
+		cursor: pointer;
+
+		&:hover > div {
+			background-color: var(--ss-blue4);
+		}
+	}
+
+	// The buttons carry .ss_button's bottom margin, which pushes them off centre in
+	// a row that is sized to its content.
+	.ss_button {
+		margin-bottom: 0;
+	}
+}

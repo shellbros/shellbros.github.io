@@ -111,6 +111,7 @@
 	
 	.single-egg-store-info {
 		justify-content: center;
+		min-width: 13em;
 	}
 }
 
@@ -275,6 +276,19 @@
 
 .single-egg-store-item.single-egg-store-item-is-bundle .single-egg-store-header {
 	text-align: center;
+}
+
+// Bundles are giftable now (Trello #2627), so the row carries More info, Buy It!
+// and Gift. Let it wrap: without this the Gift button ran off the card's edge.
+.single-egg-store-item.single-egg-store-item-is-bundle .single-egg-store-info {
+	flex-wrap: wrap;
+	row-gap: var(--ss-space-micro);
+}
+
+// The egg packs already centre their row (see .single-egg-store-item-is-currency);
+// the pass did not, so its buttons sat left of the ones above and below it.
+.single-egg-store-item.single-egg-store-item-is-pass .single-egg-store-info {
+	justify-content: center;
 }
 
 

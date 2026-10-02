@@ -6,7 +6,7 @@
 }
 
 .player-challenge-single-wrap {
-	grid-template-columns: 4em 2fr;
+	grid-template-columns: 4em minmax(0, 1fr);
 }
 
 .player-challenges-container .player-challenge-single {
@@ -27,6 +27,11 @@
 
 .player-challenge-single-content {
 	order: 1;
+	min-width: 0;
+}
+
+.player-challenge-single-content .dynamic-text {
+	white-space: nowrap;
 }
 
 .player-challenge-single-content-icon {

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex">
+	<title>Shell Shockers gift</title>
+	<!-- Deliberately standalone: no game bundle, ads, Tag Manager or trackers (spec §3, §6). -->
+	<style>
+		:root { --bg: #0f2f45; --card: #ffffff; --ink: #15394f; --muted: #5b6f7c; --accent: #0e7a9b; --accent-ink: #ffffff; --line: #d9e4ea; --warn: #8a5a00; --soft: #eef5f8; }
+		* { box-sizing: border-box; }
+		body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+		main { max-width: 480px; margin: 0 auto; padding: 16px; }
+		header { display: flex; justify-content: center; padding: 12px 0 20px; }
+		header img { height: 56px; }
+		.card { background: var(--card); border-radius: 16px; padding: 20px; }
+		h1 { font-size: 1.4rem; margin: 0 0 4px; }
+		.sub { color: var(--muted); font-size: .9rem; margin: 0 0 16px; }
+		.item { display: flex; gap: 12px; align-items: center; background: var(--soft); border-radius: 12px; padding: 12px; margin-bottom: 16px; }
+		.item img { width: 88px; height: 88px; object-fit: contain; border-radius: 8px; background: #fff; }
+		.item h2 { font-size: 1.1rem; margin: 0 0 4px; }
+		.price { font-size: 1.3rem; font-weight: 700; }
+		.label { font-size: .9rem; font-weight: 600; margin: 0 0 6px; }
+		.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+		.chip { border: 1px solid var(--line); background: #fff; color: var(--ink); border-radius: 999px; padding: 8px 14px; font-size: .95rem; cursor: pointer; }
+		.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+		.note { font-size: .85rem; color: var(--muted); margin: 0 0 12px; }
+		.warn { font-size: .9rem; color: var(--warn); margin: 0 0 12px; }
+		.foot { font-size: .85rem; color: var(--muted); font-style: italic; text-align: center; margin: 12px 0 0; }
+		.btn { width: 100%; border: 0; border-radius: 12px; padding: 14px; font-size: 1.05rem; font-weight: 700; background: var(--accent); color: var(--accent-ink); cursor: pointer; }
+		.btn[disabled] { opacity: .5; cursor: default; }
+		form { display: flex; flex-direction: column; gap: 12px; }
+		input { font-size: 1.2rem; padding: 12px; border: 1px solid var(--line); border-radius: 10px; text-transform: uppercase; letter-spacing: .08em; text-align: center; }
+		.msg { text-align: center; }
+		.error { color: #a1261a; font-size: .9rem; margin: 8px 0 0; min-height: 1.2em; }
+	</style>
+</head>
+<body>
+<main>
+	<header><img src="/img/shellshockers_logo_peach.svg" alt="Shell Shockers"></header>
+
+	<section class="card" id="enter" hidden>
+		<h1>Enter a gift code</h1>
+		<p class="sub">It's 10 letters and numbers, like 7K2Q9-M4R8X.</p>
+		<form id="enter-form">
+			<input id="enter-code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="13" aria-label="Gift code">
+			<button class="btn" type="submit">Continue</button>
+			<p class="error" id="enter-error"></p>
+		</form>
+	</section>
+
+	<section class="card msg" id="loading" hidden><p>Loading…</p></section>
+
+	<!-- Layout from QA feedback on Trello #2627. The warning line is kept on
+	     purpose: it is the page's one guard against a stranger's link. -->
+	<section class="card" id="gift" hidden>
+		<h1 id="gift-title"></h1>
+		<div class="item">
+			<img id="gift-img" alt="">
+			<div>
+				<h2 id="gift-name"></h2>
+				<div><span class="price" id="gift-price"></span> USD</div>
+			</div>
+		</div>
+		<p class="label">Who's sending it?</p>
+		<div class="chips" id="chips"></div>
+		<p class="warn">Only buy this if you know who sent you the link.</p>
+		<button class="btn" id="buy" type="button"></button>
+		<p class="error" id="gift-error"></p>
+		<p class="foot">One-time purchase • No subscription • Tax shown at checkout</p>
+	</section>
+
+	<section class="card msg" id="message" hidden>
+		<h1 id="message-title"></h1>
+		<p class="sub" id="message-text"></p>
+	</section>
+</main>
+
+<script>
+(function () {
+	'use strict';
+
+	// Keep in sync with game/src/shared/giftCode.js
+	var ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+	function normalizeGiftCode (input) {
+		if (typeof input !== 'string') return null;
+		var code = input.toUpperCase().replace(/[\s-]/g, '').replace(/O/g, '0').replace(/[IL]/g, '1');
+		if (code.length !== 10) return null;
+		for (var i = 0; i < code.length; i++) {
+			if (ALPHABET.indexOf(code[i]) === -1) return null;
+		}
+		return code;
+	}
+
+	// Ids are what gift_fulfill stores and maps to a word for the player's popup
+	// (0 '', 1 'dad', 2 'mom', 3 'grandparent', 4 'friend', 5 'secret_admirer',
+	// 6 'take_a_guess'). Ids 5 and 6 arrived with the 2026-09-29 migration; 0 stays
+	// empty and the game shows "Anonymous" for a gift that carries no label at all.
+	// "Parent" is gone - Mom and Dad are offered separately again, which is what ids
+	// 1 and 2 always meant.
+	var LABELS = [
+		{ id: 2, text: 'Mom' }, { id: 1, text: 'Dad' },
+		{ id: 3, text: 'Grandparent' }, { id: 4, text: 'Friend' },
+		{ id: 0, text: 'Anonymous' }, { id: 5, text: 'Secret Admirer' },
+		{ id: 6, text: 'Take a guess?' }
+	];
+
+	// $5 rather than $5.00; cents only when there are some.
+	function formatPrice (price) {
+		return '$' + (price % 1 === 0 ? String(price) : price.toFixed(2));
+	}
+	var SERVICES_URL = (location.protocol === 'https:' ? 'wss' : 'ws') + '://' + location.hostname + '/services/';
+	var PAY_URL_TTL_MS = 25 * 60 * 1000; // reuse the same checkout for repeat clicks (Xsolla tokens last 24 h)
+	var POLL_DELAYS_S = [3, 5, 10, 20, 30, 30, 30, 30, 30, 30, 30, 30, 30];
+
+	function $ (id) { return document.getElementById(id); }
+
+	function show (section) {
+		['enter', 'loading', 'gift', 'message'].forEach(function (id) { $(id).hidden = (id !== section); });
+	}
+
+	function showMessage (title, text) {
+		$('message-title').textContent = title;
+		$('message-text').textContent = text;
+		show('message');
+	}
+
+	// One request per connection, like the game's callApi.
+	function callServices (request) {
+		return new Promise(function (resolve, reject) {
+			var ws = new WebSocket(SERVICES_URL);
+			var answered = false;
+			var timeout = setTimeout(function () {
+				answered = true;
+				ws.close();
+				reject(new Error('timeout'));
+			}, 12000);
+			ws.onopen = function () { ws.send(JSON.stringify(request)); };
+			ws.onmessage = function (e) {
+				answered = true;
+				clearTimeout(timeout);
+				try { resolve(JSON.parse(e.data)); } catch (err) { reject(err); }
+				ws.close();
+			};
+			ws.onclose = function () { if (!answered) { clearTimeout(timeout); reject(new Error('closed')); } };
+		});
+	}
+
+	function imageFor (gift) {
+		if (gift.productType === 'item') return '/img/store/items/' + gift.sku + '.webp';
+		if (gift.productType === 'bundle') return '/img/store/bundles/' + gift.sku + '.webp';
+		return '/img/' + gift.sku + '.webp';
+	}
+
+	function errorText (error) {
+		switch (error) {
+			case 'RATE_LIMITED': return 'Too many tries. Please wait a few minutes.';
+			case 'PRICE_CHANGED': return 'The price of this item has changed, so this link no longer works. Ask for a new one.';
+			case 'UNAVAILABLE': return 'This link is no longer available.';
+			case 'DISABLED': return 'Gifts are switched off right now. Please try again later.';
+			default: return 'Something went wrong. Please try again.';
+		}
+	}
+
+	function renderGift (code, gift) {
+		$('gift-title').textContent = '🎁 ' + (gift.recipientName || 'A Shell Shockers player') + ' has requested a gift!';
+		var img = $('gift-img');
+		img.hidden = false;
+		img.src = imageFor(gift);
+		img.alt = gift.productName;
+		img.onerror = function () { img.hidden = true; };
+		$('gift-name').textContent = gift.productName;
+		$('gift-price').textContent = formatPrice(gift.price);
+
+		var chosen = 1;
+		var chips = $('chips');
+		chips.textContent = '';
+		LABELS.forEach(function (label) {
+			var chip = document.createElement('button');
+			chip.type = 'button';
+			chip.className = 'chip';
+			chip.textContent = label.text;
+			chip.setAttribute('aria-pressed', String(label.id === chosen));
+			chip.onclick = function () {
+				chosen = label.id;
+				Array.prototype.forEach.call(chips.children, function (c) { c.setAttribute('aria-pressed', String(c === chip)); });
+			};
+			chips.appendChild(chip);
+		});
+
+		var buy = $('buy');
+		buy.textContent = 'Buy gift · ' + formatPrice(gift.price);
+		buy.disabled = false;
+		buy.onclick = function () { startCheckout(code, chosen); };
+		show('gift');
+	}
+
+	function isValidPayUrl (url) {
+		return typeof url === 'string' && (url.startsWith('https://secure.xsolla.com/') || url.startsWith('https://sandbox-secure.xsolla.com/'));
+	}
+
+	function startCheckout (code, label) {
+		var cacheKey = 'giftPay:' + code + ':' + label;
+		try {
+			var cached = JSON.parse(sessionStorage.getItem(cacheKey) || 'null');
+			if (cached && cached.until > Date.now()) {
+				if (isValidPayUrl(cached.payUrl)) { location.href = cached.payUrl; return; }
+				try { sessionStorage.removeItem(cacheKey); } catch (e) { /* not critical */ }
+			}
+		} catch (e) { /* storage blocked: fall through and ask the server */ }
+
+		var buy = $('buy');
+		buy.disabled = true;
+		$('gift-error').textContent = '';
+		callServices({ cmd: 'giftCheckout', code: code, from: label }).then(function (res) {
+			if (res.error || !res.payUrl) {
+				buy.disabled = false;
+				$('gift-error').textContent = errorText(res.error);
+				return;
+			}
+			if (!isValidPayUrl(res.payUrl)) {
+				buy.disabled = false;
+				$('gift-error').textContent = errorText();
+				return;
+			}
+			try { sessionStorage.setItem(cacheKey, JSON.stringify({ payUrl: res.payUrl, until: Date.now() + PAY_URL_TTL_MS })); } catch (e) { /* not needed */ }
+			location.href = res.payUrl;
+		}, function () {
+			buy.disabled = false;
+			$('gift-error').textContent = errorText();
+		});
+	}
+
+	function waitForDelivery (code) {
+		showMessage('Payment received', 'The gift is being delivered. You do not need to pay again.');
+		var attempt = 0;
+		(function poll () {
+			if (attempt >= POLL_DELAYS_S.length) return; // gives up after about 5 minutes; delivery still completes server-side
+			setTimeout(function () {
+				attempt++;
+				callServices({ cmd: 'giftStatus', code: code }).then(function (res) {
+					if (res.status === 'delivered') return showMessage('Gift delivered!', 'It will be waiting the next time they open Shell Shockers. Thank you!');
+					poll();
+				}, poll);
+			}, POLL_DELAYS_S[attempt] * 1000);
+		})();
+	}
+
+	function loadGift (code, paid) {
+		if (paid) return waitForDelivery(code);
+		show('loading');
+		callServices({ cmd: 'giftLookup', code: code }).then(function (res) {
+			if (res.error === 'NOT_FOUND') return showMessage('This link isn\'t working', 'Check the code and try again.');
+			if (res.error) return showMessage('Something went wrong', errorText(res.error));
+
+			var gift = res.gift;
+			if (gift.status === 'delivered') {
+				return paid ? showMessage('Gift delivered!', 'It will be waiting the next time they open Shell Shockers. Thank you!')
+				            : showMessage('Already bought', 'This gift has already been bought.');
+			}
+			if (paid) return waitForDelivery(code);
+			if (!gift.canCheckout) {
+				return showMessage('This link is no longer available', gift.reason === 'price_changed' ? errorText('PRICE_CHANGED') : 'It may have expired or been cancelled.');
+			}
+			renderGift(code, gift);
+		}, function () {
+			showMessage('Something went wrong', errorText());
+		});
+	}
+
+	var params = new URLSearchParams(location.search);
+	var code = normalizeGiftCode(params.get('c') || '');
+
+	if (code) {
+		loadGift(code, params.get('paid') === '1');
+	} else {
+		show('enter');
+		$('enter-form').onsubmit = function (e) {
+			e.preventDefault();
+			var entered = normalizeGiftCode($('enter-code').value);
+			if (!entered) { $('enter-error').textContent = 'That doesn\'t look like a gift code.'; return; }
+			history.replaceState(null, '', '?c=' + entered);
+			loadGift(entered, false);
+		};
+	}
+})();
+</script>
+</body>
+</html>

@@ -1,5 +1,19 @@
 [		
 	{
+		"version": "1.0.27",
+        "date": "Sep 2026",
+        "content": [
+"School is back in session and it's time for the Recess Rebellion update!",
+"Lots of performance updates & some very friendly features right around the corner!",
+"Cause havoc with the first VIP item of the month, the Premium Rubberband-9mm",
+"Later this month, it's time for the SCIENCE hat - It's atomically awesome!",
+"We've unvaulted a full range of back-to-school items to be stuffed into your pencil case.",
+"The Recess Rebellion bundle is here running amok! Catch it in the shop.",
+"Massive back-end improvements. Vue 3 is here, loading faster for all!",
+"A brand-new community map has entered the pool. Stronghold is now available in public and private lobbies",
+"The public map pool has been shuffled and is available for all players!"
+		]
+	},{
 		"version": "1.0.26",
         "date": "Aug 2026",
         "content": [

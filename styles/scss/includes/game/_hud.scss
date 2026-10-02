@@ -314,6 +314,8 @@
 	font-size: 1.1em;
 	color: var(--ss-white);
 	margin: 0;
+	max-width: 7em;
+	overflow-wrap: anywhere;
 }
 
 #shellStreakCaptionStreak {
