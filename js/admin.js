@@ -340,15 +340,16 @@
     console.log(window.error);
     alert("HI!");
   }
+  function adminWsScheme() {
+    var h = location.hostname;
+    var isLocal = h === "localhost" || h === "127.0.0.1" || h === "::1" || h === "[::1]" || /\.localhost$/.test(h);
+    return location.protocol !== "https:" && isLocal ? "ws" : "wss";
+  }
   function authorize() {
     firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-      console.log("Using services server: wss://" + window.location.hostname + "/services/");
-      try {
-        ws = new WebSocket("wss://" + window.location.hostname + "/services/");
-      } catch (e) {
-        ws = new WebSocket("ws://" + window.location.hostname + "/services/");
-        console.log(e);
-      }
+      var servicesUrl = adminWsScheme() + "://" + window.location.hostname + "/services/";
+      console.log("Using services server: " + servicesUrl);
+      ws = new WebSocket(servicesUrl);
       ws.onopen = function(e) {
         console.log("authorizing");
         ws.send(JSON.stringify({
@@ -424,9 +425,11 @@
       if (profile.roles & AdminRole.Settings) openSettingsTab();
       if (profile.roles & AdminRole.Players) openPlayersTab();
       if (profile.roles & AdminRole.Refunds) openRefunds();
+      if (profile.roles & AdminRole.Refunds) openGiftsTab();
       if (profile.roles & AdminRole.Badguys) openBadguysTab();
       if (profile.roles & AdminRole.BanAdmin) openBansTab();
       if (profile.roles & AdminRole.ManageAdmins) openAdminsTab();
+      if (profile.roles & AdminRole.ManageAdmins) openVipListTab();
       if (profile.roles & AdminRole.Twitch) openTwitchTab();
     });
     requestAction("getItems", {}, (data2) => {
@@ -1208,7 +1211,7 @@
     addTab("Announcement", false, renderAnnouncement);
   }
   function renderAnnouncement(page) {
-    let ws2 = new WebSocket(`wss://${location.host}/matchmaker/`);
+    let ws2 = new WebSocket(`${adminWsScheme()}://${location.host}/matchmaker/`);
     ws2.onopen = () => {
       ws2.send('{ "command": "regionList" }');
     };
@@ -1276,6 +1279,10 @@
   function finishRenderBadguys(page) {
     var el = addCol(page, "center");
     addHeader(el, "Badguy Tracker");
+    var signupRow = addRow(page);
+    signupRow.innerText = "Loading signup abuse...";
+    renderSignupAbuse(signupRow);
+    lineBreak(page);
     var requestRow = addRow(page);
     var button = addButton(requestRow, "Refresh", "green");
     button.onclick = () => {
@@ -1329,6 +1336,92 @@
     row.appendChild(table);
     function cellFunc(key, td) {
     }
+  }
+  function renderSignupAbuse(container) {
+    requestAction("getSignupAbuse", { hours: 24 }, (data) => {
+      hideSpinner();
+      container.innerHTML = "";
+      var header2 = document.createElement("h3");
+      header2.innerText = "Signup Abuse";
+      container.appendChild(header2);
+      var caption = document.createElement("div");
+      caption.innerText = "IPs flagged in the past 24 hours: 20+ accounts with 95%+ never getting a kill. Live only, at most once an hour per IP. Click an IP to copy it.";
+      container.appendChild(caption);
+      if (data.signupAbuseError) {
+        var errorEl = document.createElement("div");
+        errorEl.innerText = data.signupAbuseError;
+        container.appendChild(errorEl);
+        return;
+      }
+      var entries = data.signupAbuse || [];
+      var rows = signupAbuseRows(entries);
+      var summary = document.createElement("div");
+      summary.innerText = signupAbuseIpCount(entries) + " IPs flagged (" + entries.length + " entries)";
+      container.appendChild(summary);
+      container.appendChild(signupAbuseHourlyTable(signupAbuseHourly(entries, Date.now())));
+      container.appendChild(createTable(rows, null, null, cellFunc, null));
+      function cellFunc(key, td) {
+        if (key === "ip") {
+          td.style.cursor = "pointer";
+          td.onclick = () => {
+            navigator.clipboard.writeText(td.innerText);
+          };
+        }
+      }
+    });
+  }
+  function signupAbuseRows(entries) {
+    return entries.map((e) => {
+      var client = e.client || {};
+      return {
+        time: new Date(e.t).toLocaleString(),
+        ip: e.ip,
+        accounts: e.accounts,
+        "no kills": e.accounts ? Math.round(100 * e.zeroKill / e.accounts) + "%" : "",
+        origin: client.origin || "none",
+        language: client.language || "none",
+        "user agent": (client.userAgent || "none").slice(0, 60),
+        proxied: client.proxied ? "yes" : "no"
+      };
+    });
+  }
+  function signupAbuseIpCount(entries) {
+    var ips = {};
+    entries.forEach((e) => {
+      ips[e.ip] = true;
+    });
+    return Object.keys(ips).length;
+  }
+  function signupAbuseHourly(entries, now) {
+    var currentHour = Math.floor(now / 36e5);
+    var buckets = [];
+    for (var i2 = 23; i2 >= 0; i2--) buckets.push({ hour: currentHour - i2, ips: {} });
+    entries.forEach((e) => {
+      var idx = Math.floor(e.t / 36e5) - (currentHour - 23);
+      if (idx >= 0 && idx < 24) buckets[idx].ips[e.ip] = true;
+    });
+    return buckets.map((b2) => {
+      return { label: new Date(b2.hour * 36e5).getHours() + ":00", count: Object.keys(b2.ips).length };
+    });
+  }
+  function signupAbuseHourlyTable(hourly) {
+    var bars = "\u2581\u2582\u2583\u2584\u2585\u2586\u2587\u2588";
+    var max = Math.max.apply(null, hourly.map((h) => h.count)) || 1;
+    var table = document.createElement("table");
+    var labelRow = document.createElement("tr");
+    var barRow = document.createElement("tr");
+    table.appendChild(labelRow);
+    table.appendChild(barRow);
+    hourly.forEach((h) => {
+      var label = document.createElement("td");
+      label.innerText = h.label;
+      labelRow.appendChild(label);
+      var bar = document.createElement("td");
+      bar.innerText = h.count ? bars[Math.min(bars.length - 1, Math.floor(h.count / max * (bars.length - 1)))] + " " + h.count : "";
+      bar.title = h.count + " IPs";
+      barRow.appendChild(bar);
+    });
+    return table;
   }
   var ipBans = [];
   var playerBans = [];
@@ -1755,6 +1848,449 @@
       inboxListOpts.match.admin_id = assignCheck.checked ? profile.id : null;
       closeDialog();
       markDirty("Feedback", true);
+    }
+  }
+  var giftStats = null;
+  var giftRows = [];
+  var giftListLabel = "";
+  var giftPageSize = 15;
+  var giftPage = 1;
+  var giftView = "glance";
+  var giftFilter = "";
+  var GIFT_FILTERS = [
+    { id: "", label: "All checkouts", test: null },
+    { id: "review", label: "Needs review", test: function(r) {
+      return (r.outcome === "duplicate" || r.outcome === "late" || r.outcome === "mismatch") && !r.reviewed_at;
+    } },
+    { id: "not_granted", label: "Paid but not granted", test: function(r) {
+      return !!r.xsolla_id && r.outcome !== "won";
+    } },
+    { id: "delivered", label: "Delivered", test: function(r) {
+      return r.outcome === "won" && r.gift_status === "delivered";
+    } },
+    { id: "refunded", label: "Refunded", test: function(r) {
+      return !!r.refunded_at;
+    } },
+    { id: "paid", label: "Paid", test: function(r) {
+      return !!r.xsolla_id;
+    } },
+    { id: "unpaid", label: "Started, never paid", test: function(r) {
+      return !r.xsolla_id;
+    } }
+  ];
+  function giftFilterDef(id) {
+    return GIFT_FILTERS.filter(function(f) {
+      return f.id === id;
+    })[0] || GIFT_FILTERS[0];
+  }
+  function giftVisibleRows() {
+    var def = giftFilterDef(giftFilter);
+    if (!def.test) return giftRows;
+    return giftRows.filter(def.test);
+  }
+  function giftApplyFilter(page, id) {
+    giftFilter = id;
+    giftView = "checkout";
+    giftPage = 1;
+    redrawGifts(page);
+  }
+  function giftPaginate(array, pageSize, pageNumber) {
+    return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+  }
+  function ensureGiftStyles() {
+    if (document.getElementById("giftStyles")) return;
+    var css = `
+		.gift-cards { display: flex; gap: 12px; flex-wrap: wrap; margin: 8px 0 4px; }
+		.gift-card {
+			border: solid 1px lightgray; border-radius: 6px; padding: 12px 18px;
+			min-width: 140px; background: #fff;
+		}
+		.gift-card .gift-card-n { font-size: 26px; font-weight: 600; line-height: 1.1; }
+		.gift-card .gift-card-l { color: slategray; font-size: 12px; margin-top: 2px; }
+		.gift-card-bad  { border-color: tomato; }
+		.gift-card-bad  .gift-card-n { color: tomato; }
+		.gift-card-good .gift-card-n { color: mediumseagreen; }
+
+		/* Only the cards that lead somewhere look like they do. The money cards have no
+		   row-level equivalent, so they deliberately stay flat. */
+		.gift-card-click { cursor: pointer; transition-duration: 0.15s; }
+		.gift-card-click:hover { background: #f1f5f8; border-color: steelblue; }
+
+		.gift-panel {
+			border: solid 1px lightgray; border-radius: 6px; padding: 4px 14px 14px;
+			background: #fff; display: inline-block; vertical-align: top;
+		}
+
+		/* Numbers right-align so columns of money and counts line up on the decimal. */
+		.gift-num { text-align: right; font-variant-numeric: tabular-nums; }
+
+		/* The ghost id and Xsolla id are long and only matter when reconciling, so they
+		   are monospaced and clipped rather than allowed to set the table width. Full
+		   value stays in the title attribute. */
+		.gift-id {
+			font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11px;
+			max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+		}
+
+		/* Outcome and status as pills, so a problem row is findable by scanning
+		   instead of read word by word. */
+		.gift-pill {
+			display: inline-block; padding: 2px 9px; border-radius: 10px;
+			font-size: 11px; font-weight: 600; color: #fff; text-transform: uppercase;
+			letter-spacing: .3px;
+		}
+		.gift-pill-good { background: mediumseagreen; }
+		.gift-pill-wait { background: #9aa7b1; }
+		.gift-pill-bad  { background: tomato; }
+
+		.gift-pager { display: flex; gap: 12px; align-items: center; margin-top: 10px; }
+		.gift-pager span { color: slategray; font-size: 12px; }
+
+		/* Sub-tabs. The admin's own .tab class is for the top-level tab strip and
+		   carries its own layout, so these are separate rather than reused - but the
+		   same idea: the active one joins the panel below it. */
+		.gift-tabbar {
+			display: flex; gap: 2px; margin: 18px 0 0; border-bottom: solid 1px lightgray;
+		}
+		.gift-tab {
+			padding: 8px 18px; cursor: pointer; color: slategray; font-size: 14px;
+			border: solid 1px transparent; border-bottom: none;
+			border-radius: 6px 6px 0 0; transition-duration: 0.2s; user-select: none;
+		}
+		.gift-tab:hover { background: #f1f5f8; }
+		.gift-tab-on {
+			background: #fff; color: #333; font-weight: 600;
+			border-color: lightgray; margin-bottom: -1px; padding-bottom: 9px;
+		}
+		.gift-tabbody { padding-top: 14px; }
+	`;
+    var style = document.createElement("style");
+    style.id = "giftStyles";
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+  function giftPillClass(value) {
+    if (value === "won" || value === "delivered") return "gift-pill-good";
+    if (value === "duplicate" || value === "late" || value === "mismatch" || value === "refunded") return "gift-pill-bad";
+    return "gift-pill-wait";
+  }
+  function giftCard(parent, number, label, variant, filterId, page) {
+    var card = document.createElement("div");
+    card.className = "gift-card" + (variant ? " gift-card-" + variant : "");
+    var n = document.createElement("div");
+    n.className = "gift-card-n";
+    n.textContent = number;
+    card.appendChild(n);
+    var l = document.createElement("div");
+    l.className = "gift-card-l";
+    l.textContent = label;
+    card.appendChild(l);
+    if (filterId !== void 0 && page) {
+      card.className += " gift-card-click";
+      card.title = "Show these rows";
+      card.onclick = function() {
+        giftApplyFilter(page, filterId);
+      };
+    }
+    parent.appendChild(card);
+    return card;
+  }
+  function openGiftsTab() {
+    addTab("Gifts", false, renderGifts);
+  }
+  function renderGifts(page) {
+    requestAction("getGiftStats", {}, (data) => {
+      hideSpinner();
+      giftStats = data.rows || [];
+      giftRows = giftStats[4] || [];
+      giftListLabel = "Recent checkouts";
+      giftPage = 1;
+      finishRenderGifts(page);
+    });
+  }
+  function redrawGifts(page) {
+    page.innerHTML = "";
+    finishRenderGifts(page);
+  }
+  function giftMoney(value) {
+    var n = Number(value);
+    return isNaN(n) ? "-" : "$" + n.toFixed(2);
+  }
+  function giftPlayerIdLink(td) {
+    var playerId = parseInt(td.innerText, 10);
+    if (!playerId) return;
+    td.className = "fieldValue link";
+    td.onclick = () => openPlayerDataFromPlayerId(playerId);
+  }
+  function formatGiftCell(column, td) {
+    if (column === "created" || column === "paid_at" || column === "refunded_at" || column === "reviewed_at") {
+      td.textContent = td.innerText && td.innerText !== "null" ? localTime(td.innerText) : "-";
+    } else if (column === "price" || column === "charged" || column === "refunded" || column === "net") {
+      td.textContent = giftMoney(td.innerText);
+      td.className = "gift-num";
+    } else if (column === "paid" || column === "gifts" || column === "count") {
+      td.className = "gift-num";
+    } else if (column === "outcome" || column === "gift_status") {
+      var value = td.innerText;
+      var pill = document.createElement("span");
+      pill.className = "gift-pill " + giftPillClass(value);
+      pill.textContent = value;
+      td.textContent = "";
+      td.appendChild(pill);
+    } else if (column === "external_id" || column === "xsolla_id") {
+      td.className = "gift-id";
+      td.title = td.innerText;
+      if (td.innerText === "null" || !td.innerText) td.textContent = "-";
+    } else if (column === "player_id") {
+      giftPlayerIdLink(td);
+    } else if (td.innerText === "null") {
+      td.textContent = "-";
+    }
+  }
+  function finishRenderGifts(page) {
+    ensureGiftStyles();
+    var el = addCol(page, "center");
+    addHeader(el, "Gift Links");
+    var buttonRow = addRow(page);
+    addButton(buttonRow, "Refresh", "green", () => {
+      page.innerHTML = "";
+      renderGifts(page);
+    });
+    var allTime = (giftStats[1] || []).filter(function(r) {
+      return r.period === "all";
+    })[0];
+    var thisMonth = (giftStats[1] || []).filter(function(r) {
+      return r.period === "month";
+    })[0];
+    var funnelRow = (giftStats[2] || [])[0];
+    var needsReviewRows = giftStats[0] || [];
+    var cards = document.createElement("div");
+    cards.className = "gift-cards";
+    page.appendChild(cards);
+    giftCard(cards, giftMoney(thisMonth ? thisMonth.net : 0), "net this month", "good");
+    giftCard(cards, giftMoney(allTime ? allTime.net : 0), "net all time");
+    if (funnelRow) {
+      giftCard(cards, funnelRow.delivered, "delivered", "good", "delivered", page);
+      giftCard(cards, funnelRow.refunded_count, "refunded", null, "refunded", page);
+      giftCard(
+        cards,
+        funnelRow.not_granted,
+        "paid but not granted",
+        Number(funnelRow.not_granted) ? "bad" : "good",
+        "not_granted",
+        page
+      );
+    }
+    giftCard(
+      cards,
+      needsReviewRows.length,
+      "need review",
+      needsReviewRows.length ? "bad" : "good",
+      "review",
+      page
+    );
+    if (needsReviewRows.length) {
+      var warnHeader = document.createElement("h3");
+      warnHeader.innerText = "\u26A0 " + needsReviewRows.length + " payment(s) need review - paid but nothing granted";
+      warnHeader.style.color = "tomato";
+      page.appendChild(warnHeader);
+      var warnRow = addRow(page);
+      warnRow.appendChild(createTable(
+        needsReviewRows,
+        ["paid_at", "code", "item", "price", "outcome", "player_id", "external_id", "xsolla_id"],
+        null,
+        formatGiftCell,
+        null
+      ));
+    }
+    var tabBar = document.createElement("div");
+    tabBar.className = "gift-tabbar";
+    page.appendChild(tabBar);
+    var body = document.createElement("div");
+    body.className = "gift-tabbody";
+    page.appendChild(body);
+    [
+      { id: "glance", label: "At a glance" },
+      { id: "checkout", label: "The checkout" }
+    ].forEach(function(t) {
+      var b2 = document.createElement("div");
+      b2.className = "gift-tab" + (giftView === t.id ? " gift-tab-on" : "");
+      b2.textContent = t.label;
+      b2.onclick = function() {
+        giftView = t.id;
+        redrawGifts(page);
+      };
+      tabBar.appendChild(b2);
+    });
+    if (giftView === "checkout") {
+      renderGiftCheckout(body, page);
+    } else {
+      renderGiftGlance(body);
+    }
+  }
+  function renderGiftGlance(body) {
+    var topRow = addRow(body);
+    topRow.style.display = "flex";
+    topRow.style.gap = "40px";
+    topRow.style.alignItems = "flex-start";
+    topRow.style.flexWrap = "wrap";
+    var leftCol = document.createElement("div");
+    leftCol.style.display = "flex";
+    leftCol.style.flexDirection = "column";
+    leftCol.style.gap = "18px";
+    topRow.appendChild(leftCol);
+    var revenueCol = document.createElement("div");
+    revenueCol.className = "gift-panel";
+    leftCol.appendChild(revenueCol);
+    var revenueHeader = document.createElement("h3");
+    revenueHeader.innerText = "Revenue";
+    revenueCol.appendChild(revenueHeader);
+    revenueCol.appendChild(createTable(
+      giftStats[1] || [],
+      ["period", "paid", "charged", "refunded", "net"],
+      null,
+      formatGiftCell,
+      null
+    ));
+    var funnelCol = document.createElement("div");
+    funnelCol.className = "gift-panel";
+    leftCol.appendChild(funnelCol);
+    var funnelHeader = document.createElement("h3");
+    funnelHeader.innerText = "Funnel";
+    funnelCol.appendChild(funnelHeader);
+    var funnel = (giftStats[2] || [])[0];
+    if (funnel) {
+      var steps = [
+        { stage: "Links created", count: funnel.created },
+        { stage: "Opened", count: funnel.opened },
+        { stage: "Checkout started", count: funnel.checkout_started },
+        { stage: "Paid", count: funnel.paid },
+        { stage: "Delivered", count: funnel.delivered }
+      ];
+      for (var i2 = 0; i2 < steps.length; i2++) {
+        var prev = i2 === 0 ? 0 : Number(steps[i2 - 1].count);
+        steps[i2]["of previous"] = i2 === 0 || !prev ? "-" : Math.round(Number(steps[i2].count) / prev * 100) + "%";
+      }
+      var widest = Math.max.apply(null, steps.map(function(s) {
+        return Number(s.count) || 0;
+      })) || 1;
+      funnelCol.appendChild(createTable(
+        steps,
+        ["stage", "count", "of previous"],
+        null,
+        function(column, td, row) {
+          if (column !== "count") return;
+          var pct = Math.round((Number(row.count) || 0) / widest * 100);
+          td.className = "gift-num";
+          td.style.background = "linear-gradient(to right, #dbe7ef " + pct + "%, transparent " + pct + "%)";
+        },
+        null
+      ));
+    }
+    var itemPanel = document.createElement("div");
+    itemPanel.className = "gift-panel";
+    topRow.appendChild(itemPanel);
+    var itemHeader = document.createElement("h3");
+    itemHeader.innerText = "Gifts by item";
+    itemPanel.appendChild(itemHeader);
+    itemPanel.appendChild(createTable(
+      giftStats[3] || [],
+      ["item", "gifts", "charged"],
+      null,
+      formatGiftCell,
+      null
+    ));
+  }
+  function renderGiftCheckout(body, page) {
+    var rows = giftVisibleRows();
+    var def = giftFilterDef(giftFilter);
+    var listHeader = document.createElement("h3");
+    listHeader.innerText = giftListLabel + (def.test ? " - " + def.label : "") + " (" + rows.length + ")";
+    body.appendChild(listHeader);
+    var searchRow = addRow(body);
+    function runGiftSearch(value) {
+      var term = (value || "").trim();
+      if (!term) return;
+      requestAction("giftSearch", { term }, (data) => {
+        hideSpinner();
+        giftRows = data.rows || [];
+        giftListLabel = "Search: " + term;
+        giftFilter = "";
+        giftPage = 1;
+        redrawGifts(page);
+      });
+    }
+    var searchInput = addInput(searchRow, "Search (ghost id, gift code or player id)", "", runGiftSearch);
+    addButton(searchRow, "Search", "green", () => runGiftSearch(searchInput.value));
+    addButton(searchRow, "Clear", "blue", () => {
+      giftRows = giftStats[4] || [];
+      giftListLabel = "Recent checkouts";
+      giftFilter = "";
+      giftPage = 1;
+      redrawGifts(page);
+    });
+    var filterWrap = document.createElement("span");
+    filterWrap.style.marginLeft = "16px";
+    filterWrap.appendChild(document.createTextNode("Show: "));
+    var filterSelect = document.createElement("select");
+    GIFT_FILTERS.forEach(function(f) {
+      var opt = document.createElement("option");
+      opt.value = f.id;
+      opt.text = f.label + (f.test ? " (" + giftRows.filter(f.test).length + ")" : " (" + giftRows.length + ")");
+      if (f.id === giftFilter) opt.selected = true;
+      filterSelect.appendChild(opt);
+    });
+    filterSelect.onchange = function() {
+      giftFilter = filterSelect.value;
+      giftPage = 1;
+      redrawGifts(page);
+    };
+    filterWrap.appendChild(filterSelect);
+    searchRow.appendChild(filterWrap);
+    var sizeWrap = document.createElement("span");
+    sizeWrap.style.marginLeft = "16px";
+    sizeWrap.appendChild(document.createTextNode("Rows: "));
+    var sizeSelect = document.createElement("select");
+    [15, 20, 30].forEach(function(n) {
+      var opt = document.createElement("option");
+      opt.value = n;
+      opt.text = n;
+      if (n === giftPageSize) opt.selected = true;
+      sizeSelect.appendChild(opt);
+    });
+    sizeSelect.onchange = function() {
+      giftPageSize = Number(sizeSelect.value);
+      giftPage = 1;
+      redrawGifts(page);
+    };
+    sizeWrap.appendChild(sizeSelect);
+    searchRow.appendChild(sizeWrap);
+    var list = addRow(body);
+    list.appendChild(createTable(
+      giftPaginate(rows, giftPageSize, giftPage),
+      ["created", "paid_at", "code", "item", "price", "outcome", "gift_status", "player_id", "external_id", "xsolla_id"],
+      null,
+      formatGiftCell,
+      null
+    ));
+    var maxPage = Math.max(1, Math.ceil(rows.length / giftPageSize));
+    if (maxPage > 1) {
+      var pager = addRow(body, "gift-pager");
+      if (giftPage > 1) {
+        addButton(pager, "\u25C0 previous", "green", function() {
+          giftPage--;
+          redrawGifts(page);
+        });
+      }
+      if (giftPage < maxPage) {
+        addButton(pager, "next \u25B6", "green", function() {
+          giftPage++;
+          redrawGifts(page);
+        });
+      }
+      var pageLabel = document.createElement("span");
+      pageLabel.textContent = "Page " + giftPage + " of " + maxPage + "  (" + rows.length + " rows)";
+      pager.appendChild(pageLabel);
     }
   }
   function addRule(dom) {
@@ -3874,4 +4410,247 @@
     }
     return secondString;
   };
+  var VIP_LIST_NOTES_LIMIT = 500;
+  function openVipListTab() {
+    addTab("VIP List", false, renderVipList);
+  }
+  function renderVipList(page) {
+    const render = page.vipListRender = (page.vipListRender || 0) + 1;
+    const loaded = { errors: [] };
+    let responses = 0;
+    function response(data) {
+      if (data.vipListError) loaded.errors.push(data.vipListError);
+      if (++responses === 3) {
+        hideSpinner();
+        if (render !== page.vipListRender) return;
+        page.innerHTML = "";
+        finishRenderVipList(page, loaded);
+      }
+    }
+    requestAction("vipListTypes", {}, (data) => {
+      loaded.types = data.rows || [];
+      response(data);
+    });
+    requestAction("vipListGet", {}, (data) => {
+      loaded.rows = data.rows || [];
+      response(data);
+    });
+    requestAction("vipListLastRun", {}, (data) => {
+      loaded.lastRun = data;
+      response(data);
+    });
+  }
+  function finishRenderVipList(page, loaded) {
+    addHeader(addCol(page, "center"), "VIP List");
+    const errorRow = addRow(page);
+    errorRow.style.color = "red";
+    const ctx = {
+      types: loaded.types,
+      refresh: () => renderVipList(page),
+      showError: (message) => {
+        errorRow.textContent = message || "";
+      }
+    };
+    ctx.showError(loaded.errors.join(" / "));
+    const activeCount = loaded.rows.filter((row) => row.active).length;
+    const buttons = addRow(page);
+    addButton(buttons, "Refresh", "green", ctx.refresh);
+    addButton(buttons, "Add person", "green", () => openAddVipListDialog(ctx));
+    addButton(buttons, "Give VIP to everyone now", "red", () => {
+      if (!confirm("Give VIP to " + activeCount + " active people?")) return;
+      requestAction("vipListGiveNow", {}, (data) => {
+        if (data.vipListError) {
+          ctx.showError(data.vipListError);
+          return;
+        }
+        ctx.refresh();
+      });
+    });
+    lineBreak(page);
+    vipListTable(addRow(page), loaded.rows, ctx);
+    lineBreak(page);
+    addSmallHeader(page, "Last run");
+    vipListRenderLastRun(addRow(page), loaded.lastRun);
+  }
+  function vipListTable(dom, rows, ctx) {
+    const body = vipListTableEl(dom, ["Player id", "Type", "Active", "Notes", "VIP ends", "Created", "Modified", ""]);
+    if (!rows.length) {
+      const cell = body.insertRow().insertCell();
+      cell.colSpan = 8;
+      cell.textContent = "Nobody on the list yet";
+      return;
+    }
+    rows.forEach((row) => {
+      const tr = body.insertRow();
+      if (!row.active) tr.style.opacity = "0.5";
+      tr.insertCell().appendChild(vipListPlayerEl(row));
+      const typeEl = vipListTypeSelectEl(ctx.types, row.type_id);
+      typeEl.onchange = () => vipListUpdate({ id: row.id, type_id: Number(typeEl.value) }, ctx, () => {
+        typeEl.value = row.type_id;
+      });
+      tr.insertCell().appendChild(typeEl);
+      const activeEl = document.createElement("input");
+      activeEl.type = "checkbox";
+      activeEl.checked = !!row.active;
+      activeEl.onchange = () => vipListUpdate({ id: row.id, active: activeEl.checked }, ctx, () => {
+        activeEl.checked = !!row.active;
+      });
+      tr.insertCell().appendChild(activeEl);
+      const notesCell = tr.insertCell();
+      const notesText = document.createElement("div");
+      notesText.style.whiteSpace = "pre-wrap";
+      notesText.textContent = row.notes;
+      notesCell.appendChild(notesText);
+      addButton(notesCell, "Edit", "green", () => openVipListNotesDialog(row, ctx));
+      tr.insertCell().textContent = row.vip_expiry || "\u2014";
+      tr.insertCell().textContent = vipListWho(row.date_created, row.created_by);
+      tr.insertCell().textContent = vipListWho(row.date_modified, row.modified_by);
+      addButton(tr.insertCell(), "Delete", "red", () => {
+        if (!confirm("Delete player " + row.player_id + " from the VIP list? VIP they already have stays until it ends.")) return;
+        requestAction("vipListDelete", { id: row.id }, (data) => {
+          if (data.vipListError) {
+            ctx.showError(data.vipListError);
+            return;
+          }
+          ctx.refresh();
+        });
+      });
+    });
+  }
+  function vipListRenderLastRun(box, lastRun) {
+    if (!lastRun || lastRun.vipListError) {
+      box.textContent = "Could not load the last run";
+      return;
+    }
+    if (!lastRun.run) {
+      box.textContent = "No runs yet";
+      return;
+    }
+    const run = lastRun.run;
+    const counts = {};
+    lastRun.grants.forEach((grant) => counts[grant.outcome] = (counts[grant.outcome] || 0) + 1);
+    const trigger = run.trigger_type === "manual" ? "manual, by " + vipListAdminName(run.admin_id) : "automatic";
+    const summary = document.createElement("div");
+    summary.textContent = `${run.date_created} (${trigger}), ${run.status}. VIP until ${run.target_expiry}. ` + (Object.keys(counts).map((outcome) => `${outcome}: ${counts[outcome]}`).join(", ") || "Nobody was active.");
+    box.appendChild(summary);
+    const body = vipListTableEl(box, ["Player id", "Outcome", "VIP ends", "Message", "When"]);
+    lastRun.grants.forEach((grant) => {
+      const tr = body.insertRow();
+      if (grant.outcome === "error" || grant.outcome === "player_not_found") tr.style.color = "red";
+      [grant.player_id, grant.outcome, grant.expiry_after || "\u2014", grant.message || "", grant.date_created].forEach((value) => {
+        tr.insertCell().textContent = value;
+      });
+    });
+  }
+  function openAddVipListDialog(ctx) {
+    const d = openDialog("Add person");
+    const idEl = addInput(addRow(d), "player id");
+    const typeEl = vipListTypeSelectEl(ctx.types, null);
+    addRow(d).appendChild(typeEl);
+    const notesEl = vipListNotesEl(d, "");
+    const msg = addRow(d);
+    msg.style.color = "red";
+    const buttons = addRow(d);
+    addButton(buttons, "Add", "green", () => {
+      requestAction("vipListAdd", { player_id: idEl.value, type_id: typeEl.value, notes: notesEl.value }, (data) => {
+        if (data.vipListError) {
+          msg.textContent = data.vipListError;
+          return;
+        }
+        closeDialog();
+        ctx.refresh();
+      });
+    });
+    addButton(buttons, "Cancel", "red", closeDialog);
+  }
+  function openVipListNotesDialog(row, ctx) {
+    const d = openDialog("Notes for player " + row.player_id);
+    const notesEl = vipListNotesEl(d, row.notes);
+    const msg = addRow(d);
+    msg.style.color = "red";
+    const buttons = addRow(d);
+    addButton(buttons, "Save", "green", () => {
+      vipListUpdate({ id: row.id, notes: notesEl.value }, ctx, (error) => {
+        msg.textContent = error;
+      }, closeDialog);
+    });
+    addButton(buttons, "Cancel", "red", closeDialog);
+  }
+  function vipListUpdate(fields, ctx, onRefused, onSaved) {
+    requestAction("vipListUpdate", fields, (data) => {
+      if (data.vipListError) {
+        ctx.showError(data.vipListError);
+        if (onRefused) onRefused(data.vipListError);
+        return;
+      }
+      if (onSaved) onSaved();
+      ctx.refresh();
+    });
+  }
+  function vipListTableEl(dom, headings) {
+    const table = document.createElement("table");
+    const tr = table.createTHead().insertRow();
+    headings.forEach((heading) => {
+      const th = document.createElement("th");
+      th.textContent = heading;
+      tr.appendChild(th);
+    });
+    dom.appendChild(table);
+    return table.createTBody();
+  }
+  function vipListTypeSelectEl(types, selectedId) {
+    const select = document.createElement("select");
+    if (selectedId == null) {
+      const placeholder = document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = "Pick a type";
+      placeholder.disabled = true;
+      placeholder.selected = true;
+      select.appendChild(placeholder);
+    }
+    types.forEach((type) => {
+      const option = document.createElement("option");
+      option.value = type.id;
+      option.textContent = type.name;
+      option.selected = type.id === selectedId;
+      select.appendChild(option);
+    });
+    return select;
+  }
+  function vipListNotesEl(dom, value) {
+    const notes = document.createElement("textarea");
+    notes.maxLength = VIP_LIST_NOTES_LIMIT;
+    notes.rows = 4;
+    notes.style.width = "500px";
+    notes.placeholder = "Notes";
+    notes.value = value || "";
+    addRow(dom).appendChild(notes);
+    return notes;
+  }
+  function vipListPlayerEl(row) {
+    if (!row.firebase_id) {
+      const missing = document.createElement("span");
+      missing.textContent = row.player_id + " (player not found)";
+      return missing;
+    }
+    if (!(profile.roles & AdminRole.Players)) {
+      const plain = document.createElement("span");
+      plain.textContent = row.player_id;
+      return plain;
+    }
+    const link = document.createElement("a");
+    link.href = "#";
+    link.textContent = row.player_id;
+    link.onclick = (e) => {
+      e.preventDefault();
+      openPlayerDataFromFirebaseId(row.firebase_id);
+    };
+    return link;
+  }
+  function vipListAdminName(playerId) {
+    return admins[playerId] ? admins[playerId].name : "player " + playerId;
+  }
+  function vipListWho(date, playerId) {
+    return date + " by " + vipListAdminName(playerId);
+  }
 })();
