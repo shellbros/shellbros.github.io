@@ -69,7 +69,9 @@ echo ""
 echo -e "${YELLOW}Checking upstream branch...${NC}"
 
 UPSTREAM_REPO="$(cd "$REPO_ROOT/../ShellShockers" 2>/dev/null && pwd)"
-EXPECTED_BRANCH="${EXPECTED_BRANCH_OVERRIDE:-portalBranch}"
+# Space-separated allowlist. portalLazySkinsTurnstile is temporary: drop it
+# once that work is merged into portalBranch.
+EXPECTED_BRANCH="${EXPECTED_BRANCH_OVERRIDE:-portalBranch portalLazySkinsTurnstile}"
 
 if [ -z "$UPSTREAM_REPO" ]; then
     echo -e "${RED}Error: ShellShockers not found beside $REPO_ROOT${NC}"
@@ -78,9 +80,9 @@ fi
 
 CURRENT_BRANCH="$(git -C "$UPSTREAM_REPO" branch --show-current)"
 
-if [ "$CURRENT_BRANCH" != "$EXPECTED_BRANCH" ]; then
-    echo -e "${RED}Error: upstream is on '$CURRENT_BRANCH', expected '$EXPECTED_BRANCH'${NC}"
-    echo -e "${YELLOW}Switch:${NC}   ${GREEN}git -C $UPSTREAM_REPO switch $EXPECTED_BRANCH${NC}"
+if [[ " $EXPECTED_BRANCH " != *" $CURRENT_BRANCH "* ]]; then
+    echo -e "${RED}Error: upstream is on '$CURRENT_BRANCH', expected one of '$EXPECTED_BRANCH'${NC}"
+    echo -e "${YELLOW}Switch:${NC}   ${GREEN}git -C $UPSTREAM_REPO switch portalBranch${NC}"
     echo -e "${YELLOW}Override:${NC} ${GREEN}EXPECTED_BRANCH_OVERRIDE=$CURRENT_BRANCH bash app/scripts/build.sh${NC}"
     exit 1
 fi
