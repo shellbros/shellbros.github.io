@@ -194,7 +194,6 @@
   var shellYouTube = [];
   var announcementMessage = "";
   var refundReasons = [];
-  var adminKey;
   var skus = [
     ["egg_pack_small", "Pile of eggs"],
     ["item_hat_galeggsy", "Galeggsy Wings"],
@@ -366,7 +365,6 @@
         if (data.authorized !== void 0) {
           if (data.authorized == true) {
             console.log("authorized");
-            adminKey = data.key;
             loggedIn(data);
           } else {
             console.log("not authorized!");
@@ -499,7 +497,15 @@
     actionId = ++actionId % 1e4;
     data.action = action;
     data.actionId = actionId;
-    console.log("Sending to Services:", data);
+    var shown = data;
+    if (action === "setTurnstileBundle") {
+      shown = Object.assign({}, data, { text: "[hidden]" });
+    } else if (action === "setTurnstileCloudflare") {
+      shown = Object.assign({}, data, { token: "[hidden]" });
+    } else if (action === "setTurnstileSlack") {
+      shown = Object.assign({}, data, { url: "[hidden]" });
+    }
+    console.log("Sending to Services:", shown);
     ws.send(JSON.stringify(data));
     if (callback) {
       pendingActionCallbacks[actionId] = callback;
@@ -1251,6 +1257,7 @@
   }
   var badguys = [];
   var histogram = [];
+  var badguysView = "tracker";
   function openBadguysTab() {
     addTab("Badguys", false, renderBadguys);
   }
@@ -1279,11 +1286,40 @@
   function finishRenderBadguys(page) {
     var el = addCol(page, "center");
     addHeader(el, "Badguy Tracker");
-    var signupRow = addRow(page);
+    ensureBadguysStyles();
+    var tabBar = document.createElement("div");
+    tabBar.className = "badguys-tabbar";
+    page.appendChild(tabBar);
+    var trackerPane = addRow(page, "badguys-tabbody");
+    var turnstilePane = addRow(page, "badguys-tabbody");
+    var views = [
+      { id: "tracker", label: "Badguys", pane: trackerPane },
+      { id: "turnstile", label: "Turnstile", pane: turnstilePane }
+    ];
+    views.forEach((v) => {
+      v.tab = document.createElement("div");
+      v.tab.textContent = v.label;
+      v.tab.onclick = () => showView(v.id);
+      tabBar.appendChild(v.tab);
+    });
+    function showView(id) {
+      badguysView = id;
+      views.forEach((v) => {
+        v.tab.className = "badguys-tab" + (v.id === id ? " badguys-tab-on" : "");
+        v.pane.style.display = v.id === id ? "" : "none";
+      });
+    }
+    showView(badguysView);
+    var turnstileRefreshRow = addRow(turnstilePane);
+    var turnstileRow = addRow(turnstilePane);
+    addButton(turnstileRefreshRow, "Refresh", "green", () => renderTurnstile(turnstileRow));
+    turnstileRow.innerText = "Loading Turnstile...";
+    renderTurnstile(turnstileRow);
+    var signupRow = addRow(trackerPane);
     signupRow.innerText = "Loading signup abuse...";
     renderSignupAbuse(signupRow);
-    lineBreak(page);
-    var requestRow = addRow(page);
+    lineBreak(trackerPane);
+    var requestRow = addRow(trackerPane);
     var button = addButton(requestRow, "Refresh", "green");
     button.onclick = () => {
       page.innerHTML = "";
@@ -1295,7 +1331,7 @@
     var requestCaption = document.createElement("div");
     requestCaption.innerText = "From IPs active in past 30 seconds with 10 or more requests per minute";
     requestRow.appendChild(requestCaption);
-    var list = addRow(page);
+    var list = addRow(trackerPane);
     var columns = Object.keys(badguys);
     var table = document.createElement("table");
     list.appendChild(table);
@@ -1324,8 +1360,8 @@
       td.appendChild(innerTable);
       contentRow.appendChild(td);
     }
-    lineBreak(page);
-    var row = addRow(page);
+    lineBreak(trackerPane);
+    var row = addRow(trackerPane);
     var header2 = document.createElement("h3");
     header2.innerText = "IP Histogram";
     row.appendChild(header2);
@@ -1336,6 +1372,28 @@
     row.appendChild(table);
     function cellFunc(key, td) {
     }
+  }
+  function ensureBadguysStyles() {
+    if (document.getElementById("badguysStyles")) return;
+    var style = document.createElement("style");
+    style.id = "badguysStyles";
+    style.textContent = `
+		.badguys-tabbar {
+			display: flex; gap: 2px; margin: 18px 0 0; border-bottom: solid 1px lightgray;
+		}
+		.badguys-tab {
+			padding: 8px 18px; cursor: pointer; color: slategray; font-size: 14px;
+			border: solid 1px transparent; border-bottom: none;
+			border-radius: 6px 6px 0 0; transition-duration: 0.2s; user-select: none;
+		}
+		.badguys-tab:hover { background: #f1f5f8; }
+		.badguys-tab-on {
+			background: #fff; color: #333; font-weight: 600;
+			border-color: lightgray; margin-bottom: -1px; padding-bottom: 9px;
+		}
+		.badguys-tabbody { padding-top: 14px; }
+	`;
+    document.head.appendChild(style);
   }
   function renderSignupAbuse(container) {
     requestAction("getSignupAbuse", { hours: 24 }, (data) => {
@@ -1422,6 +1480,498 @@
       barRow.appendChild(bar);
     });
     return table;
+  }
+  var TURNSTILE_ADMIN_MODES = [
+    { label: "Off", mode: "off" },
+    { label: "Watch only", mode: "log" },
+    { label: "Auto", mode: "auto" },
+    { label: "Block", mode: "enforce" }
+  ];
+  var TURNSTILE_ADMIN_PLATFORMS = ["web", "poki", "crazygames", "unknown"];
+  var TURNSTILE_ADMIN_OUTCOMES = ["asked", "passed", "failed", "skipped", "badSiteKey", "error", "legacy"];
+  var TURNSTILE_ADMIN_SKIP_REASONS = ["noKey", "loadFailed", "error", "timeout", "missing"];
+  var TURNSTILE_ADMIN_FAIL_REASONS = [
+    { reason: "invalid-input-response", meaning: "Fake, broken or expired token" },
+    { reason: "timeout-or-duplicate", meaning: "Token already used, or over 5 minutes old" },
+    { reason: "wrongHostname", meaning: "Token made on another website" },
+    { reason: "badToken", meaning: "Not a token at all (wrong type or length)" },
+    { reason: "missing-input-response", meaning: "No token reached Cloudflare" },
+    { reason: "bad-request", meaning: "Cloudflare called the request malformed" },
+    { reason: "internal-error", meaning: "Cloudflare's own error: not the player's fault" },
+    { reason: "invalid-input-secret", meaning: "Our saved secret is wrong: not the player's fault (save the keys again)" },
+    { reason: "missing-input-secret", meaning: "Our saved secret is missing: not the player's fault (save the keys again)" },
+    { reason: "other", meaning: "No reason given, or one we don't know" }
+  ];
+  function renderTurnstile(container) {
+    requestAction("getTurnstile", {}, (data) => {
+      hideSpinner();
+      container.innerHTML = "";
+      var header2 = document.createElement("h3");
+      header2.innerText = "Turnstile";
+      container.appendChild(header2);
+      var caption = document.createElement("div");
+      caption.innerText = "The Cloudflare check on new accounts. Off: no check. Watch only: checks new players and counts the results, but refuses nobody; old game clients that can't run the check are let through and counted as legacy. Auto: Watch only, switching itself to Block while a swarm of new accounts fails the check (see Auto below). Block: refuse new accounts that don't pass. Counts are for the past 24 hours.";
+      container.appendChild(caption);
+      var result = data.result || { ok: false, error: "No answer from services" };
+      var failed = result.ok === false;
+      if (failed) {
+        var errorEl = document.createElement("div");
+        errorEl.innerText = result.error || "Could not read the Turnstile settings";
+        container.appendChild(errorEl);
+      }
+      container.appendChild(turnstileModeButtons(container, failed ? null : result.mode));
+      if (failed) return;
+      turnstileAutoSection(container, result);
+      var counts = result.counts || {};
+      var outcomes = counts.outcomes || {};
+      var noKeyDomains = counts.noKeyDomains || {};
+      var skipReasons = counts.skipReasons || {};
+      var resultsHeader = document.createElement("h4");
+      resultsHeader.innerText = "Results (24 h)";
+      container.appendChild(resultsHeader);
+      var rows = TURNSTILE_ADMIN_OUTCOMES.map((outcome) => {
+        var row = { outcome };
+        TURNSTILE_ADMIN_PLATFORMS.forEach((platform) => {
+          row[platform] = outcomes[platform + ":" + outcome] || 0;
+        });
+        return row;
+      });
+      container.appendChild(createTable(rows, ["outcome"].concat(TURNSTILE_ADMIN_PLATFORMS), null, null, null));
+      var skipHeader = document.createElement("h4");
+      skipHeader.innerText = "Skip reasons (24 h)";
+      container.appendChild(skipHeader);
+      var skipRows = TURNSTILE_ADMIN_SKIP_REASONS.map((reason) => {
+        return { reason, count: skipReasons[reason] || 0 };
+      });
+      container.appendChild(createTable(skipRows, ["reason", "count"], null, null, null));
+      var failHeader = document.createElement("h4");
+      failHeader.innerText = "Why Cloudflare said no (24 h)";
+      container.appendChild(failHeader);
+      var failCaption = document.createElement("div");
+      failCaption.innerText = `The "failed" results above, by reason. The ones that aren't the player's fault don't count toward Auto's swarm count, and Slack is told when they show up. Block still refuses them.`;
+      container.appendChild(failCaption);
+      var failReasons = counts.failReasons || {};
+      var failRows = TURNSTILE_ADMIN_FAIL_REASONS.map((row) => {
+        return { reason: row.reason, meaning: row.meaning, count: failReasons[row.reason] || 0 };
+      });
+      container.appendChild(createTable(failRows, ["reason", "meaning", "count"], null, null, null));
+      turnstileNoLoadSection(container, result.noLoadIps || []);
+      turnstilePatternsSection(container, result.patterns);
+      var domainHeader = document.createElement("h4");
+      domainHeader.innerText = "Domains with no key (busiest 50)";
+      container.appendChild(domainHeader);
+      var domainRows = Object.keys(noKeyDomains).map((domain) => {
+        return { domain, count: noKeyDomains[domain] };
+      }).sort((a, b2) => {
+        return b2.count - a.count;
+      });
+      if (domainRows.length) {
+        container.appendChild(createTable(domainRows, ["domain", "count"], null, null, null));
+      } else {
+        var noDomains = document.createElement("div");
+        noDomains.innerText = "None";
+        container.appendChild(noDomains);
+      }
+      var keysHeader = document.createElement("h4");
+      keysHeader.innerText = "Saved site keys: " + (result.siteKeys || []).length;
+      container.appendChild(keysHeader);
+      var keysCaption = document.createElement("div");
+      keysCaption.innerText = "Paste all the widget keys together as JSON. Saving replaces the saved keys. Secrets are never shown back.";
+      container.appendChild(keysCaption);
+      var keysBox = document.createElement("textarea");
+      keysBox.rows = 4;
+      keysBox.style.width = "500px";
+      keysBox.spellcheck = false;
+      keysBox.autocomplete = "off";
+      keysBox.placeholder = '{"<site key>": {"secret": "...", "domains": ["shellshock.io"]}}';
+      addRow(container).appendChild(keysBox);
+      addButton(container, "Save", "blue", () => turnstileSaveKeys(container, keysBox));
+      turnstileSyncSection(container, result);
+    });
+  }
+  function turnstileAutoSection(container, result) {
+    var auto = result.auto || {};
+    var state = auto.state;
+    var time = (ms) => new Date(ms).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    var header2 = document.createElement("h4");
+    header2.innerText = "Auto";
+    container.appendChild(header2);
+    var win = auto.windowMinutes || 2;
+    var lines = [];
+    if (result.mode === "auto" && state && state.until > Date.now()) {
+      lines.push("Auto is BLOCKING: it switched to Block at " + time(state.since) + ", when " + state.trigger + " new accounts didn't pass the check in " + win + " minutes (peak " + state.peak + "). It goes back to Watch only once it has been quiet for an hour: " + time(state.until) + " at the earliest.");
+    } else if (result.mode === "auto") {
+      lines.push("Auto is watching. It switches to Block when " + auto.threshold + " new accounts don't pass the check within " + win + " minutes.");
+    } else {
+      lines.push("Auto is not on. The numbers below show what it would go by.");
+    }
+    lines.push("Didn't pass in the last " + win + " minutes: " + (auto.recent || 0));
+    lines.push("Busiest " + win + " minutes in the past 24 hours: " + (auto.busiest || 0) + (auto.busiestAtMs ? " (ending " + time(auto.busiestAtMs + 6e4) + ")" : ""));
+    lines.push(`"Didn't pass" counts old clients let in as legacy, refusals, players who left before passing, and accounts Watch only let in without a pass. Cloudflare's own errors and a wrong saved secret aren't counted. Auto checks every 15 seconds. Set the threshold well above the busiest normal ` + win + " minutes.");
+    lines.forEach((text) => {
+      var line = document.createElement("div");
+      line.innerText = text;
+      container.appendChild(line);
+    });
+    var box = document.createElement("input");
+    box.type = "number";
+    box.min = "5";
+    box.max = "100000";
+    box.step = "1";
+    box.value = String(auto.threshold || "");
+    box.style.width = "120px";
+    var row = addRow(container);
+    var label = document.createElement("span");
+    label.innerText = "Threshold (in " + win + " minutes): ";
+    row.appendChild(label);
+    row.appendChild(box);
+    addButton(row, "Save", "blue", () => turnstileSaveAutoThreshold(container, box));
+  }
+  function turnstileNoLoadSection(container, rows) {
+    var header2 = document.createElement("h4");
+    header2.innerText = "Networks where the check couldn't load (busiest 50)";
+    container.appendChild(header2);
+    var caption = document.createElement("div");
+    caption.innerText = "IPs with the most loadFailed, timeout or error skips in the past 24 hours. Many from one IP usually means a school or office network blocking Cloudflare. The IP comes from a header the browser sends and can be faked, so check who owns an IP before acting on it. Click an IP to copy it.";
+    container.appendChild(caption);
+    if (!rows.length) {
+      var none = document.createElement("div");
+      none.innerText = "None";
+      container.appendChild(none);
+      return;
+    }
+    container.appendChild(createTable(rows, ["ip", "loadFailed", "timeout", "error", "total"], null, cellFunc, null));
+    function cellFunc(key, td) {
+      if (key === "ip") {
+        td.style.cursor = "pointer";
+        td.onclick = () => {
+          navigator.clipboard.writeText(td.innerText);
+        };
+      }
+    }
+  }
+  var TURNSTILE_ADMIN_REPORT_LENGTHS = [
+    { label: "Last 15 min", minutes: 15 },
+    { label: "Last hour", minutes: 60 },
+    { label: "Last 6 hours", minutes: 360 },
+    { label: "Last 24 hours", minutes: 1440 }
+  ];
+  function turnstileTime(ms) {
+    return Number.isFinite(ms) ? new Date(ms).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "-";
+  }
+  function turnstileModeLabel(mode) {
+    var found = TURNSTILE_ADMIN_MODES.find((m) => m.mode === mode);
+    return found ? found.label : String(mode);
+  }
+  function turnstilePatternsSection(container, patterns) {
+    var header2 = document.createElement("h4");
+    header2.innerText = "Swarm patterns";
+    container.appendChild(header2);
+    var caption = document.createElement("div");
+    caption.innerText = "What new-account attempts look like. A report is saved for each swarm-sized burst (kept 7 days), and you can make one for any recent span. IPs can be faked until the trusted-IP work ships, so check who owns an IP before acting on it. Spacing is a hint, not proof. Click a report to open it.";
+    container.appendChild(caption);
+    if (!patterns || patterns.error) {
+      var errorEl = document.createElement("div");
+      errorEl.innerText = patterns && patterns.error || "Could not read the patterns";
+      container.appendChild(errorEl);
+      return;
+    }
+    var reportDiv = document.createElement("div");
+    if (patterns.burst) {
+      var burstRow = addRow(container);
+      var burstLine = document.createElement("span");
+      burstLine.innerText = "A burst is on: since " + turnstileTime(patterns.burst.since) + ", peak " + patterns.burst.peak + (patterns.burst.part > 1 ? " (part " + patterns.burst.part + " of a longer swarm)" : "") + ". ";
+      burstRow.appendChild(burstLine);
+      addButton(burstRow, "Report so far", "blue", () => turnstileLoadPatternReport(reportDiv, { burstSoFar: true }));
+    }
+    var lengthsRow = addRow(container);
+    TURNSTILE_ADMIN_REPORT_LENGTHS.forEach((length) => {
+      addButton(lengthsRow, length.label, "blue", () => turnstileLoadPatternReport(reportDiv, { minutes: length.minutes }));
+    });
+    var reports = patterns.reports || [];
+    if (reports.length) {
+      var rows = reports.map((r) => ({
+        when: turnstileTime(r.to),
+        minutes: Math.round((r.to - r.from) / 6e4),
+        attempts: r.attempts,
+        peak: r.peak,
+        mode: turnstileModeLabel(r.mode),
+        part: r.part
+      }));
+      container.appendChild(createTable(rows, ["when", "minutes", "attempts", "peak", "mode", "part"], (row, tr, idx) => {
+        tr.style.cursor = "pointer";
+        tr.onclick = () => turnstileLoadPatternReport(reportDiv, { reportId: reports[idx].id });
+      }, null, null));
+    } else {
+      var none = document.createElement("div");
+      none.innerText = "No burst reports in the past 7 days.";
+      container.appendChild(none);
+    }
+    container.appendChild(reportDiv);
+  }
+  function turnstileLoadPatternReport(div, request) {
+    div.innerHTML = "";
+    var building = document.createElement("div");
+    building.innerText = "Building the report...";
+    div.appendChild(building);
+    requestAction("getTurnstilePatternReport", request, (data) => {
+      hideSpinner();
+      div.innerHTML = "";
+      var result = data.result || { ok: false, error: "No answer from services" };
+      if (result.ok !== true) {
+        var errorEl = document.createElement("div");
+        errorEl.innerText = result.error || "Could not build the report";
+        div.appendChild(errorEl);
+        return;
+      }
+      turnstileRenderPatternReport(div, result.report);
+    });
+  }
+  function turnstileEvennessLabel(value) {
+    if (!Number.isFinite(value)) return "-";
+    return value + " (" + (value < 0.3 ? "like a clock" : value < 0.8 ? "mixed" : "random") + ")";
+  }
+  function turnstileBusiestMinute(counts, from) {
+    if (!Array.isArray(counts)) return "-";
+    var best = -1;
+    counts.forEach((n, i2) => {
+      if (n > 0 && (best < 0 || n > counts[best])) best = i2;
+    });
+    return best < 0 ? "-" : counts[best] + " at " + turnstileTime(from + best * 6e4);
+  }
+  function turnstileRenderPatternReport(div, saved) {
+    var b2 = saved.burst || {};
+    var before = saved.comparison || null;
+    var num = (v) => Number.isFinite(v) ? String(v) : "-";
+    var percent = (v) => Number.isFinite(v) ? Math.round(v * 100) + "%" : "-";
+    var seconds = (v) => Number.isFinite(v) ? Math.round(v / 100) / 10 + " s" : "-";
+    var title = document.createElement("h4");
+    title.innerText = "Report: " + turnstileTime(b2.from) + " to " + turnstileTime(b2.to) + (saved.part > 1 ? " (part " + saved.part + " of a longer swarm)" : "") + (saved.mode ? ", " + turnstileModeLabel(saved.mode) : "");
+    div.appendChild(title);
+    var coverage = b2.coverage || {};
+    var coverageLine = document.createElement("div");
+    coverageLine.innerText = "The record " + (coverage.earliestMs ? "holds attempts from " + turnstileTime(coverage.earliestMs) : "is empty") + ". Dropped while Redis was down: " + num(coverage.dropped) + ". Removed by the size cap: " + num(coverage.evicted) + ". Unreadable: " + num(coverage.unreadable) + ". Off for " + (Number.isFinite(coverage.offMs) ? Math.round(coverage.offMs / 6e4) : "-") + " min.";
+    div.appendChild(coverageLine);
+    var figures = [
+      ["Attempts", (r) => num(r.attempts)],
+      ["Let through", (r) => num(r.allowed)],
+      ["Refused", (r) => num(r.refused)],
+      ["Left before the end", (r) => num(r.left)],
+      ["Didn't pass", (r) => num(r.notPassed)],
+      ["Repeats (same player)", (r) => num(r.repeats)],
+      ["IPs", (r) => num(r.ips)],
+      ["Address blocks", (r) => num(r.blocks)],
+      ["Share from the top 5 blocks", (r) => percent(r.top5BlockShare)],
+      ["Forwarded lists / bad IPs", (r) => num(r.ipLists) + " / " + num(r.badIps)],
+      ["No Origin / no language", (r) => num(r.noOrigin) + " / " + num(r.noLang)],
+      ["Through our proxy", (r) => num(r.proxied)],
+      ["Median gap", (r) => seconds(r.medianGapMs)],
+      ["Evenness", (r) => turnstileEvennessLabel(r.evenness)],
+      ["IPs with 3+ attempts", (r) => r.repeatIps ? num(r.repeatIps.count) + " (gap " + seconds(r.repeatIps.medianGapMs) + ", evenness " + turnstileEvennessLabel(r.repeatIps.medianEvenness) + ")" : "-"],
+      ["Check time (median / fastest tenth)", (r) => r.answerMs ? seconds(r.answerMs.median) + " / " + seconds(r.answerMs.p10) : "-"],
+      ["Gate time (median)", (r) => r.durMs ? seconds(r.durMs.median) : "-"],
+      ["Busiest minute", (r) => turnstileBusiestMinute(r.perMinute, r.from)],
+      ["Most new IPs in a minute", (r) => turnstileBusiestMinute(r.newIpsPerMinute, r.from)]
+    ];
+    var thisColumn = saved.id ? "this burst" : "this span";
+    var columns = before ? ["figure", thisColumn, "the time before"] : ["figure", thisColumn];
+    var rows = figures.map((f) => {
+      var row = { figure: f[0] };
+      row[thisColumn] = f[1](b2);
+      if (before) row["the time before"] = f[1](before);
+      return row;
+    });
+    div.appendChild(createTable(rows, columns, null, null, null));
+    var share = (n, total) => Number.isFinite(n) && total > 0 ? Math.round(n / total * 100) + "%" : "-";
+    var countList = (key) => {
+      var now = b2[key] || {};
+      var then = before ? before[key] || {} : {};
+      var keys = Object.keys(now).sort((x, y) => now[y] - now[x]);
+      if (before) Object.keys(then).filter((k) => !(k in now)).sort((x, y) => then[y] - then[x]).forEach((k) => keys.push(k));
+      return keys.map((k) => {
+        var row = { value: k, count: k in now ? now[k] : 0, share: share(k in now ? now[k] : 0, b2.attempts) };
+        if (before) row["share before"] = share(k in then ? then[k] : 0, before.attempts);
+        return row;
+      });
+    };
+    var topList = (key) => {
+      var now = b2[key] || [];
+      var then = before ? before[key] || [] : [];
+      var thenOf = (value) => then.find((x) => x.value === value);
+      var rows2 = now.map((x) => {
+        var row = { value: x.value, count: x.n, share: share(x.n, b2.attempts) };
+        if (before) row["share before"] = thenOf(x.value) ? share(thenOf(x.value).n, before.attempts) : "-";
+        return row;
+      });
+      then.filter((x) => !now.some((y) => y.value === x.value)).forEach((x) => {
+        rows2.push({ value: x.value, count: "-", share: "-", "share before": share(x.n, before.attempts) });
+      });
+      return rows2;
+    };
+    var listColumns = before ? ["value", "count", "share", "share before"] : ["value", "count", "share"];
+    var withBefore = (columns2, extra) => before ? columns2.concat([extra]) : columns2;
+    var beforeIp = (ip) => {
+      var x = before && (before.topIps || []).find((y) => y.ip === ip);
+      return x ? x.attempts : "-";
+    };
+    var beforeBlock = (block) => {
+      var x = before && (before.topBlocks || []).find((y) => y.block === block);
+      return x ? x.attempts : "-";
+    };
+    var lists = [
+      ["How the gate ended", countList("stops"), listColumns],
+      ["First answer", countList("first"), listColumns],
+      ["Last answer", countList("last"), listColumns],
+      ["Fail and skip reasons", countList("reasons"), listColumns],
+      [
+        "Top IPs",
+        (b2.topIps || []).map((x) => ({ ip: x.ip, attempts: x.attempts, allowed: x.allowed, first: turnstileTime(x.firstMs), last: turnstileTime(x.lastMs), "attempts before": beforeIp(x.ip) })),
+        withBefore(["ip", "attempts", "allowed", "first", "last"], "attempts before")
+      ],
+      [
+        "Top address blocks",
+        (b2.topBlocks || []).map((x) => ({ block: x.block, attempts: x.attempts, ips: x.ips, "attempts before": beforeBlock(x.block) })),
+        withBefore(["block", "attempts", "ips"], "attempts before")
+      ],
+      ["Top user agents", topList("topUas"), listColumns],
+      ["Top sites", topList("topSites"), listColumns],
+      ["Top languages", topList("topLangs"), listColumns],
+      ["Platforms", countList("platforms"), listColumns],
+      ["Sign-in routes", countList("routes"), listColumns],
+      ["Sign-in providers", countList("providers"), listColumns]
+    ];
+    lists.forEach((list) => {
+      var listHeader = document.createElement("h4");
+      listHeader.innerText = list[0];
+      div.appendChild(listHeader);
+      if (list[1].length) {
+        div.appendChild(createTable(list[1], list[2], null, null, null));
+      } else {
+        var none = document.createElement("div");
+        none.innerText = "None";
+        div.appendChild(none);
+      }
+    });
+  }
+  function turnstileSaveAutoThreshold(container, box) {
+    var threshold = Number(box.value);
+    if (!Number.isInteger(threshold) || threshold < 5 || threshold > 1e5) {
+      alert("The threshold must be a whole number from 5 to 100000");
+      return;
+    }
+    requestAction("setTurnstileAutoThreshold", { threshold }, (data) => turnstileAfterSet(container, data));
+  }
+  function turnstileSyncSection(container, result) {
+    var header2 = document.createElement("h4");
+    header2.innerText = "Automatic widget sync";
+    container.appendChild(header2);
+    var caption = document.createElement("div");
+    caption.innerText = "Every hour services lists the domains (zones) in the Cloudflare account, puts any game domain no widget has yet on a shellshockers widget (making a new widget when the others are full), and saves the widget keys here, so a new domain needs no hand edits or page deploy. Slack gets a message (through the webhook below) when it adds a domain or fails.\nNon-game domains listed in server_scripts/cloudflare/ignored_domains.txt are skipped.\nOnce a Cloudflare token is saved, the sync replaces the keys saved by hand above with the keys from Cloudflare every hour. It never drops a saved widget: if one is missing in Cloudflare, it stops and says so. To remove a widget on purpose, delete or rename it in Cloudflare first, then save the keys by hand without it. If Block or Auto is on, switch to Watch only first: until the keys are saved again, players on that widget's domains can't pass, and Auto would take that for a swarm.";
+    container.appendChild(caption);
+    turnstileSyncStatusLines(result.syncStatus).forEach((text) => {
+      var line = document.createElement("div");
+      line.innerText = text;
+      container.appendChild(line);
+    });
+    addButton(container, "Sync now", "blue", () => turnstileSyncNow(container));
+    var tokenHeader = document.createElement("h4");
+    tokenHeader.innerText = "Cloudflare token: " + (result.cloudflareSaved ? "saved" : "not saved");
+    container.appendChild(tokenHeader);
+    var tokenCaption = document.createElement("div");
+    tokenCaption.innerText = "Create an API token in Cloudflare (My Profile, API Tokens) with two permissions: Account > Turnstile > Edit, and Zone > Zone > Read (all zones in the account). Saving replaces the saved token and account ID. The token is never shown back.";
+    container.appendChild(tokenCaption);
+    var tokenBox = document.createElement("input");
+    tokenBox.type = "password";
+    tokenBox.autocomplete = "new-password";
+    tokenBox.placeholder = "Cloudflare API token";
+    tokenBox.style.width = "320px";
+    var accountBox = document.createElement("input");
+    accountBox.type = "text";
+    accountBox.autocomplete = "off";
+    accountBox.spellcheck = false;
+    accountBox.placeholder = "Account ID (32 characters)";
+    accountBox.style.width = "320px";
+    var inputRow = addRow(container);
+    inputRow.appendChild(tokenBox);
+    inputRow.appendChild(accountBox);
+    addButton(container, "Save", "blue", () => turnstileSaveCloudflare(container, tokenBox, accountBox));
+    var slackHeader = document.createElement("h4");
+    slackHeader.innerText = "Slack: " + (result.slackSaved ? "saved" : "not set");
+    container.appendChild(slackHeader);
+    var slackCaption = document.createElement("div");
+    slackCaption.innerText = "Slack webhook for alerts. Create it in Slack (Apps > Incoming Webhooks > Add to a channel) and paste its URL here. Save it on live only. Saving replaces the saved webhook. It is never shown back. Until one is saved, alerts only go to the services log.";
+    container.appendChild(slackCaption);
+    var slackBox = document.createElement("input");
+    slackBox.type = "password";
+    slackBox.autocomplete = "new-password";
+    slackBox.placeholder = "https://hooks.slack.com/services/...";
+    slackBox.style.width = "500px";
+    addRow(container).appendChild(slackBox);
+    addButton(container, "Save", "blue", () => turnstileSaveSlack(container, slackBox));
+  }
+  function turnstileSyncStatusLines(status) {
+    if (!status) return ["Last run: not run yet"];
+    var when = new Date(status.lastRunMs).toLocaleString();
+    if (status.skipped === "noToken") return ["Last run " + when + ": skipped, no Cloudflare token saved"];
+    var lines = ["Last run " + when + ": " + (status.ok ? "OK" : "failed: " + (status.error || "unknown error"))];
+    lines.push("Added last run: " + (status.added && status.added.length ? status.added.join(", ") : "none"));
+    if (status.unplaced && status.unplaced.length) {
+      lines.push("Not placed (no widget slots left): " + status.unplaced.join(", "));
+    }
+    if (typeof status.webWidgets === "number") {
+      lines.push("Web widgets: " + status.webWidgets + ", domains on them: " + status.domains);
+    }
+    return lines;
+  }
+  function turnstileSaveCloudflare(container, tokenBox, accountBox) {
+    var token = tokenBox.value.trim();
+    var accountId = accountBox.value.trim();
+    tokenBox.value = "";
+    if (!token || !accountId) {
+      alert("Enter both the token and the account ID");
+      return;
+    }
+    requestAction("setTurnstileCloudflare", { token, accountId }, (data) => turnstileAfterSet(container, data));
+  }
+  function turnstileSaveSlack(container, slackBox) {
+    var url = slackBox.value.trim();
+    slackBox.value = "";
+    if (!url) return;
+    requestAction("setTurnstileSlack", { url }, (data) => turnstileAfterSet(container, data));
+  }
+  function turnstileSyncNow(container) {
+    requestAction("syncTurnstileNow", {}, (data) => turnstileAfterSet(container, data));
+  }
+  function turnstileModeButtons(container, currentMode) {
+    var row = document.createElement("div");
+    TURNSTILE_ADMIN_MODES.forEach((m) => {
+      var current = m.mode === currentMode;
+      var button = addButton(row, m.label, current ? "green" : "blue", () => turnstileSetMode(container, m.mode));
+      if (current) {
+        button.style.opacity = "1";
+        button.style.fontWeight = "bold";
+      }
+    });
+    return row;
+  }
+  function turnstileSetMode(container, mode) {
+    if (mode === "enforce" && !confirm("New players who can't pass the check won't be able to create an account. Continue?")) return;
+    if (mode === "auto" && !confirm("Auto switches to Block by itself when a swarm of new accounts fails the check. While it blocks, new players who can't pass won't be able to create an account. Continue?")) return;
+    requestAction("setTurnstileMode", { mode }, (data) => turnstileAfterSet(container, data));
+  }
+  function turnstileSaveKeys(container, keysBox) {
+    var text = keysBox.value;
+    keysBox.value = "";
+    if (!text.trim()) return;
+    requestAction("setTurnstileBundle", { text }, (data) => turnstileAfterSet(container, data));
+  }
+  function turnstileAfterSet(container, data) {
+    hideSpinner();
+    var result = data.result;
+    if (!result || result.ok !== true) {
+      alert(result && result.error || "The change was not saved");
+    }
+    renderTurnstile(container);
   }
   var ipBans = [];
   var playerBans = [];

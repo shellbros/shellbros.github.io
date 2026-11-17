@@ -1874,5 +1874,7 @@
 	"crazygames_logout_text": "Logout via CrazyGames",
 	"player_id_copied": "Player ID copied to clipboard",
 	"link_cg_account_title": "Link your account",
-	"link_cg_account_content": "You are about to link your CrazyGames account to your ShellShockers account using this account info:"
+	"link_cg_account_content": "You are about to link your CrazyGames account to your ShellShockers account using this account info:",
+	"turnstile_blocked_title": "Couldn't create your account",
+	"turnstile_blocked_msg": "We couldn't confirm you're a real player. Reload the page and try again, or try another network."
 }

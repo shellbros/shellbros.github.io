@@ -1884,5 +1884,7 @@
   "gift_list_received_title": "Gifts received",
   "gift_list_col_from": "From",
   "gift_list_col_date": "Date",
-  "gift_list_open_item": "Open in inventory"
+  "gift_list_open_item": "Open in inventory",
+  "turnstile_blocked_title": "Couldn't create your account",
+  "turnstile_blocked_msg": "We couldn't confirm you're a real player. Reload the page and try again, or try another network."
 }

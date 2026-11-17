@@ -99726,7 +99726,7 @@ ${this._fragmentCompilationState.compilationString}`;
   };
 
   // src/version.mjs
-  var ClientVersion = "dc800cf1b";
+  var ClientVersion = "3628ab014";
 
   // ../node_modules/@babylonjs/core/Loading/sceneLoader.js
   var SceneLoaderAnimationGroupLoadingMode;
@@ -124512,6 +124512,36 @@ void main() {
     mat.emissiveColor = Color3.White();
     mat.fogEnabled = false;
   }
+  function prepareTemplateMesh(mesh, mat, animationGroups) {
+    mesh.animations = animationGroups;
+    if (mesh.name == "hands") {
+      for (let anim of mesh.animations) {
+        if (anim.name.startsWith("grenade")) {
+          for (let i3 = 0; i3 < anim._targetedAnimations.length; i3++) {
+            let ta = anim._targetedAnimations[i3];
+            if (ta.target.name === "gripHand") {
+              let a = ta.animation;
+              a.enableBlending = true;
+              a.blendingSpeed = 0;
+            }
+          }
+        }
+      }
+    }
+    if (mesh.setMaterial) {
+      mesh.setMaterial(mat);
+    }
+    mesh.material = mat;
+    mesh.setEnabled(false);
+    mesh.isPickable = false;
+    if (mesh.rotationQuaternion) {
+      mesh.rotation = mesh.rotationQuaternion.toEulerAngles();
+      mesh.rotationQuaternion = null;
+    }
+    if (mesh.parent.name === "__root__") {
+      mesh.parent = void 0;
+    }
+  }
   function loadMeshes(scene2, meshNames, onMeshLoaded, onComplete, loadAll) {
     var meshCount = meshNames.length;
     var that = this;
@@ -124526,7 +124556,7 @@ void main() {
       }
       var rootUrl = !loadAll ? baseUrl + "models/" : baseUrl + "models/full/";
       var path = meshNames[idx] + ".glb";
-      path += "?" + ClientVersion;
+      path += typeof modelUrlSuffix === "function" ? modelUrlSuffix((loadAll ? "full/" : "") + path) : "?" + ClientVersion;
       let id = Loader.addTask();
       (function(rootUrl2, path2, scene3) {
         SceneLoader.ImportMesh(
@@ -124539,42 +124569,17 @@ void main() {
             for (var m = 0; m < meshes.length; m++) {
               var mesh = meshes[m];
               if (mesh.name !== "__root__") {
-                mesh.animations = animationGroups;
                 if (mesh.name == "egg") {
                   numEggs++;
                 }
                 if (mesh.name == "hands") {
                   numHands++;
-                  for (let anim of mesh.animations) {
-                    if (anim.name.startsWith("grenade")) {
-                      for (let i3 = 0; i3 < anim._targetedAnimations.length; i3++) {
-                        let ta = anim._targetedAnimations[i3];
-                        if (ta.target.name === "gripHand") {
-                          let a = ta.animation;
-                          a.enableBlending = true;
-                          a.blendingSpeed = 0;
-                        }
-                      }
-                    }
-                  }
                 }
                 if (!duplicateWarningIssued && (numEggs > 1 || numHands > 1)) {
                   duplicateWarningIssued = true;
                   alert("Duplicate egg and/or hand models detected in " + path2 + ".\n\nOpen the weapon models in Blender and make sure egg/hands layers are turned off, then re-export.");
                 }
-                if (mesh.setMaterial) {
-                  mesh.setMaterial(mat);
-                }
-                mesh.material = mat;
-                mesh.setEnabled(false);
-                mesh.isPickable = false;
-                if (mesh.rotationQuaternion) {
-                  mesh.rotation = mesh.rotationQuaternion.toEulerAngles();
-                  mesh.rotationQuaternion = null;
-                }
-                if (mesh.parent.name === "__root__") {
-                  mesh.parent = void 0;
-                }
+                prepareTemplateMesh(mesh, mat, animationGroups);
               }
               if (onMeshLoaded) onMeshLoaded(mesh);
             }
