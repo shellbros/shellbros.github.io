@@ -265,6 +265,13 @@ export async function handleProxyRequest(context, label = "Proxy") {
 			if (typeof event.data === "string" && (event.data === "ping" || event.data === "pong")) return;
 			try { server.send(event.data); } catch {}
 			if (isTransactional && !repliedOnce) {
+			  // Turnstile challenges and keep-alives are intermediate auth messages.
+			  if (typeof event.data === "string") {
+				try {
+				  const response = JSON.parse(event.data);
+				  if (response?.turnstileRequired === true || response?.pong === 1) return;
+				} catch {}
+			  }
 			  repliedOnce = true;
 			  setTimeout(() => {
 				try { server.close(1000, "ok"); } catch {}
